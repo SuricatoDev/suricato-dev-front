@@ -1,17 +1,11 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
+  flex: 1;
   margin-top: -16px;
 `;
 
-export const Title = styled.Text`
-  font-size: 18px;
-  font-weight: bold;
-`;
-
 export const ButtonWrapper = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
   width: 100%;
   gap: 8px;
 `;
@@ -22,8 +16,7 @@ interface ButtonProps {
 
 export const SelectButton = styled.TouchableOpacity<ButtonProps>`
   flex: 1;
-  min-height: 46px;
-  height: 46px;
+
   border-radius: 6px;
   padding: 10px 24px;
   align-items: center;

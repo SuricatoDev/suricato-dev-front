@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
-import * as S from './Step4PF.styles';
-import { Label } from '@components/Label';
-import { Input } from '@components/Input';
-import { fetchAddressByCep } from '@services/viacep';
-import { TextInputMask } from 'react-native-masked-text';
+import { View, ActivityIndicator, Alert } from 'react-native';
+import { useEffect, useState, useRef } from 'react';
 import { useTheme } from 'styled-components/native';
+import { Masks } from 'react-native-mask-input';
 
+import { fetchAddressByCep } from '@services/viacep';
+
+import { Input } from '@components/Input';
+import { MaskedInput } from '@components/MaskInput';
+
+import * as S from './Step4PF.styles';
 interface Step4PFProps {
   formData: {
     cep: string;
@@ -22,6 +25,9 @@ interface Step4PFProps {
 
 export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
   const theme = useTheme();
+  const [loading, setLoading] = useState(false);
+  const previousCep = useRef('');
+
   useEffect(() => {
     const isFormValid =
       formData.cep.trim() !== '' &&
@@ -37,76 +43,133 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
   useEffect(() => {
     const rawCep = formData.cep.replace(/\D/g, '');
 
-    if (rawCep.length === 8) {
+    if (rawCep.length === 8 && rawCep !== previousCep.current) {
+      setLoading(true);
+      previousCep.current = rawCep;
+
       fetchAddressByCep(rawCep)
         .then(data => {
           setFormData({
-            bairro: data.bairro,
-            logradouro: data.logradouro,
-            cidade: data.localidade,
-            uf: data.uf,
+            bairro: data.bairro || '',
+            logradouro: data.logradouro || '',
+            cidade: data.localidade || '',
+            uf: data.uf || '',
           });
         })
-        .catch(error => alert(error.message));
+        .catch(error =>
+          Alert.alert('Erro', 'Não foi possível buscar o endereço.'),
+        )
+        .finally(() => {
+          setLoading(false);
+          previousCep.current = '';
+        });
+    } else if (rawCep.length < 8) {
+      setLoading(false);
     }
-  }, [formData.cep, setFormData]);
+  }, [formData.cep]);
 
   return (
     <S.Container>
-      <Label>CEP</Label>
-      <TextInputMask
-        type={'zip-code'}
-        value={formData.cep}
-        onChangeText={text => setFormData({ cep: text })}
-        placeholder="Digite seu CEP"
+      <View style={{ position: 'relative' }}>
+        <MaskedInput
+          label="CEP"
+          value={formData.cep}
+          onChangeText={text => setFormData({ cep: text })}
+          placeholder="Digite seu CEP"
+          maskType={Masks.ZIP_CODE}
+          keyboardType="numeric"
+          editable={!loading}
+          style={{ paddingRight: 35 }}
+        />
+        {loading && (
+          <ActivityIndicator
+            size="small"
+            color={theme.COLORS.GRAY_500}
+            style={{
+              position: 'absolute',
+              right: 12,
+              top: 52,
+            }}
+          />
+        )}
+      </View>
+
+      <View
         style={{
-          height: 46,
-          borderColor: theme.COLORS.GRAY_100,
-          borderWidth: 1,
-          borderRadius: 10,
-          fontSize: 16,
-          paddingHorizontal: 16,
-          color: theme.COLORS.GRAY_600,
-          backgroundColor: theme.COLORS.WHITE,
-          fontFamily: theme.FONT_FAMILY.MEDIUM,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          gap: 8,
         }}
-      />
-      <Label>Bairro</Label>
+      >
+        <View style={{ flex: 0.7 }}>
+          <Input
+            label="Logradouro"
+            value={formData.logradouro}
+            placeholder="Digite seu Logradouro"
+            onChangeText={text => setFormData({ logradouro: text })}
+            keyboardType="default"
+            editable={!loading}
+          />
+        </View>
+        <View style={{ flex: 0.3 }}>
+          <Input
+            label="Número"
+            value={formData.numero}
+            placeholder="1234"
+            onChangeText={text => setFormData({ numero: text })}
+            editable={!loading}
+          />
+        </View>
+      </View>
+
       <Input
+        label="Bairro"
         value={formData.bairro}
         placeholder="Digite seu Bairro"
         onChangeText={text => setFormData({ bairro: text })}
+        keyboardType="default"
+        editable={!loading}
       />
-      <Label>Logradouro</Label>
+
       <Input
-        value={formData.logradouro}
-        placeholder="Digite seu Logradouro"
-        onChangeText={text => setFormData({ logradouro: text })}
-      />
-      <Label>Cidade</Label>
-      <Input
-        value={formData.cidade}
-        placeholder="Digite sua Cidade"
-        onChangeText={text => setFormData({ cidade: text })}
-      />
-      <Label>UF</Label>
-      <Input
-        value={formData.uf}
-        placeholder="Digite seu UF"
-        onChangeText={text => setFormData({ uf: text })}
-      />
-      <Label>Complemento (opcional)</Label>
-      <Input
+        label="Complemento (opcional)"
         value={formData.complemento}
-        placeholder="Digite seu Complemento"
+        placeholder="Casa, Apto, Bloco, etc."
         onChangeText={text => setFormData({ complemento: text })}
+        keyboardType="default"
       />
-      <Label>Número</Label>
-      <Input
-        value={formData.numero}
-        placeholder="Digite seu Número"
-        onChangeText={text => setFormData({ numero: text })}
-      />
+
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          gap: 8,
+        }}
+      >
+        <View style={{ flex: 0.8 }}>
+          <Input
+            label="Cidade"
+            placeholder="Digite sua Cidade"
+            value={formData.cidade}
+            onChangeText={text => setFormData({ ...formData, cidade: text })}
+            keyboardType="default"
+            editable={!loading}
+          />
+        </View>
+        <View style={{ flex: 0.2 }}>
+          <Input
+            style={{ textAlign: 'center', textTransform: 'uppercase' }}
+            label="UF"
+            placeholder="XX"
+            value={formData.uf}
+            maxLength={2}
+            onChangeText={text => setFormData({ ...formData, uf: text })}
+            keyboardType="default"
+            autoCapitalize="characters"
+            editable={!loading}
+          />
+        </View>
+      </View>
     </S.Container>
   );
 }
