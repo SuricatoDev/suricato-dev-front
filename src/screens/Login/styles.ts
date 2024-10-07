@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 
 export const FormContainer = styled.View`
   flex: 1;
+  margin-top: -16px;
 `;
 
 export const PasswordField = styled.View`

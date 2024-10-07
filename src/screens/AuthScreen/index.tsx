@@ -8,13 +8,14 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { LoginForm } from '@screens/Login';
-import { SignupForm } from '@screens/SignUp';
+import SignupForm from '@screens/SignUp';
 import backgroundImg from '@assets/background-1.png';
 import { Divider } from '@components/Divider';
 import { StepHeader } from '@components/StepHeader';
 
 export function AuthScreen() {
   const [isLogin, setIsLogin] = useState(true);
+  const [currentStep, setCurrentStep] = useState(1);
 
   return (
     <KeyboardAvoidingView
@@ -38,7 +39,7 @@ export function AuthScreen() {
                 </S.Subtitle>
               </>
             ) : (
-              <StepHeader currentStep={1} steps={4} />
+              <StepHeader currentStep={currentStep} steps={4} />
             )}
           </S.Header>
         </ImageBackground>
@@ -62,21 +63,30 @@ export function AuthScreen() {
                 </S.ToggleButtonText>
               </S.ToggleButton>
             </S.ToggleButtonContainer>
+            {currentStep <= 1 && (
+              <>
+                <S.SocialButtonsContainer>
+                  <S.SocialButton>
+                    <Image source={require('@assets/facebook-icon.png')} />
+                    <S.SocialButtonText>Facebook</S.SocialButtonText>
+                  </S.SocialButton>
+                  <S.SocialButton>
+                    <Image source={require('@assets/google-icon.png')} />
+                    <S.SocialButtonText>Google</S.SocialButtonText>
+                  </S.SocialButton>
+                </S.SocialButtonsContainer>
 
-            <S.SocialButtonsContainer>
-              <S.SocialButton>
-                <Image source={require('@assets/facebook-icon.png')} />
-                <S.SocialButtonText>Facebook</S.SocialButtonText>
-              </S.SocialButton>
-              <S.SocialButton>
-                <Image source={require('@assets/google-icon.png')} />
-                <S.SocialButtonText>Google</S.SocialButtonText>
-              </S.SocialButton>
-            </S.SocialButtonsContainer>
-
-            <Divider />
-
-            {isLogin ? <LoginForm /> : <SignupForm />}
+                <Divider />
+              </>
+            )}
+            {isLogin ? (
+              <LoginForm />
+            ) : (
+              <SignupForm
+                currentStep={currentStep}
+                setCurrentStep={setCurrentStep}
+              />
+            )}
           </S.Card>
         </S.Container>
       </ScrollView>

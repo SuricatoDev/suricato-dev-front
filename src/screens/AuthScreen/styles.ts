@@ -7,10 +7,11 @@ export const Container = styled(SafeAreaView)`
   background-color: transparent;
 `;
 
-export const Header = styled(SafeAreaView)`
+export const Header = styled.View`
   gap: 16px;
+  margin-top: 40px;
   padding: 24px 24px 52px 24px;
-  min-height: 250px;
+  min-height: 240px;
   height: auto;
 `;
 
@@ -38,7 +39,6 @@ export const Card = styled.View`
   margin-top: -30px;
   gap: 24px;
   flex: 1;
-  height: 100%;
 `;
 
 export const ToggleButtonContainer = styled.View`
