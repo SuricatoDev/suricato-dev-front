@@ -9,6 +9,7 @@ import { Input } from '@components/Input';
 import { MaskedInput } from '@components/MaskInput';
 
 import * as S from './Step4PF.styles';
+
 interface Step4PFProps {
   formData: {
     cep: string;
@@ -28,17 +29,42 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
   const [loading, setLoading] = useState(false);
   const previousCep = useRef('');
 
-  useEffect(() => {
-    const isFormValid =
-      formData.cep.trim() !== '' &&
-      formData.bairro.trim() !== '' &&
-      formData.logradouro.trim() !== '' &&
-      formData.cidade.trim() !== '' &&
-      formData.uf.trim() !== '' &&
-      formData.numero.trim() !== '';
+  const [errors, setErrors] = useState<Partial<Step4PFProps['formData']>>({});
+  const [touched, setTouched] = useState<
+    Partial<Record<keyof Step4PFProps['formData'], boolean>>
+  >({});
 
-    onValidate(isFormValid);
-  }, [formData, onValidate]);
+  const logradouroRef = useRef<any>(null);
+  const numeroRef = useRef<any>(null);
+  const bairroRef = useRef<any>(null);
+  const complementoRef = useRef<any>(null);
+  const cidadeRef = useRef<any>(null);
+  const ufRef = useRef<any>(null);
+
+  const validateFields = () => {
+    const newErrors: Partial<Step4PFProps['formData']> = {};
+
+    if (formData.cep.trim() === '' || formData.cep.length < 8) {
+      newErrors.cep = 'CEP inválido';
+    }
+    if (formData.bairro.trim() === '')
+      newErrors.bairro = 'Bairro é obrigatório';
+    if (formData.logradouro.trim() === '')
+      newErrors.logradouro = 'Logradouro é obrigatório';
+    if (formData.cidade.trim() === '')
+      newErrors.cidade = 'Cidade é obrigatória';
+    if (formData.uf.trim() === '' || formData.uf.length !== 2)
+      newErrors.uf = 'UF inválida';
+    if (formData.numero.trim() === '')
+      newErrors.numero = 'Número é obrigatório';
+
+    setErrors(newErrors);
+    onValidate(Object.keys(newErrors).length === 0);
+  };
+
+  useEffect(() => {
+    validateFields();
+  }, [formData]);
 
   useEffect(() => {
     const rawCep = formData.cep.replace(/\D/g, '');
@@ -55,6 +81,14 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
             cidade: data.localidade || '',
             uf: data.uf || '',
           });
+
+          setTouched(prev => ({
+            ...prev,
+            bairro: true,
+            logradouro: true,
+            cidade: true,
+            uf: true,
+          }));
         })
         .catch(error =>
           Alert.alert('Erro', 'Não foi possível buscar o endereço.'),
@@ -72,7 +106,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
     <S.Container>
       <View style={{ position: 'relative' }}>
         <MaskedInput
-          label="CEP"
+          label="CEP*"
           value={formData.cep}
           onChangeText={text => setFormData({ cep: text })}
           placeholder="Digite seu CEP"
@@ -80,6 +114,12 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
           keyboardType="numeric"
           editable={!loading}
           style={{ paddingRight: 35 }}
+          blurOnSubmit={false}
+          returnKeyType="next"
+          onSubmitEditing={() => logradouroRef.current?.focus()}
+          error={touched.cep && errors.cep ? errors.cep : undefined}
+          touched={touched.cep}
+          onFocus={() => setTouched(prev => ({ ...prev, cep: true }))}
         />
         {loading && (
           <ActivityIndicator
@@ -103,32 +143,59 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
       >
         <View style={{ flex: 0.7 }}>
           <Input
-            label="Logradouro"
+            label="Logradouro*"
             value={formData.logradouro}
             placeholder="Digite seu Logradouro"
             onChangeText={text => setFormData({ logradouro: text })}
             keyboardType="default"
             editable={!loading}
+            inputRef={logradouroRef}
+            blurOnSubmit={false}
+            returnKeyType="next"
+            autoCapitalize="words"
+            onSubmitEditing={() => numeroRef.current?.focus()}
+            error={
+              touched.logradouro && errors.logradouro
+                ? errors.logradouro
+                : undefined
+            }
+            touched={touched.logradouro}
+            onFocus={() => setTouched(prev => ({ ...prev, logradouro: true }))}
           />
         </View>
         <View style={{ flex: 0.3 }}>
           <Input
-            label="Número"
+            label="Número*"
             value={formData.numero}
             placeholder="1234"
             onChangeText={text => setFormData({ numero: text })}
             editable={!loading}
+            inputRef={numeroRef}
+            blurOnSubmit={false}
+            returnKeyType="next"
+            onSubmitEditing={() => bairroRef.current?.focus()}
+            error={touched.numero && errors.numero ? errors.numero : undefined}
+            touched={touched.numero}
+            onFocus={() => setTouched(prev => ({ ...prev, numero: true }))}
           />
         </View>
       </View>
 
       <Input
-        label="Bairro"
+        label="Bairro*"
         value={formData.bairro}
         placeholder="Digite seu Bairro"
         onChangeText={text => setFormData({ bairro: text })}
         keyboardType="default"
         editable={!loading}
+        inputRef={bairroRef}
+        blurOnSubmit={false}
+        returnKeyType="next"
+        autoCapitalize="words"
+        onSubmitEditing={() => complementoRef.current?.focus()}
+        error={touched.bairro && errors.bairro ? errors.bairro : undefined}
+        touched={touched.bairro}
+        onFocus={() => setTouched(prev => ({ ...prev, bairro: true }))}
       />
 
       <Input
@@ -137,6 +204,10 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
         placeholder="Casa, Apto, Bloco, etc."
         onChangeText={text => setFormData({ complemento: text })}
         keyboardType="default"
+        inputRef={complementoRef}
+        blurOnSubmit={false}
+        returnKeyType="next"
+        onSubmitEditing={() => cidadeRef.current?.focus()}
       />
 
       <View
@@ -148,25 +219,38 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
       >
         <View style={{ flex: 0.8 }}>
           <Input
-            label="Cidade"
+            label="Cidade*"
             placeholder="Digite sua Cidade"
             value={formData.cidade}
-            onChangeText={text => setFormData({ ...formData, cidade: text })}
+            onChangeText={text => setFormData({ cidade: text })}
             keyboardType="default"
             editable={!loading}
+            inputRef={cidadeRef}
+            blurOnSubmit={false}
+            returnKeyType="next"
+            autoCapitalize="words"
+            onSubmitEditing={() => ufRef.current?.focus()}
+            error={touched.cidade && errors.cidade ? errors.cidade : undefined}
+            touched={touched.cidade}
+            onFocus={() => setTouched(prev => ({ ...prev, cidade: true }))}
           />
         </View>
         <View style={{ flex: 0.2 }}>
           <Input
             style={{ textAlign: 'center', textTransform: 'uppercase' }}
-            label="UF"
+            label="UF*"
             placeholder="XX"
             value={formData.uf}
             maxLength={2}
-            onChangeText={text => setFormData({ ...formData, uf: text })}
+            onChangeText={text => setFormData({ uf: text })}
             keyboardType="default"
             autoCapitalize="characters"
             editable={!loading}
+            inputRef={ufRef}
+            returnKeyType="done"
+            error={touched.uf && errors.uf ? errors.uf : undefined}
+            touched={touched.uf}
+            onFocus={() => setTouched(prev => ({ ...prev, uf: true }))}
           />
         </View>
       </View>

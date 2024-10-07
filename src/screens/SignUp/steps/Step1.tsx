@@ -80,7 +80,7 @@ export function Step1({
     <S.FormContainer>
       <View>
         <Input
-          label="Email"
+          label="Email*"
           value={formData.email}
           keyboardType="email-address"
           placeholder="exemplo@dominio.com"
@@ -95,7 +95,7 @@ export function Step1({
         />
       </View>
       <View>
-        <Label>Senha</Label>
+        <Label>Senha*</Label>
         <S.PasswordField>
           <Input
             value={formData.password}
@@ -122,7 +122,7 @@ export function Step1({
         </S.PasswordField>
       </View>
       <View>
-        <Label>Confirme sua senha</Label>
+        <Label>Confirme sua senha*</Label>
         <S.PasswordField>
           <Input
             value={formData.confirmPassword}

@@ -40,9 +40,13 @@ export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
 
   useEffect(() => {
     const newErrors: any = {};
+    const fullNameRegex = /^[A-Za-z]{2,}(?:\s[A-Za-z]{2,})+$/;
 
-    if (formData.fullName.trim() === '')
+    if (formData.fullName.trim() === '') {
       newErrors.fullName = 'Nome completo é obrigatório.';
+    } else if (!fullNameRegex.test(formData.fullName.trim())) {
+      newErrors.fullName = 'Digite o nome completo com pelo menos dois nomes';
+    }
     if (formData.gender.trim() === '') newErrors.gender = 'Sexo é obrigatório.';
     if (formData.birthDate.trim() === '')
       newErrors.birthDate = 'Data de nascimento é obrigatória.';
@@ -60,18 +64,24 @@ export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
     onValidate(Object.keys(newErrors).length === 0);
   }, [formData, onValidate]);
 
+  const handleFullNameChange = (text: string) => {
+    const filteredText = text.replace(/[^A-Za-z\s]/g, '');
+    setFormData({ fullName: filteredText });
+  };
+
   return (
     <S.Container>
       <MaskedInput
-        label="Nome Completo"
+        label="Nome Completo*"
         value={formData.fullName}
-        onChangeText={text => setFormData({ fullName: text })}
+        onChangeText={handleFullNameChange}
         onFocus={() => setTouched(prev => ({ ...prev, fullName: true }))}
         error={
           touched.fullName && errors.fullName ? errors.fullName : undefined
         }
         touched={touched.fullName}
         placeholder="Digite seu nome completo"
+        autoCapitalize="words"
       />
 
       <View
@@ -83,7 +93,7 @@ export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
       >
         <View style={{ flex: 0.6 }}>
           <Select
-            label="Sexo"
+            label="Sexo*"
             value={formData.gender}
             onValueChange={value => {
               setFormData({ gender: value });
@@ -95,14 +105,14 @@ export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
               { label: 'Outro', value: 'O' },
               { label: 'Prefiro não informar', value: 'NA' },
             ]}
-            placeholder={{ label: 'Selecione o Sexo', value: '' }}
+            placeholder={{ label: 'Selecione o sexo', value: '' }}
             error={touched.gender && errors.gender ? errors.gender : undefined}
             touched={touched.gender}
           />
         </View>
         <View style={{ flex: 0.4 }}>
           <DatePicker
-            label="Data de Nascimento"
+            label="Data de Nascimento*"
             value={formData.birthDate}
             onChange={date => setFormData({ birthDate: date })}
             onPress={() => setTouched(prev => ({ ...prev, birthDate: true }))}
@@ -116,7 +126,7 @@ export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
         </View>
       </View>
       <MaskedInput
-        label="CPF"
+        label="CPF*"
         value={formData.cpf}
         maskType={Masks.BRL_CPF}
         onChangeText={text => setFormData({ cpf: text })}
@@ -126,7 +136,7 @@ export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
       />
 
       <MaskedInput
-        label="Telefone"
+        label="Telefone*"
         value={formData.telefone}
         maskType={Masks.BRL_PHONE}
         onChangeText={text => setFormData({ telefone: text })}
