@@ -32,7 +32,7 @@ export const Container = styled(Pressable)<ButtonProps>`
     type === 'PRIMARY'
       ? '2px solid transparent'
       : `2px solid ${theme.COLORS.ORANGE_500}`};
-  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
+  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 `;
 
 export const ButtonText = styled(Text)<ButtonProps>`
