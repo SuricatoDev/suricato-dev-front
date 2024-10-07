@@ -28,7 +28,7 @@ export const TextInputStyle = styled(TextInput)<TextInputStyleProps>`
     if (isValid) {
       return theme.COLORS.GREEN_MID;
     }
-    return theme.COLORS.GRAY_200;
+    return theme.COLORS.GRAY_100;
   }};
   font-family: ${({ theme }) => theme.FONT_FAMILY.MEDIUM};
   opacity: ${({ editable }) => (editable ? 1 : 0.6)};
