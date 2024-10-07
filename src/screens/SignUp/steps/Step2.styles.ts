@@ -30,7 +30,7 @@ export const SelectButton = styled.TouchableOpacity<ButtonProps>`
   justify-content: center;
   border-width: 2px;
   border-color: ${({ active, theme }) =>
-    active ? theme.COLORS.ORANGE_700 : theme.COLORS.GRAY_300};
+    active ? theme.COLORS.ORANGE_700 : theme.COLORS.GRAY_100};
 `;
 
 export const ButtonText = styled.Text<ButtonProps>`

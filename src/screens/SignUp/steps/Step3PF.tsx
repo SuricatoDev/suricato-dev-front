@@ -24,12 +24,6 @@ interface Step3PFProps {
 }
 
 export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
-  const theme = useTheme();
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [date, setDate] = useState(
-    formData.birthDate ? new Date(formData.birthDate) : new Date(),
-  );
-
   const [errors, setErrors] = useState<{
     fullName?: string;
     gender?: string;
