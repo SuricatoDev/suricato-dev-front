@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import RNPickerSelect from 'react-native-picker-select';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { TextInputMask } from 'react-native-masked-text';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { Masks } from 'react-native-mask-input';
 import { useTheme } from 'styled-components/native';
-import { CaretDown } from 'phosphor-react-native';
 
-import { Label } from '@components/Label';
-import { Input } from '@components/Input';
+import { MaskedInput } from '@components/MaskInput';
+import { DatePicker } from '@components/DatePicker';
+import { Select } from '@components/Select';
+
+import { isValidCPF } from '@utils/validations';
 
 import * as S from './Step3PF.styles';
-import { formatDate, isValidCPF } from '@utils/validations';
-
 interface Step3PFProps {
   formData: {
     cpf: string;
@@ -69,156 +68,80 @@ export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
 
   return (
     <S.Container>
-      <Label>Nome Completo</Label>
-      <Input
+      <MaskedInput
+        label="Nome Completo"
         value={formData.fullName}
-        placeholder="Digite seu Nome Completo"
         onChangeText={text => setFormData({ fullName: text })}
         onFocus={() => setTouched(prev => ({ ...prev, fullName: true }))}
+        error={
+          touched.fullName && errors.fullName ? errors.fullName : undefined
+        }
+        touched={touched.fullName}
+        placeholder="Digite seu nome completo"
       />
-      {touched.fullName && errors.fullName && (
-        <S.ErrorText>{errors.fullName}</S.ErrorText>
-      )}
 
-      <Label>Sexo</Label>
-      <RNPickerSelect
-        value={formData.gender}
-        onValueChange={value => {
-          setFormData({ gender: value });
-          setTouched(prev => ({ ...prev, gender: true }));
-        }}
-        items={[
-          { label: 'Masculino', value: 'M' },
-          { label: 'Feminino', value: 'F' },
-          { label: 'Outro', value: 'O' },
-          { label: 'Prefiro não informar', value: 'NA' },
-        ]}
+      <View
         style={{
-          inputIOS: {
-            height: 46,
-            fontSize: 16,
-
-            paddingHorizontal: 16,
-            borderWidth: 1,
-            borderColor: theme.COLORS.GRAY_100,
-            borderRadius: 10,
-            color: theme.COLORS.GRAY_600,
-            backgroundColor: theme.COLORS.WHITE,
-            fontFamily: theme.FONT_FAMILY.MEDIUM,
-            paddingRight: 30,
-          },
-          inputAndroid: {
-            height: 46,
-            fontSize: 16,
-
-            paddingHorizontal: 16,
-            borderWidth: 1,
-            borderColor: theme.COLORS.GRAY_100,
-            borderRadius: 10,
-            color: theme.COLORS.GRAY_600,
-            backgroundColor: theme.COLORS.WHITE,
-            fontFamily: theme.FONT_FAMILY.MEDIUM,
-            paddingRight: 30,
-          },
-          placeholder: {
-            color: theme.COLORS.GRAY_300,
-          },
-          iconContainer: {
-            top: 16,
-            right: 12,
-          },
-        }}
-        placeholder={{ label: 'Selecione o Sexo', value: '' }}
-        useNativeAndroidPickerStyle={false}
-        Icon={() => <CaretDown size={20} color="#A0A0A0" />}
-      />
-      {touched.gender && errors.gender && (
-        <S.ErrorText>{errors.gender}</S.ErrorText>
-      )}
-
-      <Label>Data de Nascimento</Label>
-      <S.DatePickerButton
-        onPress={() => {
-          setShowDatePicker(true);
-          setTouched(prev => ({ ...prev, birthDate: true }));
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          gap: 8,
         }}
       >
-        <S.DatePickerText isPlaceholder={!formData.birthDate}>
-          {formData.birthDate
-            ? formData.birthDate
-            : 'Selecione a data de nascimento'}
-        </S.DatePickerText>
-      </S.DatePickerButton>
-      {touched.birthDate && errors.birthDate && (
-        <S.ErrorText>{errors.birthDate}</S.ErrorText>
-      )}
-
-      {showDatePicker && (
-        <DateTimePicker
-          mode="date"
-          value={date}
-          display="default"
-          onChange={(event, selectedDate) => {
-            setShowDatePicker(false);
-            if (selectedDate) {
-              const formattedDate = formatDate(selectedDate);
-              setFormData({ birthDate: formattedDate });
-              setDate(selectedDate);
+        <View style={{ flex: 0.6 }}>
+          <Select
+            label="Sexo"
+            value={formData.gender}
+            onValueChange={value => {
+              setFormData({ gender: value });
+              setTouched(prev => ({ ...prev, gender: true }));
+            }}
+            items={[
+              { label: 'Masculino', value: 'M' },
+              { label: 'Feminino', value: 'F' },
+              { label: 'Outro', value: 'O' },
+              { label: 'Prefiro não informar', value: 'NA' },
+            ]}
+            placeholder={{ label: 'Selecione o Sexo', value: '' }}
+            error={touched.gender && errors.gender ? errors.gender : undefined}
+            touched={touched.gender}
+          />
+        </View>
+        <View style={{ flex: 0.4 }}>
+          <DatePicker
+            label="Data de Nascimento"
+            value={formData.birthDate}
+            onChange={date => setFormData({ birthDate: date })}
+            onPress={() => setTouched(prev => ({ ...prev, birthDate: true }))}
+            error={
+              touched.birthDate && errors.birthDate
+                ? errors.birthDate
+                : undefined
             }
-          }}
-        />
-      )}
-
-      <Label>CPF</Label>
-      <TextInputMask
-        type={'cpf'}
+            touched={touched.birthDate}
+          />
+        </View>
+      </View>
+      <MaskedInput
+        label="CPF"
         value={formData.cpf}
+        maskType={Masks.BRL_CPF}
         onChangeText={text => setFormData({ cpf: text })}
-        style={{
-          height: 46,
-          borderColor: theme.COLORS.GRAY_100,
-          borderWidth: 1,
-          borderRadius: 10,
-          fontSize: 16,
-          paddingHorizontal: 16,
-          color: theme.COLORS.GRAY_600,
-          backgroundColor: theme.COLORS.WHITE,
-          fontFamily: theme.FONT_FAMILY.MEDIUM,
-        }}
-        placeholder="Digite seu CPF"
-        placeholderTextColor={theme.COLORS.GRAY_300}
         onFocus={() => setTouched(prev => ({ ...prev, cpf: true }))}
+        error={touched.cpf && errors.cpf ? errors.cpf : undefined}
+        touched={touched.cpf}
       />
-      {touched.cpf && errors.cpf && <S.ErrorText>{errors.cpf}</S.ErrorText>}
 
-      <Label>Telefone</Label>
-      <TextInputMask
-        type={'cel-phone'}
-        options={{
-          maskType: 'BRL',
-          withDDD: true,
-          dddMask: '(99) ',
-        }}
+      <MaskedInput
+        label="Telefone"
         value={formData.telefone}
+        maskType={Masks.BRL_PHONE}
         onChangeText={text => setFormData({ telefone: text })}
-        style={{
-          height: 46,
-          borderColor: theme.COLORS.GRAY_100,
-          borderWidth: 1,
-          borderRadius: 10,
-          fontSize: 16,
-          paddingHorizontal: 16,
-          color: theme.COLORS.GRAY_600,
-          backgroundColor: theme.COLORS.WHITE,
-          fontFamily: theme.FONT_FAMILY.MEDIUM,
-        }}
-        placeholder="Digite seu Telefone"
-        placeholderTextColor={theme.COLORS.GRAY_300}
         onFocus={() => setTouched(prev => ({ ...prev, telefone: true }))}
+        error={
+          touched.telefone && errors.telefone ? errors.telefone : undefined
+        }
+        touched={touched.telefone}
       />
-      {touched.telefone && errors.telefone && (
-        <S.ErrorText>{errors.telefone}</S.ErrorText>
-      )}
     </S.Container>
   );
 }

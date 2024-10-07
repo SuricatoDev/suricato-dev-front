@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import * as S from './Step2.styles';
+import { useTheme } from 'styled-components/native';
+import { Airplane, Briefcase, User, Buildings } from 'phosphor-react-native';
+
 import { Label } from '@components/Label';
+
+import * as S from './Step2.styles';
 
 interface Step2Props {
   formData: {
@@ -12,6 +16,7 @@ interface Step2Props {
 }
 
 export function Step2({ formData, setFormData, onValidate }: Step2Props) {
+  const theme = useTheme();
   const [selectedType, setSelectedType] = useState(formData.userType || '');
   const [selectedObjective, setSelectedObjective] = useState(
     formData.objective || '',
@@ -40,6 +45,14 @@ export function Step2({ formData, setFormData, onValidate }: Step2Props) {
           active={selectedObjective === 'Viajar'}
           onPress={() => handleSelectObjective('Viajar')}
         >
+          <Airplane
+            size={20}
+            color={
+              selectedObjective === 'Viajar'
+                ? theme.COLORS.ORANGE_500
+                : theme.COLORS.GRAY_200
+            }
+          />
           <S.ButtonText active={selectedObjective === 'Viajar'}>
             Viajar
           </S.ButtonText>
@@ -49,6 +62,14 @@ export function Step2({ formData, setFormData, onValidate }: Step2Props) {
           active={selectedObjective === 'Oferecer Viagens'}
           onPress={() => handleSelectObjective('Oferecer Viagens')}
         >
+          <Briefcase
+            size={20}
+            color={
+              selectedObjective === 'Oferecer Viagens'
+                ? theme.COLORS.ORANGE_500
+                : theme.COLORS.GRAY_200
+            }
+          />
           <S.ButtonText active={selectedObjective === 'Oferecer Viagens'}>
             Oferecer Viagens
           </S.ButtonText>
@@ -61,14 +82,31 @@ export function Step2({ formData, setFormData, onValidate }: Step2Props) {
           active={selectedType === 'PF'}
           onPress={() => handleSelectType('PF')}
         >
+          <User
+            size={20}
+            color={
+              selectedType === 'PF'
+                ? theme.COLORS.ORANGE_500
+                : theme.COLORS.GRAY_200
+            }
+          />
           <S.ButtonText active={selectedType === 'PF'}>
             Pessoa Física
           </S.ButtonText>
         </S.SelectButton>
+
         <S.SelectButton
           active={selectedType === 'PJ'}
           onPress={() => handleSelectType('PJ')}
         >
+          <Buildings
+            size={20}
+            color={
+              selectedType === 'PJ'
+                ? theme.COLORS.ORANGE_500
+                : theme.COLORS.GRAY_200
+            }
+          />
           <S.ButtonText active={selectedType === 'PJ'}>
             Pessoa Jurídica
           </S.ButtonText>

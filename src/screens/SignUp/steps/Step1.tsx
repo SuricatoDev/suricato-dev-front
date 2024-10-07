@@ -1,10 +1,12 @@
-import React, { useRef, useState, useEffect } from 'react';
-import * as S from './Step1.styles';
-import { Label } from '@components/Label';
-import { Input } from '@components/Input';
+import { useRef, useState, useEffect } from 'react';
+import { View } from 'react-native';
 import { Eye, EyeSlash } from 'phosphor-react-native';
 import * as Yup from 'yup';
 
+import { Label } from '@components/Label';
+import { Input } from '@components/Input';
+
+import * as S from './Step1.styles';
 interface Step1Props {
   formData: {
     email: string;
@@ -19,7 +21,13 @@ interface Step1Props {
 }
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Email inválido').required('O email é obrigatório'),
+  email: Yup.string()
+    .email('Por favor, insira um e-mail válido no formato exemplo@dominio.com')
+    .matches(
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      'Insira um e-mail válido no formato exemplo@dominio.com',
+    )
+    .required('O e-mail é obrigatório'),
   password: Yup.string()
     .min(6, 'A senha deve ter no mínimo 6 caracteres')
     .required('A senha é obrigatória'),
@@ -70,76 +78,81 @@ export function Step1({
 
   return (
     <S.FormContainer>
-      <Label>Email</Label>
-      <Input
-        value={formData.email}
-        keyboardType="email-address"
-        placeholder="Email"
-        returnKeyType="next"
-        autoCapitalize="none"
-        blurOnSubmit={false}
-        onChangeText={text => setFormData({ email: text })}
-        onFocus={() => setTouched(prev => ({ ...prev, email: true }))}
-        onSubmitEditing={() => passwordInputRef.current?.focus()}
-      />
-      {touched.email && errors.email && (
-        <S.ErrorText>{errors.email}</S.ErrorText>
-      )}
-
-      <Label>Senha</Label>
-      <S.PasswordField>
+      <View>
         <Input
-          value={formData.password}
-          placeholder="Senha"
-          secureTextEntry={!showPassword}
-          inputRef={passwordInputRef}
+          label="Email"
+          value={formData.email}
+          keyboardType="email-address"
+          placeholder="exemplo@dominio.com"
           returnKeyType="next"
+          autoCapitalize="none"
           blurOnSubmit={false}
-          onChangeText={text => setFormData({ password: text })}
-          onFocus={() => setTouched(prev => ({ ...prev, password: true }))}
-          onSubmitEditing={() => confirmPasswordInputRef.current?.focus()}
-          style={{ flex: 1, paddingRight: 40 }}
+          onChangeText={text => setFormData({ email: text })}
+          onFocus={() => setTouched(prev => ({ ...prev, email: true }))}
+          onSubmitEditing={() => passwordInputRef.current?.focus()}
+          error={touched.email && errors.email ? errors.email : undefined}
+          touched={touched.email}
         />
-        <S.EyeButton onPress={() => setShowPassword(!showPassword)}>
-          {!showPassword ? (
-            <EyeSlash size={20} color="#A0A0A0" />
-          ) : (
-            <Eye size={20} color="#A0A0A0" />
-          )}
-        </S.EyeButton>
-      </S.PasswordField>
-      {touched.password && errors.password && (
-        <S.ErrorText>{errors.password}</S.ErrorText>
-      )}
-
-      <Label>Confirme sua senha</Label>
-      <S.PasswordField>
-        <Input
-          value={formData.confirmPassword}
-          placeholder="Confirme sua senha"
-          secureTextEntry={!showConfirmPassword}
-          inputRef={confirmPasswordInputRef}
-          returnKeyType="done"
-          onChangeText={text => setFormData({ confirmPassword: text })}
-          onFocus={() =>
-            setTouched(prev => ({ ...prev, confirmPassword: true }))
-          }
-          onSubmitEditing={goToNextStep}
-          style={{ flex: 1, paddingRight: 40 }}
-        />
-        <S.EyeButton
-          onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-        >
-          {!showConfirmPassword ? (
-            <EyeSlash size={20} color="#A0A0A0" />
-          ) : (
-            <Eye size={20} color="#A0A0A0" />
-          )}
-        </S.EyeButton>
-      </S.PasswordField>
-      {touched.confirmPassword && errors.confirmPassword && (
-        <S.ErrorText>{errors.confirmPassword}</S.ErrorText>
-      )}
+      </View>
+      <View>
+        <Label>Senha</Label>
+        <S.PasswordField>
+          <Input
+            value={formData.password}
+            placeholder="********"
+            secureTextEntry={!showPassword}
+            inputRef={passwordInputRef}
+            returnKeyType="next"
+            blurOnSubmit={false}
+            onChangeText={text => setFormData({ password: text })}
+            onFocus={() => setTouched(prev => ({ ...prev, password: true }))}
+            onSubmitEditing={() => confirmPasswordInputRef.current?.focus()}
+            touched={touched.password}
+            error={
+              touched.password && errors.password ? errors.password : undefined
+            }
+          />
+          <S.EyeButton onPress={() => setShowPassword(!showPassword)}>
+            {!showPassword ? (
+              <EyeSlash size={20} color="#A0A0A0" />
+            ) : (
+              <Eye size={20} color="#A0A0A0" />
+            )}
+          </S.EyeButton>
+        </S.PasswordField>
+      </View>
+      <View>
+        <Label>Confirme sua senha</Label>
+        <S.PasswordField>
+          <Input
+            value={formData.confirmPassword}
+            placeholder="********"
+            secureTextEntry={!showConfirmPassword}
+            inputRef={confirmPasswordInputRef}
+            returnKeyType="done"
+            onChangeText={text => setFormData({ confirmPassword: text })}
+            onFocus={() =>
+              setTouched(prev => ({ ...prev, confirmPassword: true }))
+            }
+            onSubmitEditing={goToNextStep}
+            touched={touched.confirmPassword}
+            error={
+              touched.confirmPassword && errors.confirmPassword
+                ? errors.confirmPassword
+                : undefined
+            }
+          />
+          <S.EyeButton
+            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            {!showConfirmPassword ? (
+              <EyeSlash size={20} color="#A0A0A0" />
+            ) : (
+              <Eye size={20} color="#A0A0A0" />
+            )}
+          </S.EyeButton>
+        </S.PasswordField>
+      </View>
     </S.FormContainer>
   );
 }
