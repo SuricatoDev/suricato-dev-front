@@ -31,7 +31,8 @@ export const DatePickerButton = styled.TouchableOpacity<DatePickerButtonProps>`
 `;
 
 export const DatePickerText = styled.Text<DatePickerTextProps>`
-  color: ${({ theme, isPlaceholder }) => (isPlaceholder ? theme.COLORS.GRAY_200 : theme.COLORS.GRAY_600)};
+  color: ${({ theme, isPlaceholder }) =>
+    isPlaceholder ? theme.COLORS.GRAY_200 : theme.COLORS.GRAY_600};
   font-size: 14px;
   font-family: ${({ theme }) => theme.FONT_FAMILY.MEDIUM};
 `;

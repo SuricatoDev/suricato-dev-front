@@ -11,8 +11,7 @@
       "@theme/*": ["./src/theme/*"],
       "@utils/*": ["./src/utils/*"],
       "@services/*": ["./src/services/*"],
-      "@contexts/*": ["./src/contexts/*"],
-      "@routes/*": ["./src/routes/*"]
+      "@contexts/*": ["./src/contexts/*"]
     }
   }
 }

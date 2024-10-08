@@ -13,7 +13,14 @@ interface InputProps extends TextInputProps {
   error?: string;
 }
 
-export function Input({ inputRef, label, editable = true, touched = false, error, ...rest }: InputProps) {
+export function Input({
+  inputRef,
+  label,
+  editable = true,
+  touched = false,
+  error,
+  ...rest
+}: InputProps) {
   const { COLORS } = useTheme();
 
   const isValid = touched && !error;

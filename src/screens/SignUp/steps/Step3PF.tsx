@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Masks } from 'react-native-mask-input';
+import { useTheme } from 'styled-components/native';
 
 import { MaskedInput } from '@components/MaskInput';
 import { DatePicker } from '@components/DatePicker';

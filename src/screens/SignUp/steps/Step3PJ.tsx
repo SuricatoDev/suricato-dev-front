@@ -76,13 +76,9 @@ export function Step3PJ() {
           razaoSocial: true,
           telefone: true
         });
-      } catch {
-        setErrors(prevErrors => ({
-          ...prevErrors,
-          cnpj: 'CNPJ inválido ou não encontrado'
-        }));
-        onValidate(false);
-        Alert.alert('Erro', 'Não foi possível buscar as informações do CNPJ.');
+      } catch (error) {
+        setValidation(3, false);
+        Alert.alert('Atenção', 'CNPJ não encontrado. Por favor, preencha os dados manualmente.');
       } finally {
         setLoading(false);
       }

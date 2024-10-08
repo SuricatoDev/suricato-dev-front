@@ -62,7 +62,6 @@ export function AuthScreen() {
                 <Divider />
               </>
             )}
-
             {isLogin ? (
               <LoginForm />
             ) : (

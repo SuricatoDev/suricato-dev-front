@@ -39,12 +39,13 @@ export const RememberMeContainer = styled.View`
 export const StyledCheckbox = styled.TouchableHighlight.attrs<{
   isActive: boolean;
 }>({
-  underlayColor: 'transparent'
+  underlayColor: 'transparent',
 })<{ isActive: boolean }>`
   width: 14px;
   height: 14px;
   border-radius: 2px;
-  background-color: ${({ isActive, theme }) => (isActive ? theme.COLORS.ORANGE_500 : 'transparent')};
+  background-color: ${({ isActive, theme }) =>
+    isActive ? theme.COLORS.ORANGE_500 : 'transparent'};
   border: 1px solid ${({ theme }) => theme.COLORS.GRAY_300};
   justify-content: center;
   align-items: center;
