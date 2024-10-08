@@ -3,20 +3,14 @@ import { useTheme } from 'styled-components/native';
 import { Airplane, Briefcase, User, Buildings } from 'phosphor-react-native';
 
 import { Label } from '@components/Label';
+import { useFormContext } from '@contexts/SignUpContext';
 
 import * as S from './styles';
 
-interface Step2Props {
-  formData: {
-    userType: string;
-    objective: string;
-  };
-  setFormData: (data: Partial<Step2Props['formData']>) => void;
-  onValidate: (isValid: boolean) => void;
-}
-
-export function Step2({ formData, setFormData, onValidate }: Step2Props) {
+export function Step2() {
+  const { formData, setFormData, setValidation } = useFormContext();
   const theme = useTheme();
+
   const [selectedType, setSelectedType] = useState(formData.userType || '');
   const [selectedObjective, setSelectedObjective] = useState(formData.objective || '');
 
@@ -32,8 +26,8 @@ export function Step2({ formData, setFormData, onValidate }: Step2Props) {
 
   useEffect(() => {
     const isFormValid = !!selectedType && !!selectedObjective;
-    onValidate(isFormValid);
-  }, [selectedType, selectedObjective, onValidate]);
+    setValidation(2, isFormValid);
+  }, [selectedType, selectedObjective]);
 
   return (
     <S.Container>

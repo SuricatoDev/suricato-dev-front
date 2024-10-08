@@ -1,24 +1,13 @@
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Eye, EyeSlash } from 'phosphor-react-native';
 import * as Yup from 'yup';
 
+import { useFormContext } from '@contexts/SignUpContext';
 import { Label } from '@components/Label';
 import { Input } from '@components/Input';
 
 import * as S from './styles';
-interface Step1Props {
-  formData: {
-    email: string;
-    password: string;
-    confirmPassword: string;
-  };
-  setFormData: (data: Partial<Step1Props['formData']>) => void;
-  onValidate: (isValid: boolean) => void;
-  errors: Record<string, string>;
-  setErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
-  goToNextStep: () => void;
-}
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -34,7 +23,8 @@ const validationSchema = Yup.object().shape({
     .required('Confirmação de senha é obrigatória')
 });
 
-export function Step1({ formData, setFormData, onValidate, errors, setErrors, goToNextStep }: Step1Props) {
+export function Step1() {
+  const { formData, setFormData, errors, setErrors, setValidation } = useFormContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const passwordInputRef = useRef<any>(null);
@@ -51,7 +41,7 @@ export function Step1({ formData, setFormData, onValidate, errors, setErrors, go
       try {
         validationSchema.validateSync(formData, { abortEarly: false });
         setErrors({});
-        onValidate(true);
+        setValidation(1, true);
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const newErrors: Record<string, string> = {};
@@ -59,13 +49,13 @@ export function Step1({ formData, setFormData, onValidate, errors, setErrors, go
             if (error.path) newErrors[error.path] = error.message;
           });
           setErrors(newErrors);
-          onValidate(false);
+          setValidation(1, false);
         }
       }
     };
 
     validateFields();
-  }, [formData, setErrors, onValidate]);
+  }, [formData, setErrors]);
 
   return (
     <S.Container>
@@ -117,7 +107,6 @@ export function Step1({ formData, setFormData, onValidate, errors, setErrors, go
             returnKeyType="done"
             onChangeText={text => setFormData({ confirmPassword: text })}
             onFocus={() => setTouched(prev => ({ ...prev, confirmPassword: true }))}
-            onSubmitEditing={goToNextStep}
             touched={touched.confirmPassword}
             error={touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : undefined}
           />

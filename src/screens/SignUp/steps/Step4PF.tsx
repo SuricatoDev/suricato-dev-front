@@ -8,29 +8,18 @@ import { fetchAddressByCep } from '@services/fetchCepInfo';
 import { Input } from '@components/Input';
 import { MaskedInput } from '@components/MaskInput';
 
+import { useFormContext } from '@contexts/SignUpContext';
+
 import * as S from './styles';
 
-interface Step4PFProps {
-  formData: {
-    cep: string;
-    bairro: string;
-    logradouro: string;
-    cidade: string;
-    uf: string;
-    complemento: string;
-    numero: string;
-  };
-  setFormData: (data: Partial<Step4PFProps['formData']>) => void;
-  onValidate: (isValid: boolean) => void;
-}
-
-export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
+export function Step4PF() {
+  const { formData, setFormData, setValidation } = useFormContext();
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const previousCep = useRef('');
 
-  const [errors, setErrors] = useState<Partial<Step4PFProps['formData']>>({});
-  const [touched, setTouched] = useState<Partial<Record<keyof Step4PFProps['formData'], boolean>>>({});
+  const [errors, setErrors] = useState<Partial<typeof formData>>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof typeof formData, boolean>>>({});
 
   const logradouroRef = useRef<any>(null);
   const numeroRef = useRef<any>(null);
@@ -40,7 +29,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
   const ufRef = useRef<any>(null);
 
   const validateFields = () => {
-    const newErrors: Partial<Step4PFProps['formData']> = {};
+    const newErrors: Partial<typeof formData> = {};
 
     if (formData.cep.trim() === '' || formData.cep.length < 8) {
       newErrors.cep = 'CEP inválido';
@@ -52,7 +41,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
     if (formData.numero.trim() === '') newErrors.numero = 'Número é obrigatório';
 
     setErrors(newErrors);
-    onValidate(Object.keys(newErrors).length === 0);
+    setValidation(4, Object.keys(newErrors).length === 0);
   };
 
   useEffect(() => {
@@ -83,7 +72,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
             uf: true
           }));
         })
-        .catch(error => Alert.alert('Erro', 'Não foi possível buscar o endereço.'))
+        .catch(() => Alert.alert('Erro', 'Não foi possível buscar o endereço.'))
         .finally(() => {
           setLoading(false);
           previousCep.current = '';
@@ -125,13 +114,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
         )}
       </View>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          gap: 8
-        }}
-      >
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 8 }}>
         <View style={{ flex: 0.7 }}>
           <Input
             label="Logradouro*"
@@ -197,13 +180,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
         onSubmitEditing={() => cidadeRef.current?.focus()}
       />
 
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          gap: 8
-        }}
-      >
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 8 }}>
         <View style={{ flex: 0.8 }}>
           <Input
             label="Cidade*"

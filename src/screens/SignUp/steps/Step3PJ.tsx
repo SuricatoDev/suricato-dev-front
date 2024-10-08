@@ -6,27 +6,12 @@ import { MaskedInput } from '@components/MaskInput';
 import { Input } from '@components/Input';
 import { fetchCNPJInfo, CNPJData } from '@services/fetchCnpjInfo';
 
+import { useFormContext } from '@contexts/SignUpContext';
 import * as S from './styles';
 import { getPhoneMask } from '@utils/phoneNumberMask';
 
-interface Step3PJProps {
-  formData: {
-    cnpj: string;
-    razaoSocial: string;
-    nomeFantasia: string;
-    telefone: string;
-    logradouro: string;
-    numero: string;
-    bairro: string;
-    cidade: string;
-    cep: string;
-    uf: string;
-  };
-  setFormData: (data: Partial<Step3PJProps['formData']>) => void;
-  onValidate: (isValid: boolean) => void;
-}
-
-export function Step3PJ({ formData, setFormData, onValidate }: Step3PJProps) {
+export function Step3PJ() {
+  const { formData, setFormData, setValidation } = useFormContext();
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
 
@@ -60,8 +45,8 @@ export function Step3PJ({ formData, setFormData, onValidate }: Step3PJProps) {
     }
 
     setErrors(newErrors);
-    onValidate(Object.keys(newErrors).length === 0);
-  }, [formData, onValidate]);
+    setValidation(3, Object.keys(newErrors).length === 0);
+  }, [formData]);
 
   const handleCNPJChange = async (text: string) => {
     setFormData({ cnpj: text });
@@ -89,16 +74,11 @@ export function Step3PJ({ formData, setFormData, onValidate }: Step3PJProps) {
         setTouched({
           cnpj: true,
           razaoSocial: true,
-          nomeFantasia: true,
           telefone: true
         });
       } catch (error) {
-        setErrors(prevErrors => ({
-          ...prevErrors,
-          cnpj: 'CNPJ inválido ou não encontrado'
-        }));
-        onValidate(false);
-        Alert.alert('Erro', 'Não foi possível buscar as informações do CNPJ.');
+        setValidation(3, false);
+        Alert.alert('Atenção', 'CNPJ não encontrado. Por favor, preencha os dados manualmente.');
       } finally {
         setLoading(false);
       }
