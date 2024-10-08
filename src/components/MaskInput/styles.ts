@@ -13,8 +13,7 @@ export const StyledMaskInput = styled(MaskInput)<StyledInputProps>`
   border-radius: 10px;
   font-size: 14px;
   padding: 0 16px;
-  background-color: ${({ theme, editable }) =>
-    editable ? theme.COLORS.WHITE : theme.COLORS.GRAY_100};
+  background-color: ${({ theme, editable }) => (editable ? theme.COLORS.WHITE : theme.COLORS.GRAY_100)};
 
   border-color: ${({ theme, hasError, isValid }) => {
     if (hasError) {

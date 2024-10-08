@@ -9,9 +9,9 @@ export const Container = styled(SafeAreaView)`
 
 export const Header = styled.View`
   gap: 16px;
-  margin-top: 40px;
+  margin-top: 24px;
   padding: 24px 24px 52px 24px;
-  min-height: 240px;
+  min-height: 220px;
   height: auto;
 `;
 
@@ -36,9 +36,10 @@ export const Card = styled.View`
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   padding: 24px;
-  margin-top: -30px;
+  margin-top: -40px;
   gap: 24px;
   flex: 1;
+  z-index: 2;
 `;
 
 export const ToggleButtonContainer = styled.View`
@@ -53,12 +54,10 @@ export const ToggleButtonContainer = styled.View`
 export const ToggleButton = styled.TouchableHighlight.attrs<{
   isActive: boolean;
 }>({
-  underlayColor: 'transparent',
+  underlayColor: 'transparent'
 })<{ isActive: boolean }>`
-  background-color: ${({ isActive, theme }) =>
-    isActive ? theme.COLORS.WHITE_100 : theme.COLORS.GRAY_100};
-  border-color: ${({ isActive, theme }) =>
-    isActive ? theme.COLORS.GRAY_100 : 'transparent'};
+  background-color: ${({ isActive, theme }) => (isActive ? theme.COLORS.WHITE_100 : theme.COLORS.GRAY_100)};
+  border-color: ${({ isActive, theme }) => (isActive ? theme.COLORS.GRAY_100 : 'transparent')};
   padding: 8px;
   border-radius: 5px;
   border-width: 1px;
@@ -68,8 +67,7 @@ export const ToggleButton = styled.TouchableHighlight.attrs<{
 `;
 
 export const ToggleButtonText = styled.Text<{ isActive: boolean }>`
-  color: ${({ isActive, theme }) =>
-    isActive ? theme.COLORS.GRAY_700 : theme.COLORS.GRAY_300};
+  color: ${({ isActive, theme }) => (isActive ? theme.COLORS.GRAY_700 : theme.COLORS.GRAY_300)};
   font-family: ${({ theme }) => theme.FONT_FAMILY.MEDIUM};
   font-size: 14px;
   text-align: center;

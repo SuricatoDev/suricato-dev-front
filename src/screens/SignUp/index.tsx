@@ -64,16 +64,19 @@ export function SignupForm({ currentStep, setCurrentStep }: SignupFormProps) {
           </Button>
         )}
       </S.ButtonContainer>
-      <S.TjContainer>
-        <S.TjText>
-          Ao se cadastrar, você aceita nossos{' '}
-          <S.LinkText onPress={() => Linking.openURL('https://examplo.com/termos')}>Termos de Uso</S.LinkText> e nossa{' '}
-          <S.LinkText onPress={() => Linking.openURL('https://examplo.com/politica')}>
-            Política de Privacidade
-          </S.LinkText>
-          .
-        </S.TjText>
-      </S.TjContainer>
+
+      {currentStep === 1 && (
+        <S.TjContainer>
+          <S.TjText>
+            Ao se cadastrar, você aceita nossos{' '}
+            <S.LinkText onPress={() => Linking.openURL('https://examplo.com/termos')}>Termos de Uso</S.LinkText> e nossa{' '}
+            <S.LinkText onPress={() => Linking.openURL('https://examplo.com/politica')}>
+              Política de Privacidade
+            </S.LinkText>
+            .
+          </S.TjText>
+        </S.TjContainer>
+      )}
     </View>
   );
 }

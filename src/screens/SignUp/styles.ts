@@ -11,7 +11,7 @@ export const ButtonContainer = styled.View`
 `;
 
 export const TjContainer = styled.View`
-  padding: 24px 0 0 0;
+  padding: 16px 0 0 0;
   align-items: center;
 `;
 

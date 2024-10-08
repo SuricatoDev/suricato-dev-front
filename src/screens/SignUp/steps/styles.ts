@@ -34,7 +34,6 @@ interface ButtonProps {
 
 export const SelectButton = styled.TouchableOpacity<ButtonProps>`
   flex: 1;
-
   border-radius: 6px;
   padding: 10px 24px;
   align-items: center;

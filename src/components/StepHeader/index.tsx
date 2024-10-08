@@ -16,9 +16,7 @@ export function StepHeader({ steps, currentStep }: StepHeaderProps) {
           <React.Fragment key={step}>
             <S.Step>
               <S.StepCircle isActive={step <= currentStep} />
-              <S.StepText isActive={step <= currentStep}>
-                Etapa {step}
-              </S.StepText>
+              <S.StepText isActive={step <= currentStep}>Etapa {step}</S.StepText>
             </S.Step>
 
             {step < steps && <S.Line isActive={step < currentStep} />}
