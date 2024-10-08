@@ -4,7 +4,7 @@ import { Airplane, Briefcase, User, Buildings } from 'phosphor-react-native';
 
 import { Label } from '@components/Label';
 
-import * as S from './Step2.styles';
+import * as S from './styles';
 
 interface Step2Props {
   formData: {
@@ -18,9 +18,7 @@ interface Step2Props {
 export function Step2({ formData, setFormData, onValidate }: Step2Props) {
   const theme = useTheme();
   const [selectedType, setSelectedType] = useState(formData.userType || '');
-  const [selectedObjective, setSelectedObjective] = useState(
-    formData.objective || '',
-  );
+  const [selectedObjective, setSelectedObjective] = useState(formData.objective || '');
 
   const handleSelectType = (type: string) => {
     setSelectedType(type);
@@ -41,21 +39,12 @@ export function Step2({ formData, setFormData, onValidate }: Step2Props) {
     <S.Container>
       <Label>Qual é o seu objetivo?</Label>
       <S.ButtonWrapper>
-        <S.SelectButton
-          active={selectedObjective === 'Viajar'}
-          onPress={() => handleSelectObjective('Viajar')}
-        >
+        <S.SelectButton active={selectedObjective === 'Viajar'} onPress={() => handleSelectObjective('Viajar')}>
           <Airplane
             size={20}
-            color={
-              selectedObjective === 'Viajar'
-                ? theme.COLORS.ORANGE_500
-                : theme.COLORS.GRAY_200
-            }
+            color={selectedObjective === 'Viajar' ? theme.COLORS.ORANGE_500 : theme.COLORS.GRAY_200}
           />
-          <S.ButtonText active={selectedObjective === 'Viajar'}>
-            Viajar
-          </S.ButtonText>
+          <S.ButtonText active={selectedObjective === 'Viajar'}>Viajar</S.ButtonText>
         </S.SelectButton>
 
         <S.SelectButton
@@ -64,52 +53,22 @@ export function Step2({ formData, setFormData, onValidate }: Step2Props) {
         >
           <Briefcase
             size={20}
-            color={
-              selectedObjective === 'Oferecer Viagens'
-                ? theme.COLORS.ORANGE_500
-                : theme.COLORS.GRAY_200
-            }
+            color={selectedObjective === 'Oferecer Viagens' ? theme.COLORS.ORANGE_500 : theme.COLORS.GRAY_200}
           />
-          <S.ButtonText active={selectedObjective === 'Oferecer Viagens'}>
-            Oferecer Viagens
-          </S.ButtonText>
+          <S.ButtonText active={selectedObjective === 'Oferecer Viagens'}>Oferecer Viagens</S.ButtonText>
         </S.SelectButton>
       </S.ButtonWrapper>
 
       <Label>Qual tipo de cadastro?</Label>
       <S.ButtonWrapper>
-        <S.SelectButton
-          active={selectedType === 'PF'}
-          onPress={() => handleSelectType('PF')}
-        >
-          <User
-            size={20}
-            color={
-              selectedType === 'PF'
-                ? theme.COLORS.ORANGE_500
-                : theme.COLORS.GRAY_200
-            }
-          />
-          <S.ButtonText active={selectedType === 'PF'}>
-            Pessoa Física
-          </S.ButtonText>
+        <S.SelectButton active={selectedType === 'PF'} onPress={() => handleSelectType('PF')}>
+          <User size={20} color={selectedType === 'PF' ? theme.COLORS.ORANGE_500 : theme.COLORS.GRAY_200} />
+          <S.ButtonText active={selectedType === 'PF'}>Pessoa Física</S.ButtonText>
         </S.SelectButton>
 
-        <S.SelectButton
-          active={selectedType === 'PJ'}
-          onPress={() => handleSelectType('PJ')}
-        >
-          <Buildings
-            size={20}
-            color={
-              selectedType === 'PJ'
-                ? theme.COLORS.ORANGE_500
-                : theme.COLORS.GRAY_200
-            }
-          />
-          <S.ButtonText active={selectedType === 'PJ'}>
-            Pessoa Jurídica
-          </S.ButtonText>
+        <S.SelectButton active={selectedType === 'PJ'} onPress={() => handleSelectType('PJ')}>
+          <Buildings size={20} color={selectedType === 'PJ' ? theme.COLORS.ORANGE_500 : theme.COLORS.GRAY_200} />
+          <S.ButtonText active={selectedType === 'PJ'}>Pessoa Jurídica</S.ButtonText>
         </S.SelectButton>
       </S.ButtonWrapper>
     </S.Container>

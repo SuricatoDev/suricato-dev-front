@@ -2,13 +2,10 @@ import styled from 'styled-components/native';
 import MaskInput from 'react-native-mask-input';
 
 interface StyledInputProps {
+  editable: boolean;
   hasError: boolean;
   isValid: boolean;
 }
-
-export const Container = styled.View`
-  flex: 1;
-`;
 
 export const StyledMaskInput = styled(MaskInput)<StyledInputProps>`
   height: 46px;
@@ -16,7 +13,8 @@ export const StyledMaskInput = styled(MaskInput)<StyledInputProps>`
   border-radius: 10px;
   font-size: 14px;
   padding: 0 16px;
-  background-color: ${({ theme }) => theme.COLORS.WHITE};
+  background-color: ${({ theme, editable }) =>
+    editable ? theme.COLORS.WHITE : theme.COLORS.GRAY_100};
 
   border-color: ${({ theme, hasError, isValid }) => {
     if (hasError) {

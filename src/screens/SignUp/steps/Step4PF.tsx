@@ -3,12 +3,12 @@ import { useEffect, useState, useRef } from 'react';
 import { useTheme } from 'styled-components/native';
 import { Masks } from 'react-native-mask-input';
 
-import { fetchAddressByCep } from '@services/viacep';
+import { fetchAddressByCep } from '@services/fetchCepInfo';
 
 import { Input } from '@components/Input';
 import { MaskedInput } from '@components/MaskInput';
 
-import * as S from './Step4PF.styles';
+import * as S from './styles';
 
 interface Step4PFProps {
   formData: {
@@ -30,9 +30,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
   const previousCep = useRef('');
 
   const [errors, setErrors] = useState<Partial<Step4PFProps['formData']>>({});
-  const [touched, setTouched] = useState<
-    Partial<Record<keyof Step4PFProps['formData'], boolean>>
-  >({});
+  const [touched, setTouched] = useState<Partial<Record<keyof Step4PFProps['formData'], boolean>>>({});
 
   const logradouroRef = useRef<any>(null);
   const numeroRef = useRef<any>(null);
@@ -47,16 +45,11 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
     if (formData.cep.trim() === '' || formData.cep.length < 8) {
       newErrors.cep = 'CEP inválido';
     }
-    if (formData.bairro.trim() === '')
-      newErrors.bairro = 'Bairro é obrigatório';
-    if (formData.logradouro.trim() === '')
-      newErrors.logradouro = 'Logradouro é obrigatório';
-    if (formData.cidade.trim() === '')
-      newErrors.cidade = 'Cidade é obrigatória';
-    if (formData.uf.trim() === '' || formData.uf.length !== 2)
-      newErrors.uf = 'UF inválida';
-    if (formData.numero.trim() === '')
-      newErrors.numero = 'Número é obrigatório';
+    if (formData.bairro.trim() === '') newErrors.bairro = 'Bairro é obrigatório';
+    if (formData.logradouro.trim() === '') newErrors.logradouro = 'Logradouro é obrigatório';
+    if (formData.cidade.trim() === '') newErrors.cidade = 'Cidade é obrigatória';
+    if (formData.uf.trim() === '' || formData.uf.length !== 2) newErrors.uf = 'UF inválida';
+    if (formData.numero.trim() === '') newErrors.numero = 'Número é obrigatório';
 
     setErrors(newErrors);
     onValidate(Object.keys(newErrors).length === 0);
@@ -79,7 +72,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
             bairro: data.bairro || '',
             logradouro: data.logradouro || '',
             cidade: data.localidade || '',
-            uf: data.uf || '',
+            uf: data.uf || ''
           });
 
           setTouched(prev => ({
@@ -87,12 +80,10 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
             bairro: true,
             logradouro: true,
             cidade: true,
-            uf: true,
+            uf: true
           }));
         })
-        .catch(error =>
-          Alert.alert('Erro', 'Não foi possível buscar o endereço.'),
-        )
+        .catch(error => Alert.alert('Erro', 'Não foi possível buscar o endereço.'))
         .finally(() => {
           setLoading(false);
           previousCep.current = '';
@@ -128,7 +119,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
             style={{
               position: 'absolute',
               right: 12,
-              top: 52,
+              top: 52
             }}
           />
         )}
@@ -138,7 +129,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          gap: 8,
+          gap: 8
         }}
       >
         <View style={{ flex: 0.7 }}>
@@ -154,11 +145,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
             returnKeyType="next"
             autoCapitalize="words"
             onSubmitEditing={() => numeroRef.current?.focus()}
-            error={
-              touched.logradouro && errors.logradouro
-                ? errors.logradouro
-                : undefined
-            }
+            error={touched.logradouro && errors.logradouro ? errors.logradouro : undefined}
             touched={touched.logradouro}
             onFocus={() => setTouched(prev => ({ ...prev, logradouro: true }))}
           />
@@ -214,7 +201,7 @@ export function Step4PF({ formData, setFormData, onValidate }: Step4PFProps) {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          gap: 8,
+          gap: 8
         }}
       >
         <View style={{ flex: 0.8 }}>

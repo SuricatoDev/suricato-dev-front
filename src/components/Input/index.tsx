@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, TextInputProps } from 'react-native';
+import { TextInput, TextInputProps, View } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import * as S from './styles';
 import { Label } from '@components/Label';
@@ -26,7 +26,7 @@ export function Input({
   const isValid = touched && !error;
 
   return (
-    <S.Container>
+    <View>
       {label && <Label>{label}</Label>}
       <S.TextInputStyle
         ref={inputRef}
@@ -37,6 +37,6 @@ export function Input({
         {...rest}
       />
       {error && <ErrorText>{error}</ErrorText>}
-    </S.Container>
+    </View>
   );
 }

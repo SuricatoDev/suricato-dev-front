@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { Label } from '@components/Label';
 import { Input } from '@components/Input';
 
-import * as S from './Step1.styles';
+import * as S from './styles';
 interface Step1Props {
   formData: {
     email: string;
@@ -25,25 +25,16 @@ const validationSchema = Yup.object().shape({
     .email('Por favor, insira um e-mail válido no formato exemplo@dominio.com')
     .matches(
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      'Insira um e-mail válido no formato exemplo@dominio.com',
+      'Insira um e-mail válido no formato exemplo@dominio.com'
     )
     .required('O e-mail é obrigatório'),
-  password: Yup.string()
-    .min(6, 'A senha deve ter no mínimo 6 caracteres')
-    .required('A senha é obrigatória'),
+  password: Yup.string().min(6, 'A senha deve ter no mínimo 6 caracteres').required('A senha é obrigatória'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'As senhas não conferem')
-    .required('Confirmação de senha é obrigatória'),
+    .required('Confirmação de senha é obrigatória')
 });
 
-export function Step1({
-  formData,
-  setFormData,
-  onValidate,
-  errors,
-  setErrors,
-  goToNextStep,
-}: Step1Props) {
+export function Step1({ formData, setFormData, onValidate, errors, setErrors, goToNextStep }: Step1Props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const passwordInputRef = useRef<any>(null);
@@ -52,7 +43,7 @@ export function Step1({
   const [touched, setTouched] = useState({
     email: false,
     password: false,
-    confirmPassword: false,
+    confirmPassword: false
   });
 
   useEffect(() => {
@@ -77,7 +68,7 @@ export function Step1({
   }, [formData, setErrors, onValidate]);
 
   return (
-    <S.FormContainer>
+    <S.Container>
       <View>
         <Input
           label="Email*"
@@ -108,16 +99,10 @@ export function Step1({
             onFocus={() => setTouched(prev => ({ ...prev, password: true }))}
             onSubmitEditing={() => confirmPasswordInputRef.current?.focus()}
             touched={touched.password}
-            error={
-              touched.password && errors.password ? errors.password : undefined
-            }
+            error={touched.password && errors.password ? errors.password : undefined}
           />
           <S.EyeButton onPress={() => setShowPassword(!showPassword)}>
-            {!showPassword ? (
-              <EyeSlash size={20} color="#A0A0A0" />
-            ) : (
-              <Eye size={20} color="#A0A0A0" />
-            )}
+            {!showPassword ? <EyeSlash size={20} color="#A0A0A0" /> : <Eye size={20} color="#A0A0A0" />}
           </S.EyeButton>
         </S.PasswordField>
       </View>
@@ -131,28 +116,16 @@ export function Step1({
             inputRef={confirmPasswordInputRef}
             returnKeyType="done"
             onChangeText={text => setFormData({ confirmPassword: text })}
-            onFocus={() =>
-              setTouched(prev => ({ ...prev, confirmPassword: true }))
-            }
+            onFocus={() => setTouched(prev => ({ ...prev, confirmPassword: true }))}
             onSubmitEditing={goToNextStep}
             touched={touched.confirmPassword}
-            error={
-              touched.confirmPassword && errors.confirmPassword
-                ? errors.confirmPassword
-                : undefined
-            }
+            error={touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : undefined}
           />
-          <S.EyeButton
-            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-          >
-            {!showConfirmPassword ? (
-              <EyeSlash size={20} color="#A0A0A0" />
-            ) : (
-              <Eye size={20} color="#A0A0A0" />
-            )}
+          <S.EyeButton onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+            {!showConfirmPassword ? <EyeSlash size={20} color="#A0A0A0" /> : <Eye size={20} color="#A0A0A0" />}
           </S.EyeButton>
         </S.PasswordField>
       </View>
-    </S.FormContainer>
+    </S.Container>
   );
 }
