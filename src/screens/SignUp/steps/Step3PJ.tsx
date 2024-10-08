@@ -76,7 +76,7 @@ export function Step3PJ() {
           razaoSocial: true,
           telefone: true
         });
-      } catch (error) {
+      } catch {
         setValidation(3, false);
         Alert.alert('Atenção', 'CNPJ não encontrado. Por favor, preencha os dados manualmente.');
       } finally {

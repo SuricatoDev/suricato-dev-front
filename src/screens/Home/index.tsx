@@ -1,20 +1,26 @@
+import React from 'react';
 import { ImageBackground, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Button } from '@components/Button';
 import logoImg from '@assets/logo-white.png';
 import backgroundImg from '@assets/background.png';
 import * as S from './styles';
 
 export function Home() {
+  const navigation = useNavigation();
+
+  function handleLogin() {
+    navigation.navigate('AuthScreen');
+  }
+
   return (
-    <ImageBackground
-      source={backgroundImg}
-      style={{ flex: 1 }}
-      resizeMode="cover"
-    >
+    <ImageBackground source={backgroundImg} style={{ flex: 1 }} resizeMode="cover">
       <S.Container>
         <S.Header>
           <S.Logo source={logoImg} />
-          <Button type="SECONDARY">Login</Button>
+          <Button type="SECONDARY" onPress={handleLogin}>
+            Login
+          </Button>
         </S.Header>
 
         <S.Content>
