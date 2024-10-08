@@ -92,7 +92,7 @@ export function Step3PJ({ formData, setFormData, onValidate }: Step3PJProps) {
           nomeFantasia: true,
           telefone: true
         });
-      } catch (error) {
+      } catch {
         setErrors(prevErrors => ({
           ...prevErrors,
           cnpj: 'CNPJ inválido ou não encontrado'

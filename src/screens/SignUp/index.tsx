@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BackHandler, ScrollView, View } from 'react-native';
+import { BackHandler, View } from 'react-native';
 
 import { Button } from '@components/Button';
 
