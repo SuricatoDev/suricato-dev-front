@@ -8,5 +8,5 @@ export const Container = styled.View`
 `;
 
 export const LoadIndicator = styled.ActivityIndicator.attrs(({ theme }) => ({
-  color: theme.COLORS.GREEN_MID,
+  color: theme.COLORS.GREEN_MID
 }))``;

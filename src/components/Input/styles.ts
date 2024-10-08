@@ -15,8 +15,7 @@ export const TextInputStyle = styled(TextInput)<TextInputStyleProps>`
   padding: 0 16px;
   font-size: 14px;
   color: ${({ theme }) => theme.COLORS.GRAY_600};
-  background-color: ${({ theme, editable }) =>
-    editable ? theme.COLORS.WHITE : theme.COLORS.GRAY_100};
+  background-color: ${({ theme, editable }) => (editable ? theme.COLORS.WHITE : theme.COLORS.GRAY_100)};
   border-color: ${({ theme, hasError, isValid }) => {
     if (hasError) {
       return theme.COLORS.RED_MID;
