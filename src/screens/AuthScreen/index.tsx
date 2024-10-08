@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 import * as S from './styles';
-import {
-  Image,
-  ImageBackground,
-  ScrollView,
-  Platform,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { Image, ImageBackground, ScrollView, Platform, KeyboardAvoidingView } from 'react-native';
 import { LoginForm } from '@screens/Login';
-import SignupForm from '@screens/SignUp';
+import { SignupForm } from '@screens/SignUp';
 import backgroundImg from '@assets/background-1.png';
 import { Divider } from '@components/Divider';
 import { StepHeader } from '@components/StepHeader';
+import { FormProvider } from '@contexts/SignUpContext';
 
 export function AuthScreen() {
   const [isLogin, setIsLogin] = useState(true);
@@ -34,9 +29,7 @@ export function AuthScreen() {
             {isLogin ? (
               <>
                 <S.Title>Comece aqui</S.Title>
-                <S.Subtitle>
-                  Crie uma conta ou faça login para explorar
-                </S.Subtitle>
+                <S.Subtitle>Crie uma conta ou faça login para explorar</S.Subtitle>
               </>
             ) : (
               <StepHeader currentStep={currentStep} steps={4} />
@@ -46,21 +39,11 @@ export function AuthScreen() {
         <S.Container>
           <S.Card>
             <S.ToggleButtonContainer>
-              <S.ToggleButton
-                isActive={isLogin}
-                onPress={() => setIsLogin(true)}
-              >
-                <S.ToggleButtonText isActive={isLogin}>
-                  Login
-                </S.ToggleButtonText>
+              <S.ToggleButton isActive={isLogin} onPress={() => setIsLogin(true)}>
+                <S.ToggleButtonText isActive={isLogin}>Login</S.ToggleButtonText>
               </S.ToggleButton>
-              <S.ToggleButton
-                isActive={!isLogin}
-                onPress={() => setIsLogin(false)}
-              >
-                <S.ToggleButtonText isActive={!isLogin}>
-                  Cadastre-se
-                </S.ToggleButtonText>
+              <S.ToggleButton isActive={!isLogin} onPress={() => setIsLogin(false)}>
+                <S.ToggleButtonText isActive={!isLogin}>Cadastre-se</S.ToggleButtonText>
               </S.ToggleButton>
             </S.ToggleButtonContainer>
             {currentStep <= 1 && (
@@ -82,10 +65,9 @@ export function AuthScreen() {
             {isLogin ? (
               <LoginForm />
             ) : (
-              <SignupForm
-                currentStep={currentStep}
-                setCurrentStep={setCurrentStep}
-              />
+              <FormProvider>
+                <SignupForm currentStep={currentStep} setCurrentStep={setCurrentStep} />
+              </FormProvider>
             )}
           </S.Card>
         </S.Container>

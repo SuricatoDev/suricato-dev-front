@@ -7,29 +7,18 @@ import { fetchAddressByCep } from '@services/fetchCepInfo';
 import { Input } from '@components/Input';
 import { MaskedInput } from '@components/MaskInput';
 
+import { useFormContext } from '@contexts/SignUpContext';
+
 import * as S from './styles';
 
-interface Step4PJProps {
-  formData: {
-    cep: string;
-    bairro: string;
-    logradouro: string;
-    cidade: string;
-    uf: string;
-    complemento: string;
-    numero: string;
-  };
-  setFormData: (data: Partial<Step4PJProps['formData']>) => void;
-  onValidate: (isValid: boolean) => void;
-}
-
-export function Step4PJ({ formData, setFormData, onValidate }: Step4PJProps) {
+export function Step4PJ() {
+  const { formData, setFormData, setValidation } = useFormContext();
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const previousCep = useRef(formData.cep);
 
-  const [errors, setErrors] = useState<Partial<Step4PJProps['formData']>>({});
-  const [touched, setTouched] = useState<Partial<Record<keyof Step4PJProps['formData'], boolean>>>({});
+  const [errors, setErrors] = useState<Partial<typeof formData>>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof typeof formData, boolean>>>({});
 
   const logradouroRef = useRef<any>(null);
   const numeroRef = useRef<any>(null);
@@ -39,7 +28,7 @@ export function Step4PJ({ formData, setFormData, onValidate }: Step4PJProps) {
   const ufRef = useRef<any>(null);
 
   const validateFields = () => {
-    const newErrors: Partial<Step4PJProps['formData']> = {};
+    const newErrors: Partial<typeof formData> = {};
 
     if (formData.cep.trim() === '' || formData.cep.length < 9) {
       newErrors.cep = 'CEP inválido';
@@ -51,7 +40,7 @@ export function Step4PJ({ formData, setFormData, onValidate }: Step4PJProps) {
     if (formData.numero.trim() === '') newErrors.numero = 'Número é obrigatório';
 
     setErrors(newErrors);
-    onValidate(Object.keys(newErrors).length === 0);
+    setValidation(4, Object.keys(newErrors).length === 0);
   };
 
   useEffect(() => {
@@ -68,7 +57,6 @@ export function Step4PJ({ formData, setFormData, onValidate }: Step4PJProps) {
 
       fetchAddressByCep(rawCep)
         .then(data => {
-          console.log;
           setFormData({
             bairro: data.bairro || '',
             logradouro: data.logradouro || '',
@@ -89,7 +77,7 @@ export function Step4PJ({ formData, setFormData, onValidate }: Step4PJProps) {
         .catch(() => Alert.alert('Erro', 'Não foi possível buscar o endereço.'))
         .finally(() => setLoading(false));
     }
-  }, [formData.cep, setFormData]);
+  }, [formData.cep]);
 
   return (
     <S.Container>
@@ -189,13 +177,7 @@ export function Step4PJ({ formData, setFormData, onValidate }: Step4PJProps) {
         onSubmitEditing={() => cidadeRef.current?.focus()}
       />
 
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          gap: 8
-        }}
-      >
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 8 }}>
         <View style={{ flex: 0.8 }}>
           <Input
             label="Cidade*"

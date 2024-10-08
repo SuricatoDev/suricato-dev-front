@@ -8,22 +8,13 @@ import { DatePicker } from '@components/DatePicker';
 import { Select } from '@components/Select';
 
 import { isValidCPF } from '@utils/validations';
-
-import * as S from './styles';
 import { getPhoneMask } from '@utils/phoneNumberMask';
-interface Step3PFProps {
-  formData: {
-    cpf: string;
-    telefone: string;
-    fullName: string;
-    gender: string;
-    birthDate: string;
-  };
-  setFormData: (data: Partial<Step3PFProps['formData']>) => void;
-  onValidate: (isValid: boolean) => void;
-}
 
-export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
+import { useFormContext } from '@contexts/SignUpContext';
+import * as S from './styles';
+
+export function Step3PF() {
+  const { formData, setFormData, setValidation } = useFormContext();
   const [errors, setErrors] = useState<{
     fullName?: string;
     gender?: string;
@@ -58,8 +49,8 @@ export function Step3PF({ formData, setFormData, onValidate }: Step3PFProps) {
     }
 
     setErrors(newErrors);
-    onValidate(Object.keys(newErrors).length === 0);
-  }, [formData, onValidate]);
+    setValidation(3, Object.keys(newErrors).length === 0);
+  }, [formData]);
 
   const handleFullNameChange = (text: string) => {
     const filteredText = text.replace(/[^A-Za-z\s]/g, '');
