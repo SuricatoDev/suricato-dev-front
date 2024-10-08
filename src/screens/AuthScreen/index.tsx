@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import * as S from './styles';
 import { Image, ImageBackground, ScrollView, Platform, KeyboardAvoidingView } from 'react-native';
 import { LoginForm } from '@screens/Login';
-import SignupForm from '@screens/SignUp';
+import { SignupForm } from '@screens/SignUp';
 import backgroundImg from '@assets/background-1.png';
 import { Divider } from '@components/Divider';
 import { StepHeader } from '@components/StepHeader';
+import { FormProvider } from '@contexts/SignUpContext';
 
 export function AuthScreen() {
   const [isLogin, setIsLogin] = useState(true);
@@ -61,7 +62,14 @@ export function AuthScreen() {
                 <Divider />
               </>
             )}
-            {isLogin ? <LoginForm /> : <SignupForm currentStep={currentStep} setCurrentStep={setCurrentStep} />}
+
+            {isLogin ? (
+              <LoginForm />
+            ) : (
+              <FormProvider>
+                <SignupForm currentStep={currentStep} setCurrentStep={setCurrentStep} />
+              </FormProvider>
+            )}
           </S.Card>
         </S.Container>
       </ScrollView>

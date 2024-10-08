@@ -9,3 +9,22 @@ export const ButtonContainer = styled.View`
   justify-content: space-between;
   margin-top: 24px;
 `;
+
+export const TjContainer = styled.View`
+  padding: 24px 0 0 0;
+  align-items: center;
+`;
+
+export const TjText = styled.Text`
+  font-size: 12px;
+  color: ${({ theme }) => theme.COLORS.GRAY_300};
+  text-align: center;
+  line-height: 18px;
+  font-family: ${({ theme }) => theme.FONT_FAMILY.REGULAR};
+`;
+
+export const LinkText = styled.Text`
+  color: ${({ theme }) => theme.COLORS.ORANGE_700};
+  text-decoration: underline;
+  font-family: ${({ theme }) => theme.FONT_FAMILY.MEDIUM};
+`;

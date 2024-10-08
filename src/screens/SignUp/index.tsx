@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { BackHandler, View } from 'react-native';
+import { useEffect } from 'react';
+import { View, BackHandler, Linking } from 'react-native';
+
+import { useFormContext } from '@contexts/SignUpContext';
 
 import { Button } from '@components/Button';
-
-import { Step1 } from './steps/Step1';
-import { Step2 } from './steps/Step2';
-import { Step3PF } from './steps/Step3PF';
-import { Step3PJ } from './steps/Step3PJ';
-import { Step4PF } from './steps/Step4PF';
-import { Step4PJ } from './steps/Step4PJ';
+import { Step1, Step2, Step3PF, Step3PJ, Step4PF, Step4PJ } from './steps';
 
 import * as S from './styles';
 
@@ -17,40 +13,17 @@ interface SignupFormProps {
   setCurrentStep: (step: number) => void;
 }
 
-const SignupForm = ({ currentStep, setCurrentStep }: SignupFormProps) => {
-  const [formData, setFormData] = useState({
-    userType: '',
-    fullName: '',
-    gender: '',
-    birthDate: '',
-    cpf: '',
-    phone: '',
-    cep: '',
-    bairro: '',
-    logradouro: '',
-    cidade: '',
-    uf: '',
-    complemento: '',
-    numero: '',
-    cnpj: '',
-    razaoSocial: '',
-    nomeFantasia: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    objective: '',
-    telefone: ''
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isValid, setIsValid] = useState(false);
+export function SignupForm({ currentStep, setCurrentStep }: SignupFormProps) {
+  const { formData, validation } = useFormContext();
 
   useEffect(() => {
     const backAction = () => {
       if (currentStep > 1) {
         setCurrentStep(currentStep - 1);
         return true;
+      } else {
+        return false;
       }
-      return false;
     };
 
     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
@@ -59,65 +32,23 @@ const SignupForm = ({ currentStep, setCurrentStep }: SignupFormProps) => {
   }, [currentStep, setCurrentStep]);
 
   const nextStep = () => {
-    if (isValid) {
+    if (validation[currentStep]) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   return (
     <View>
-      {currentStep === 1 && (
-        <Step1
-          formData={formData}
-          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
-          onValidate={setIsValid}
-          errors={errors}
-          setErrors={setErrors}
-          goToNextStep={() => setCurrentStep(currentStep + 1)}
-        />
-      )}
-
-      {currentStep === 2 && (
-        <Step2
-          formData={formData}
-          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
-          onValidate={setIsValid}
-        />
-      )}
-
-      {currentStep === 3 && formData.userType === 'PF' && (
-        <Step3PF
-          formData={formData}
-          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
-          onValidate={setIsValid}
-        />
-      )}
-      {currentStep === 3 && formData.userType === 'PJ' && (
-        <Step3PJ
-          formData={formData}
-          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
-          onValidate={setIsValid}
-        />
-      )}
-
-      {currentStep === 4 && formData.userType === 'PF' && (
-        <Step4PF
-          formData={formData}
-          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
-          onValidate={setIsValid}
-        />
-      )}
-      {currentStep === 4 && formData.userType === 'PJ' && (
-        <Step4PJ
-          formData={formData}
-          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
-          onValidate={setIsValid}
-        />
-      )}
+      {currentStep === 1 && <Step1 />}
+      {currentStep === 2 && <Step2 />}
+      {currentStep === 3 && formData.userType === 'PF' && <Step3PF />}
+      {currentStep === 3 && formData.userType === 'PJ' && <Step3PJ />}
+      {currentStep === 4 && formData.userType === 'PF' && <Step4PF />}
+      {currentStep === 4 && formData.userType === 'PJ' && <Step4PJ />}
 
       <S.ButtonContainer>
         {currentStep < 4 && (
-          <Button fullWidth onPress={nextStep} disabled={!isValid}>
+          <Button fullWidth onPress={nextStep} disabled={!validation[currentStep]}>
             Próximo
           </Button>
         )}
@@ -125,15 +56,24 @@ const SignupForm = ({ currentStep, setCurrentStep }: SignupFormProps) => {
           <Button
             fullWidth
             onPress={() => {
-              /* aqui vai o POST para o BD */
+              /* POST para o BD */
             }}
+            disabled={!validation[currentStep]}
           >
             Finalizar Cadastro
           </Button>
         )}
       </S.ButtonContainer>
+      <S.TjContainer>
+        <S.TjText>
+          Ao se cadastrar, você aceita nossos{' '}
+          <S.LinkText onPress={() => Linking.openURL('https://examplo.com/termos')}>Termos de Uso</S.LinkText> e nossa{' '}
+          <S.LinkText onPress={() => Linking.openURL('https://examplo.com/politica')}>
+            Política de Privacidade
+          </S.LinkText>
+          .
+        </S.TjText>
+      </S.TjContainer>
     </View>
   );
-};
-
-export default SignupForm;
+}
