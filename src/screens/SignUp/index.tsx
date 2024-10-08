@@ -39,7 +39,7 @@ const SignupForm = ({ currentStep, setCurrentStep }: SignupFormProps) => {
     password: '',
     confirmPassword: '',
     objective: '',
-    telefone: '',
+    telefone: ''
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isValid, setIsValid] = useState(false);
@@ -53,10 +53,7 @@ const SignupForm = ({ currentStep, setCurrentStep }: SignupFormProps) => {
       return false;
     };
 
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () => backHandler.remove();
   }, [currentStep, setCurrentStep]);
@@ -72,9 +69,7 @@ const SignupForm = ({ currentStep, setCurrentStep }: SignupFormProps) => {
       {currentStep === 1 && (
         <Step1
           formData={formData}
-          setFormData={(data: Partial<typeof formData>) =>
-            setFormData(prev => ({ ...prev, ...data }))
-          }
+          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
           onValidate={setIsValid}
           errors={errors}
           setErrors={setErrors}
@@ -85,9 +80,7 @@ const SignupForm = ({ currentStep, setCurrentStep }: SignupFormProps) => {
       {currentStep === 2 && (
         <Step2
           formData={formData}
-          setFormData={(data: Partial<typeof formData>) =>
-            setFormData(prev => ({ ...prev, ...data }))
-          }
+          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
           onValidate={setIsValid}
         />
       )}
@@ -95,18 +88,14 @@ const SignupForm = ({ currentStep, setCurrentStep }: SignupFormProps) => {
       {currentStep === 3 && formData.userType === 'PF' && (
         <Step3PF
           formData={formData}
-          setFormData={(data: Partial<typeof formData>) =>
-            setFormData(prev => ({ ...prev, ...data }))
-          }
+          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
           onValidate={setIsValid}
         />
       )}
       {currentStep === 3 && formData.userType === 'PJ' && (
         <Step3PJ
           formData={formData}
-          setFormData={(data: Partial<typeof formData>) =>
-            setFormData(prev => ({ ...prev, ...data }))
-          }
+          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
           onValidate={setIsValid}
         />
       )}
@@ -114,18 +103,14 @@ const SignupForm = ({ currentStep, setCurrentStep }: SignupFormProps) => {
       {currentStep === 4 && formData.userType === 'PF' && (
         <Step4PF
           formData={formData}
-          setFormData={(data: Partial<typeof formData>) =>
-            setFormData(prev => ({ ...prev, ...data }))
-          }
+          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
           onValidate={setIsValid}
         />
       )}
       {currentStep === 4 && formData.userType === 'PJ' && (
         <Step4PJ
           formData={formData}
-          setFormData={(data: Partial<typeof formData>) =>
-            setFormData(prev => ({ ...prev, ...data }))
-          }
+          setFormData={(data: Partial<typeof formData>) => setFormData(prev => ({ ...prev, ...data }))}
           onValidate={setIsValid}
         />
       )}

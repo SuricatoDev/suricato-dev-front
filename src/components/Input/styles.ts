@@ -7,10 +7,6 @@ interface TextInputStyleProps {
   isValid: boolean;
 }
 
-export const Container = styled.View`
-  flex: 1;
-`;
-
 export const TextInputStyle = styled(TextInput)<TextInputStyleProps>`
   height: 46px;
   min-height: 46px;
