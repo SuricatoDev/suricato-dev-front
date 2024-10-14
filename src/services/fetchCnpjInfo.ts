@@ -41,7 +41,6 @@ export async function fetchCNPJInfo(cnpj: string): Promise<CNPJData> {
     numero: data.numero || '',
     bairro: data.bairro || '',
     cidade: data.municipio || '',
-    estado: data.uf || '',
     cep: data.cep || '',
     uf: data.uf || ''
   };
