@@ -5,6 +5,7 @@ import { Eye, EyeSlash, Check } from 'phosphor-react-native';
 import { Input } from '@components/Input';
 import { Label } from '@components/Label';
 import { Button } from '@components/Button';
+import { Avatar } from 'react-native-paper';
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +15,7 @@ export function LoginForm() {
   return (
     <S.FormContainer>
       <View>
+        <Avatar.Text size={50} label="XD" />
         <Input
           label="Email*"
           keyboardType="email-address"

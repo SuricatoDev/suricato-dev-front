@@ -13,6 +13,10 @@ export function Home() {
     navigation.navigate('AuthScreen');
   }
 
+  function handleExplore() {
+    navigation.navigate('Products');
+  }
+
   return (
     <ImageBackground source={backgroundImg} style={{ flex: 1 }} resizeMode="cover">
       <S.Container>
@@ -31,7 +35,7 @@ export function Home() {
           </Text>
         </S.Content>
         <S.CtaContainer>
-          <Button fullWidth icon="CARET_RIGHT">
+          <Button fullWidth icon="CARET_RIGHT" onPress={handleExplore}>
             Explorar Caravanas
           </Button>
         </S.CtaContainer>
