@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Eye, EyeSlash } from 'phosphor-react-native';
 import * as Yup from 'yup';

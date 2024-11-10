@@ -24,12 +24,8 @@ export const Title = styled.Text`
   font-family: ${({ theme }) => theme.FONT_FAMILY.MEDIUM};
 `;
 
-export const InfoContainer = styled.View``;
-
 export const Subtitle = styled.Text`
-  font-size: 14px;
+  font-size: 13px;
   color: ${({ theme }) => theme.COLORS.GRAY_300};
-  font-family: ${({ theme }) => theme.FONT_FAMILY.REGULAR};
+  font-family: ${({ theme }) => theme.FONT_FAMILY.SEMIBOLD};
 `;
-
-export const IconContainer = styled.View``;

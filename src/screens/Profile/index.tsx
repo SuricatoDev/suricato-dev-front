@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as S from './styles';
 import { ListItem } from '@components/ListItem';
@@ -11,13 +10,14 @@ export function Profile() {
   const navigation = useNavigation();
 
   function handleAccountSettings() {
-    navigation.navigate('AccountSettings');
+    navigation.navigate('AccountSettingsStack', {
+      screen: 'AccountSettings'
+    });
   }
 
   return (
     <S.Container>
       <AvatarIcon name="Paulo Silva" />
-
       <S.LastConfigs>
         <ListItem
           title="Dados da conta"

@@ -2,12 +2,13 @@ import { useTheme } from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import * as S from './styles';
+import { View } from 'react-native';
 
 interface SelectProps {
   title: string;
-  icon: React.ReactNode;
-  onPress: () => void;
+  icon?: React.ReactNode;
   subtitle?: string;
+  onPress: () => void;
 }
 
 export function ListItem({ title, subtitle, icon, onPress }: SelectProps) {
@@ -16,11 +17,11 @@ export function ListItem({ title, subtitle, icon, onPress }: SelectProps) {
   return (
     <S.Container onPress={onPress}>
       <S.Content>
-        <S.IconContainer>{icon}</S.IconContainer>
-        <S.InfoContainer>
+        {icon && icon}
+        <View>
           <S.Title>{title}</S.Title>
           {subtitle && <S.Subtitle>{subtitle}</S.Subtitle>}
-        </S.InfoContainer>
+        </View>
       </S.Content>
       <Icon name="chevron-right" size={24} color={theme.COLORS.GRAY_300} />
     </S.Container>

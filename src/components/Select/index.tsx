@@ -1,4 +1,3 @@
-import React from 'react';
 import RNPickerSelect, { PickerSelectProps } from 'react-native-picker-select';
 import { useTheme } from 'styled-components/native';
 import { CaretDown } from 'phosphor-react-native';

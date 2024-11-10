@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Text, TextProps } from 'react-native';
 import * as S from './styles';
 

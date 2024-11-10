@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from 'styled-components/native';
 import { Airplane, Briefcase, User, Buildings } from 'phosphor-react-native';
 

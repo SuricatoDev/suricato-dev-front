@@ -1,4 +1,3 @@
-import { useTheme } from 'styled-components/native';
 import { Avatar } from 'react-native-paper';
 import * as S from './styles';
 import { getInitials } from '@utils/getInitials';

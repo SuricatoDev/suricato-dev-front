@@ -5,6 +5,8 @@ export declare global {
       AuthScreen: undefined;
       Products: undefined;
       AccountSettings: undefined;
+      PersonalInfo: undefined;
+      AccessInfo: undefined;
     }
   }
 }

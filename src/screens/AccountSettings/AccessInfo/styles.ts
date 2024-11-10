@@ -6,4 +6,9 @@ export const Container = styled(SafeAreaView)`
   width: 100%;
   background-color: ${({ theme }) => theme.COLORS.WHITE_100};
   padding: 24px;
+  gap: 24px;
+`;
+
+export const Spacing = styled.View`
+  padding: 16px 0;
 `;

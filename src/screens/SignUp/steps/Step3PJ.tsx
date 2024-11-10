@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, ActivityIndicator, Alert } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { Masks } from 'react-native-mask-input';

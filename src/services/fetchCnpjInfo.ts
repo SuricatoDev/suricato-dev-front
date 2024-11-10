@@ -7,7 +7,6 @@ export interface CNPJData {
   numero: string;
   bairro: string;
   cidade: string;
-  estado: string;
   cep: string;
   uf: string;
 }

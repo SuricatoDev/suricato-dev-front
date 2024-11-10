@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as S from './styles';
 import { Image, ImageBackground, ScrollView, Platform, KeyboardAvoidingView } from 'react-native';
 import { LoginForm } from '@screens/Login';
