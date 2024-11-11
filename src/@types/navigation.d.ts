@@ -1,3 +1,4 @@
+// navigation.d.ts
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
@@ -7,6 +8,10 @@ export declare global {
       AccountSettings: undefined;
       PersonalInfo: undefined;
       AccessInfo: undefined;
+      AccountSettingsStack: {
+        screen?: 'AccountSettings' | 'AccessInfo' | 'PersonalInfo';
+      };
+      ProfileStack: undefined;
     }
   }
 }

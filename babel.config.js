@@ -21,7 +21,12 @@ module.exports = function (api) {
             '@utils': './src/utils',
             '@services': './src/services',
             '@contexts': './src/contexts',
-            '@routes': './src/routes'
+            '@routes': './src/routes',
+            '@hooks': './src/hooks',
+            '@types': './src/types',
+            '@config': './src/config',
+            '@store': './src/store',
+            '@navigation': './src/navigation'
           }
         }
       ]

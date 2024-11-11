@@ -2,16 +2,21 @@ import * as S from './styles';
 import { SingleHeader } from '@components/SingleHeader';
 import { ListItem } from '@components/ListItem';
 import { useNavigation } from '@react-navigation/native';
+import { ROUTES } from '@routes/navigationConfig';
 
 export function AccountSettings() {
   const navigation = useNavigation();
 
   function handlePersonalInfo() {
-    navigation.navigate('PersonalInfo');
+    navigation.navigate(ROUTES.ACCOUNT_SETTINGS_STACK, {
+      screen: ROUTES.PERSONAL_INFO
+    });
   }
 
   function handleAccessInfo() {
-    navigation.navigate('AccessInfo');
+    navigation.navigate(ROUTES.ACCOUNT_SETTINGS_STACK, {
+      screen: ROUTES.ACCESS_INFO
+    });
   }
   return (
     <>

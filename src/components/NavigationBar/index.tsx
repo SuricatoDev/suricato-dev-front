@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { BottomNavigation, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { ProfileStackScreen } from 'src/navigation/Profile';
+import { ProfileStackScreen } from '@navigation/ProfileStack';
 import { useTheme } from 'styled-components/native';
 
 function HomeScreen() {

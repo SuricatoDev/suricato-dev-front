@@ -1,4 +1,4 @@
-import { ROUTES, defaultNavigationOptions } from '../configs/navigationConfig';
+import { ROUTES, defaultNavigationOptions } from '../routes/navigationConfig';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Profile } from '@screens/Profile';
 import { AccountSettings } from '@screens/AccountSettings';

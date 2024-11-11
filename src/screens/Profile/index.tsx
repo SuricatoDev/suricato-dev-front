@@ -4,14 +4,15 @@ import { ListItem } from '@components/ListItem';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components/native';
 import { AvatarIcon } from '@components/AvatarIcon';
+import { ROUTES } from '@routes/navigationConfig';
 
 export function Profile() {
   const theme = useTheme();
   const navigation = useNavigation();
 
   function handleAccountSettings() {
-    navigation.navigate('AccountSettingsStack', {
-      screen: 'AccountSettings'
+    navigation.navigate(ROUTES.ACCOUNT_SETTINGS_STACK, {
+      screen: ROUTES.ACCOUNT_SETTINGS
     });
   }
 
