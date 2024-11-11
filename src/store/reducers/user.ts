@@ -15,7 +15,7 @@ const initialState: UserState = {
   name: '',
   email: '',
   loggedIn: true,
-  phone: '',
+  phone: '(15) 99123-4567',
   contactPhone: '',
   token: '',
   cpf: '',

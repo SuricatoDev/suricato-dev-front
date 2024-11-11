@@ -7,12 +7,13 @@ type InfoTextWithButtonProps = {
   title: string;
   subtitle: string;
   disabled?: boolean;
+  onPress?: () => void;
 };
 
-export function InfoTextWithButton({ title, subtitle, disabled = false }: InfoTextWithButtonProps) {
+export function InfoTextWithButton({ title, subtitle, disabled = false, onPress }: InfoTextWithButtonProps) {
   const theme = useTheme();
   return (
-    <S.Container disabled={disabled}>
+    <S.Container disabled={disabled} onPress={onPress}>
       <View>
         <S.Title>{title}</S.Title>
         <S.Subtitle disabled={disabled}>{subtitle}</S.Subtitle>

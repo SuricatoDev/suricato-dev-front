@@ -16,5 +16,5 @@ export const Title = styled.Text`
 
 export const IconContainer = styled.View`
   position: absolute;
-  left: 0;
+  left: -10px;
 `;

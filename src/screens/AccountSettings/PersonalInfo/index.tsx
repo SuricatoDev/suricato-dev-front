@@ -1,4 +1,4 @@
-import { HeadingWithSubtitle } from '@components/HeadingWithSubtitle';
+import { Heading } from '@components/Heading';
 import * as S from './styles';
 import { SingleHeader } from '@components/SingleHeader';
 import { InfoTextWithButton } from '@components/infoTextWithButton';

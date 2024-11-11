@@ -7,6 +7,7 @@ import { AccountSettings } from '@screens/AccountSettings';
 import { PersonalInfo } from '@screens/AccountSettings/PersonalInfo';
 import { AccessInfo } from '@screens/AccountSettings/AccessInfo';
 import { defaultNavigationOptions } from './navigationConfig';
+import { EditAccessInfo } from '@screens/AccountSettings/AccessInfo/EditAccessInfo';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export function AppRoutes() {
       <Screen name="AccountSettings" component={AccountSettings} />
       <Screen name="PersonalInfo" component={PersonalInfo} />
       <Screen name="AccessInfo" component={AccessInfo} />
+      <Screen name="EditAccessInfo" component={EditAccessInfo} />
     </Navigator>
   );
 }

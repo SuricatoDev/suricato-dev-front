@@ -5,11 +5,21 @@ import { Eye, EyeSlash, Check } from 'phosphor-react-native';
 import { Input } from '@components/Input';
 import { Label } from '@components/Label';
 import { Button } from '@components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const passwordInputRef = useRef<any>(null);
+  const navigation = useNavigation();
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  const handleLogin = () => {
+    setButtonDisabled(true);
+    setTimeout(() => {
+      navigation.navigate('Products');
+    }, 2000);
+  };
 
   return (
     <S.FormContainer>
@@ -49,7 +59,9 @@ export function LoginForm() {
         </TouchableOpacity>
       </S.OptionsContainer>
 
-      <Button fullWidth>Entrar</Button>
+      <Button disabled={buttonDisabled} onPress={handleLogin} fullWidth>
+        Entrar
+      </Button>
     </S.FormContainer>
   );
 }

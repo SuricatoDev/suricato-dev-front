@@ -4,6 +4,7 @@ import { Button } from '@components/Button';
 import logoImg from '@assets/logo-white.png';
 import backgroundImg from '@assets/background.png';
 import * as S from './styles';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export function Home() {
   const navigation = useNavigation();
@@ -34,7 +35,7 @@ export function Home() {
           </Text>
         </S.Content>
         <S.CtaContainer>
-          <Button fullWidth icon="CARET_RIGHT" onPress={handleExplore}>
+          <Button fullWidth icon={<Icon name="chevron-right" size={22} color="#FFFFFF" />} onPress={handleExplore}>
             Explorar Caravanas
           </Button>
         </S.CtaContainer>

@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
 type SingleHeaderProps = {
-  title: string;
+  title?: string;
 };
 
 export function SingleHeader({ title }: SingleHeaderProps) {
@@ -18,7 +18,7 @@ export function SingleHeader({ title }: SingleHeaderProps) {
         <S.IconContainer>
           <Icon onPress={() => navigation.goBack()} name="chevron-left" color={theme.COLORS.ORANGE_500} size={32} />
         </S.IconContainer>
-        <S.Title>{title}</S.Title>
+        {title && <S.Title>{title}</S.Title>}
       </S.Container>
     </View>
   );

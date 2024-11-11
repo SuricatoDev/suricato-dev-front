@@ -12,6 +12,7 @@ export declare global {
         screen?: 'AccountSettings' | 'AccessInfo' | 'PersonalInfo';
       };
       ProfileStack: undefined;
+      EditAccessInfo: undefined;
     }
   }
 }

@@ -1,11 +1,11 @@
-import { PressableProps } from 'react-native';
+import { PressableProps, Text } from 'react-native';
 import { useState } from 'react';
 import { CaretRight, PencilSimpleLine, Plus, Trash } from 'phosphor-react-native';
 import * as S from './styles';
 
 type ButtonProps = PressableProps & {
   type?: S.ButtonTypeStyleProps;
-  icon?: S.ButtonIconStyleProps;
+  icon?: React.ReactNode;
   fullWidth?: S.ButtonFullWidthStyleProps;
   children?: string;
 };
@@ -31,14 +31,13 @@ export function Button({ type = 'PRIMARY', icon, fullWidth, children, ...rest }:
       onPressOut={handlePressOut}
       isPressed={isPressed}
       type={type}
-      icon={icon}
       fullWidth={fullWidth}
       {...rest}
     >
       <S.ButtonText type={type} isPressed={isPressed}>
         {children}
       </S.ButtonText>
-      {icon ? icons[icon] : null}
+      <Text>{icon && icon}</Text>
     </S.Container>
   );
 }
