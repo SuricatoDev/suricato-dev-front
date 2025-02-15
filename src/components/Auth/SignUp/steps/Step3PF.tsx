@@ -1,19 +1,16 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Masks } from 'react-native-mask-input';
-
-import { MaskedInput } from '@components/MaskInput';
-import { DatePicker } from '@components/DatePicker';
-import { Select } from '@components/Select';
-
-import { isValidCPF } from '@utils/validations';
-import { getPhoneMask } from '@utils/phoneNumberMask';
-
-import { useFormContext } from '@contexts/SignUpContext';
+import { useFormContext } from '@/contexts/SignUpContext';
+import { isValidCPF } from '@/utils/validations';
+import { CustomTextInput } from '@/components/CustomTextInput';
 import * as S from './styles';
+import { DatePicker } from '@/components/DatePicker';
+import { Select } from '@/components/Select';
+import { formatCPF, formatPhone } from '@/utils/formatValues';
 
 export function Step3PF() {
   const { formData, setFormData, setValidation } = useFormContext();
+
   const [errors, setErrors] = useState<{
     fullName?: string;
     gender?: string;
@@ -21,6 +18,7 @@ export function Step3PF() {
     cpf?: string;
     telefone?: string;
   }>({});
+
   const [touched, setTouched] = useState<{
     fullName?: boolean;
     gender?: boolean;
@@ -30,100 +28,116 @@ export function Step3PF() {
   }>({});
 
   useEffect(() => {
-    const newErrors: any = {};
-    const fullNameRegex = /^[A-Za-z]{2,}(?:\s[A-Za-z]{2,})+$/;
+    const newErrors: Record<string, string> = {};
 
-    if (formData.fullName.trim() === '') {
+    const fullName = formData.fullName.trim();
+    if (!fullName) {
       newErrors.fullName = 'Nome completo é obrigatório.';
-    } else if (!fullNameRegex.test(formData.fullName.trim())) {
-      newErrors.fullName = 'Digite o nome completo com pelo menos dois nomes';
+    } else {
+      const fullNameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}(?:\s[A-Za-zÀ-ÖØ-öø-ÿ]{2,})+$/;
+      if (!fullNameRegex.test(fullName)) {
+        newErrors.fullName = 'Digite o nome completo';
+      }
     }
-    if (formData.gender.trim() === '') newErrors.gender = 'Sexo é obrigatório.';
-    if (formData.birthDate.trim() === '') newErrors.birthDate = 'Data de nascimento é obrigatória.';
-    if (formData.cpf.trim() === '' || !isValidCPF(formData.cpf)) {
+
+    if (!formData.gender.trim()) {
+      newErrors.gender = 'Sexo é obrigatório.';
+    }
+
+    if (!formData.birthDate.trim()) {
+      newErrors.birthDate = 'Data de nascimento é obrigatória.';
+    }
+
+    if (!formData.cpf.trim()) {
+      newErrors.cpf = 'CPF é obrigatório.';
+    } else if (!isValidCPF(formData.cpf)) {
       newErrors.cpf = 'CPF inválido.';
     }
-    if (formData.telefone.trim() === '' || !/^(\(\d{2}\) \d{4}-\d{4}|\(\d{2}\) \d{5}-\d{4})$/.test(formData.telefone)) {
-      newErrors.telefone = 'Telefone inválido.';
+
+    if (!formData.telefone.trim()) {
+      newErrors.telefone = 'Telefone é obrigatório.';
+    } else {
+      const phoneRegex = /^(\(\d{2}\) \d{4,5}-\d{4})$/;
+      if (!phoneRegex.test(formData.telefone)) {
+        newErrors.telefone = 'Telefone inválido.';
+      }
     }
 
     setErrors(newErrors);
     setValidation(3, Object.keys(newErrors).length === 0);
   }, [formData]);
 
-  const handleFullNameChange = (text: string) => {
-    const filteredText = text.replace(/[^A-Za-z\s]/g, '');
-    setFormData({ fullName: filteredText });
-  };
-
   return (
     <S.Container>
-      <MaskedInput
-        label="Nome Completo*"
+      <CustomTextInput
+        label='Nome Completo*'
         value={formData.fullName}
-        onChangeText={handleFullNameChange}
-        onFocus={() => setTouched(prev => ({ ...prev, fullName: true }))}
-        error={touched.fullName && errors.fullName ? errors.fullName : undefined}
-        touched={touched.fullName}
-        placeholder="Digite seu nome completo"
-        autoCapitalize="words"
+        placeholder='Digite seu nome completo'
+        autoCapitalize='words'
+        onChangeText={(text) =>
+          setFormData({ fullName: text.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, '') })
+        }
+        onFocus={() => setTouched((prev) => ({ ...prev, fullName: true }))}
+        hasError={touched.fullName && !!errors.fullName}
+        errorMessage={touched.fullName ? errors.fullName : undefined}
       />
 
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          gap: 8
+          gap: 8,
         }}
       >
-        <View style={{ flex: 0.6 }}>
+        <View style={{ flex: 0.55 }}>
           <Select
-            label="Sexo*"
+            label='Sexo*'
             value={formData.gender}
-            onValueChange={value => {
-              setFormData({ gender: value });
-              setTouched(prev => ({ ...prev, gender: true }));
-            }}
-            items={[
+            onValueChange={(value) => setFormData({ gender: value })}
+            placeholder='Selecione o sexo'
+            options={[
               { label: 'Masculino', value: 'M' },
               { label: 'Feminino', value: 'F' },
               { label: 'Outro', value: 'O' },
-              { label: 'Prefiro não informar', value: 'NA' }
+              { label: 'Prefiro não informar', value: 'NA' },
             ]}
-            placeholder={{ label: 'Selecione o sexo', value: '' }}
-            error={touched.gender && errors.gender ? errors.gender : undefined}
+            error={touched.gender ? errors.gender : undefined}
             touched={touched.gender}
           />
         </View>
-        <View style={{ flex: 0.4 }}>
+        <View style={{ flex: 0.45 }}>
           <DatePicker
-            label="Data de Nascimento*"
+            label='Nascimento*'
             value={formData.birthDate}
-            onChange={date => setFormData({ birthDate: date })}
-            onPress={() => setTouched(prev => ({ ...prev, birthDate: true }))}
-            error={touched.birthDate && errors.birthDate ? errors.birthDate : undefined}
+            error={touched.birthDate ? errors.birthDate : undefined}
             touched={touched.birthDate}
+            placeholder='DD/MM/AAAA'
+            minimumAge={18}
+            onChange={(date) => setFormData({ birthDate: date })}
           />
         </View>
       </View>
-      <MaskedInput
-        label="CPF*"
+
+      <CustomTextInput
+        label='CPF*'
         value={formData.cpf}
-        maskType={Masks.BRL_CPF}
-        onChangeText={text => setFormData({ cpf: text })}
-        onFocus={() => setTouched(prev => ({ ...prev, cpf: true }))}
-        error={touched.cpf && errors.cpf ? errors.cpf : undefined}
-        touched={touched.cpf}
+        placeholder='000.000.000-00'
+        keyboardType='numeric'
+        onChangeText={(text) => setFormData({ cpf: formatCPF(text) })}
+        onFocus={() => setTouched((prev) => ({ ...prev, cpf: true }))}
+        hasError={touched.cpf && !!errors.cpf}
+        errorMessage={touched.cpf ? errors.cpf : undefined}
       />
 
-      <MaskedInput
-        label="Telefone*"
+      <CustomTextInput
+        label='Celular*'
         value={formData.telefone}
-        maskType={getPhoneMask}
-        onChangeText={text => setFormData({ telefone: text })}
-        onFocus={() => setTouched(prev => ({ ...prev, telefone: true }))}
-        error={touched.telefone && errors.telefone ? errors.telefone : undefined}
-        touched={touched.telefone}
+        placeholder='(00) 00000-0000'
+        keyboardType='phone-pad'
+        onChangeText={(text) => setFormData({ telefone: formatPhone(text) })}
+        onFocus={() => setTouched((prev) => ({ ...prev, telefone: true }))}
+        hasError={touched.telefone && !!errors.telefone}
+        errorMessage={touched.telefone ? errors.telefone : undefined}
       />
     </S.Container>
   );

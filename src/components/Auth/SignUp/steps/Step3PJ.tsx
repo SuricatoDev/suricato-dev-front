@@ -1,27 +1,23 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, ActivityIndicator, Alert } from 'react-native';
 import { useTheme } from 'styled-components/native';
-import { Masks } from 'react-native-mask-input';
-import { MaskedInput } from '@components/MaskInput';
-import { Input } from '@components/Input';
-import { fetchCNPJInfo, CNPJData } from '@services/fetchCnpjInfo';
-
-import { useFormContext } from '@contexts/SignUpContext';
+import { fetchCNPJInfo, CNPJData } from '@/services/fetchCnpjInfo';
+import { CustomTextInput } from '@/components/CustomTextInput';
+import { useFormContext } from '@/contexts/SignUpContext';
 import * as S from './styles';
-import { getPhoneMask } from '@utils/phoneNumberMask';
+import { formatCNPJ, formatPhone } from '@/utils/formatValues';
 
 export function Step3PJ() {
   const { formData, setFormData, setValidation } = useFormContext();
   const theme = useTheme();
-  const [loading, setLoading] = useState(false);
 
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{
     cnpj?: string;
     razaoSocial?: string;
     nomeFantasia?: string;
     telefone?: string;
   }>({});
-
   const [touched, setTouched] = useState<{
     cnpj?: boolean;
     razaoSocial?: boolean;
@@ -29,21 +25,21 @@ export function Step3PJ() {
     telefone?: boolean;
   }>({});
 
+  const previousCnpj = useRef('');
+
   useEffect(() => {
     const newErrors: any = {};
 
-    if (formData.cnpj.trim() === '' || formData.cnpj.replace(/\D/g, '').length !== 14) {
+    const rawCNPJ = formData.cnpj.replace(/\D/g, '');
+    if (!formData.cnpj.trim() || rawCNPJ.length !== 14) {
       newErrors.cnpj = 'CNPJ inválido';
     }
 
-    if (formData.razaoSocial.trim() === '') {
+    if (!formData.razaoSocial.trim()) {
       newErrors.razaoSocial = 'Razão social é obrigatória.';
     }
 
-    if (
-      formData.telefone.trim() === '' ||
-      !/^(\(\d{2}\) \d{4}-\d{4}|\(\d{2}\) \d{5}-\d{4})$/.test(formData.telefone)
-    ) {
+    if (!formData.telefone.trim() || !/^(\(\d{2}\) \d{4,5}-\d{4})$/.test(formData.telefone)) {
       newErrors.telefone = 'Telefone inválido.';
     }
 
@@ -52,30 +48,26 @@ export function Step3PJ() {
   }, [formData]);
 
   const handleCNPJChange = async (text: string) => {
-    setFormData({ cnpj: text });
-
-    const formattedCNPJ = text.replace(/\D/g, '');
-    if (formattedCNPJ.length === 14) {
+    const formattedCNPJ = formatCNPJ(text);
+    setFormData({ cnpj: formattedCNPJ });
+    const rawCNPJ = formattedCNPJ.replace(/\D/g, '');
+    if (rawCNPJ.length === 14 && rawCNPJ !== previousCnpj.current) {
       setLoading(true);
-
+      previousCnpj.current = rawCNPJ;
       try {
-        const cnpjData: CNPJData = await fetchCNPJInfo(formattedCNPJ);
-        const telefone = cnpjData.telefone
-          ? cnpjData.telefone.match(/\(\d{2}\) \d{4,5}-\d{4}/)?.[0] || ''
-          : '';
-
+        const cnpjData: CNPJData = await fetchCNPJInfo(rawCNPJ);
         setFormData({
           razaoSocial: cnpjData.razaoSocial,
           nomeFantasia: cnpjData.nomeFantasia,
-          telefone: telefone,
+          telefone: cnpjData.telefone?.match(/\(\d{2}\) \d{4,5}-\d{4}/)?.[0] || '',
           logradouro: cnpjData.logradouro,
           numero: cnpjData.numero,
           bairro: cnpjData.bairro,
           cidade: cnpjData.cidade,
           uf: cnpjData.uf,
           cep: cnpjData.cep,
+          cnpj: formattedCNPJ,
         });
-
         setTouched({
           cnpj: true,
           razaoSocial: true,
@@ -93,63 +85,59 @@ export function Step3PJ() {
   return (
     <S.Container>
       <View style={{ position: 'relative' }}>
-        <MaskedInput
+        <CustomTextInput
           label='CNPJ*'
           value={formData.cnpj}
-          maskType={Masks.BRL_CNPJ}
+          placeholder='00.000.000/0000-00'
+          keyboardType='numeric'
           onChangeText={handleCNPJChange}
           onFocus={() => setTouched((prev) => ({ ...prev, cnpj: true }))}
-          error={touched.cnpj && errors.cnpj ? errors.cnpj : undefined}
-          touched={touched.cnpj}
-          placeholder='00.000.000/0000-00'
+          hasError={touched.cnpj && !!errors.cnpj}
+          errorMessage={touched.cnpj ? errors.cnpj : undefined}
           editable={!loading}
           style={{ paddingRight: 35 }}
         />
         {loading && (
           <ActivityIndicator
             size='small'
-            color={theme.COLORS.base_dark100}
-            style={{
-              position: 'absolute',
-              right: 12,
-              top: 52,
-            }}
+            color={theme.COLORS.text_soft}
+            style={{ position: 'absolute', right: 12, top: 20 }}
           />
         )}
       </View>
 
-      <Input
+      <CustomTextInput
         label='Razão Social*'
         value={formData.razaoSocial}
+        placeholder='Digite a Razão Social'
+        keyboardType='default'
         onChangeText={(text) => setFormData({ razaoSocial: text })}
         onFocus={() => setTouched((prev) => ({ ...prev, razaoSocial: true }))}
-        error={touched.razaoSocial && errors.razaoSocial ? errors.razaoSocial : undefined}
-        touched={touched.razaoSocial}
-        placeholder='Digite a Razão Social'
+        hasError={touched.razaoSocial && !!errors.razaoSocial}
+        errorMessage={touched.razaoSocial ? errors.razaoSocial : undefined}
         autoCapitalize='words'
         editable={!loading}
       />
 
-      <Input
+      <CustomTextInput
         label='Nome Fantasia'
         value={formData.nomeFantasia}
+        placeholder='Digite o Nome Fantasia'
+        keyboardType='default'
         onChangeText={(text) => setFormData({ nomeFantasia: text })}
         onFocus={() => setTouched((prev) => ({ ...prev, nomeFantasia: true }))}
-        touched={touched.nomeFantasia}
-        placeholder='Digite o Nome Fantasia'
-        autoCapitalize='words'
         editable={!loading}
       />
 
-      <MaskedInput
+      <CustomTextInput
         label='Telefone*'
         value={formData.telefone}
-        maskType={getPhoneMask}
-        onChangeText={(text) => setFormData({ telefone: text })}
+        placeholder='(00) 00000-0000'
+        keyboardType='phone-pad'
+        onChangeText={(text) => setFormData({ telefone: formatPhone(text) })}
         onFocus={() => setTouched((prev) => ({ ...prev, telefone: true }))}
-        error={touched.telefone && errors.telefone ? errors.telefone : undefined}
-        touched={touched.telefone}
-        placeholder='(00) 0000-0000'
+        hasError={touched.telefone && !!errors.telefone}
+        errorMessage={touched.telefone ? errors.telefone : undefined}
         editable={!loading}
       />
     </S.Container>

@@ -9,7 +9,6 @@ export default function WelcomeScreen() {
   const router = useRouter();
 
   const handleLogin = () => {
-    console.log('clicou');
     router.push('/auth');
   };
 

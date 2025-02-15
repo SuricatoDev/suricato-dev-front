@@ -1,23 +1,20 @@
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { View, ActivityIndicator, Alert } from 'react-native';
-import { useEffect, useState, useRef } from 'react';
 import { useTheme } from 'styled-components/native';
-import { Masks } from 'react-native-mask-input';
 
-import { fetchAddressByCep } from '@services/fetchCepInfo';
-
-import { Input } from '@components/Input';
-import { MaskedInput } from '@components/MaskInput';
-
-import { useFormContext } from '@contexts/SignUpContext';
+import { fetchAddressByCep } from '@/services/fetchCepInfo';
+import { CustomTextInput } from '@/components/CustomTextInput';
+import { useFormContext } from '@/contexts/SignUpContext';
 
 import * as S from './styles';
+import { formatCEP } from '@/utils/formatValues';
 
-export function Step4PF() {
+export function Step4() {
   const { formData, setFormData, setValidation } = useFormContext();
   const theme = useTheme();
+
   const [loading, setLoading] = useState(false);
   const previousCep = useRef('');
-
   const [errors, setErrors] = useState<Partial<typeof formData>>({});
   const [touched, setTouched] = useState<Partial<Record<keyof typeof formData, boolean>>>({});
 
@@ -28,21 +25,31 @@ export function Step4PF() {
   const cidadeRef = useRef<any>(null);
   const ufRef = useRef<any>(null);
 
-  const validateFields = () => {
+  const validateFields = useCallback(() => {
     const newErrors: Partial<typeof formData> = {};
 
-    if (formData.cep.trim() === '' || formData.cep.length < 8) {
+    if (!formData.cep.trim() || formData.cep.replace(/\D/g, '').length < 8) {
       newErrors.cep = 'CEP inválido';
     }
-    if (formData.bairro.trim() === '') newErrors.bairro = 'Bairro é obrigatório';
-    if (formData.logradouro.trim() === '') newErrors.logradouro = 'Logradouro é obrigatório';
-    if (formData.cidade.trim() === '') newErrors.cidade = 'Cidade é obrigatória';
-    if (formData.uf.trim() === '' || formData.uf.length !== 2) newErrors.uf = 'UF inválida';
-    if (formData.numero.trim() === '') newErrors.numero = 'Número é obrigatório';
+    if (!formData.logradouro.trim()) {
+      newErrors.logradouro = 'Logradouro é obrigatório';
+    }
+    if (!formData.bairro.trim()) {
+      newErrors.bairro = 'Bairro é obrigatório';
+    }
+    if (!formData.cidade.trim()) {
+      newErrors.cidade = 'Cidade é obrigatória';
+    }
+    if (!formData.uf.trim() || formData.uf.length !== 2) {
+      newErrors.uf = 'UF inválida';
+    }
+    if (!formData.numero.trim()) {
+      newErrors.numero = 'Número é obrigatório';
+    }
 
     setErrors(newErrors);
     setValidation(4, Object.keys(newErrors).length === 0);
-  };
+  }, [formData]);
 
   useEffect(() => {
     validateFields();
@@ -50,11 +57,9 @@ export function Step4PF() {
 
   useEffect(() => {
     const rawCep = formData.cep.replace(/\D/g, '');
-
     if (rawCep.length === 8 && rawCep !== previousCep.current) {
       setLoading(true);
       previousCep.current = rawCep;
-
       fetchAddressByCep(rawCep)
         .then((data) => {
           setFormData({
@@ -63,11 +68,10 @@ export function Step4PF() {
             cidade: data.localidade || '',
             uf: data.uf || '',
           });
-
           setTouched((prev) => ({
             ...prev,
-            bairro: true,
             logradouro: true,
+            bairro: true,
             cidade: true,
             uf: true,
           }));
@@ -85,136 +89,120 @@ export function Step4PF() {
   return (
     <S.Container>
       <View style={{ position: 'relative' }}>
-        <MaskedInput
+        <CustomTextInput
           label='CEP*'
           value={formData.cep}
-          onChangeText={(text) => setFormData({ cep: text })}
-          placeholder='Digite seu CEP'
-          maskType={Masks.ZIP_CODE}
+          placeholder='00000-000'
           keyboardType='numeric'
+          onChangeText={(text) => setFormData({ cep: formatCEP(text) })}
+          onFocus={() => setTouched((prev) => ({ ...prev, cep: true }))}
+          hasError={touched.cep && !!errors.cep}
+          errorMessage={touched.cep ? errors.cep : undefined}
           editable={!loading}
-          style={{ paddingRight: 35 }}
-          blurOnSubmit={false}
           returnKeyType='next'
           onSubmitEditing={() => logradouroRef.current?.focus()}
-          error={touched.cep && errors.cep ? errors.cep : undefined}
-          touched={touched.cep}
-          onFocus={() => setTouched((prev) => ({ ...prev, cep: true }))}
+          style={{ paddingRight: 35 }}
         />
         {loading && (
           <ActivityIndicator
             size='small'
-            color={theme.COLORS.base_dark100}
-            style={{
-              position: 'absolute',
-              right: 12,
-              top: 52,
-            }}
+            color={theme.COLORS.text_soft}
+            style={{ position: 'absolute', right: 12, top: 20 }}
           />
         )}
       </View>
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 8 }}>
         <View style={{ flex: 0.7 }}>
-          <Input
+          <CustomTextInput
             label='Logradouro*'
             value={formData.logradouro}
-            placeholder='Digite seu Logradouro'
+            placeholder='Digite seu logradouro'
             onChangeText={(text) => setFormData({ logradouro: text })}
             keyboardType='default'
-            editable={!loading}
-            inputRef={logradouroRef}
-            blurOnSubmit={false}
-            returnKeyType='next'
-            autoCapitalize='words'
-            onSubmitEditing={() => numeroRef.current?.focus()}
-            error={touched.logradouro && errors.logradouro ? errors.logradouro : undefined}
-            touched={touched.logradouro}
             onFocus={() => setTouched((prev) => ({ ...prev, logradouro: true }))}
+            hasError={touched.logradouro && !!errors.logradouro}
+            errorMessage={touched.logradouro ? errors.logradouro : undefined}
+            autoCapitalize='words'
+            returnKeyType='next'
+            onSubmitEditing={() => numeroRef.current?.focus()}
+            inputRef={logradouroRef}
           />
         </View>
         <View style={{ flex: 0.3 }}>
-          <Input
+          <CustomTextInput
             label='Número*'
             value={formData.numero}
             placeholder='1234'
             onChangeText={(text) => setFormData({ numero: text })}
-            editable={!loading}
-            inputRef={numeroRef}
-            blurOnSubmit={false}
+            keyboardType='default'
+            onFocus={() => setTouched((prev) => ({ ...prev, numero: true }))}
+            hasError={touched.numero && !!errors.numero}
             returnKeyType='next'
             onSubmitEditing={() => bairroRef.current?.focus()}
-            error={touched.numero && errors.numero ? errors.numero : undefined}
-            touched={touched.numero}
-            onFocus={() => setTouched((prev) => ({ ...prev, numero: true }))}
+            inputRef={numeroRef}
           />
         </View>
       </View>
 
-      <Input
+      <CustomTextInput
         label='Bairro*'
         value={formData.bairro}
-        placeholder='Digite seu Bairro'
+        placeholder='Digite seu bairro'
         onChangeText={(text) => setFormData({ bairro: text })}
         keyboardType='default'
-        editable={!loading}
-        inputRef={bairroRef}
-        blurOnSubmit={false}
-        returnKeyType='next'
-        autoCapitalize='words'
-        onSubmitEditing={() => complementoRef.current?.focus()}
-        error={touched.bairro && errors.bairro ? errors.bairro : undefined}
-        touched={touched.bairro}
         onFocus={() => setTouched((prev) => ({ ...prev, bairro: true }))}
+        hasError={touched.bairro && !!errors.bairro}
+        errorMessage={touched.bairro ? errors.bairro : undefined}
+        autoCapitalize='words'
+        returnKeyType='next'
+        onSubmitEditing={() => complementoRef.current?.focus()}
+        inputRef={bairroRef}
       />
 
-      <Input
+      <CustomTextInput
         label='Complemento (opcional)'
         value={formData.complemento}
         placeholder='Casa, Apto, Bloco, etc.'
         onChangeText={(text) => setFormData({ complemento: text })}
         keyboardType='default'
-        inputRef={complementoRef}
-        blurOnSubmit={false}
         returnKeyType='next'
         onSubmitEditing={() => cidadeRef.current?.focus()}
+        inputRef={complementoRef}
       />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 8 }}>
         <View style={{ flex: 0.8 }}>
-          <Input
+          <CustomTextInput
             label='Cidade*'
-            placeholder='Digite sua Cidade'
             value={formData.cidade}
+            placeholder='Digite sua cidade'
             onChangeText={(text) => setFormData({ cidade: text })}
             keyboardType='default'
-            editable={!loading}
-            inputRef={cidadeRef}
-            blurOnSubmit={false}
-            returnKeyType='next'
-            autoCapitalize='words'
-            onSubmitEditing={() => ufRef.current?.focus()}
-            error={touched.cidade && errors.cidade ? errors.cidade : undefined}
-            touched={touched.cidade}
             onFocus={() => setTouched((prev) => ({ ...prev, cidade: true }))}
+            hasError={touched.cidade && !!errors.cidade}
+            errorMessage={touched.cidade ? errors.cidade : undefined}
+            autoCapitalize='words'
+            returnKeyType='next'
+            onSubmitEditing={() => ufRef.current?.focus()}
+            inputRef={cidadeRef}
           />
         </View>
         <View style={{ flex: 0.2 }}>
-          <Input
-            style={{ textAlign: 'center', textTransform: 'uppercase' }}
+          <CustomTextInput
             label='UF*'
-            placeholder='XX'
             value={formData.uf}
-            maxLength={2}
+            placeholder='XX'
             onChangeText={(text) => setFormData({ uf: text })}
             keyboardType='default'
             autoCapitalize='characters'
-            editable={!loading}
-            inputRef={ufRef}
-            returnKeyType='done'
-            error={touched.uf && errors.uf ? errors.uf : undefined}
-            touched={touched.uf}
+            maxLength={2}
             onFocus={() => setTouched((prev) => ({ ...prev, uf: true }))}
+            hasError={touched.uf && !!errors.uf}
+            errorMessage={touched.uf ? errors.uf : undefined}
+            returnKeyType='done'
+            inputRef={ufRef}
+            style={{ textAlign: 'center', textTransform: 'uppercase' }}
           />
         </View>
       </View>

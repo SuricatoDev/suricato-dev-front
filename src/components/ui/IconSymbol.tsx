@@ -20,6 +20,7 @@ const MAPPING = {
   airplane: 'airplanemode-on',
   briefcase: 'card-travel',
   'building.2': 'apartment',
+  calendar: 'calendar-month',
 } as Partial<
   Record<
     import('expo-symbols').SymbolViewProps['name'],

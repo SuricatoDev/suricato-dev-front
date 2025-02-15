@@ -9,7 +9,7 @@ import { Header } from '@/components/Header';
 import { SocialButtonsContainer } from '@/components/Auth/SocialButtonContainer';
 import { FormProvider } from '@/contexts/SignUpContext';
 import { Divider } from '@/components/Divider';
-import { SignupForm } from '@/components/Auth/SignUp';
+import SignupForm from '@/components/Auth/SignUp';
 import { useTheme } from 'styled-components/native';
 
 export default function AuthScreen() {

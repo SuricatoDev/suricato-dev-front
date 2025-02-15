@@ -1,51 +1,73 @@
-import RNPickerSelect, { PickerSelectProps } from 'react-native-picker-select';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { TextInput, Menu, HelperText } from 'react-native-paper';
 import { useTheme } from 'styled-components/native';
-import { CaretDown } from 'phosphor-react-native';
-import * as S from './styles';
-import { Label } from '@components/Label';
-import { ErrorText } from '@components/ErrorText';
+import { CustomTextInput } from '../CustomTextInput';
 
-interface SelectProps extends PickerSelectProps {
+interface Option {
   label: string;
+  value: string;
+}
+
+interface SelectProps {
+  label: string;
+  value: string;
+  onValueChange: (value: string) => void;
   error?: string;
   touched?: boolean;
+  placeholder?: string;
+  options: Option[];
 }
 
 export function Select({
   label,
   value,
   onValueChange,
-  items,
   error,
   touched = false,
-  placeholder,
-  ...rest
+  placeholder = 'Selecione',
+  options,
 }: SelectProps) {
-  const theme = useTheme();
-  const isValid = touched && !error;
-  const hasError = !!error;
+  const [visible, setVisible] = useState(false);
+
+  const selectedLabel = options.find((opt) => opt.value === value)?.label || '';
 
   return (
-    <S.Container>
-      <Label>{label}</Label>
-      <S.StyledPickerContainer>
-        <RNPickerSelect
-          value={value}
-          onValueChange={onValueChange}
-          items={items}
-          placeholder={placeholder}
-          Icon={() => (
-            <CaretDown
-              size={20}
-              color={isValid ? theme.COLORS.base_dark100 : theme.COLORS.base_dark32}
-            />
-          )}
-          style={S.pickerStyle(theme, hasError, isValid)}
-          useNativeAndroidPickerStyle={false}
-          {...rest}
-        />
-      </S.StyledPickerContainer>
-      {error && <ErrorText>{error}</ErrorText>}
-    </S.Container>
+    <View>
+      <Menu
+        style={{ marginTop: 78 }}
+        visible={visible}
+        onDismiss={() => setVisible(false)}
+        anchor={
+          <CustomTextInput
+            mode='outlined'
+            label={label}
+            value={selectedLabel}
+            placeholder={placeholder}
+            onChangeText={() => {}}
+            onFocus={() => setVisible(true)}
+            right={<TextInput.Icon icon='menu-down' onPress={() => setVisible(true)} />}
+            error={touched && !!error}
+            showSoftInputOnFocus={false}
+          />
+        }
+      >
+        {options.map((option) => (
+          <Menu.Item
+            key={option.value}
+            onPress={() => {
+              onValueChange(option.value);
+              setVisible(false);
+            }}
+            title={option.label}
+          />
+        ))}
+      </Menu>
+      {touched && error ? (
+        <HelperText type='error' visible>
+          {error}
+        </HelperText>
+      ) : null}
+    </View>
   );
 }

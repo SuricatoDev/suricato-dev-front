@@ -18,7 +18,7 @@ interface CustomTextInputProps extends TextInputProps {
   errorMessage?: string;
   hasError?: boolean;
   secureTextEntry?: boolean;
-  keyboardType?: KeyboardTypeOptions | undefined;
+  keyboardType?: KeyboardTypeOptions;
   style?: object;
   inputRef?: React.Ref<TextInputHandles>;
 }
@@ -56,12 +56,16 @@ export function CustomTextInput({
         keyboardType={keyboardType}
         error={hasError}
         activeOutlineColor={theme.COLORS.text_soft}
+        placeholderTextColor={theme.COLORS.text_ultra_soft}
         outlineColor={theme.COLORS.text_soft}
-        style={{
-          backgroundColor: theme.COLORS.background,
-          height: 46,
-          fontSize: 14,
-        }}
+        style={[
+          {
+            backgroundColor: theme.COLORS.background,
+            height: 46,
+            fontSize: 14,
+          },
+          style,
+        ]}
         {...rest}
       />
       {hasError && errorMessage && (

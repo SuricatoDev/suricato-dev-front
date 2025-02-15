@@ -4,7 +4,7 @@ import { View, BackHandler, Linking } from 'react-native';
 import { useFormContext } from '@/contexts/SignUpContext';
 import Button from '@/components/Button';
 
-import { Step1, Step2, Step3PF, Step3PJ, Step4PF, Step4PJ } from './steps';
+import { Step1, Step2, Step3PF, Step3PJ, Step4 } from './steps';
 
 import * as S from './styles';
 
@@ -13,7 +13,7 @@ interface SignupFormProps {
   setCurrentStep: (step: number) => void;
 }
 
-export function SignupForm({ currentStep, setCurrentStep }: SignupFormProps) {
+export default function SignupForm({ currentStep, setCurrentStep }: SignupFormProps) {
   const { formData, validation } = useFormContext();
 
   useEffect(() => {
@@ -43,8 +43,7 @@ export function SignupForm({ currentStep, setCurrentStep }: SignupFormProps) {
       {currentStep === 2 && <Step2 />}
       {currentStep === 3 && formData.userType === 'PF' && <Step3PF />}
       {currentStep === 3 && formData.userType === 'PJ' && <Step3PJ />}
-      {currentStep === 4 && formData.userType === 'PF' && <Step4PF />}
-      {currentStep === 4 && formData.userType === 'PJ' && <Step4PJ />}
+      {currentStep === 4 && <Step4 />}
 
       <S.ButtonContainer>
         {currentStep < 4 && (
