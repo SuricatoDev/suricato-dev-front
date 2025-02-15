@@ -44,8 +44,8 @@ export default function NavigationBar() {
       navigationState={{ index, routes }} // Não passamos o key diretamente aqui
       onIndexChange={setIndex}
       renderScene={renderScene}
-      activeColor={theme.COLORS.GRAY_400}
-      inactiveColor={theme.COLORS.GRAY_300}
+      activeColor={theme.COLORS.base_dark88}
+      inactiveColor={theme.COLORS.base_dark32}
       barStyle={{ backgroundColor: theme.COLORS.WHITE_100 }}
       theme={{
         colors: { secondaryContainer: theme.COLORS.ORANGE_100 },

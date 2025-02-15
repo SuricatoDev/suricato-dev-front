@@ -5,7 +5,6 @@ export const Container = styled.TouchableOpacity<{ size: 'lg' | 'md' }>`
   align-items: ${({ size }) => (size === 'lg' ? 'start' : 'center')};
   justify-content: space-between;
   gap: 8px;
-  background-color: ${({ theme }) => theme.COLORS.WHITE_200};
   padding: 8px;
   border-radius: 8px;
   width: 100%;
@@ -15,7 +14,7 @@ export const Container = styled.TouchableOpacity<{ size: 'lg' | 'md' }>`
 export const Title = styled.Text`
   font-size: 12px;
   font-family: ${({ theme }) => theme.FONT_FAMILY.SEMIBOLD};
-  color: ${({ theme }) => theme.COLORS.GRAY_700};
+  color: ${({ theme }) => theme.COLORS.text_standard};
 `;
 
 export const Image = styled.Image`

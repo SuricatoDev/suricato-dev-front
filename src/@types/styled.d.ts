@@ -1,8 +1,8 @@
-import styled from 'styled-components/native';
-import theme from '../theme';
+import 'styled-components/native';
+import { themes } from '@/theme';
 
 declare module 'styled-components/native' {
-  type ThemeType = typeof theme;
+  type ThemeType = typeof themes.light;
 
   export interface DefaultTheme extends ThemeType {}
 }

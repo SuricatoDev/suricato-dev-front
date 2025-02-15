@@ -15,11 +15,15 @@ export const pickerStyle = (theme: DefaultTheme, hasError: boolean, isValid: boo
     paddingHorizontal: 16,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: hasError ? theme.COLORS.RED_MID : isValid ? theme.COLORS.GREEN_MID : theme.COLORS.GRAY_100,
-    color: theme.COLORS.GRAY_600,
+    borderColor: hasError
+      ? theme.COLORS.RED_MID
+      : isValid
+        ? theme.COLORS.GREEN_MID
+        : theme.COLORS.base_dark8,
+    color: theme.COLORS.base_dark100,
     backgroundColor: theme.COLORS.WHITE,
     fontFamily: theme.FONT_FAMILY.MEDIUM,
-    paddingRight: 30
+    paddingRight: 30,
   },
   inputAndroid: {
     height: 46,
@@ -27,17 +31,21 @@ export const pickerStyle = (theme: DefaultTheme, hasError: boolean, isValid: boo
     paddingHorizontal: 16,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: hasError ? theme.COLORS.RED_MID : isValid ? theme.COLORS.GREEN_MID : theme.COLORS.GRAY_100,
-    color: theme.COLORS.GRAY_600,
+    borderColor: hasError
+      ? theme.COLORS.RED_MID
+      : isValid
+        ? theme.COLORS.GREEN_MID
+        : theme.COLORS.base_dark8,
+    color: theme.COLORS.base_dark100,
     backgroundColor: theme.COLORS.WHITE,
     fontFamily: theme.FONT_FAMILY.MEDIUM,
-    paddingRight: 30
+    paddingRight: 30,
   },
   placeholder: {
-    color: theme.COLORS.GRAY_200
+    color: theme.COLORS.base_dark16,
   },
   iconContainer: {
     top: 13,
-    right: 12
-  }
+    right: 12,
+  },
 });

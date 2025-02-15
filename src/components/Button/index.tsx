@@ -1,43 +1,21 @@
-import { PressableProps, Text } from 'react-native';
-import { useState } from 'react';
-import { CaretRight, PencilSimpleLine, Plus, Trash } from 'phosphor-react-native';
+import React from 'react';
+import { ButtonProps } from 'react-native-paper';
 import * as S from './styles';
+export interface CustomButtonProps extends ButtonProps {
+  variant?: 'primary' | 'secondary' | 'attention';
+  fullWidth?: boolean;
+  disabled?: boolean;
+}
 
-type ButtonProps = PressableProps & {
-  type?: S.ButtonTypeStyleProps;
-  icon?: React.ReactNode;
-  fullWidth?: S.ButtonFullWidthStyleProps;
-  children?: string;
-};
-
-export function Button({ type = 'PRIMARY', icon, fullWidth, children, ...rest }: ButtonProps) {
-  const [isPressed, setIsPressed] = useState(false);
-
-  const handlePressIn = () => setIsPressed(true);
-  const handlePressOut = () => setIsPressed(false);
-
-  const iconColor = type === 'PRIMARY' || isPressed ? 'white' : 'black';
-
-  const icons = {
-    PLUS: <Plus size={18} color={iconColor} />,
-    EDIT: <PencilSimpleLine size={18} color={iconColor} />,
-    DELETE: <Trash size={18} color={iconColor} />,
-    CARET_RIGHT: <CaretRight weight='bold' size={18} color={iconColor} />,
-  };
-
+export default function CustomButton({
+  variant = 'primary',
+  fullWidth = false,
+  disabled,
+  ...props
+}: CustomButtonProps) {
   return (
-    <S.Container
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      isPressed={isPressed}
-      type={type}
-      fullWidth={fullWidth}
-      {...rest}
-    >
-      <S.ButtonText type={type} isPressed={isPressed}>
-        {children}
-      </S.ButtonText>
-      <Text>{icon && icon}</Text>
-    </S.Container>
+    <S.StyledButton variant={variant} fullWidth={fullWidth} disabled={disabled} {...props}>
+      {props.children}
+    </S.StyledButton>
   );
 }

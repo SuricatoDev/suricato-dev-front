@@ -34,7 +34,12 @@ export function Select({
           onValueChange={onValueChange}
           items={items}
           placeholder={placeholder}
-          Icon={() => <CaretDown size={20} color={isValid ? theme.COLORS.GRAY_600 : theme.COLORS.GRAY_300} />}
+          Icon={() => (
+            <CaretDown
+              size={20}
+              color={isValid ? theme.COLORS.base_dark100 : theme.COLORS.base_dark32}
+            />
+          )}
           style={S.pickerStyle(theme, hasError, isValid)}
           useNativeAndroidPickerStyle={false}
           {...rest}

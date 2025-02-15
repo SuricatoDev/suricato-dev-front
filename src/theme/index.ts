@@ -1,30 +1,4 @@
-export default {
-  COLORS: {
-    GREEN_LIGHT: '#E5F0DB',
-    GREEN_MID: '#CBE4B4',
-    GREEN_DARK: '#639339',
-
-    RED_LIGHT: '#F4E6E7',
-    RED_MID: '#eb4034',
-    RED_DARK: '#BF3B44',
-
-    ORANGE_100: '#FFCAA9',
-    ORANGE_300: '#FFAC79',
-    ORANGE_500: '#FF914D',
-    ORANGE_700: '#F68C4B',
-
-    GRAY_100: '#E1E1E6',
-    GRAY_200: '#C4C4CC',
-    GRAY_300: '#7C7C8A',
-    GRAY_400: '#323238',
-    GRAY_500: '#29292E',
-    GRAY_600: '#202024',
-    GRAY_700: '#121214',
-
-    WHITE: '#FFFFFF',
-    WHITE_100: '#FCFCFC',
-    WHITE_200: '#F7F7F7',
-  },
+const baseTheme = {
   FONT_FAMILY: {
     REGULAR: 'Inter_400Regular',
     MEDIUM: 'Inter_500Medium',
@@ -37,4 +11,77 @@ export default {
     LG: 18,
     XL: 24,
   },
+  SPACING: {
+    SM: 8,
+    MD: 16,
+    LG: 24,
+    XL: 32,
+  },
+  BORDER_RADIUS: {
+    SMALL: 4,
+    MEDIUM: 8,
+    LARGE: 16,
+  },
 };
+
+const lightTheme = {
+  ...baseTheme,
+  COLORS: {
+    text_disabled: '#797979',
+    text_standard: '#1D1D1D',
+    text_medium: '#383838',
+    text_soft: '#6D6D6D',
+    text_light: '#EDEDED',
+    text_ultralight: '#FFFFFF',
+    text_neltrallight: '#FFFFFF',
+    background: '#FAFAFA',
+    surface_standard: '#E7E7E7',
+    tint: '#F68C4B',
+    icon: '#687076',
+    tabIconDefault: '#687076',
+    tabIconSelected: '#F68C4B',
+    primary: '#F68C4B',
+    white: '#FCFCFC',
+    danger: '#eb4034',
+    base_standard: '#1D1D1D',
+    base_dark100: '#1D1D1D',
+    base_dark88: '#383838',
+    base_dark56: '#808080',
+    base_dark32: '#B7B7B7',
+    base_dark16: '#DBDBDB',
+    base_dark8: '#EDEDED',
+    base_light: '#FCFCFC',
+  },
+};
+
+const darkTheme = {
+  ...baseTheme,
+  COLORS: {
+    text_disabled: '#8A8A8A',
+    text_standard: '#FAFAFA',
+    text_medium: '#B7B7B7',
+    text_light: '#2B2B2F',
+    text_soft: '#CDCDCD',
+    text_ultralight: '#FFFFFF',
+    text_neltrallight: '#FFFFFF',
+    background: '#151718',
+    surface_standard: '#292929',
+    tint: '#FCFCFC',
+    icon: '#9BA1A6',
+    tabIconDefault: '#9BA1A6',
+    tabIconSelected: '#FCFCFC',
+    primary: '#FFAC79',
+    white: '#FCFCFC',
+    danger: '#eb4034',
+    base_standard: '#1D1D1D',
+    base_dark100: '#FCFCFC',
+    base_dark88: '#EDEDED',
+    base_dark56: '#DBDBDB',
+    base_dark32: '#B7B7B7',
+    base_dark16: '#808080',
+    base_dark8: '#383838',
+    base_light: '#292929',
+  },
+};
+
+export const themes = { light: lightTheme, dark: darkTheme };

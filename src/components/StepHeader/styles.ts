@@ -27,7 +27,8 @@ export const StepCircle = styled.View<StepProps>`
   width: ${({ isActive }) => (isActive ? '42px' : '32px')};
   height: ${({ isActive }) => (isActive ? '42px' : '32px')};
   border-radius: ${({ isActive }) => (isActive ? '21px' : '16px')};
-  background-color: ${({ isActive, theme }) => (isActive ? theme.COLORS.ORANGE_700 : theme.COLORS.GRAY_200)};
+  background-color: ${({ isActive, theme }) =>
+    isActive ? theme.COLORS.primary : theme.COLORS.base_dark56};
   justify-content: center;
   align-items: center;
 `;
@@ -35,7 +36,7 @@ export const StepCircle = styled.View<StepProps>`
 export const StepText = styled.Text<StepProps>`
   position: absolute;
   top: ${({ isActive }) => (isActive ? '44px' : '39px')};
-  color: ${({ isActive, theme }) => (isActive ? theme.COLORS.ORANGE_700 : theme.COLORS.GRAY_200)};
+  color: ${({ isActive, theme }) => (isActive ? theme.COLORS.primary : theme.COLORS.base_dark56)};
   font-family: ${({ theme }) => theme.FONT_FAMILY.BOLD};
   font-size: 12px;
   white-space: nowrap;
@@ -46,5 +47,6 @@ export const StepText = styled.Text<StepProps>`
 export const Line = styled.View<StepProps>`
   height: 1px;
   flex: 1;
-  background-color: ${({ isActive, theme }) => (isActive ? theme.COLORS.ORANGE_700 : theme.COLORS.GRAY_200)};
+  background-color: ${({ isActive, theme }) =>
+    isActive ? theme.COLORS.primary : theme.COLORS.base_dark56};
 `;

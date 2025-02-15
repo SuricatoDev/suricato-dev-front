@@ -5,7 +5,7 @@ import { Calendar } from 'phosphor-react-native';
 import * as S from './styles';
 import { Label } from '@components/Label';
 import { ErrorText } from '@components/ErrorText';
-import { formatDate } from '@utils/validations';
+import { formatDate } from '@/utils/validations';
 
 interface DatePickerProps {
   label: string;
@@ -24,7 +24,7 @@ export function DatePicker({
   onPress,
   error,
   touched = false,
-  placeholder = 'DD/MM/AAAA'
+  placeholder = 'DD/MM/AAAA',
 }: DatePickerProps) {
   const theme = useTheme();
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -48,16 +48,16 @@ export function DatePicker({
         hasError={hasError}
         isValid={isValid}
       >
-        <Calendar size={20} color={theme.COLORS.GRAY_300} style={{ marginRight: 8 }} />
+        <Calendar size={20} color={theme.COLORS.base_dark32} style={{ marginRight: 8 }} />
         <S.DatePickerText isPlaceholder={!isDateSelected}>{formattedDate}</S.DatePickerText>
       </S.DatePickerButton>
       {touched && error && <ErrorText>{error}</ErrorText>}
 
       {showDatePicker && (
         <DateTimePicker
-          mode="date"
+          mode='date'
           value={date}
-          display="default"
+          display='default'
           onChange={(event: DateTimePickerEvent, selectedDate?: Date) => {
             setShowDatePicker(false);
 

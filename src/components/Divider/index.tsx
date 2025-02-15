@@ -1,10 +1,15 @@
 import * as S from './styles';
 
-export function Divider() {
+export interface DividerProps {
+  text?: string;
+  marginVertical?: number;
+}
+
+export function Divider({ text, marginVertical }: DividerProps) {
   return (
-    <S.Container>
+    <S.Container marginVertical={marginVertical}>
       <S.LineOne />
-      <S.TextDivider>ou</S.TextDivider>
+      {text && <S.TextDivider>{text}</S.TextDivider>}
       <S.LineTwo />
     </S.Container>
   );

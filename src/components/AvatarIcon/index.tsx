@@ -1,6 +1,6 @@
 import { Avatar } from 'react-native-paper';
 import * as S from './styles';
-import { getInitials } from '@utils/getInitials';
+import { getInitials } from '@/utils/getInitials';
 
 interface SelectProps {
   name: string;

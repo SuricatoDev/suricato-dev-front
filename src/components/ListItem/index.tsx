@@ -1,8 +1,8 @@
 import { useTheme } from 'styled-components/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import * as S from './styles';
 import { View } from 'react-native';
+import { IconSymbol } from '../ui/IconSymbol';
 
 interface SelectProps {
   title: string;
@@ -23,7 +23,11 @@ export function ListItem({ title, subtitle, icon, onPress }: SelectProps) {
           {subtitle && <S.Subtitle>{subtitle}</S.Subtitle>}
         </View>
       </S.Content>
-      <Icon name="chevron-right" size={24} color={theme.COLORS.GRAY_300} />
+      <IconSymbol
+        name="chevron.right"
+        size={24}
+        color={theme.COLORS.text_standard}
+      />
     </S.Container>
   );
 }

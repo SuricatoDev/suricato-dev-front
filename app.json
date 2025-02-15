@@ -1,32 +1,44 @@
 {
   "expo": {
-    "name": "excursionistas",
-    "slug": "excursionistas",
+    "name": "StickerSmash",
+    "slug": "StickerSmash",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
-    "icon": "./src/assets/logo.png",
+    "icon": "./assets/images/logo.png",
     "splash": {
-      "image": "./src/assets/background.png",
+      "image": "./assets/images/background.png",
       "resizeMode": "cover",
       "backgroundColor": "#FFFFFF"
     },
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/logo.png",
-        "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.gelicrash.excursionistas"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "0f372f4d-74d0-4233-9b72-3ced2b17a1cd"
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#ffffff"
       }
     },
-    "plugins": ["expo-font"],
-    "newArchEnabled": false
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/logo.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-font"
+    ]
   }
 }

@@ -1,11 +1,8 @@
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+import { InfoTextWithButtonProps } from '.';
 
-type ContainerProps = {
-  disabled?: boolean;
-};
-
-export const Container = styled(TouchableOpacity)<ContainerProps>`
+export const Container = styled(TouchableOpacity)<Pick<InfoTextWithButtonProps, 'disabled'>>`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -15,11 +12,12 @@ export const Container = styled(TouchableOpacity)<ContainerProps>`
 export const Title = styled.Text`
   font-size: 13px;
   font-family: ${({ theme }) => theme.FONT_FAMILY.MEDIUM};
-  color: ${({ theme }) => theme.COLORS.GRAY_400};
+  color: ${({ theme }) => theme.COLORS.text_standard};
 `;
 
-export const Subtitle = styled.Text<ContainerProps>`
+export const Subtitle = styled.Text<Pick<InfoTextWithButtonProps, 'disabled'>>`
   font-size: 13px;
   font-family: ${({ theme }) => theme.FONT_FAMILY.MEDIUM};
-  color: ${({ theme, disabled }) => (disabled ? theme.COLORS.GRAY_200 : theme.COLORS.GRAY_600)};
+  color: ${({ theme, disabled }) =>
+    disabled ? theme.COLORS.text_disabled : theme.COLORS.text_standard};
 `;

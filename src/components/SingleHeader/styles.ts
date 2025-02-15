@@ -11,7 +11,7 @@ export const Title = styled.Text`
   text-transform: uppercase;
   font-size: 14px;
   font-family: ${({ theme }) => theme.FONT_FAMILY.MEDIUM};
-  color: ${({ theme }) => theme.COLORS.GRAY_400};
+  color: ${({ theme }) => theme.COLORS.text_standard};
 `;
 
 export const IconContainer = styled.View`

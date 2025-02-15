@@ -1,43 +1,50 @@
-# Projeto Excursionistas - Sistema de Gerenciamento de Caravanas
+# Welcome to your Expo app 👋
 
-## Visão Geral
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-O projeto Excurcionistas, desenvolvido pelo grupo SuricatoDev, é um sistema de gerenciamento de caravanas que visa facilitar a organização e a gestão de viagens em grupo. O sistema foi concebido para oferecer uma plataforma centralizada para planejar, reservar e monitorar excursões de forma eficiente e intuitiva.
+## Get started
 
-## Funcionalidades Principais
+1. Install dependencies
 
-O Excurcionistas oferece uma variedade de funcionalidades para usuários e administradores, incluindo:
+   ```bash
+   npm install
+   ```
 
-- **Gerenciamento de Itinerários:** Permitindo aos usuários criar e personalizar itinerários detalhados para suas caravanas.
-- **Reservas de Transporte em caravanas:** Facilitando a reserva de vagas relacionados à viagem.
-- **Comunicação em Grupo:** Oferecendo ferramentas de comunicação integradas para manter todos os participantes informados e conectados durante a viagem.
-- **Rastreamento em Tempo Real:** Permitindo que os administradores monitorem o progresso da caravana e forneçam suporte quando necessário.
-- **Gestão Financeira:** Possibilitando o controle de orçamentos, pagamentos e despesas relacionadas à viagem.
+2. Start the app
 
-## Tecnologias Utilizadas
+   ```bash
+    npx expo start
+   ```
 
-O Excurcionistas é desenvolvido utilizando as seguintes tecnologias:
+In the output, you'll find options to open the app in a
 
-- **Banco de Dados:** MySQL
-- **Frontend:** React Native
-- **Backend / API:** PHP / Laravel
-- **Ferramentas de Versionamento:** Git, GitHub
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-## Equipe SuricatoDev
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-O SuricatoDev é composto por uma equipe multidisciplinar de programadores comprometidos em oferecer soluções inovadoras e de alta qualidade. Cada membro da equipe contribui com suas habilidades únicas para o desenvolvimento e aprimoramento contínuo do Excurcionistas.
+## Get a fresh project
 
-## Responsáveis Backend
+When you're ready, run:
 
-- **Fernanda Szabadi** -
-- **Filipe da Silva Lamego** -
-- **Kaike Fonseca Gregório de Miranda** -
+```bash
+npm run reset-project
+```
 
-## Responsáveis Frontend
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-- **Alexandre Arantes Teles da Silva** -
-- **Paulo Geliandes da Silva** -
+## Learn more
 
-## Contato
+To learn more about developing your project with Expo, look at the following resources:
 
-Para mais informações sobre o projeto Excurcionistas ou para entrar em contato com a equipe SuricatoDev, favor enviar um email para filipe.lamego@fatec.sp.gov.br
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+
+## Join the community
+
+Join our community of developers creating universal apps.
+
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

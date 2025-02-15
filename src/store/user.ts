@@ -1,4 +1,4 @@
-import { Geolocation } from '@interfaces/userStore';
+import { Geolocation } from '@/interfaces/userStore';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface Address {
@@ -21,6 +21,7 @@ interface UserState {
 const initialState: UserState = {
   useGeolocation: false,
   isLogged: false,
+  phoneNumber: '(15) 99149-2748',
 };
 
 export const userSlice = createSlice({

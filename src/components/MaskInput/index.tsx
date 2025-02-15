@@ -32,7 +32,7 @@ export function MaskedInput({
         hasError={!!error}
         editable={editable}
         isValid={isValid}
-        placeholderTextColor={theme.COLORS.GRAY_200}
+        placeholderTextColor={theme.COLORS.base_dark16}
         {...rest}
       />
       {error && <ErrorText>{error}</ErrorText>}

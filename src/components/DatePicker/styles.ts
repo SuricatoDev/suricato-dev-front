@@ -26,12 +26,13 @@ export const DatePickerButton = styled.TouchableOpacity<DatePickerButtonProps>`
   border-color: ${({ theme, hasError, isValid }) => {
     if (hasError) return theme.COLORS.RED_MID;
     if (isValid) return theme.COLORS.GREEN_MID;
-    return theme.COLORS.GRAY_100;
+    return theme.COLORS.base_dark8;
   }};
 `;
 
 export const DatePickerText = styled.Text<DatePickerTextProps>`
-  color: ${({ theme, isPlaceholder }) => (isPlaceholder ? theme.COLORS.GRAY_200 : theme.COLORS.GRAY_600)};
+  color: ${({ theme, isPlaceholder }) =>
+    isPlaceholder ? theme.COLORS.base_dark16 : theme.COLORS.base_dark100};
   font-size: 14px;
   font-family: ${({ theme }) => theme.FONT_FAMILY.MEDIUM};
 `;
