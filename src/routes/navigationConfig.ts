@@ -5,14 +5,14 @@ export const ROUTES = {
   ACCOUNT_SETTINGS: 'AccountSettings' as const,
   ACCESS_INFO: 'AccessInfo' as const,
   PERSONAL_INFO: 'PersonalInfo' as const,
-  HOME: 'Home' as const,
+  WELCOME_SCREEN: 'WelcomeScreen' as const,
   SEARCH: 'Search' as const,
-  TRIPS: 'Trips' as const
+  TRIPS: 'Trips' as const,
 };
 
 export const defaultNavigationOptions = {
   headerShown: false,
-  animation: 'slide_from_right'
+  animation: 'slide_from_right',
 };
 
 export const themeConfig = {
@@ -22,6 +22,6 @@ export const themeConfig = {
     background: '#FFFFFF',
     card: '#F8F9FA',
     text: '#000000',
-    border: '#E0E0E0'
-  }
+    border: '#E0E0E0',
+  },
 };

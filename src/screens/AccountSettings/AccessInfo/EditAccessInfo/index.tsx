@@ -9,7 +9,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import { Button } from '@components/Button';
 import { ButtonWrapper } from '@screens/SignUp/steps/styles';
 import { useAppDispatch } from '@hooks/store';
-import { login } from '@store/reducers/user';
+import { setPhoneNumber } from '@store/user';
 
 export function EditAccessInfo() {
   const theme = useTheme();
@@ -19,14 +19,15 @@ export function EditAccessInfo() {
 
   const dispatch = useAppDispatch();
 
-  const textInputRef = useRef<TextInput>(null);
+  const textInputRef = useRef<typeof TextInput>(null);
 
   useEffect(() => {
     textInputRef.current?.focus();
+    console;
   }, []);
 
   const handleSave = () => {
-    dispatch(login({ phone: text }));
+    dispatch(setPhoneNumber(text));
     setButtonDisabled(true);
     setTimeout(() => {
       navigation.goBack();
@@ -40,16 +41,16 @@ export function EditAccessInfo() {
   return (
     <S.Container>
       <SingleHeader />
-      <Heading title="Qual o número do seu celular?" subtitle="" />
+      <Heading title='Qual o número do seu celular?' subtitle='' />
       <TextInput
         ref={textInputRef}
-        label="Celular"
-        placeholder="(00) 0 0000-0000"
+        label='Celular'
+        placeholder='(00) 0 0000-0000'
         value={text}
-        onChangeText={text => setText(text)}
-        mode="outlined"
+        onChangeText={(text) => setText(text)}
+        mode='outlined'
         activeOutlineColor={theme.COLORS.GRAY_300}
-        render={props => {
+        render={(props) => {
           const { ref, ...rest } = props;
           return (
             <TextInputMask
@@ -58,22 +59,22 @@ export function EditAccessInfo() {
               options={{
                 maskType: 'BRL',
                 withDDD: true,
-                dddMask: '(99) '
+                dddMask: '(99) ',
               }}
               value={text}
-              onChangeText={text => setText(text)}
+              onChangeText={(text) => setText(text)}
             />
           );
         }}
       />
       <S.ActionButtons>
         <S.ButtonWrapper>
-          <Button disabled={buttonDisabled} onPress={handleBack} type="SECONDARY">
+          <Button disabled={buttonDisabled} onPress={handleBack} type='SECONDARY'>
             Voltar
           </Button>
         </S.ButtonWrapper>
         <S.ButtonWrapper>
-          <Button disabled={buttonDisabled} onPress={handleSave} type="PRIMARY">
+          <Button disabled={buttonDisabled} onPress={handleSave} type='PRIMARY'>
             Salvar
           </Button>
         </S.ButtonWrapper>

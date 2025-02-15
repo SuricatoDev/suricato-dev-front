@@ -22,18 +22,19 @@ export default {
     GRAY_700: '#121214',
 
     WHITE: '#FFFFFF',
-    WHITE_100: '#FCFCFC'
+    WHITE_100: '#FCFCFC',
+    WHITE_200: '#F7F7F7',
   },
   FONT_FAMILY: {
     REGULAR: 'Inter_400Regular',
     MEDIUM: 'Inter_500Medium',
     SEMIBOLD: 'Inter_600SemiBold',
-    BOLD: 'Inter_700Bold'
+    BOLD: 'Inter_700Bold',
   },
   FONT_SIZE: {
     SM: 14,
     MD: 16,
     LG: 18,
-    XL: 24
-  }
+    XL: 24,
+  },
 };

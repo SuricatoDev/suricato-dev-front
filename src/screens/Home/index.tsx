@@ -1,45 +1,30 @@
-import { ImageBackground, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Button } from '@components/Button';
-import logoImg from '@assets/logo-white.png';
-import backgroundImg from '@assets/background.png';
+import { CategoryCard } from '@components/CategoryCard';
 import * as S from './styles';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { categories } from '@constants/categories';
+import { useNavigation } from '@react-navigation/native';
 
 export function Home() {
   const navigation = useNavigation();
 
-  function handleLogin() {
-    navigation.navigate('AuthScreen');
-  }
-
-  function handleExplore() {
-    navigation.navigate('Products');
-  }
+  const handleNavigate = (route: string) => {
+    navigation.navigate('Category', { route });
+  };
 
   return (
-    <ImageBackground source={backgroundImg} style={{ flex: 1 }} resizeMode="cover">
-      <S.Container>
-        <S.Header>
-          <S.Logo source={logoImg} />
-          <Button type="SECONDARY" onPress={handleLogin}>
-            Login
-          </Button>
-        </S.Header>
-
-        <S.Content>
-          <Text style={{ textAlign: 'center' }}>
-            <S.HighlightText>Sua</S.HighlightText>
-            <S.MainText> melhor experiência </S.MainText>
-            <S.HighlightText>a um clique de distância</S.HighlightText>
-          </Text>
-        </S.Content>
-        <S.CtaContainer>
-          <Button fullWidth icon={<Icon name="chevron-right" size={22} color="#FFFFFF" />} onPress={handleExplore}>
-            Explorar Caravanas
-          </Button>
-        </S.CtaContainer>
-      </S.Container>
-    </ImageBackground>
+    <S.Container>
+      <S.GreetingMessage>Olá, Paulo</S.GreetingMessage>
+      <S.Categories>
+        {categories.map((category, index) => (
+          <S.CategoryCardWrapper key={index} large={category.size === 'lg'}>
+            <CategoryCard
+              title={category.title}
+              size={index < 2 ? 'lg' : 'md'}
+              image={category.image}
+              onPress={() => handleNavigate(category.route)}
+            />
+          </S.CategoryCardWrapper>
+        ))}
+      </S.Categories>
+    </S.Container>
   );
 }

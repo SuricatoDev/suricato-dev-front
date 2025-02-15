@@ -1,22 +1,14 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { BottomNavigation, Text } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ProfileStackScreen } from '@navigation/ProfileStack';
 import { useTheme } from 'styled-components/native';
-
-function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Text variant="headlineMedium">Inicio</Text>
-    </View>
-  );
-}
+import { Home } from '@screens/Home';
 
 function SearchScreen() {
   return (
     <View style={styles.container}>
-      <Text variant="headlineMedium">Busca</Text>
+      <Text variant='headlineMedium'>Busca</Text>
     </View>
   );
 }
@@ -24,7 +16,7 @@ function SearchScreen() {
 function TripsScreen() {
   return (
     <View style={styles.container}>
-      <Text variant="headlineMedium">Viagens</Text>
+      <Text variant='headlineMedium'>Viagens</Text>
     </View>
   );
 }
@@ -32,54 +24,32 @@ function TripsScreen() {
 export default function NavigationBar() {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    {
-      key: 'home',
-      title: 'Inicio',
-      focusedIcon: ({ color, size }: { color: string; size: number }) => <Icon name="home" size={size} color={color} />
-    },
-    {
-      key: 'search',
-      title: 'Busca',
-      focusedIcon: ({ color, size }: { color: string; size: number }) => (
-        <Icon name="magnify" size={size} color={color} />
-      )
-    },
-    {
-      key: 'trips',
-      title: 'Viagens',
-      focusedIcon: ({ color, size }: { color: string; size: number }) => (
-        <Icon name="receipt" size={size} color={color} />
-      )
-    },
-    {
-      key: 'profileStack',
-      title: 'Perfil',
-      focusedIcon: ({ color, size }: { color: string; size: number }) => (
-        <Icon name="account" size={size} color={color} />
-      )
-    }
+    { key: 'home', title: 'Inicio', focusedIcon: 'home' },
+    { key: 'search', title: 'Busca', focusedIcon: 'magnify' },
+    { key: 'trips', title: 'Viagens', focusedIcon: 'receipt' },
+    { key: 'profileStack', title: 'Perfil', focusedIcon: 'account' },
   ]);
 
   const theme = useTheme();
 
   const renderScene = BottomNavigation.SceneMap({
-    home: HomeScreen,
+    home: Home,
     search: SearchScreen,
     trips: TripsScreen,
-    profileStack: ProfileStackScreen
+    profileStack: ProfileStackScreen,
   });
 
   return (
     <BottomNavigation
-      navigationState={{ index, routes }}
+      navigationState={{ index, routes }} // Não passamos o key diretamente aqui
       onIndexChange={setIndex}
       renderScene={renderScene}
       activeColor={theme.COLORS.GRAY_400}
       inactiveColor={theme.COLORS.GRAY_300}
-      barStyle={{
-        backgroundColor: theme.COLORS.WHITE_100
+      barStyle={{ backgroundColor: theme.COLORS.WHITE_100 }}
+      theme={{
+        colors: { secondaryContainer: theme.COLORS.ORANGE_100 },
       }}
-      theme={{ colors: { secondaryContainer: theme.COLORS.ORANGE_100 } }}
     />
   );
 }
@@ -88,6 +58,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });

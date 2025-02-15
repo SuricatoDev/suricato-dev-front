@@ -1,8 +1,9 @@
-// navigation.d.ts
+import { categories } from '@constants/categories';
 export declare global {
   namespace ReactNavigation {
+    type CategoryRoute = (typeof categories)[number]['route'];
     interface RootParamList {
-      Home: undefined;
+      WelcomeScreen: undefined;
       AuthScreen: undefined;
       Products: undefined;
       AccountSettings: undefined;
@@ -13,6 +14,9 @@ export declare global {
       };
       ProfileStack: undefined;
       EditAccessInfo: undefined;
+      Category: {
+        route: CategoryRoute;
+      };
     }
   }
 }

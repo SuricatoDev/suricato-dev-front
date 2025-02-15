@@ -22,7 +22,7 @@ export function Button({ type = 'PRIMARY', icon, fullWidth, children, ...rest }:
     PLUS: <Plus size={18} color={iconColor} />,
     EDIT: <PencilSimpleLine size={18} color={iconColor} />,
     DELETE: <Trash size={18} color={iconColor} />,
-    CARET_RIGHT: <CaretRight weight="bold" size={18} color={iconColor} />
+    CARET_RIGHT: <CaretRight weight='bold' size={18} color={iconColor} />,
   };
 
   return (

@@ -1,52 +1,35 @@
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const { width } = Dimensions.get('window');
+const gap = 14;
+const paddingHorizontal = 24;
+
+const availableWidth = width - 2 * paddingHorizontal;
+const smallCardWidth = (availableWidth - 3 * gap) / 4;
+const largeCardWidth = (availableWidth - gap) / 2;
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
   padding: 24px;
-  align-items: center;
-  gap: 40px;
   background-color: transparent;
 `;
 
-export const Header = styled.View`
+export const Categories = styled.View`
+  flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  margin-left: -${gap / 2}px;
+  margin-right: -${gap / 2}px;
 `;
 
-export const Logo = styled.Image`
-  height: 50px;
-  width: 50px;
+export const CategoryCardWrapper = styled.View<{ large?: boolean }>`
+  width: ${({ large }) => (large ? `${largeCardWidth}px` : `${smallCardWidth}px`)};
+  margin: ${gap / 2}px;
+  aspect-ratio: 1;
 `;
 
-export const Content = styled.View`
-  align-items: center;
-  justify-content: center;
-  margin-top: auto;
-  gap: 40px;
-`;
-
-export const HighlightText = styled.Text`
-  font-size: 28px;
-  color: ${({ theme }) => theme.COLORS.ORANGE_500};
-  font-family: ${({ theme }) => theme.FONT_FAMILY.BOLD};
-  text-align: center;
-`;
-
-export const MainText = styled.Text`
-  font-size: 28px;
-  color: ${({ theme }) => theme.COLORS.WHITE};
-  font-family: ${({ theme }) => theme.FONT_FAMILY.BOLD};
-  text-align: center;
-  margin-bottom: 10px;
-`;
-
-export const CtaContainer = styled.View`
-  width: 80%;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 40px;
+export const GreetingMessage = styled.Text`
+  font-family: ${({ theme }) => theme.FONT_FAMILY.SEMIBOLD};
+  margin: 24px 0;
 `;

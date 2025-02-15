@@ -4,8 +4,8 @@ module.exports = function (api) {
     presets: ['babel-preset-expo'],
     env: {
       production: {
-        plugins: ['react-native-paper/babel']
-      }
+        plugins: ['react-native-paper/babel'],
+      },
     },
     plugins: [
       [
@@ -26,10 +26,12 @@ module.exports = function (api) {
             '@types': './src/types',
             '@config': './src/config',
             '@store': './src/store',
-            '@navigation': './src/navigation'
-          }
-        }
-      ]
-    ]
+            '@navigation': './src/navigation',
+            '@interfaces': './src/interfaces',
+            '@constants': './src/constants',
+          },
+        },
+      ],
+    ],
   };
 };

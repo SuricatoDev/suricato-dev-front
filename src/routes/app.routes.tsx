@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { Home } from '@screens/Home';
+import { WelcomeScreen } from '@screens/WelcomeScreen';
 import { AuthScreen } from '@screens/AuthScreen';
 import { Products } from '@screens/Products';
 import { AccountSettings } from '@screens/AccountSettings';
@@ -14,13 +14,13 @@ const { Navigator, Screen } = createNativeStackNavigator();
 export function AppRoutes() {
   return (
     <Navigator screenOptions={defaultNavigationOptions}>
-      <Screen name="Home" component={Home} />
-      <Screen name="AuthScreen" component={AuthScreen} />
-      <Screen name="Products" component={Products} />
-      <Screen name="AccountSettings" component={AccountSettings} />
-      <Screen name="PersonalInfo" component={PersonalInfo} />
-      <Screen name="AccessInfo" component={AccessInfo} />
-      <Screen name="EditAccessInfo" component={EditAccessInfo} />
+      <Screen name='WelcomeScreen' component={WelcomeScreen} />
+      <Screen name='AuthScreen' component={AuthScreen} />
+      <Screen name='Products' component={Products} />
+      <Screen name='AccountSettings' component={AccountSettings} />
+      <Screen name='PersonalInfo' component={PersonalInfo} />
+      <Screen name='AccessInfo' component={AccessInfo} />
+      <Screen name='EditAccessInfo' component={EditAccessInfo} />
     </Navigator>
   );
 }
