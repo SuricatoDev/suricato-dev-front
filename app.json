@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "StickerSmash",
-    "slug": "StickerSmash",
+    "name": "excursionistas",
+    "slug": "excursionistas",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./src/assets/images/logo.png",
     "splash": {
-      "image": "./assets/images/background.png",
+      "image": "./src/assets/images/background.png",
       "resizeMode": "cover",
       "backgroundColor": "#FFFFFF"
     },
@@ -18,27 +18,33 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
+        "foregroundImage": "./src/assets/images/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.gelicrash.excursionistas"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo.png",
+          "image": "./src/assets/images/logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
       ],
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0f372f4d-74d0-4233-9b72-3ced2b17a1cd"
+      }
+    }
   }
 }

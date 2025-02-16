@@ -17,6 +17,10 @@ export default function AuthScreen() {
   const loginForm = useMemo(() => <LoginForm />, []);
   const [isLogin, setIsLogin] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
+  const signUpForm = useMemo(
+    () => <SignupForm currentStep={currentStep} setCurrentStep={setCurrentStep} />,
+    []
+  );
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.COLORS.background }}>
@@ -53,7 +57,7 @@ export default function AuthScreen() {
                 ) : (
                   <FormProvider>
                     <SocialButtonsContainer />
-                    <SignupForm currentStep={currentStep} setCurrentStep={setCurrentStep} />
+                    {signUpForm}
                   </FormProvider>
                 )}
               </S.Wrapper>
