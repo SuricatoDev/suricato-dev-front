@@ -1,5 +1,4 @@
 module.exports = (plop) => {
-  // create your generators here
   plop.setGenerator('component', {
     description: 'Create a component',
     prompts: [
@@ -24,11 +23,6 @@ module.exports = (plop) => {
         type: 'add',
         path: '../src/components/{{pascalCase name}}/stories.tsx',
         templateFile: 'templates/stories.tsx.hbs'
-      },
-      {
-        type: 'add',
-        path: '../src/components/{{pascalCase name}}/test.tsx',
-        templateFile: 'templates/test.tsx.hbs'
       }
     ]
   })

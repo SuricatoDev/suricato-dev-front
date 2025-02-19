@@ -1,11 +1,18 @@
 import React from 'react'
-import GlobalStyles from '../src/styles/global'
+import { ThemeProvider } from 'styled-components'
+import { GlobalStyle } from '../src/styles/global'
+import { defaultTheme } from '../src/styles/themes/default'
+import { GlobalProvider } from '../src/providers/GlobalContext'
 
 export const decorators = [
   (Story) => (
     <>
-      <GlobalStyles />
-      <Story />
+      <ThemeProvider theme={defaultTheme}>
+        <GlobalProvider brand="" pageName="">
+          <GlobalStyle />
+          <Story />
+        </GlobalProvider>
+      </ThemeProvider>
     </>
   )
 ]
