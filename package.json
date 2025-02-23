@@ -15,17 +15,13 @@
     "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
-    "@emotion/is-prop-valid": "^1.2.2",
     "@hookform/resolvers": "^3.3.4",
     "@phosphor-icons/react": "^2.1.7",
-    "@strapi/blocks-react-renderer": "^1.0.1",
     "axios": "^1.7.2",
     "next": "14.2.2",
     "react": "18.2.0",
-    "react-compare-slider": "^3.1.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.51.4",
-    "react-share": "^5.1.0",
     "styled-components": "^6.1.8",
     "swiper": "^11.2.4",
     "zod": "^3.23.8"
@@ -58,12 +54,6 @@
     "prettier": "3.2.5",
     "storybook": "^7.6.17",
     "typescript": "^5"
-  },
-  "resolutions": {
-    "string-width": "4.2.3"
-  },
-  "overrides": {
-    "string-width": "4.2.3"
   },
   "author": {
     "name": "Paulo Geliandes"

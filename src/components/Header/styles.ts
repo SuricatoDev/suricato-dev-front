@@ -193,7 +193,6 @@ export const Search = styled.div<ScrolledProps>`
     0 1px 2px 0 rgba(0, 0, 0, 0.08);
   border: 1px solid ${(props) => props.theme.colors.base_dark16};
   transition:
-    width ${(props) => props.theme.common.transition.default},
     height ${(props) => props.theme.common.transition.default},
     padding ${(props) => props.theme.common.transition.default},
     margin-top ${(props) => props.theme.common.transition.default};
@@ -207,7 +206,9 @@ export const Search = styled.div<ScrolledProps>`
     height: ${({ $isScrolled }) => ($isScrolled ? '50px' : '66px')};
     transform: ${({ $isScrolled }) =>
       $isScrolled ? 'scale(0.9)' : 'scale(1)'};
-    transition: transform ${(props) => props.theme.common.transition.default};
+    transition:
+      transform ${(props) => props.theme.common.transition.default},
+      width ${(props) => props.theme.common.transition.default};
 
     input {
       text-align: left;
