@@ -33,7 +33,7 @@ export const GlobalStyle = createGlobalStyle`
 
   .container {
     max-width: 1440px;
- padding: 0;
+    padding: 0;
     margin: 0 auto;
     width: 100%;
 
@@ -45,7 +45,6 @@ export const GlobalStyle = createGlobalStyle`
       padding: 0 10px;
     }
   }
-
 
   body::-webkit-scrollbar {
     width: 1em;

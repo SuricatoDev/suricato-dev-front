@@ -33,7 +33,15 @@ export const Container = styled.div`
 export const CategoryMenu = styled.div<CategoryMenuProps>`
   position: relative;
   overflow: hidden;
-  padding: 0 0.5rem;
+  .swiper-container {
+    padding: 0 1rem;
+  }
+
+  @media (${device.md}) {
+    .swiper-container {
+      padding: 0 2rem 0 0;
+    }
+  }
 
   .hide {
     display: none;
@@ -73,7 +81,6 @@ export const CategoryMenu = styled.div<CategoryMenuProps>`
     display: ${({ $showRight }) => ($showRight ? 'block' : 'none')};
   }
 `
-
 export const CategoryItem = styled.div<CategoryItemProps>`
   display: flex;
   flex-direction: column;
@@ -82,7 +89,6 @@ export const CategoryItem = styled.div<CategoryItemProps>`
   color: ${({ $selected, theme }) =>
     $selected ? theme.colors.text_standard : theme.colors.base_dark56};
   transition: all ${({ theme }) => theme.common.transition.fast};
-  padding: 0 1rem;
 
   &:hover {
     color: ${({ theme }) => theme.colors.base_dark88};
@@ -151,10 +157,17 @@ export const NavDefault = styled.button`
 
 export const NavPrev = styled(NavDefault)`
   left: 2px;
+
+  &:disabled {
+    display: none;
+  }
 `
 
 export const NavNext = styled(NavDefault)`
   right: 2px;
+  &:disabled {
+    display: none;
+  }
 `
 
 export const FilterButton = styled.button`

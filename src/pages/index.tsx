@@ -4,13 +4,235 @@ import Header from '@/components/Header'
 import Layout from '@/containers/Layout'
 import Footer from '@/components/Footer'
 import MobileFooter from '@/components/MobileFooter'
+import ProductCard from '@/components/ProductCard'
 
 export default function Home() {
   return (
     <Layout>
       <S.Wrapper>
         <Header />
-        <S.Main></S.Main>
+        <S.Main>
+          <div className="container">
+            <S.ProductsContainer>
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />{' '}
+              <ProductCard
+                images={[
+                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720&im_format=avif',
+                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720&im_format=avif'
+                ]}
+                location="Córrego do Bom Jesus, Brasil"
+                distance="180 km de distância"
+                dateRange="16 – 21 de mar."
+                price={790}
+                rating={4.96}
+              />
+            </S.ProductsContainer>
+          </div>
+        </S.Main>
         <Footer />
         <MobileFooter />
       </S.Wrapper>

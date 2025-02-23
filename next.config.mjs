@@ -28,6 +28,10 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: '127.0.0.1'
+      },
+      {
+        protocol: 'https',
+        hostname: 'a0.muscache.com'
       }
     ],
     deviceSizes: [768, 960, 1440, 1920]

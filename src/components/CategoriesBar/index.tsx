@@ -54,17 +54,20 @@ export default function CategoriesBar() {
       <div className="container">
         <S.Container>
           <S.CategoryMenu $showLeft={showLeft} $showRight={showRight}>
-            <S.NavPrev
-              className={`swiper-button-prev ${showLeft ? '' : 'hide'}`}
-            ></S.NavPrev>
+            <S.NavPrev className="swiper-button-prev categories-bar-swiper-button-prev"></S.NavPrev>
 
             <Swiper
               modules={[Navigation]}
               slidesPerView="auto"
-              spaceBetween={0}
+              spaceBetween={24}
+              breakpoints={{
+                960: {
+                  spaceBetween: 64
+                }
+              }}
               navigation={{
-                prevEl: '.swiper-button-prev',
-                nextEl: '.swiper-button-next'
+                prevEl: '.categories-bar-swiper-button-prev',
+                nextEl: '.categories-bar-swiper-button-next'
               }}
               onSwiper={(swiper) => updateNavigation(swiper)}
               onSlideChange={(swiper) => updateNavigation(swiper)}
@@ -86,9 +89,7 @@ export default function CategoriesBar() {
               })}
             </Swiper>
 
-            <S.NavNext
-              className={`swiper-button-next ${showRight ? '' : 'hide'}`}
-            ></S.NavNext>
+            <S.NavNext className="swiper-button-next categories-bar-swiper-button-next"></S.NavNext>
           </S.CategoryMenu>
 
           <S.FilterButton>
