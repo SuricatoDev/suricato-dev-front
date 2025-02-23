@@ -65,8 +65,4 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${(props) => props.theme.colors.primary_light};
     cursor: pointer;
   }
-
-  main {
-    height: 5000px;
-  }
 `

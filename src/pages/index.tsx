@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next'
-import * as S from './styles'
+import * as S from '@/styles/pages/home/styles'
 import Header from '@/components/Header'
 import Layout from '@/containers/Layout'
 import Footer from '@/components/Footer'

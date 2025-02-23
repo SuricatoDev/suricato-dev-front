@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { MagnifyingGlass, Heart, Van, UserCircle } from '@phosphor-icons/react'
 import * as S from './styles'
+import { useScrollDown } from '@/hooks/useScrollDown'
 
 const navItems = [
   { id: 'explorar', label: 'Explorar', icon: MagnifyingGlass },
@@ -12,8 +13,10 @@ const navItems = [
 export default function MobileFooter() {
   const [activeItem, setActiveItem] = useState('explorar')
 
+  const scrollingDown = useScrollDown()
+
   return (
-    <S.FooterWrapper>
+    <S.FooterWrapper $isScrollingDown={scrollingDown}>
       <S.Nav>
         {navItems.map(({ id, label, icon: Icon }) => {
           const isActive = id === activeItem

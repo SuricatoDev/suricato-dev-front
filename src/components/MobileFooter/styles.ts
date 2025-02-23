@@ -1,9 +1,10 @@
 import { device } from '@/styles/breakpoints'
 import styled from 'styled-components'
 
-export const FooterWrapper = styled.footer`
+export const FooterWrapper = styled.footer<{ $isScrollingDown: boolean }>`
   position: fixed;
-  bottom: 0;
+  bottom: ${({ $isScrollingDown }) => ($isScrollingDown ? '-64px' : '0')};
+  transition: ${({ theme }) => theme.common.transition.fast};
   width: 100%;
   height: 64px;
   background-color: ${({ theme }) => theme.colors.background_standard};

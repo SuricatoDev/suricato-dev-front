@@ -27,7 +27,7 @@ export const Main = styled.main`
 `
 
 export const ProductsContainer = styled.div`
-  padding: 0 1rem;
+  padding: 0 1rem 1rem;
   --breakpoint-grid_columns: 1;
   display: grid;
   grid-gap: 2rem;
