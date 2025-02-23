@@ -1,28 +1,26 @@
 import { getYear } from '@/utils/getYear'
-import Logo, { LogoProps } from '@/components/Logo'
 import * as S from './styles'
+import Link from 'next/link'
 
-export interface FooterProps {
-  logo: LogoProps
-  brand_name: string
-}
-
-export default function Footer({ logo, brand_name }: FooterProps) {
+export default function Footer() {
   const currentYear = getYear().toString()
 
   return (
     <S.Wrapper id="footer">
-      <Logo
-        image_url={logo.image_url}
-        image_alt_text={logo.image_alt_text}
-        logo_link={logo.logo_link}
-        contrast
-        size="sm"
-      />
-      <p>
-        © Copyright {currentYear} {brand_name ?? ''} - CNPJ:
-        04.310.392/0001-46. Todos os direitos reservados.
-      </p>
+      <div className="container">
+        <S.Content>
+          <S.Items>
+            <p>© {currentYear} Excursionistas, Inc.</p>
+            <S.PointerDivider />
+            <Link href="/privacy">Política de Privacidade</Link>
+            <S.PointerDivider />
+            <Link href="/terms">Termos de Uso</Link>
+          </S.Items>
+          <S.Items>
+            <Link href="/terms">Atendimento e recursos</Link>
+          </S.Items>
+        </S.Content>
+      </div>
     </S.Wrapper>
   )
 }

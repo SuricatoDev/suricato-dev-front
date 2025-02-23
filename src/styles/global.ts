@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import { device } from './breakpoints'
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -25,11 +26,20 @@ export const GlobalStyle = createGlobalStyle`
     line-height: normal;
   }
 
+  a {
+    text-decoration: none;
+    color: ${(props) => props.theme.colors.text_standard}
+  }
+
   .container {
     max-width: 1440px;
-    padding: 0 1rem;
+ padding: 0;
     margin: 0 auto;
     width: 100%;
+
+    @media(${device.md}) {
+    padding: 0 1rem;
+    }
 
     &-small {
       padding: 0 10px;
@@ -42,18 +52,22 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body::-webkit-scrollbar-track {
-    background: ${(props) => props.theme.colors.primary.bg};
-    border-left: 1px solid ${(props) => props.theme.colors.primary.bg_inverse}22;
+    background: ${(props) => props.theme.colors.background_standard};
+    border-left: 1px solid ${(props) => props.theme.colors.background_dark}22;
   }
 
   body::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.colors.secondary.orange}cc;
+    background-color: ${(props) => props.theme.colors.primary_medium}cc;
     border-radius: 10px;
-    border-inline: 2px solid ${(props) => props.theme.colors.primary.bg};
+    border-inline: 2px solid ${(props) => props.theme.colors.background_standard};
   }
 
   body::-webkit-scrollbar-thumb:hover {
-    background-color: ${(props) => props.theme.colors.secondary.orange};
+    background-color: ${(props) => props.theme.colors.primary_light};
     cursor: pointer;
+  }
+
+  main {
+    height: 5000px;
   }
 `

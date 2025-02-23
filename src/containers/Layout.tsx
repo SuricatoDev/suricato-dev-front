@@ -1,7 +1,5 @@
-// import { useContext } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from '@/styles/global'
-// import { ApiContext } from '@/providers/AccessibilityContextProvider'
 import { createTheme } from '@/helpers/themeUtils'
 import { defaultTheme } from '@/styles/themes/default'
 
@@ -22,7 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <>
       <ThemeProvider theme={finalTheme}>
         <GlobalStyle />
-        <main>{children}</main>
+        {children}
       </ThemeProvider>
     </>
   )
