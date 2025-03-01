@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { MagnifyingGlass, UserCircle } from '@phosphor-icons/react'
+import { MagnifyingGlass, UserCircle } from '@phosphor-icons/react/dist/ssr'
 import logo from '@/assets/img/logo.png'
 import * as S from './styles'
 import CategoriesBar from '../CategoriesBar'

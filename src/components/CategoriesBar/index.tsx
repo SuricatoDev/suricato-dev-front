@@ -17,7 +17,7 @@ import {
   Coffee,
   Smiley,
   Park
-} from '@phosphor-icons/react'
+} from '@phosphor-icons/react/dist/ssr'
 import * as S from './styles'
 
 interface Category {
