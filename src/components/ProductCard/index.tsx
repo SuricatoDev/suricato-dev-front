@@ -9,7 +9,8 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 
 import * as S from './styles'
-import { Heart, Star } from '@phosphor-icons/react'
+import { Heart } from '@phosphor-icons/react/dist/ssr/Heart'
+import { Star } from '@phosphor-icons/react/dist/ssr/Star'
 
 type ProductCardProps = {
   images: string[]
