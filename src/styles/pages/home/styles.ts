@@ -23,6 +23,7 @@ export const Main = styled.main`
 
   @media (${device.md}) {
     padding-top: 300px;
+    padding-bottom: 200px;
   }
 `
 
