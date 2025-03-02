@@ -5,6 +5,7 @@ import Layout from '@/containers/Layout'
 import Footer from '@/components/Footer'
 import MobileFooter from '@/components/MobileFooter'
 import ProductCard from '@/components/ProductCard'
+import Modal from '@/components/Modal'
 
 export default function Home() {
   return (
@@ -13,6 +14,9 @@ export default function Home() {
         <Header />
         <S.Main>
           <div className="container">
+            {/* <Modal $isOpen={true}>
+              <h1>teste</h1>
+            </Modal> */}
             <S.ProductsContainer>
               <ProductCard
                 images={[

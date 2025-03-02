@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="pt-BR">
         <Head />
-        <body>
+        <body className="modal-root">
           <Main />
           <NextScript />
         </body>
