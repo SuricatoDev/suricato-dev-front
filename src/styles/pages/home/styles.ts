@@ -22,7 +22,7 @@ export const Main = styled.main`
   padding-top: calc(138px + 1rem);
 
   @media (${device.md}) {
-    padding-top: 300px;
+    padding: 300px 0 150px 0;
   }
 `
 

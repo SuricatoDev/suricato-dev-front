@@ -60,6 +60,7 @@ export default function CategoriesBar() {
               slidesPerView="auto"
               spaceBetween={24}
               freeMode={true}
+              touchReleaseOnEdges={true}
               breakpoints={{
                 960: {
                   spaceBetween: 64
