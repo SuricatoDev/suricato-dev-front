@@ -59,6 +59,7 @@ export default function CategoriesBar() {
               modules={[Navigation]}
               slidesPerView="auto"
               spaceBetween={24}
+              freeMode={true}
               breakpoints={{
                 960: {
                   spaceBetween: 64
