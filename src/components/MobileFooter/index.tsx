@@ -1,5 +1,9 @@
 import { useState } from 'react'
-import { MagnifyingGlass, Heart, Van, UserCircle } from '@phosphor-icons/react'
+import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
+import { Heart } from '@phosphor-icons/react/dist/ssr/Heart'
+import { Van } from '@phosphor-icons/react/dist/ssr/Van'
+import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
+
 import * as S from './styles'
 import { useScrollDown } from '@/hooks/useScrollDown'
 

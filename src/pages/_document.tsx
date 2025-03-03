@@ -38,7 +38,9 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="pt-BR">
-        <Head />
+        <Head>
+          <meta name="robots" content="noindex, nofollow" />
+        </Head>
         <body className="modal-root">
           <Main />
           <NextScript />
