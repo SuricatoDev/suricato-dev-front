@@ -40,7 +40,7 @@ export const TopHeader = styled.div`
     width: 100%;
     height: 66px;
     font-weight: ${(props) => props.theme.common.font.weight.semibold};
-    transition: all 0.3s ease-in-out;
+    transition: all ${(props) => props.theme.common.transition.default};
   }
   display: none;
 `
@@ -76,7 +76,7 @@ export const ProfileButton = styled.button`
   background-color: ${({ theme }) => theme.colors.background_standard};
   padding: 0.3rem 0.6rem;
   cursor: pointer;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow ${(props) => props.theme.common.transition.default};
 
   &:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -136,11 +136,32 @@ export const Hamburguer = styled.div<{ $isProfileOpen: boolean }>`
     `}
 `
 
+export const MenuItem = styled.span<{ $isBold?: boolean }>`
+  font-weight: ${({ $isBold }) => ($isBold ? 'bold' : 'normal')};
+  display: block;
+  text-align: start;
+  border: none;
+  background-color: ${({ theme }) => theme.colors.background_standard};
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: ${({ theme }) => theme.colors.text_medium};
+  cursor: pointer;
+  transition: background-color
+    ${(props) => props.theme.common.transition.default};
+
+  &:hover {
+    background-color: #f7f7f7;
+  }
+`
+
 export const ProfileMenu = styled.div`
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
-  width: 200px;
+  width: max-content;
   background-color: ${({ theme }) => theme.colors.background_standard};
   border: 1px solid ${({ theme }) => theme.colors.base_dark16};
   border-radius: 8px;
@@ -152,18 +173,6 @@ export const ProfileMenu = styled.div`
     list-style: none;
     margin: 0;
     padding: 0;
-  }
-
-  li {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: #f7f7f7;
-    }
   }
 `
 

@@ -6,7 +6,9 @@ const Portal = ({ children }: { children: ReactNode }) => {
   const [container, setContainer] = useState<HTMLElement | null>(null)
 
   useEffect(() => {
-    setContainer(document.createElement('div'))
+    const div = document.createElement('div')
+    div.classList.add('portal-root')
+    setContainer(div)
   }, [])
 
   useEffect(() => {
@@ -18,6 +20,7 @@ const Portal = ({ children }: { children: ReactNode }) => {
       }
     }
   }, [container])
+
   return container ? ReactDOM.createPortal(children, container) : null
 }
 

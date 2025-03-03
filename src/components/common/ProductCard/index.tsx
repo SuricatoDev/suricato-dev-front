@@ -19,6 +19,7 @@ type ProductCardProps = {
   dateRange: string
   price: number
   rating: number
+  priority?: boolean
 }
 
 export default function ProductCard({
@@ -27,7 +28,8 @@ export default function ProductCard({
   distance,
   dateRange,
   price,
-  rating
+  rating,
+  priority
 }: ProductCardProps) {
   const prevRef = useRef<HTMLButtonElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
@@ -76,6 +78,8 @@ export default function ProductCard({
                 style={{
                   objectFit: 'cover'
                 }}
+                priority={index === 0 && priority ? true : undefined}
+                fetchPriority={index === 0 && priority ? 'high' : 'low'}
               />
             </SwiperSlide>
           ))}

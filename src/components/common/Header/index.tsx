@@ -1,19 +1,50 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
 import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
 import logo from '@/assets/img/logo.png'
 import * as S from './styles'
 import CategoriesBar from '../CategoriesBar'
+import { HeaderNavigation } from './navigation'
+import Divider from '../Divider'
+import Portal from '../Portal'
+import MultiStepForm from '@/components/LoginForm'
 
 type HeaderProps = {
   simpleHeader?: boolean
 }
 
+type ProfileItem =
+  | (typeof HeaderNavigation)[keyof typeof HeaderNavigation]
+  | 'divider'
+
 export default function Header({ simpleHeader = false }: HeaderProps) {
+  const { data: session } = useSession()
+  const isLogged = !!session
+
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  const openLoginModal = () => setIsLoginModalOpen(true)
+
+  const {
+    cadastrar,
+    entrar,
+    oferecer,
+    faq,
+    conta,
+    viagens,
+    favoritos,
+    sair,
+    editar,
+    explorar,
+    sobre,
+    anunciar
+  } = HeaderNavigation
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,67 +59,110 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
     setIsProfileOpen((prev) => !prev)
   }
 
+  const navItems = useMemo(() => {
+    return [explorar, anunciar, sobre, faq]
+  }, [isLogged])
+
+  const profileItems: ProfileItem[] = useMemo(() => {
+    return isLogged
+      ? [viagens, favoritos, editar, oferecer, conta, faq, sair]
+      : [cadastrar, entrar, 'divider', oferecer, faq]
+  }, [isLogged])
+
   return (
-    <S.Wrapper $isScrolled={isScrolled}>
-      <S.Container>
-        <S.TopHeader>
-          <Image src={logo} alt="Logo" width={50} height={50} />
-          {!simpleHeader && (
-            <S.Menu $isScrolled={isScrolled}>
-              <a href="#">Explorar</a>
-              <a href="#">Anunciar</a>
-              <a href="#">Sobre Nós</a>
-              <a href="#">Fale Conosco</a>
-            </S.Menu>
-          )}
+    <>
+      {isLoginModalOpen && (
+        <Portal>
+          <MultiStepForm
+            $isModal
+            $isOpen={isLoginModalOpen}
+            onClose={() => setIsLoginModalOpen(false)}
+          />
+        </Portal>
+      )}
 
-          <S.ProfileContainer>
-            <S.ProfileButton onClick={toggleProfileMenu}>
-              <S.Hamburguer $isProfileOpen={isProfileOpen}>
-                <span />
-                <span />
-                <span />
-              </S.Hamburguer>
-              <UserCircle size={32} weight="fill" />
-            </S.ProfileButton>
+      <S.Wrapper $isScrolled={isScrolled}>
+        <S.Container>
+          <S.TopHeader>
+            <Link href="/" passHref>
+              <Image src={logo} alt="Logo" width={50} height={50} />
+            </Link>
 
-            {isProfileOpen && (
-              <S.ProfileMenu>
-                <ul>
-                  <li>
-                    <a href="#">Cadastrar-se</a>
-                  </li>
-                  <li>
-                    <a href="#">Entrar</a>
-                  </li>
-                  <li>
-                    <a href="#">Anuncie sua caravana</a>
-                  </li>
-                  <li>
-                    <a href="#">Central de Ajuda</a>
-                  </li>
-                </ul>
-              </S.ProfileMenu>
+            {!simpleHeader && (
+              <S.Menu $isScrolled={isScrolled}>
+                {navItems.map(({ label, href }, index) => (
+                  <Link key={`${href}-${label}-${index}`} href={href} passHref>
+                    {label}
+                  </Link>
+                ))}
+              </S.Menu>
             )}
-          </S.ProfileContainer>
-        </S.TopHeader>
 
-        <S.SearchWrapper $isScrolled={isScrolled}>
-          <S.Search $isScrolled={isScrolled}>
-            <S.SearchInput
-              type="search"
-              placeholder="Digite o nome da cidade"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <S.SearchButton $isScrolled={isScrolled}>
-              <MagnifyingGlass size={20} weight="bold" />
-              <span>Buscar</span>
-            </S.SearchButton>
-          </S.Search>
-        </S.SearchWrapper>
-      </S.Container>
-      <CategoriesBar />
-    </S.Wrapper>
+            <S.ProfileContainer>
+              <S.ProfileButton onClick={toggleProfileMenu}>
+                <S.Hamburguer $isProfileOpen={isProfileOpen}>
+                  <span />
+                  <span />
+                  <span />
+                </S.Hamburguer>
+                <UserCircle size={32} weight="fill" />
+              </S.ProfileButton>
+
+              {isProfileOpen && (
+                <S.ProfileMenu>
+                  <ul>
+                    {profileItems.map((item, index) =>
+                      item === 'divider' ? (
+                        <Divider $marginY="8px" key={`divider-${index}`} />
+                      ) : (
+                        <li
+                          key={`profileItems-${item.href}-${item.label}-${index}`}
+                        >
+                          {item.label === 'Cadastrar-se' ||
+                          item.label === 'Entrar' ? (
+                            <S.MenuItem
+                              as="button"
+                              onClick={openLoginModal}
+                              $isBold={item.isBold}
+                            >
+                              {item.label}
+                            </S.MenuItem>
+                          ) : (
+                            <S.MenuItem
+                              as={Link}
+                              href={item.href}
+                              passHref
+                              $isBold={item.isBold}
+                            >
+                              {item.label}
+                            </S.MenuItem>
+                          )}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </S.ProfileMenu>
+              )}
+            </S.ProfileContainer>
+          </S.TopHeader>
+
+          <S.SearchWrapper $isScrolled={isScrolled}>
+            <S.Search $isScrolled={isScrolled}>
+              <S.SearchInput
+                type="search"
+                placeholder="Digite o nome da cidade"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <S.SearchButton $isScrolled={isScrolled}>
+                <MagnifyingGlass size={20} weight="bold" />
+                <span>Buscar</span>
+              </S.SearchButton>
+            </S.Search>
+          </S.SearchWrapper>
+        </S.Container>
+        <CategoriesBar />
+      </S.Wrapper>
+    </>
   )
 }

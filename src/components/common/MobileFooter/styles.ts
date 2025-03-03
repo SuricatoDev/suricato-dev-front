@@ -1,4 +1,5 @@
 import { device } from '@/styles/breakpoints'
+import Link from 'next/link'
 import styled from 'styled-components'
 
 export const FooterWrapper = styled.footer<{ $isScrollingDown: boolean }>`
@@ -25,7 +26,7 @@ export const Nav = styled.nav`
   padding: 0 1rem;
 `
 
-export const NavItem = styled.div<{ $isActive: boolean }>`
+export const NavItem = styled(Link)<{ $isActive: boolean }>`
   flex: 1;
   display: flex;
   flex-direction: column;

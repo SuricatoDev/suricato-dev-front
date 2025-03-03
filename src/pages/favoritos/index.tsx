@@ -1,14 +1,8 @@
 import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
-import LoginForm from '@/components/LoginForm'
-import * as S from '@/styles/pages/login/styles'
 
-export default function Login() {
-  return (
-    <S.Wrapper>
-      <LoginForm />
-    </S.Wrapper>
-  )
+export default function Favoritos() {
+  return <h1>Favoritos</h1>
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

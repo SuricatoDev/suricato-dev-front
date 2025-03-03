@@ -34,7 +34,8 @@ const nextConfig = {
         hostname: 'a0.muscache.com'
       }
     ],
-    deviceSizes: [768, 960, 1440, 1920]
+    deviceSizes: [320, 500, 768, 960, 1024, 1440, 1920],
+    imageSizes: [320, 500, 600, 800]
   },
   trailingSlash: true
 }

@@ -1,6 +1,9 @@
 import { Inter } from 'next/font/google'
 import { AppProps } from 'next/app'
 import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
+import { SessionProvider } from 'next-auth/react'
+import MobileFooter from '@/components/common/MobileFooter'
+import Layout from '@/containers/Layout'
 
 export const inter = Inter({
   weight: ['400', '500', '600', '700'],
@@ -19,12 +22,20 @@ export const inter = Inter({
   ]
 })
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps }
+}: AppProps) {
   return (
     <AccessibilityContextProvider>
-      <div className={`${inter.className}`}>
-        <Component {...pageProps} />
-      </div>
+      <SessionProvider session={session}>
+        <Layout>
+          <div className={`${inter.className}`} id="modal-root">
+            <Component {...pageProps} />
+            <MobileFooter />
+          </div>
+        </Layout>
+      </SessionProvider>
     </AccessibilityContextProvider>
   )
 }

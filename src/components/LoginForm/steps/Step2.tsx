@@ -12,9 +12,10 @@ import ErrorMessage from '@/components/common/ErrorMessage'
 
 interface Step2Props {
   onNext: () => void
+  $isModal?: boolean
 }
 
-export default function Step2({ onNext }: Step2Props) {
+export default function Step2({ onNext, $isModal = false }: Step2Props) {
   const {
     control,
     formState: { errors },
@@ -168,7 +169,9 @@ export default function Step2({ onNext }: Step2Props) {
         Concordar e continuar
       </Button>
       <Divider />
-      <S.NeedHelp href="#">Precisa de ajuda?</S.NeedHelp>
+      <S.NeedHelp $isModal={$isModal} href="#">
+        Precisa de ajuda?
+      </S.NeedHelp>
     </S.Step2MainContent>
   )
 }

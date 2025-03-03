@@ -1,21 +1,43 @@
 import { device } from '@/styles/breakpoints'
 import styled from 'styled-components'
+import { MultiStepFormProps } from '.'
 
-export const FormContainer = styled.div`
+type ModalProps = Pick<MultiStepFormProps, '$isModal'>
+
+export const FormContainer = styled.div<ModalProps>`
+  position: relative;
   width: 100%;
+  background-color: ${(props) => props.theme.colors.background_standard};
 
+  position: ${(props) => (props.$isModal ? 'fixed' : 'relative')};
+  bottom: ${(props) => (props.$isModal ? '0' : 'unset')};
+  left: ${(props) => (props.$isModal ? '50%' : 'unset')};
+  max-height: calc(100% - 1rem);
+
+  transform: ${(props) => (props.$isModal ? 'translate(-50%, 0%)' : 'none')};
+  z-index: ${(props) => (props.$isModal ? '99999' : 'unset')};
+  border-radius: ${(props) => (props.$isModal ? '32px 32px 0 0' : '0')};
+  overflow-y: auto;
   @media (${device.md}) {
+    max-height: calc(100% - 2rem);
+    bottom: unset;
+    top: ${(props) => (props.$isModal ? '50%' : 'unset')};
+    transform: ${(props) =>
+      props.$isModal ? 'translate(-50%, -50%)' : 'none'};
     max-width: 568px;
-    margin: 2rem auto;
-    border-radius: 12px;
+    margin: ${(props) => (props.$isModal ? '0 auto' : '2rem auto')};
+    border-radius: ${(props) => (props.$isModal ? '32px' : '12px')};
     border: 1px solid ${(props) => props.theme.colors.text_light};
   }
 `
 
-export const Header = styled.div`
-  position: relative;
+export const Header = styled.div<ModalProps>`
+  position: ${(props) => (props.$isModal ? 'sticky' : 'relative')};
+  top: ${(props) => (props.$isModal ? '0' : 'unset')};
   padding: 1.5rem;
   border-bottom: 1px solid #ebebeb;
+  background-color: ${(props) => props.theme.colors.background_standard};
+  z-index: 9;
 `
 
 export const Title = styled.h1`
@@ -84,12 +106,12 @@ export const PolicyText = styled.div`
     font-weight: 600;
   }
 `
-export const NeedHelp = styled.a`
+export const NeedHelp = styled.a<ModalProps>`
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 96px;
+  margin-bottom: ${(props) => (props.$isModal ? '1rem' : '96px')};
   text-decoration: underline;
   font-weight: 600;
   color: ${(props) => props.theme.colors.text_medium};
@@ -108,4 +130,31 @@ export const BackButton = styled.button`
   &:hover {
     opacity: 0.7;
   }
+`
+
+export const ModalOverlay = styled.div<ModalProps>`
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+`
+
+export const CloseButton = styled.button<ModalProps>`
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1em;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: ${(props) => props.theme.colors.text_medium};
 `

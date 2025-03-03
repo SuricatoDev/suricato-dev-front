@@ -41,7 +41,7 @@ export default class MyDocument extends Document {
         <Head>
           <meta name="robots" content="noindex, nofollow" />
         </Head>
-        <body className="modal-root">
+        <body>
           <Main />
           <NextScript />
         </body>

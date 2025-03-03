@@ -1,46 +1,38 @@
-import { useState } from 'react'
-import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
-import { Heart } from '@phosphor-icons/react/dist/ssr/Heart'
-import { Van } from '@phosphor-icons/react/dist/ssr/Van'
-import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
+import { useMemo } from 'react'
+import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 import * as S from './styles'
 import { useScrollDown } from '@/hooks/useScrollDown'
+import { MobileFooterNavigation } from './navigation'
 
-type MobileFooterProps = {
-  $logged: boolean
-}
+export default function MobileFooter() {
+  const { data: session } = useSession()
+  const isLogged = !!session
+  const { explorar, viagens, entrar, favoritos, perfil } =
+    MobileFooterNavigation
 
-export default function MobileFooter({ $logged }: MobileFooterProps) {
-  const navItems = $logged
-    ? [
-        { id: 'explorar', label: 'Explorar', icon: MagnifyingGlass },
-        { id: 'favoritos', label: 'Favoritos', icon: Heart },
-        { id: 'viagens', label: 'Viagens', icon: Van },
-        { id: 'perfil', label: 'Perfil', icon: UserCircle }
-      ]
-    : [
-        { id: 'explorar', label: 'Explorar', icon: MagnifyingGlass },
-        { id: 'favoritos', label: 'Favoritos', icon: Heart },
-        { id: 'entrar', label: 'Entrar', icon: UserCircle }
-      ]
-
-  const [activeItem, setActiveItem] = useState('explorar')
-
+  const router = useRouter()
   const scrollingDown = useScrollDown()
+
+  const navItems = useMemo(() => {
+    return isLogged
+      ? [explorar, favoritos, viagens, perfil]
+      : [explorar, favoritos, entrar]
+  }, [isLogged])
+
+  const activeItem = useMemo(() => {
+    const currentItem = navItems.find((item) => item.href === router.pathname)
+    return currentItem ? currentItem.id : 'explorar'
+  }, [router.pathname, navItems])
 
   return (
     <S.FooterWrapper $isScrollingDown={scrollingDown}>
       <S.Nav>
-        {navItems.map(({ id, label, icon: Icon }) => {
+        {navItems.map(({ id, label, icon: Icon, href }) => {
           const isActive = id === activeItem
-
           return (
-            <S.NavItem
-              key={id}
-              $isActive={isActive}
-              onClick={() => setActiveItem(id)}
-            >
+            <S.NavItem key={id} href={href} passHref $isActive={isActive}>
               <Icon size={24} weight={isActive ? 'bold' : 'regular'} />
               <S.NavLabel $isActive={isActive}>{label}</S.NavLabel>
             </S.NavItem>

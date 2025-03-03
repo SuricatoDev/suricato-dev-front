@@ -22,7 +22,7 @@ export const Shadow = styled.div<ModalProps>`
     right: 1rem;
     cursor: pointer;
     color: ${({ theme }) => theme.colors.primary_medium};
-    transition: opacity 2s;
+    transition: opacity ${(props) => props.theme.common.transition.default};
 
     &:hover {
       opacity: 0.8;

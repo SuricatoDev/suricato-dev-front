@@ -38,8 +38,10 @@ const baseStyles = css<ButtonProps>`
   border-radius: 8px;
   padding-left: 24px;
   padding-right: 24px;
-  cursor: pointer;
   text-decoration: none;
+  cursor: pointer;
+  opacity: ${({ $loading }) => ($loading ? 0.6 : 1)};
+  pointer-events: ${({ $loading }) => ($loading ? 'none' : 'auto')};
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.text_standard};
@@ -57,8 +59,8 @@ const baseStyles = css<ButtonProps>`
 `
 
 export const Content = styled.span`
-  padding-top: 13px;
-  padding-bottom: 13px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   margin: 1px 0;
   flex: 1;
   text-align: center;
@@ -94,7 +96,7 @@ const ButtonOutlined = css<ButtonProps>`
   transition: background-color ${({ theme }) => theme.common.transition.default};
 
   &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.colors.text_light};
+    background-color: ${({ theme }) => theme.colors.base_dark8};
   }
 `
 

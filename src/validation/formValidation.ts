@@ -1,7 +1,7 @@
 import { checkPasswordStrength } from '@/utils/validations'
 import * as Yup from 'yup'
 
-export const validationSchema = Yup.object().shape({
+export const signupValidationSchema = Yup.object().shape({
   email: Yup.string()
     .required('O e-mail é obrigatório')
     .matches(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, 'Formato de e-mail inválido'),
@@ -9,6 +9,7 @@ export const validationSchema = Yup.object().shape({
   contactEmail: Yup.string()
     .required('O e-mail é obrigatório')
     .matches(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, 'Formato de e-mail inválido'),
+
   password: Yup.string()
     .required('A senha é obrigatória')
     .min(8, 'A senha deve ter no mínimo 8 caracteres')
@@ -20,6 +21,7 @@ export const validationSchema = Yup.object().shape({
         return checkPasswordStrength(value || '', firstName, contactEmail)
       }
     ),
+
   firstName: Yup.string()
     .required('O nome é obrigatório')
     .matches(/^[A-Za-zÀ-ú\s]+$/, 'Apenas letras e espaços são permitidas')
@@ -63,3 +65,15 @@ export const validationSchema = Yup.object().shape({
       })
   })
 })
+
+export const loginValidationSchema = Yup.object().shape({
+  email: Yup.string()
+    .required('O e-mail é obrigatório')
+    .matches(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, 'Formato de e-mail inválido'),
+
+  password: Yup.string().required('A senha é obrigatória')
+})
+
+export const getValidationSchema = (step: number) => {
+  return step === 1 ? loginValidationSchema : signupValidationSchema
+}

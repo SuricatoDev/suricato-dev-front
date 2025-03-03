@@ -5,7 +5,6 @@ import { ErrorIcon, ValidIcon } from '../Icons'
 import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
 import { EyeSlash } from '@phosphor-icons/react/dist/ssr/EyeSlash'
 import { checkPasswordStrength } from '@/utils/validations'
-import ErrorMessage from '../ErrorMessage'
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string
@@ -14,6 +13,7 @@ interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   userEmail?: string
   $error?: string
   $showErrorMessage?: boolean
+  $showStrengthMeter?: boolean
 }
 
 export default function InputPassword({
@@ -22,36 +22,37 @@ export default function InputPassword({
   userName,
   userEmail,
   $error,
-  $showErrorMessage,
+  $showErrorMessage = false,
+  $showStrengthMeter = true,
   ...rest
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [strength, setStrength] = useState(false)
-
   const [hasMinLength, setHasMinLength] = useState(false)
   const [hasNumberOrSymbol, setHasNumberOrSymbol] = useState(false)
   const [notContainsUserData, setNotContainsUserData] = useState(true)
 
   useEffect(() => {
-    const pwd = value ?? ''
-    const result = checkPasswordStrength(pwd, userName, userEmail)
+    if (!value || !$showStrengthMeter) return
+
+    const result = checkPasswordStrength(value, userName, userEmail)
     setStrength(result)
 
-    setHasMinLength(pwd.length >= 8)
-    setHasNumberOrSymbol(/\d|[!@#$%^&*(),.?":{}|<>]/.test(pwd))
+    setHasMinLength(value.length >= 8)
+    setHasNumberOrSymbol(/\d|[!@#$%^&*(),.?":{}|<>]/.test(value))
 
     let containsUserData = false
-    if (userName && pwd.toLowerCase().includes(userName.toLowerCase())) {
+    if (userName && value.toLowerCase().includes(userName.toLowerCase())) {
       containsUserData = true
     }
     if (userEmail) {
       const emailPart = userEmail.split('@')[0]
-      if (pwd.toLowerCase().includes(emailPart.toLowerCase())) {
+      if (value.toLowerCase().includes(emailPart.toLowerCase())) {
         containsUserData = true
       }
     }
     setNotContainsUserData(!containsUserData)
-  }, [value, userName, userEmail])
+  }, [value, userName, userEmail, $showStrengthMeter])
 
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev)
@@ -64,7 +65,7 @@ export default function InputPassword({
           {...rest}
           type={showPassword ? 'text' : 'password'}
           value={value}
-          onChange={onChange}
+          onChange={(e) => onChange?.(e)}
           placeholder="Senha"
           $error={$error}
           $showErrorMessage={$showErrorMessage}
@@ -74,7 +75,7 @@ export default function InputPassword({
         </S.ToggleButton>
       </S.Wrapper>
 
-      {value && (
+      {$showStrengthMeter && value && (
         <S.Requirements>
           <S.Validation $isValid={strength}>
             {strength ? <ValidIcon /> : <ErrorIcon />}
@@ -99,7 +100,6 @@ export default function InputPassword({
           )}
         </S.Requirements>
       )}
-      {$error && $showErrorMessage && <ErrorMessage $error={$error} />}
     </>
   )
 }
