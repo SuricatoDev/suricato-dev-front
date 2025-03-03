@@ -135,7 +135,6 @@ export default function MultiStepForm({
         <S.StyledForm
           onSubmit={(e) => {
             e.preventDefault()
-            handleNext()
           }}
         >
           {step === 1 && (

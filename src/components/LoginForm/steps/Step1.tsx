@@ -109,6 +109,12 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
               onBlur={field.onBlur}
               $error={error ? error.message : undefined}
               placeholder="Digite seu e-mail"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  handleNext()
+                }
+              }}
             />
           )}
         />
@@ -128,6 +134,12 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
                   field.onChange(e)
                   clearErrors('password')
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    handleLogin()
+                  }
+                }}
                 onBlur={field.onBlur}
                 placeholder="Digite sua senha"
                 $error={error ? error.message : undefined}
@@ -142,7 +154,7 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
           loading={isLoading}
           disabled={isButtonDisabled}
           onClick={showPasswordField ? handleLogin : handleNext}
-          type="submit"
+          type="button"
         >
           {showPasswordField ? 'Entrar' : 'Continuar'}
         </Button>

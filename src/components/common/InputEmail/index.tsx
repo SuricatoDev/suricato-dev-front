@@ -7,6 +7,7 @@ interface EmailInputProps
   value?: string
   onChange?: (value: string) => void
   onBlur?: () => void
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
   $error?: string
 }
 
@@ -22,6 +23,7 @@ export default function InputEmail({
   value: initialValue = '',
   onChange,
   onBlur,
+  onKeyDown,
   $error
 }: EmailInputProps) {
   const [value, setValue] = useState<string>(initialValue)
@@ -99,24 +101,26 @@ export default function InputEmail({
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (filteredDomains.length === 0) return
-
-    if (e.key === 'Tab' && ghost) {
-      e.preventDefault()
-      completeSuggestion(filteredDomains[0])
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      setSelectedIndex((prev) =>
-        prev < filteredDomains.length - 1 ? prev + 1 : 0
-      )
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setSelectedIndex((prev) =>
-        prev > 0 ? prev - 1 : filteredDomains.length - 1
-      )
-    } else if (e.key === 'Enter' && selectedIndex !== -1) {
-      e.preventDefault()
-      completeSuggestion(filteredDomains[selectedIndex])
+    if (filteredDomains.length > 0) {
+      if (e.key === 'Tab' && ghost) {
+        e.preventDefault()
+        completeSuggestion(filteredDomains[0])
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        setSelectedIndex((prev) =>
+          prev < filteredDomains.length - 1 ? prev + 1 : 0
+        )
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        setSelectedIndex((prev) =>
+          prev > 0 ? prev - 1 : filteredDomains.length - 1
+        )
+      } else if (e.key === 'Enter' && selectedIndex !== -1) {
+        e.preventDefault()
+        completeSuggestion(filteredDomains[selectedIndex])
+      }
+    } else {
+      onKeyDown && onKeyDown(e)
     }
   }
 
