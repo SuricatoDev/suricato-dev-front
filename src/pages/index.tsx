@@ -18,6 +18,33 @@ export default function Home() {
           name="description"
           content="Conectamos viajantes e organizadores de caravanas para os melhores eventos! 🚍✨ Encontre uma caravana para seu próximo evento ou anuncie a sua e leve mais pessoas com você. Simples, rápido e seguro."
         />
+        <meta
+          property="og:title"
+          content="Excursionistas - Encontre ou Anuncie Caravanas para Eventos"
+        />
+        <meta
+          property="og:description"
+          content="Conectamos viajantes e organizadores de caravanas para os melhores eventos! 🚍✨ Encontre uma caravana para seu próximo evento ou anuncie a sua e leve mais pessoas com você. Simples, rápido e seguro."
+        />
+        <meta
+          property="og:image"
+          content="https://excursionistas.com.br/og.jpeg"
+        />
+        <meta property="og:url" content="https://excursionistas.com.br/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Excursionistas - Encontre ou Anuncie Caravanas para Eventos"
+        />
+        <meta
+          name="twitter:description"
+          content="Conectamos viajantes e organizadores de caravanas para os melhores eventos! 🚍✨ Encontre uma caravana para seu próximo evento ou anuncie a sua e leve mais pessoas com você. Simples, rápido e seguro."
+        />
+        <meta
+          name="twitter:image"
+          content="https://excursionistas.com.br/og.jpeg"
+        />
       </Head>
       <Header />
       <S.Main>
