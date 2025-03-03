@@ -22,7 +22,7 @@ export default async function handler(
 
   try {
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    const exists = email === 'geliandes@hotmail.com'
+    const exists = email === 'teste@hotmail.com'
 
     return res.status(200).json({ exists })
   } catch (error) {
