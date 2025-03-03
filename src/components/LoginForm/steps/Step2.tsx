@@ -161,7 +161,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
         </p>
       </S.PolicyText>
       <Button
-        type="button"
+        type="submit"
         disabled={isButtonDisabled}
         onClick={onNext}
         variant="contained"

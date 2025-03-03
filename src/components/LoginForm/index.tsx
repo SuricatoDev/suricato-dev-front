@@ -84,7 +84,6 @@ export default function MultiStepForm({
         'password'
       ])
       if (isValid) {
-        console.log(methods.getValues())
         handleClose()
         router.push('/')
       }
@@ -133,8 +132,19 @@ export default function MultiStepForm({
             </>
           )}
         </S.Header>
-        <S.StyledForm>
-          {step === 1 && <Step1 onNext={handleNext} />}
+        <S.StyledForm
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleNext()
+          }}
+        >
+          {step === 1 && (
+            <Step1
+              onNext={handleNext}
+              onClose={handleClose}
+              isModal={$isModal}
+            />
+          )}
           {step === 2 && <Step2 onNext={handleNext} $isModal={$isModal} />}
         </S.StyledForm>
       </S.FormContainer>

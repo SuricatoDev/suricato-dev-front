@@ -137,7 +137,7 @@ export const Hamburguer = styled.div<{ $isProfileOpen: boolean }>`
 `
 
 export const MenuItem = styled.span<{ $isBold?: boolean }>`
-  font-weight: ${({ $isBold }) => ($isBold ? 'bold' : 'normal')};
+  font-weight: ${({ $isBold }) => ($isBold ? '600' : 'normal')};
   display: block;
   text-align: start;
   border: none;

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
 import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
 import logo from '@/assets/img/logo.png'
@@ -65,7 +65,17 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
 
   const profileItems: ProfileItem[] = useMemo(() => {
     return isLogged
-      ? [viagens, favoritos, editar, oferecer, conta, faq, sair]
+      ? [
+          viagens,
+          favoritos,
+          'divider',
+          editar,
+          oferecer,
+          conta,
+          'divider',
+          faq,
+          sair
+        ]
       : [cadastrar, entrar, 'divider', oferecer, faq]
   }, [isLogged])
 
@@ -116,13 +126,21 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
                         <Divider $marginY="8px" key={`divider-${index}`} />
                       ) : (
                         <li
-                          key={`profileItems-${item.href}-${item.label}-${index}`}
+                          key={`profileItems-${item.href}-${item.value}-${index}`}
                         >
-                          {item.label === 'Cadastrar-se' ||
-                          item.label === 'Entrar' ? (
+                          {item.value === 'cadastrar' ||
+                          item.value === 'entrar' ? (
                             <S.MenuItem
                               as="button"
                               onClick={openLoginModal}
+                              $isBold={item.isBold}
+                            >
+                              {item.label}
+                            </S.MenuItem>
+                          ) : item.value === 'sair' ? (
+                            <S.MenuItem
+                              as="button"
+                              onClick={() => signOut()}
                               $isBold={item.isBold}
                             >
                               {item.label}

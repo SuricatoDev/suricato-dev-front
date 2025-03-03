@@ -11,9 +11,11 @@ import { signIn } from 'next-auth/react'
 
 interface Step1Props {
   onNext: () => void
+  onClose: () => void
+  isModal: boolean
 }
 
-export default function Step1({ onNext }: Step1Props) {
+export default function Step1({ onNext, isModal, onClose }: Step1Props) {
   const [isLoading, setIsLoading] = useState(false)
   const [showPasswordField, setShowPasswordField] = useState(false)
   const {
@@ -46,7 +48,6 @@ export default function Step1({ onNext }: Step1Props) {
       }
 
       const data = await response.json()
-      console.log(data)
 
       if (data.exists) {
         setShowPasswordField(true)
@@ -78,7 +79,11 @@ export default function Step1({ onNext }: Step1Props) {
         message: 'Senha incorreta para o e-mail informado'
       })
     } else {
-      router.push('/')
+      if (isModal) {
+        onClose()
+      } else {
+        router.push('/')
+      }
     }
   }
 
@@ -137,7 +142,7 @@ export default function Step1({ onNext }: Step1Props) {
           loading={isLoading}
           disabled={isButtonDisabled}
           onClick={showPasswordField ? handleLogin : handleNext}
-          type="button"
+          type="submit"
         >
           {showPasswordField ? 'Entrar' : 'Continuar'}
         </Button>
