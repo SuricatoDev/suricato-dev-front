@@ -5,12 +5,15 @@ import { ErrorIcon, ValidIcon } from '../Icons'
 import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
 import { EyeSlash } from '@phosphor-icons/react/dist/ssr/EyeSlash'
 import { checkPasswordStrength } from '@/utils/validations'
+import ErrorMessage from '../ErrorMessage'
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   userName?: string
   userEmail?: string
+  $error?: string
+  $showErrorMessage?: boolean
 }
 
 export default function InputPassword({
@@ -18,6 +21,8 @@ export default function InputPassword({
   onChange,
   userName,
   userEmail,
+  $error,
+  $showErrorMessage,
   ...rest
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false)
@@ -61,6 +66,8 @@ export default function InputPassword({
           value={value}
           onChange={onChange}
           placeholder="Senha"
+          $error={$error}
+          $showErrorMessage={$showErrorMessage}
         />
         <S.ToggleButton type="button" onClick={toggleShowPassword}>
           {showPassword ? <Eye size={28} /> : <EyeSlash size={28} />}
@@ -92,6 +99,7 @@ export default function InputPassword({
           )}
         </S.Requirements>
       )}
+      {$error && $showErrorMessage && <ErrorMessage $error={$error} />}
     </>
   )
 }

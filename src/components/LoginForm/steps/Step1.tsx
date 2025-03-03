@@ -11,7 +11,15 @@ interface Step1Props {
 }
 
 export default function Step1({ onNext }: Step1Props) {
-  const { control } = useFormContext()
+  const {
+    control,
+    formState: { errors },
+    watch
+  } = useFormContext()
+
+  const emailValue = watch('email')
+
+  const isButtonDisabled = !emailValue || !!errors.email
 
   return (
     <>
@@ -21,15 +29,24 @@ export default function Step1({ onNext }: Step1Props) {
           name="email"
           control={control}
           defaultValue=""
-          render={({ field }) => (
+          rules={{
+            required: 'O e-mail é obrigatório',
+            pattern: {
+              value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+              message: 'Formato de e-mail inválido'
+            }
+          }}
+          render={({ field, fieldState: { error } }) => (
             <InputEmail
               value={field.value}
               onChange={field.onChange}
               onBlur={field.onBlur}
+              $error={error ? error.message : undefined}
+              placeholder="Digite seu e-mail"
             />
           )}
         />
-        <Button onClick={onNext} type="button">
+        <Button disabled={isButtonDisabled} onClick={onNext} type="button">
           Continuar
         </Button>
       </S.MainContent>

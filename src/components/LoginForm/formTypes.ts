@@ -3,11 +3,10 @@ export interface LoginFormData {
   contactEmail: string
   password: string
   birthDate: {
-    day: string
-    month: string
-    year: string
+    day: number
+    month: number
+    year: number
   }
-  optin: boolean
   firstName: string
   lastName: string
 }

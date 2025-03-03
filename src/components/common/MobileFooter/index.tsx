@@ -12,7 +12,6 @@ type MobileFooterProps = {
 }
 
 export default function MobileFooter({ $logged }: MobileFooterProps) {
-  console.log($logged)
   const navItems = $logged
     ? [
         { id: 'explorar', label: 'Explorar', icon: MagnifyingGlass },

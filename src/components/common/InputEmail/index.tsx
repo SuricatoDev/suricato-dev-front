@@ -1,10 +1,13 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, InputHTMLAttributes } from 'react'
 import * as S from './styles'
+import ErrorMessage from '../ErrorMessage'
 
-interface EmailInputProps {
+interface EmailInputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   value?: string
   onChange?: (value: string) => void
   onBlur?: () => void
+  $error?: string
 }
 
 const domains = [
@@ -18,7 +21,8 @@ const domains = [
 export default function InputEmail({
   value: initialValue = '',
   onChange,
-  onBlur
+  onBlur,
+  $error
 }: EmailInputProps) {
   const [value, setValue] = useState<string>(initialValue)
   const [ghost, setGhost] = useState<string>('')
@@ -157,14 +161,18 @@ export default function InputEmail({
           {filteredDomains.map((domain, index) => (
             <S.SuggestionItem
               key={domain}
-              isSelected={index === selectedIndex}
-              onClick={() => handleSuggestionClick(domain)}
+              $isSelected={index === selectedIndex}
+              onMouseDown={(e) => {
+                e.preventDefault()
+                handleSuggestionClick(domain)
+              }}
             >
               {value.split('@')[0]}@{domain}
             </S.SuggestionItem>
           ))}
         </S.SuggestionsList>
       )}
+      {$error && <ErrorMessage $error={$error} />}
     </S.Wrapper>
   )
 }

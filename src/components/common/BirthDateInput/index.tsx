@@ -129,7 +129,7 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
       <S.SelectWrapper>
         {day && <label>Dia</label>}
         <S.Select value={day} onChange={handleDayChange} onBlur={handleBlur}>
-          <option value="" disabled selected>
+          <option value="" disabled>
             Dia
           </option>
           {days.map((d) => (
@@ -150,7 +150,7 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
           onChange={handleMonthChange}
           onBlur={handleBlur}
         >
-          <option value="" disabled selected>
+          <option value="" disabled>
             Mês
           </option>
           {months.map((m) => (
@@ -167,7 +167,7 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
       <S.SelectWrapper>
         {year && <label>Ano</label>}
         <S.Select value={year} onChange={handleYearChange} onBlur={handleBlur}>
-          <option value="" disabled selected>
+          <option value="" disabled>
             Ano
           </option>
           {years.map((y) => (

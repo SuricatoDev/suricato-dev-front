@@ -1,0 +1,64 @@
+import { checkPasswordStrength } from '@/utils/validations'
+import * as Yup from 'yup'
+
+export const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .required('O e-mail é obrigatório')
+    .matches(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, 'Formato de e-mail inválido'),
+
+  contactEmail: Yup.string()
+    .required('O e-mail é obrigatório')
+    .matches(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, 'Formato de e-mail inválido'),
+  password: Yup.string()
+    .required('A senha é obrigatória')
+    .min(8, 'A senha deve ter no mínimo 8 caracteres')
+    .test(
+      'password-strength',
+      'A senha é fraca ou contém informações pessoais',
+      function (value) {
+        const { firstName, contactEmail } = this.parent
+        return checkPasswordStrength(value || '', firstName, contactEmail)
+      }
+    ),
+  firstName: Yup.string()
+    .matches(/^[A-Za-zÀ-ú\s]+$/, 'Apenas letras e espaços são permitidas')
+    .matches(/^(?!.*\s{2,}).*$/, 'Não pode haver espaços consecutivos')
+    .matches(/^(?!.*\s$).*$/, 'Não pode terminar com espaço')
+    .required('O nome é obrigatório'),
+  lastName: Yup.string()
+    .matches(/^[A-Za-zÀ-ú\s]+$/, 'Apenas letras são permitidas')
+    .matches(/^(?!.*\s{2,}).*$/, 'Não pode haver espaços consecutivos')
+    .matches(/^(?!.*\s$).*$/, 'Não pode terminar com espaço')
+    .required('O sobrenome é obrigatório'),
+
+  birthDate: Yup.object().shape({
+    day: Yup.number()
+      .required('O dia é obrigatório')
+      .transform((value) => Number(value))
+      .test('dia-valido', 'Dia inválido', (value) => {
+        const day = Number(value)
+        return day > 0 && day <= 31
+      }),
+    month: Yup.number()
+      .required('O mês é obrigatório')
+      .transform((value) => Number(value))
+      .test('mes-valido', 'Mês inválido', (value) => {
+        const month = Number(value)
+        return month > 0 && month <= 12
+      }),
+    year: Yup.number()
+      .required('O ano é obrigatório')
+      .transform((value) => Number(value))
+      .test('idade-minima', 'Você deve ter pelo menos 18 anos', function () {
+        const { day, month, year } = this.parent
+        const d = Number(day)
+        const m = Number(month)
+        const y = Number(year)
+        const birthDate = new Date(y, m - 1, d)
+        const ageDifMs = Date.now() - birthDate.getTime()
+        const ageDate = new Date(ageDifMs)
+        const age = Math.abs(ageDate.getUTCFullYear() - 1970)
+        return age >= 18
+      })
+  })
+})

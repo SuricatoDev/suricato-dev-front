@@ -1,30 +1,51 @@
 import React, { useState } from 'react'
-import { useForm, FormProvider, SubmitHandler } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import Step1 from './steps/Step1'
 import Step2 from './steps/Step2'
 import { LoginFormData } from './formTypes'
 import * as S from './styles'
 import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
+import { validationSchema } from '@/validation/formValidation'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'next/router'
 
-const MultiStepForm: React.FC = () => {
+export default function MultiStepForm() {
+  const router = useRouter()
+
   const methods = useForm<LoginFormData>({
+    resolver: yupResolver(validationSchema),
+    mode: 'all',
     defaultValues: {
-      email: ''
+      email: '',
+      contactEmail: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      birthDate: { day: 0, month: 0, year: 0 }
     }
   })
 
   const [step, setStep] = useState<number>(1)
 
-  const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-    if (step < 2) {
-      setStep(step + 1)
-    } else {
-      console.log('Dados do formulário:', data)
+  const handleNext = async () => {
+    if (step === 1) {
+      const isValid = await methods.trigger('email')
+      if (isValid) {
+        setStep(step + 1)
+      }
+    } else if (step === 2) {
+      const isValid = await methods.trigger([
+        'firstName',
+        'lastName',
+        'birthDate',
+        'contactEmail',
+        'password'
+      ])
+      if (isValid) {
+        console.log(methods.getValues())
+        router.push('/')
+      }
     }
-  }
-
-  const handleNext = () => {
-    methods.handleSubmit(onSubmit)()
   }
 
   const handleBack = () => {
@@ -47,11 +68,9 @@ const MultiStepForm: React.FC = () => {
         </S.Header>
         <S.StyledForm>
           {step === 1 && <Step1 onNext={handleNext} />}
-          {step === 2 && <Step2 onNext={handleNext} onPrev={handleBack} />}
+          {step === 2 && <Step2 onNext={handleNext} />}
         </S.StyledForm>
       </S.FormContainer>
     </FormProvider>
   )
 }
-
-export default MultiStepForm

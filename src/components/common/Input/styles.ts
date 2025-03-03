@@ -5,6 +5,8 @@ export interface WrapperProps {
   $borderRadiusTop?: string
   $borderTop?: string
   $borderBottom?: string
+  $hasError?: boolean
+  $error?: string
 }
 
 export const Wrapper = styled.input<WrapperProps>`
@@ -15,16 +17,19 @@ export const Wrapper = styled.input<WrapperProps>`
   color: black;
   position: relative;
   z-index: 2;
-  border: 1px solid ${(props) => props.theme.colors.text_light};
+  border: 1px solid
+    ${(props) => (props.$hasError ? 'red' : props.theme.colors.text_light)};
 
   border-top-left-radius: ${(props) => props.$borderRadiusTop || '8px'};
   border-top-right-radius: ${(props) => props.$borderRadiusTop || '8px'};
   border-bottom-right-radius: ${(props) => props.$borderRadiusBottom || '8px'};
   border-bottom-left-radius: ${(props) => props.$borderRadiusBottom || '8px'};
   border-top: ${(props) =>
-    props.$borderTop || `1px solid ${props.theme.colors.text_light}`};
+    props.$borderTop ||
+    `1px solid ${props.$hasError ? 'red' : props.theme.colors.text_light}`};
   border-bottom: ${(props) =>
-    props.$borderBottom || `1px solid ${props.theme.colors.text_light}`};
+    props.$borderBottom ||
+    `1px solid ${props.$hasError ? 'red' : props.theme.colors.text_light}`};
 
   min-height: 56px;
 `

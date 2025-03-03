@@ -5,7 +5,7 @@ interface InputProps {
 }
 
 interface SuggestionItemProps {
-  isSelected: boolean
+  $isSelected: boolean
 }
 
 export const Wrapper = styled.div`
@@ -71,8 +71,8 @@ export const SuggestionsList = styled.ul`
 export const SuggestionItem = styled.li<SuggestionItemProps>`
   padding: 8px;
   cursor: pointer;
-  background-color: ${({ isSelected, theme }) =>
-    isSelected ? theme.colors.base_dark8 : 'transparent'};
+  background-color: ${({ $isSelected, theme }) =>
+    $isSelected ? theme.colors.base_dark8 : 'transparent'};
 
   white-space: nowrap;
   overflow: hidden;
