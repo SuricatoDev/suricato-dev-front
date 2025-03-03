@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { ModalProps } from './'
+import { ModalProps } from '.'
 
 export const Shadow = styled.div<ModalProps>`
   display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};

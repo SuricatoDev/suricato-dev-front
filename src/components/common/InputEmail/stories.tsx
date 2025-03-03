@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react'
-import LoginForm from '.'
+import InputEmail from '.'
 
 export default {
-  title: 'LoginForm',
-  component: LoginForm
+  title: 'InputEmail',
+  component: InputEmail
 } as Meta
 
 export const Default: StoryObj = {}

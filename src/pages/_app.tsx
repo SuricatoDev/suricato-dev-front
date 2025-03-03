@@ -1,9 +1,9 @@
-import { Montserrat } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { AppProps } from 'next/app'
 import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
 
-export const montserrat = Montserrat({
-  weight: ['400', '500', '700'],
+export const inter = Inter({
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
   fallback: [
     '-apple-system',
@@ -22,7 +22,7 @@ export const montserrat = Montserrat({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <AccessibilityContextProvider>
-      <div className={`${montserrat.className}`}>
+      <div className={`${inter.className}`}>
         <Component {...pageProps} />
       </div>
     </AccessibilityContextProvider>

@@ -1,39 +1,57 @@
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
+import { useForm, FormProvider, SubmitHandler } from 'react-hook-form'
+import Step1 from './steps/Step1'
+import Step2 from './steps/Step2'
+import { LoginFormData } from './formTypes'
 import * as S from './styles'
+import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
 
-export default function LoginForm() {
-  const { register, handleSubmit } = useForm()
+const MultiStepForm: React.FC = () => {
+  const methods = useForm<LoginFormData>({
+    defaultValues: {
+      email: ''
+    }
+  })
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const [step, setStep] = useState<number>(1)
+
+  const onSubmit: SubmitHandler<LoginFormData> = (data) => {
+    if (step < 2) {
+      setStep(step + 1)
+    } else {
+      console.log('Dados do formulário:', data)
+    }
+  }
+
+  const handleNext = () => {
+    methods.handleSubmit(onSubmit)()
+  }
+
+  const handleBack = () => {
+    setStep(step - 1)
   }
 
   return (
-    <S.FormContainer>
-      <S.Header>
-        <S.Title>Entrar ou cadastrar-se</S.Title>
-      </S.Header>
-      <S.StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <S.Subtitle>Bem-vindo ao Excursionistas</S.Subtitle>
-        <label htmlFor="country">País/Região</label>
-        <S.StyledSelect id="country" {...register('country')}>
-          <option value="BR">Brasil (+55)</option>
-          <option value="US">United States (+1)</option>
-          {/* Adicione mais opções de acordo com a necessidade */}
-        </S.StyledSelect>
-
-        <label htmlFor="phone">Número de telefone</label>
-        <S.StyledInput id="phone" type="tel" {...register('phone')} />
-
-        <S.StyledButton type="submit">Continuar</S.StyledButton>
-
-        <S.Divider>ou</S.Divider>
-
-        <S.StyledButton type="button">Continuar com Google</S.StyledButton>
-        <S.StyledButton type="button">Continuar com Apple</S.StyledButton>
-        <S.StyledButton type="button">Continuar com email</S.StyledButton>
-        <S.StyledButton type="button">Continuar com Facebook</S.StyledButton>
-      </S.StyledForm>
-    </S.FormContainer>
+    <FormProvider {...methods}>
+      <S.FormContainer>
+        <S.Header>
+          {step === 1 && <S.Title>Entrar ou cadastrar-se</S.Title>}
+          {step === 2 && (
+            <>
+              <S.BackButton onClick={handleBack}>
+                <ArrowLeft size={24} weight="bold" />
+              </S.BackButton>
+              <S.Title>Concluir cadastro</S.Title>
+            </>
+          )}
+        </S.Header>
+        <S.StyledForm>
+          {step === 1 && <Step1 onNext={handleNext} />}
+          {step === 2 && <Step2 onNext={handleNext} onPrev={handleBack} />}
+        </S.StyledForm>
+      </S.FormContainer>
+    </FormProvider>
   )
 }
+
+export default MultiStepForm
