@@ -21,15 +21,16 @@ export const validationSchema = Yup.object().shape({
       }
     ),
   firstName: Yup.string()
+    .required('O nome é obrigatório')
     .matches(/^[A-Za-zÀ-ú\s]+$/, 'Apenas letras e espaços são permitidas')
     .matches(/^(?!.*\s{2,}).*$/, 'Não pode haver espaços consecutivos')
-    .matches(/^(?!.*\s$).*$/, 'Não pode terminar com espaço')
-    .required('O nome é obrigatório'),
+    .matches(/^(?!.*\s$).*$/, 'Não pode terminar com espaço'),
+
   lastName: Yup.string()
+    .required('O nome é obrigatório')
     .matches(/^[A-Za-zÀ-ú\s]+$/, 'Apenas letras são permitidas')
     .matches(/^(?!.*\s{2,}).*$/, 'Não pode haver espaços consecutivos')
-    .matches(/^(?!.*\s$).*$/, 'Não pode terminar com espaço')
-    .required('O sobrenome é obrigatório'),
+    .matches(/^(?!.*\s$).*$/, 'Não pode terminar com espaço'),
 
   birthDate: Yup.object().shape({
     day: Yup.number()
