@@ -6,7 +6,11 @@ import logo from '@/assets/img/logo.png'
 import * as S from './styles'
 import CategoriesBar from '../CategoriesBar'
 
-export default function Header() {
+type HeaderProps = {
+  simpleHeader?: boolean
+}
+
+export default function Header({ simpleHeader = false }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [isProfileOpen, setIsProfileOpen] = useState(false)
@@ -29,13 +33,15 @@ export default function Header() {
       <S.Container>
         <S.TopHeader>
           <Image src={logo} alt="Logo" width={50} height={50} />
+          {!simpleHeader && (
+            <S.Menu $isScrolled={isScrolled}>
+              <a href="#">Explorar</a>
+              <a href="#">Anunciar</a>
+              <a href="#">Sobre Nós</a>
+              <a href="#">Fale Conosco</a>
+            </S.Menu>
+          )}
 
-          <S.Menu $isScrolled={isScrolled}>
-            <a href="#">Explorar</a>
-            <a href="#">Anunciar</a>
-            <a href="#">Sobre Nós</a>
-            <a href="#">Fale Conosco</a>
-          </S.Menu>
           <S.ProfileContainer>
             <S.ProfileButton onClick={toggleProfileMenu}>
               <S.Hamburguer $isProfileOpen={isProfileOpen}>

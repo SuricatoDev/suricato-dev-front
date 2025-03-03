@@ -5,7 +5,7 @@ export const defaultTheme = {
     background_dark: '#4D4D4D',
     text_standard: '#1D1D1D',
     text_medium: '#383838',
-    text_light: '#EDEDED',
+    text_light: '#8C8C8C',
     text_ultralight: '#FFFFFF',
     text_neutralLight: '#FEFEFE',
     base_standard: '#1D1D1D',

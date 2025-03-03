@@ -1,10 +1,10 @@
 import { GetServerSideProps } from 'next'
 import * as S from '@/styles/pages/home/styles'
-import Header from '@/components/Header'
+import Header from '@/components/common/Header'
 import Layout from '@/containers/Layout'
-import Footer from '@/components/Footer'
-import MobileFooter from '@/components/MobileFooter'
-import ProductCard from '@/components/ProductCard'
+import Footer from '@/components/common/Footer'
+import MobileFooter from '@/components/common/MobileFooter'
+import ProductCard from '@/components/common/ProductCard'
 
 export default function Home() {
   return (
@@ -234,7 +234,7 @@ export default function Home() {
           </div>
         </S.Main>
         <Footer />
-        <MobileFooter />
+        <MobileFooter $logged />
       </S.Wrapper>
     </Layout>
   )

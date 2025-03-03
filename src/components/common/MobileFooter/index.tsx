@@ -7,14 +7,24 @@ import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
 import * as S from './styles'
 import { useScrollDown } from '@/hooks/useScrollDown'
 
-const navItems = [
-  { id: 'explorar', label: 'Explorar', icon: MagnifyingGlass },
-  { id: 'favoritos', label: 'Favoritos', icon: Heart },
-  { id: 'viagens', label: 'Viagens', icon: Van },
-  { id: 'perfil', label: 'Perfil', icon: UserCircle }
-]
+type MobileFooterProps = {
+  $logged: boolean
+}
 
-export default function MobileFooter() {
+export default function MobileFooter({ $logged }: MobileFooterProps) {
+  const navItems = $logged
+    ? [
+        { id: 'explorar', label: 'Explorar', icon: MagnifyingGlass },
+        { id: 'favoritos', label: 'Favoritos', icon: Heart },
+        { id: 'viagens', label: 'Viagens', icon: Van },
+        { id: 'perfil', label: 'Perfil', icon: UserCircle }
+      ]
+    : [
+        { id: 'explorar', label: 'Explorar', icon: MagnifyingGlass },
+        { id: 'favoritos', label: 'Favoritos', icon: Heart },
+        { id: 'entrar', label: 'Entrar', icon: UserCircle }
+      ]
+
   const [activeItem, setActiveItem] = useState('explorar')
 
   const scrollingDown = useScrollDown()

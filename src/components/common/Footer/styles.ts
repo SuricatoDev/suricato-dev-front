@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const Wrapper = styled.footer`
   @media (${device.md}) {
-    z-index: 9;
+    z-index: 9999;
     position: fixed;
     bottom: 0;
     width: 100%;

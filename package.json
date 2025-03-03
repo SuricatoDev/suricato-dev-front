@@ -1,6 +1,6 @@
 {
-  "name": "lp-ead-page-router",
-  "version": "0.1.0",
+  "name": "excursionistas-front",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "test": "echo 'No tests specified'",
@@ -15,7 +15,7 @@
     "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
+    "@hookform/resolvers": "^3.10.0",
     "@phosphor-icons/react": "^2.1.7",
     "axios": "^1.7.2",
     "next": "14.2.2",
@@ -24,7 +24,7 @@
     "react-hook-form": "^7.51.4",
     "styled-components": "^6.1.8",
     "swiper": "^11.2.4",
-    "zod": "^3.23.8"
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.6.17",
