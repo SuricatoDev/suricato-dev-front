@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react'
-import BirthDateInput from '.'
+import InputBirthDate from '.'
 
 export default {
-  title: 'BirthDateInput',
-  component: BirthDateInput
+  title: 'InputBirthDate',
+  component: InputBirthDate
 } as Meta
 
 export const Default: StoryObj = {}

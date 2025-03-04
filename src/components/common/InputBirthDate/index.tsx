@@ -7,7 +7,7 @@ interface BirthDate {
   year: string
 }
 
-interface BirthDateInputProps {
+interface InputBirthDateProps {
   onChange?: (date: BirthDate) => void
   onBlur?: () => void
   defaultDay?: string
@@ -28,14 +28,14 @@ function getDaysInMonth(year: number, month: number) {
   return 31
 }
 
-const BirthDateInput: React.FC<BirthDateInputProps> = ({
+export default function InputBirthDate({
   onChange,
   onBlur,
   defaultDay = '',
   defaultMonth = '',
   defaultYear = '',
   minAge = 0
-}) => {
+}: InputBirthDateProps) {
   const [day, setDay] = useState(defaultDay)
   const [month, setMonth] = useState(defaultMonth)
   const [year, setYear] = useState(defaultYear)
@@ -181,5 +181,3 @@ const BirthDateInput: React.FC<BirthDateInputProps> = ({
     </S.Container>
   )
 }
-
-export default BirthDateInput

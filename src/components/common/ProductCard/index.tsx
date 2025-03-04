@@ -1,3 +1,4 @@
+// components/ProductCard.tsx
 import React, { useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
@@ -10,26 +11,27 @@ import 'swiper/css/scrollbar'
 
 import * as S from './styles'
 import { Heart } from '@phosphor-icons/react/dist/ssr/Heart'
-import { Star } from '@phosphor-icons/react/dist/ssr/Star'
+import { CalendarDots, Clock, MapPin } from '@phosphor-icons/react'
+import Skeleton from '../Skeleton'
 
-type ProductCardProps = {
+export type ProductCardProps = {
   images: string[]
   location: string
   distance: string
-  dateRange: string
-  price: number
-  rating: number
+  date: string
+  hour: string
   priority?: boolean
+  isLoading?: boolean
 }
 
 export default function ProductCard({
   images,
   location,
   distance,
-  dateRange,
-  price,
-  rating,
-  priority
+  date,
+  hour,
+  priority,
+  isLoading = false
 }: ProductCardProps) {
   const prevRef = useRef<HTMLButtonElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
@@ -40,6 +42,34 @@ export default function ProductCard({
   const updateNavigation = (swiper: SwiperType) => {
     setShowLeft(!swiper.isBeginning)
     setShowRight(!swiper.isEnd)
+  }
+
+  if (isLoading) {
+    return (
+      <S.Wrapper>
+        <S.ImageContainer>
+          <Skeleton radius="0" height="100%" />
+        </S.ImageContainer>
+        <S.Content>
+          <S.TopContent>
+            <Skeleton height="1rem" />
+            <S.Info as="div">
+              <Skeleton height="0.965rem" />
+            </S.Info>
+          </S.TopContent>
+
+          <S.BottomContent>
+            <S.Info as="div">
+              <Skeleton height="0.965rem" width="40%" />
+            </S.Info>
+
+            <S.Info as="div">
+              <Skeleton height="0.965rem" width="30%" />
+            </S.Info>
+          </S.BottomContent>
+        </S.Content>
+      </S.Wrapper>
+    )
   }
 
   return (
@@ -91,20 +121,25 @@ export default function ProductCard({
       </S.ImageContainer>
 
       <S.Content>
-        <S.TopInfo>
+        <S.TopContent>
           <S.Location>{location}</S.Location>
-          <S.Rating>
-            <span>{rating.toFixed(2)}</span>
-            <Star size={16} weight="fill" />
-          </S.Rating>
-        </S.TopInfo>
+          <S.Info>
+            <MapPin size={14} weight="fill" />
+            {distance}
+          </S.Info>
+        </S.TopContent>
 
-        <S.Distance>{distance}</S.Distance>
-        <S.DateRange>{dateRange}</S.DateRange>
+        <S.BottomContent>
+          <S.Info>
+            <CalendarDots size={14} weight="fill" />
+            {date}
+          </S.Info>
 
-        <S.Price>
-          R${price} <span>/ noite</span>
-        </S.Price>
+          <S.Info>
+            <Clock size={14} weight="fill" />
+            {hour}
+          </S.Info>
+        </S.BottomContent>
       </S.Content>
     </S.Wrapper>
   )

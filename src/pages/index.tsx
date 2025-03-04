@@ -5,6 +5,9 @@ import Footer from '@/components/common/Footer'
 import ProductCard from '@/components/common/ProductCard'
 import { getSession } from 'next-auth/react'
 import Head from 'next/head'
+import Image1 from '@/assets/images/example-1.webp'
+import Image2 from '@/assets/images/example-2.webp'
+import Image3 from '@/assets/images/example-3.webp'
 
 export default function Home() {
   const cards = Array.from({ length: 20 })
@@ -53,16 +56,11 @@ export default function Home() {
             {cards.map((_, index) => (
               <ProductCard
                 key={index}
-                images={[
-                  'https://a0.muscache.com/im/pictures/hosting/Hosting-49840035/original/41336a43-2c66-47e5-97d3-0187d1c2829c.jpeg?im_w=720',
-                  'https://a0.muscache.com/im/pictures/1ccd3a06-358e-4bec-8146-1e366d2a628b.jpg?im_w=720',
-                  'https://a0.muscache.com/im/pictures/miso/Hosting-49840035/original/5899be8a-bb5e-4c1b-9c48-910b7d5a443f.jpeg?im_w=720'
-                ]}
-                location="Córrego do Bom Jesus, Brasil"
-                distance="180 km de distância"
-                dateRange="16 – 21 de mar."
-                price={790}
-                rating={4.96}
+                images={[Image1.src, Image2.src, Image3.src]}
+                location="Orquestra Sinfônica - Alumni"
+                distance="Campos Elíseos - SP"
+                date="16 de março"
+                hour="10h00"
                 priority={index === 0}
               />
             ))}

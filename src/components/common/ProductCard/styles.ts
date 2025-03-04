@@ -46,10 +46,6 @@ export const FavoriteButton = styled.button`
   }
 `
 
-export const Content = styled.div`
-  padding: 12px;
-`
-
 export const TopInfo = styled.div`
   display: flex;
   justify-content: space-between;
@@ -64,43 +60,33 @@ export const Location = styled.h2`
   color: ${({ theme }) => theme.colors.text_medium};
 `
 
-export const Rating = styled.div`
+export const Info = styled.p`
   display: flex;
+  gap: 0.25rem;
   align-items: center;
-  gap: 4px;
-
-  span {
-    font-size: 14px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.text_medium};
-  }
-
-  svg {
-    color: ${({ theme }) => theme.colors.text_medium};
-  }
-`
-
-export const Distance = styled.p`
-  margin: 0;
-  font-size: 12px;
+  font-size: ${({ theme }) => theme.common.font.sizes.body.xsmall};
+  font-weight: inherit;
   color: ${({ theme }) => theme.colors.text_standard};
 `
 
-export const DateRange = styled.p`
-  margin: 4px 0 0 0;
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.text_standard};
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
 `
 
-export const Price = styled.p`
-  margin: 8px 0 0 0;
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.text_medium};
+export const TopContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-weight: 500;
+`
 
-  span {
-    font-size: 12px;
-    color: ${({ theme }) => theme.colors.text_standard};
-  }
+export const BottomContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 `
 
 export const NavDefault = styled.button`

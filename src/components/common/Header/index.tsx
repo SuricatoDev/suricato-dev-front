@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
 import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
-import logo from '@/assets/img/logo.png'
+import logo from '@/assets/images/logo.png'
 import * as S from './styles'
 import CategoriesBar from '../CategoriesBar'
 import { HeaderNavigation } from './navigation'
@@ -28,6 +28,8 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  const profileContainerRef = useRef<HTMLDivElement>(null)
 
   const openLoginModal = () => setIsLoginModalOpen(true)
 
@@ -55,6 +57,20 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        isProfileOpen &&
+        profileContainerRef.current &&
+        !profileContainerRef.current.contains(event.target as Node)
+      ) {
+        setIsProfileOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isProfileOpen])
+
   const toggleProfileMenu = () => {
     setIsProfileOpen((prev) => !prev)
   }
@@ -78,6 +94,11 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
         ]
       : [cadastrar, entrar, 'divider', oferecer, faq]
   }, [isLogged])
+
+  const handleOptionClick = (onClick?: () => void) => {
+    if (onClick) onClick()
+    setIsProfileOpen(false)
+  }
 
   return (
     <>
@@ -108,7 +129,7 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
               </S.Menu>
             )}
 
-            <S.ProfileContainer>
+            <S.ProfileContainer ref={profileContainerRef}>
               <S.ProfileButton onClick={toggleProfileMenu}>
                 <S.Hamburguer $isProfileOpen={isProfileOpen}>
                   <span />
@@ -126,13 +147,13 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
                         <Divider $marginY="8px" key={`divider-${index}`} />
                       ) : (
                         <li
-                          key={`profileItems-${item.href}-${item.value}-${index}`}
+                          key={`profileItem-${item.href}-${item.value}-${index}`}
                         >
                           {item.value === 'cadastrar' ||
                           item.value === 'entrar' ? (
                             <S.MenuItem
                               as="button"
-                              onClick={openLoginModal}
+                              onClick={() => handleOptionClick(openLoginModal)}
                               $isBold={item.isBold}
                             >
                               {item.label}
@@ -140,7 +161,7 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
                           ) : item.value === 'sair' ? (
                             <S.MenuItem
                               as="button"
-                              onClick={() => signOut()}
+                              onClick={() => handleOptionClick(() => signOut())}
                               $isBold={item.isBold}
                             >
                               {item.label}
@@ -150,6 +171,7 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
                               as={Link}
                               href={item.href}
                               passHref
+                              onClick={() => handleOptionClick()}
                               $isBold={item.isBold}
                             >
                               {item.label}

@@ -3,7 +3,7 @@ import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import * as S from '../styles'
 import Input from '@/components/common/Input'
 import Label from '@/components/common/Label'
-import BirthDateInput from '@/components/common/BirthDateInput'
+import InputBirthDate from '@/components/common/InputBirthDate'
 import InputEmail from '@/components/common/InputEmail'
 import InputPassword from '@/components/common/InputPassword'
 import Button from '@/components/common/Button'
@@ -98,7 +98,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
           control={control}
           defaultValue={{ day: '', month: '', year: '' }}
           render={({ field }) => (
-            <BirthDateInput
+            <InputBirthDate
               minAge={18}
               onChange={field.onChange}
               defaultDay={field.value?.day || ''}

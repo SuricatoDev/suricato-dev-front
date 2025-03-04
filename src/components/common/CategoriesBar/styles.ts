@@ -52,7 +52,7 @@ export const CategoryMenu = styled.div<CategoryMenuProps>`
     position: absolute;
     top: 0;
     left: 0;
-    width: 3rem;
+    width: 4rem;
     height: 100%;
     pointer-events: none;
     background: linear-gradient(
