@@ -169,25 +169,3 @@ export const NavNext = styled(NavDefault)`
     display: none;
   }
 `
-
-export const FilterButton = styled.button`
-  @media (${device.md}) {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: ${({ theme }) => theme.colors.background_standard};
-    border: 1px solid ${({ theme }) => theme.colors.base_dark16};
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-left: 1rem;
-    margin-bottom: 0.75rem;
-  }
-
-  display: none;
-`
-
-export const FilterLabel = styled.span`
-  font-size: 0.875rem;
-  white-space: nowrap;
-`

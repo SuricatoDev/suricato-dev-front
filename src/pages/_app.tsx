@@ -2,7 +2,7 @@ import { Inter } from 'next/font/google'
 import { AppProps } from 'next/app'
 import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
 import { SessionProvider } from 'next-auth/react'
-import MobileFooter from '@/components/common/MobileFooter'
+import MobileFooter from '@/components/sections/MobileFooter'
 import Layout from '@/containers/Layout'
 
 export const inter = Inter({

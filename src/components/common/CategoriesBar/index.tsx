@@ -4,7 +4,6 @@ import { Navigation } from 'swiper/modules'
 import { Swiper as SwiperType } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
-import { Funnel } from '@phosphor-icons/react/dist/ssr/Funnel'
 import { House } from '@phosphor-icons/react/dist/ssr/House'
 import { Island } from '@phosphor-icons/react/dist/ssr/Island'
 import { Confetti } from '@phosphor-icons/react/dist/ssr/Confetti'
@@ -92,11 +91,6 @@ export default function CategoriesBar() {
 
             <S.NavNext className="swiper-button-next categories-bar-swiper-button-next"></S.NavNext>
           </S.CategoryMenu>
-
-          <S.FilterButton>
-            <Funnel size={20} weight="bold" />
-            <S.FilterLabel>Filtros</S.FilterLabel>
-          </S.FilterButton>
         </S.Container>
       </div>
     </S.Wrapper>

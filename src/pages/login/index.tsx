@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
-import LoginForm from '@/components/LoginForm'
+import LoginForm from '@/components/sections/LoginForm'
 import * as S from '@/styles/pages/login/styles'
 
 export default function Login() {

@@ -6,11 +6,11 @@ import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
 import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
 import logo from '@/assets/images/logo.png'
 import * as S from './styles'
-import CategoriesBar from '../CategoriesBar'
+import CategoriesBar from '@/components/common/CategoriesBar'
 import { HeaderNavigation } from './navigation'
-import Divider from '../Divider'
-import Portal from '../Portal'
-import MultiStepForm from '@/components/LoginForm'
+import Divider from '@/components/common/Divider'
+import Portal from '@/components/common/Portal'
+import MultiStepForm from '@/components/sections/LoginForm'
 
 type HeaderProps = {
   simpleHeader?: boolean

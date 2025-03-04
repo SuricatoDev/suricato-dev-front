@@ -1,4 +1,3 @@
-// components/Skeleton.tsx
 import React from 'react'
 import * as S from './styles'
 

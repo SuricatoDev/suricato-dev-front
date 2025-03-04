@@ -12,7 +12,7 @@ import 'swiper/css/scrollbar'
 import * as S from './styles'
 import { Heart } from '@phosphor-icons/react/dist/ssr/Heart'
 import { CalendarDots, Clock, MapPin } from '@phosphor-icons/react'
-import Skeleton from '../Skeleton'
+import Skeleton from '@/components/common/Skeleton'
 
 export type ProductCardProps = {
   images: string[]
