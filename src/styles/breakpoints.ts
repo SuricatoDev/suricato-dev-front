@@ -11,7 +11,7 @@ interface Size {
 export const size: Size = {
   xs: '0px', //  0 - xs
   xxsm: '360px',
-  xsm: '420px',
+  xsm: '520px',
   sm: '768px', // 768 ~ 0 - 50px sm - tablet
   md: '960px', // 960 ~ 768 - 50px md - desktop
   lg: '1440px', // 1440 ~ 960 - 100px lg - desktopHD
