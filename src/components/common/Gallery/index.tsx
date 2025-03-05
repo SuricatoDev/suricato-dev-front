@@ -17,7 +17,6 @@ export function Gallery({ images }: GalleryProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
-  // Estado que rastreia se cada imagem está carregando (true = ainda carregando)
   const [loadingImages, setLoadingImages] = useState(() =>
     images.map(() => true)
   )
