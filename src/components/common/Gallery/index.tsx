@@ -4,7 +4,9 @@ import ImageGallery from 'react-image-gallery'
 import 'react-image-gallery/styles/css/image-gallery.css'
 import * as S from './styles'
 import Portal from '../Portal'
-import { CaretLeft, X, CaretRight } from '@phosphor-icons/react/dist/ssr'
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
+import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
+import { X } from '@phosphor-icons/react/dist/ssr/X'
 
 interface GalleryProps {
   images: string[]
