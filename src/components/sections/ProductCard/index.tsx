@@ -1,18 +1,24 @@
 // components/ProductCard.tsx
 import React, { useRef, useState } from 'react'
+import Image from 'next/image'
+
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
 import { Swiper as SwiperType } from 'swiper'
-import Image from 'next/image'
+
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 
-import * as S from './styles'
 import { Heart } from '@phosphor-icons/react/dist/ssr/Heart'
-import { CalendarDots, Clock, MapPin } from '@phosphor-icons/react'
+import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
+import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
+import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
+
 import Skeleton from '@/components/common/Skeleton'
+
+import * as S from './styles'
 
 export type ProductCardProps = {
   images: string[]
