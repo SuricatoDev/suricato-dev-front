@@ -163,7 +163,9 @@ export const PhoneNumber = styled.div<{ $isLogged: boolean }>`
     transform: translateY(-50%);
     background: linear-gradient(
       to left,
-      ${({ theme }) => theme.colors.background_standard} 10%,
+      ${({ theme, $isLogged }) =>
+          $isLogged ? 'transparent' : theme.colors.background_standard}
+        10%,
       transparent
     );
     pointer-events: none;

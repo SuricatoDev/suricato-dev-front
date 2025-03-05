@@ -13,6 +13,7 @@ import { useState } from 'react'
 import Portal from '@/components/common/Portal'
 import MultiStepForm from '@/components/sections/LoginForm'
 import { caravansMock } from '@/mocks/caravans'
+import Footer from '@/components/sections/Footer'
 
 interface Caravan {
   id: string
@@ -32,10 +33,6 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const { data: session } = useSession()
   const isLogged = !!session
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-
-  if (router.isFallback) {
-    return <div>Carregando...</div>
-  }
 
   const handleShowNumber = () => {
     if (!isLogged) {
@@ -99,9 +96,11 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                           )}
                         </p>
                       </S.PhoneNumber>
-                      <S.ShowNumbers onClick={handleShowNumber}>
-                        Ver número
-                      </S.ShowNumbers>
+                      {!isLogged && (
+                        <S.ShowNumbers onClick={handleShowNumber}>
+                          Ver número
+                        </S.ShowNumbers>
+                      )}
                     </S.PhoneContainer>
                     <Divider $marginY="8px" />
                     <S.ContactInfo>
@@ -129,6 +128,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
           />
         </Portal>
       )}
+      <Footer />
     </S.Wrapper>
   )
 }
@@ -140,7 +140,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true
+    fallback: 'blocking'
   }
 }
 

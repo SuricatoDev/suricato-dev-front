@@ -7,6 +7,7 @@ import Portal from '../Portal'
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
+import Skeleton from '../Skeleton'
 
 interface GalleryProps {
   images: string[]
@@ -16,6 +17,10 @@ export function Gallery({ images }: GalleryProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+  // Estado que rastreia se cada imagem está carregando (true = ainda carregando)
+  const [loadingImages, setLoadingImages] = useState(() =>
+    images.map(() => true)
+  )
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 960)
@@ -45,6 +50,15 @@ export function Gallery({ images }: GalleryProps) {
     setIsModalOpen(false)
   }
 
+  // Função para atualizar o status de carregamento de uma imagem específica
+  const handleImageLoad = (index: number) => () => {
+    setLoadingImages((prev) => {
+      const newLoading = [...prev]
+      newLoading[index] = false
+      return newLoading
+    })
+  }
+
   return (
     <>
       <S.GalleryWrapper>
@@ -62,13 +76,24 @@ export function Gallery({ images }: GalleryProps) {
         ) : (
           <>
             <S.MainImageWrapper onClick={() => openModal(0)}>
+              {loadingImages[0] && (
+                <Skeleton
+                  rows={1}
+                  columns={1}
+                  width="100%"
+                  height="300px"
+                  gap="8px"
+                  radius="4px"
+                />
+              )}
               <Image
                 src={mainImage}
                 alt="Imagem principal"
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }}
                 quality={90}
                 priority
+                onLoad={handleImageLoad(0)}
               />
             </S.MainImageWrapper>
 
@@ -80,12 +105,23 @@ export function Gallery({ images }: GalleryProps) {
                     key={img}
                     onClick={() => openModal(actualIndex)}
                   >
+                    {loadingImages[actualIndex] && (
+                      <Skeleton
+                        rows={1}
+                        columns={1}
+                        width="100%"
+                        height="300px"
+                        gap="8px"
+                        radius="4px"
+                      />
+                    )}
                     <Image
                       src={img}
                       alt={`Imagem ${actualIndex}`}
-                      layout="fill"
-                      objectFit="cover"
+                      fill
+                      style={{ objectFit: 'cover' }}
                       quality={80}
+                      // onLoad={handleImageLoad(actualIndex)}
                     />
                     {idx === extraImages.length - 1 && remainingCount > 0 && (
                       <S.Overlay>+{remainingCount}</S.Overlay>
