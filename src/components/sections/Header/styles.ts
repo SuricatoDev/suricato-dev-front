@@ -1,11 +1,12 @@
 import { device } from '@/styles/breakpoints'
 import styled, { css } from 'styled-components'
+import { HeaderProps } from '.'
 
 export interface ScrolledProps {
   $isScrolled: boolean
 }
 
-export const Wrapper = styled.header<ScrolledProps>`
+export const Wrapper = styled.header<ScrolledProps & HeaderProps>`
   position: fixed;
   top: 0;
   width: 100%;
@@ -15,9 +16,12 @@ export const Wrapper = styled.header<ScrolledProps>`
     ${(props) => props.theme.common.transition.default};
   box-shadow: rgb(0 0 0 / 16%) 0 0 6px;
 
+  display: ${({ $variant }) => ($variant === 'simple' ? 'none' : 'block')};
+
   @media (${device.md}) {
     box-shadow: ${({ $isScrolled }) =>
       $isScrolled ? 'rgb(0 0 0 / 16%) 0 0 6px' : 'none'};
+    display: block;
   }
 `
 

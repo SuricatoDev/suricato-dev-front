@@ -32,6 +32,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'a0.muscache.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos'
       }
     ],
     deviceSizes: [320, 500, 768, 960, 1024, 1440, 1920],

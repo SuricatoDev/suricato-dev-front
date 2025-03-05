@@ -12,15 +12,15 @@ import Divider from '@/components/common/Divider'
 import Portal from '@/components/common/Portal'
 import MultiStepForm from '@/components/sections/LoginForm'
 
-type HeaderProps = {
-  simpleHeader?: boolean
+export type HeaderProps = {
+  $variant?: 'default' | 'simple'
 }
 
 type ProfileItem =
   | (typeof HeaderNavigation)[keyof typeof HeaderNavigation]
   | 'divider'
 
-export default function Header({ simpleHeader = false }: HeaderProps) {
+export default function Header({ $variant = 'default' }: HeaderProps) {
   const { data: session } = useSession()
   const isLogged = !!session
 
@@ -112,22 +112,20 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
         </Portal>
       )}
 
-      <S.Wrapper $isScrolled={isScrolled}>
+      <S.Wrapper $variant={$variant} $isScrolled={isScrolled}>
         <S.Container>
           <S.TopHeader>
             <Link href="/" passHref>
               <Image src={logo} alt="Logo" width={50} height={50} />
             </Link>
 
-            {!simpleHeader && (
-              <S.Menu $isScrolled={isScrolled}>
-                {navItems.map(({ label, href }, index) => (
-                  <Link key={`${href}-${label}-${index}`} href={href} passHref>
-                    {label}
-                  </Link>
-                ))}
-              </S.Menu>
-            )}
+            <S.Menu $isScrolled={isScrolled && $variant === 'default'}>
+              {navItems.map(({ label, href }, index) => (
+                <Link key={`${href}-${label}-${index}`} href={href} passHref>
+                  {label}
+                </Link>
+              ))}
+            </S.Menu>
 
             <S.ProfileContainer ref={profileContainerRef}>
               <S.ProfileButton onClick={toggleProfileMenu}>
@@ -186,22 +184,25 @@ export default function Header({ simpleHeader = false }: HeaderProps) {
             </S.ProfileContainer>
           </S.TopHeader>
 
-          <S.SearchWrapper $isScrolled={isScrolled}>
-            <S.Search $isScrolled={isScrolled}>
-              <S.SearchInput
-                type="search"
-                placeholder="Digite o nome da cidade"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <S.SearchButton $isScrolled={isScrolled}>
-                <MagnifyingGlass size={20} weight="bold" />
-                <span>Buscar</span>
-              </S.SearchButton>
-            </S.Search>
-          </S.SearchWrapper>
+          {$variant === 'default' && (
+            <S.SearchWrapper $isScrolled={isScrolled}>
+              <S.Search $isScrolled={isScrolled}>
+                <S.SearchInput
+                  type="search"
+                  placeholder="Digite o nome da cidade"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <S.SearchButton $isScrolled={isScrolled}>
+                  <MagnifyingGlass size={20} weight="bold" />
+                  <span>Buscar</span>
+                </S.SearchButton>
+              </S.Search>
+            </S.SearchWrapper>
+          )}
         </S.Container>
-        <CategoriesBar />
+        {$variant === 'simple' && <Divider />}
+        {$variant === 'default' && <CategoriesBar />}
       </S.Wrapper>
     </>
   )

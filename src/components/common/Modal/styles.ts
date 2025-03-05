@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { ModalProps } from '.'
 
-export const Shadow = styled.div<ModalProps>`
+export const Shadow = styled.div<Pick<ModalProps, '$isOpen'>>`
   display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
@@ -15,19 +15,6 @@ export const Shadow = styled.div<ModalProps>`
   right: 0;
   bottom: 0;
   cursor: pointer;
-
-  svg {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    cursor: pointer;
-    color: ${({ theme }) => theme.colors.primary_medium};
-    transition: opacity ${(props) => props.theme.common.transition.default};
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
 `
 
 export const Modal = styled.div`
@@ -35,10 +22,31 @@ export const Modal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: ${({ theme }) => theme.colors.background_standard};
-
-  min-width: 300px;
-  min-height: 300px;
-
   border-radius: 12px;
+  cursor: default;
+  z-index: 99999;
+`
+
+export const CloseButton = styled.div<Pick<ModalProps, '$variant'>>`
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  padding: 0.5rem;
+  z-index: 1;
+  cursor: pointer;
+  color: ${({ theme, $variant }) =>
+    $variant === 'light'
+      ? theme.colors.base_dark32
+      : theme.colors.primary_medium};
+
+  transition:
+    transform ${(props) => props.theme.common.transition.fast},
+    color ${(props) => props.theme.common.transition.fast};
+
+  &:hover {
+    color: ${({ theme, $variant }) =>
+      $variant === 'light' && theme.colors.primary_medium};
+    transform: scale(1.1);
+  }
 `

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// pages/api/check-email.ts
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 async function getUserByEmail(email: string) {

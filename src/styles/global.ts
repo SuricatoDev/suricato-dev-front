@@ -69,4 +69,28 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${(props) => props.theme.colors.primary_light};
     cursor: pointer;
   }
+
+  .image-gallery-index {
+    margin: 8px 8px 0 0%;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.6);
+    font-size: 0.875rem ;
+  }
+
+  .hide-in-mobile {
+    display: none;
+    @media(${device.md}) {
+      display: block;
+    }
+  }
+
+
+  .hide-in-desktop {
+    display: block;
+    @media(${device.md}) {
+      display: none;
+    }
+  }
+
+
 `

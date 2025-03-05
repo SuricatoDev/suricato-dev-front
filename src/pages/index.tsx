@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from 'next'
-import * as S from '@/styles/pages/home/styles'
+import * as S from '@/styles/pages/home'
 import Header from '@/components/sections/Header'
 import Footer from '@/components/sections/Footer'
 import ProductCard from '@/components/sections/ProductCard'
@@ -62,6 +62,7 @@ export default function Home() {
                 date="16 de março"
                 hour="10h00"
                 priority={index === 0}
+                href="/caravana/1"
               />
             ))}
           </S.ProductsContainer>

@@ -1,36 +1,42 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
-
 import * as S from './styles'
 import Portal from '../Portal'
 
 export type ModalProps = {
   children: React.ReactNode
   $isOpen: boolean
+  $variant?: 'default' | 'light'
+  onClose: () => void
 }
 
-export default function Modal({ children, $isOpen }: ModalProps) {
-  const [isOpen, setIsOpen] = useState($isOpen)
-
+export default function Modal({
+  children,
+  $isOpen,
+  $variant = 'default',
+  onClose
+}: ModalProps) {
   useEffect(() => {
     if ($isOpen) {
       document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
     }
 
     return () => {
       document.body.style.overflow = ''
     }
-  }, [])
+  }, [$isOpen])
 
-  const handleClose = () => {
-    setIsOpen(false)
-  }
+  if (!$isOpen) return null
 
   return (
     <Portal>
-      <S.Shadow $isOpen={isOpen} onClick={handleClose}>
-        <S.Modal>
-          <X onClick={handleClose} size={32} weight="bold" />
+      <S.Shadow $isOpen={$isOpen} onClick={onClose}>
+        <S.Modal onClick={(e) => e.stopPropagation()}>
+          <S.CloseButton $variant={$variant}>
+            <X onClick={onClose} size={32} weight="bold" />
+          </S.CloseButton>
           {children}
         </S.Modal>
       </S.Shadow>

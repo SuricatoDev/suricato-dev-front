@@ -1,0 +1,137 @@
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import ImageGallery from 'react-image-gallery'
+import 'react-image-gallery/styles/css/image-gallery.css'
+import * as S from './styles'
+import Portal from '../Portal'
+import { CaretLeft, X, CaretRight } from '@phosphor-icons/react/dist/ssr'
+
+interface GalleryProps {
+  images: string[]
+}
+
+export function Gallery({ images }: GalleryProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 960)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  if (!images || images.length === 0) return null
+
+  const galleryItems = images.map((img) => ({
+    original: img,
+    thumbnail: img,
+    originalClass: 'image-gallery-original'
+  }))
+
+  const mainImage = images[0]
+  const extraImages = images.slice(1, 5)
+  const remainingCount = images.length - 5
+
+  const openModal = (index: number) => {
+    setCurrentIndex(index)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  return (
+    <>
+      <S.GalleryWrapper>
+        {isMobile ? (
+          <ImageGallery
+            items={galleryItems}
+            showIndex
+            showThumbnails={false}
+            showFullscreenButton={false}
+            showPlayButton={false}
+            infinite={false}
+            showNav={false}
+            onClick={() => openModal(currentIndex)}
+          />
+        ) : (
+          <>
+            <S.MainImageWrapper onClick={() => openModal(0)}>
+              <Image
+                src={mainImage}
+                alt="Imagem principal"
+                layout="fill"
+                objectFit="cover"
+                quality={90}
+                priority
+              />
+            </S.MainImageWrapper>
+
+            <S.ThumbnailWrapper>
+              {extraImages.map((img, idx) => {
+                const actualIndex = idx + 1
+                return (
+                  <S.SmallImage
+                    key={img}
+                    onClick={() => openModal(actualIndex)}
+                  >
+                    <Image
+                      src={img}
+                      alt={`Imagem ${actualIndex}`}
+                      layout="fill"
+                      objectFit="cover"
+                      quality={80}
+                    />
+                    {idx === extraImages.length - 1 && remainingCount > 0 && (
+                      <S.Overlay>+{remainingCount}</S.Overlay>
+                    )}
+                  </S.SmallImage>
+                )
+              })}
+            </S.ThumbnailWrapper>
+          </>
+        )}
+      </S.GalleryWrapper>
+
+      {isModalOpen && (
+        <Portal>
+          <S.FullscreenModalOverlay onClick={closeModal}>
+            <S.FullscreenModalContent onClick={(e) => e.stopPropagation()}>
+              {!isMobile && (
+                <S.CloseButton onClick={closeModal}>
+                  <X size={32} weight="bold" />
+                </S.CloseButton>
+              )}
+              <S.GalleryCarouselWrapper>
+                <ImageGallery
+                  additionalClass="gallery-carousel"
+                  items={galleryItems}
+                  startIndex={currentIndex}
+                  showThumbnails={false}
+                  showFullscreenButton={false}
+                  showPlayButton={false}
+                  showNav={!isMobile}
+                  infinite={false}
+                  showIndex={false}
+                  renderLeftNav={(onClick, disabled) => (
+                    <S.NavPrev onClick={onClick} disabled={disabled}>
+                      <CaretLeft size={38} weight="bold" />
+                    </S.NavPrev>
+                  )}
+                  renderRightNav={(onClick, disabled) => (
+                    <S.NavNext onClick={onClick} disabled={disabled}>
+                      <CaretRight size={38} weight="bold" />
+                    </S.NavNext>
+                  )}
+                />
+              </S.GalleryCarouselWrapper>
+            </S.FullscreenModalContent>
+          </S.FullscreenModalOverlay>
+        </Portal>
+      )}
+    </>
+  )
+}

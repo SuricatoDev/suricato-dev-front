@@ -1,0 +1,167 @@
+import Header from '@/components/sections/Header'
+import api from '@/services/api'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { useRouter } from 'next/router'
+import * as S from '@/styles/pages/caravana'
+import { Gallery } from '@/components/common/Gallery'
+import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
+import { Phone, WarningCircle } from '@phosphor-icons/react/dist/ssr'
+import { useSession } from 'next-auth/react'
+import { formatProductPhoneNumber } from '@/utils/fomatProductPhoneNumber'
+import Divider from '@/components/common/Divider'
+import { useState } from 'react'
+import Portal from '@/components/common/Portal'
+import MultiStepForm from '@/components/sections/LoginForm'
+
+interface Caravan {
+  id: string
+  eventName: string
+  organizerName: string
+  originLocation: string
+  organizerPhone: string
+  images: string[]
+}
+
+interface CaravanPageProps {
+  caravan: Caravan
+}
+
+export default function CaravanPage({ caravan }: CaravanPageProps) {
+  const router = useRouter()
+  const { data: session } = useSession()
+  const isLogged = !!session
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  if (router.isFallback) {
+    return <div>Carregando...</div>
+  }
+
+  const handleShowNumber = () => {
+    if (!isLogged) {
+      if (window.innerWidth <= 940) {
+        router.push('/login')
+      } else {
+        setIsLoginModalOpen(true)
+      }
+      return
+    }
+  }
+
+  return (
+    <S.Wrapper>
+      <Header $variant="simple" />
+
+      <S.Main>
+        <div className="container">
+          <S.Container>
+            <S.Title className="hide-in-mobile">{caravan.eventName}</S.Title>
+
+            <S.ContentWrapper>
+              <S.Content>
+                <Gallery images={caravan.images} />
+                <S.SpacingMobile>
+                  <S.Title className="hide-in-desktop">
+                    {caravan.eventName}
+                  </S.Title>
+                  <S.Location>
+                    <MapPin weight="fill" size={24} />
+                    <span>{caravan.originLocation}</span>
+                  </S.Location>
+
+                  <S.Organizer>
+                    <S.OrganizerImage
+                      width={60}
+                      height={60}
+                      alt={caravan.organizerName}
+                      src="https://picsum.photos/120/120"
+                      quality={100}
+                    />
+                    <S.OrganizerInfo>
+                      <p>Organizador</p>
+                      <p>
+                        <b>{caravan.organizerName}</b>
+                      </p>
+                    </S.OrganizerInfo>
+                  </S.Organizer>
+                </S.SpacingMobile>
+              </S.Content>
+              <S.SpacingMobile>
+                <S.Sidebar>
+                  <S.ContactCard>
+                    <S.PhoneContainer>
+                      <S.PhoneNumber $isLogged={isLogged}>
+                        <Phone size={24} weight="fill" />
+                        <p>
+                          {formatProductPhoneNumber(
+                            caravan.organizerPhone,
+                            isLogged
+                          )}
+                        </p>
+                      </S.PhoneNumber>
+                      <S.ShowNumbers onClick={handleShowNumber}>
+                        Ver número
+                      </S.ShowNumbers>
+                    </S.PhoneContainer>
+                    <Divider $marginY="8px" />
+                    <S.ContactInfo>
+                      Ao clicar para entrar em contato, seus dados serão
+                      compartilhados pela Excursionistas com o anunciante
+                    </S.ContactInfo>
+                  </S.ContactCard>
+
+                  <S.ReportLink href="#">
+                    <WarningCircle size={24} weight="bold" />
+                    Denunciar essa caravana
+                  </S.ReportLink>
+                </S.Sidebar>
+              </S.SpacingMobile>
+            </S.ContentWrapper>
+          </S.Container>
+        </div>
+      </S.Main>
+      {isLoginModalOpen && (
+        <Portal>
+          <MultiStepForm
+            $isModal
+            $isOpen={isLoginModalOpen}
+            onClose={() => setIsLoginModalOpen(false)}
+          />
+        </Portal>
+      )}
+    </S.Wrapper>
+  )
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const response = await api.get('/caravans')
+  const caravanas: Caravan[] = response.data
+
+  const paths = caravanas.map((caravan) => ({
+    params: { id: caravan.id.toString() }
+  }))
+
+  return {
+    paths,
+    fallback: true
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  try {
+    const id = params?.id
+    const response = await api.get(`/caravans/${id}`)
+
+    if (response.status === 404) {
+      return { notFound: true }
+    }
+
+    const caravan: Caravan = response.data
+
+    return {
+      props: { caravan },
+      revalidate: 3600
+    }
+  } catch (error) {
+    return { notFound: true }
+  }
+}

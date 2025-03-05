@@ -1,4 +1,3 @@
-// components/ProductCard.tsx
 import React, { useRef, useState } from 'react'
 import Image from 'next/image'
 
@@ -19,6 +18,7 @@ import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
 import Skeleton from '@/components/common/Skeleton'
 
 import * as S from './styles'
+import Link from 'next/link'
 
 export type ProductCardProps = {
   images: string[]
@@ -28,6 +28,7 @@ export type ProductCardProps = {
   hour: string
   priority?: boolean
   isLoading?: boolean
+  href: string
 }
 
 export default function ProductCard({
@@ -37,7 +38,8 @@ export default function ProductCard({
   date,
   hour,
   priority,
-  isLoading = false
+  isLoading = false,
+  href
 }: ProductCardProps) {
   const prevRef = useRef<HTMLButtonElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
@@ -79,74 +81,76 @@ export default function ProductCard({
   }
 
   return (
-    <S.Wrapper
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <S.ImageContainer>
-        <S.NavPrev
-          ref={prevRef}
-          className={`swiper-button-prev product-card-swiper-button-prev ${showLeft && isHovered ? '' : 'hide'}`}
-        />
-        <S.NavNext
-          ref={nextRef}
-          className={`swiper-button-next product-card-swiper-button-next ${showRight && isHovered ? '' : 'hide'}`}
-        />
+    <Link href={href} passHref>
+      <S.Wrapper
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <S.ImageContainer>
+          <S.NavPrev
+            ref={prevRef}
+            className={`swiper-button-prev product-card-swiper-button-prev ${showLeft && isHovered ? '' : 'hide'}`}
+          />
+          <S.NavNext
+            ref={nextRef}
+            className={`swiper-button-next product-card-swiper-button-next ${showRight && isHovered ? '' : 'hide'}`}
+          />
 
-        <Swiper
-          modules={[Navigation, Pagination, Scrollbar, A11y]}
-          spaceBetween={0}
-          slidesPerView={1}
-          navigation={{
-            prevEl: prevRef.current,
-            nextEl: nextRef.current
-          }}
-          pagination={{ clickable: true }}
-          onSwiper={updateNavigation}
-          onSlideChange={updateNavigation}
-        >
-          {images.map((imageUrl, index) => (
-            <SwiperSlide key={`slide-${index}`}>
-              <Image
-                src={imageUrl}
-                alt={`${location} - image ${index + 1}`}
-                fill
-                style={{
-                  objectFit: 'cover'
-                }}
-                priority={index === 0 && priority ? true : undefined}
-                fetchPriority={index === 0 && priority ? 'high' : 'low'}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y]}
+            spaceBetween={0}
+            slidesPerView={1}
+            navigation={{
+              prevEl: prevRef.current,
+              nextEl: nextRef.current
+            }}
+            pagination={{ clickable: true }}
+            onSwiper={updateNavigation}
+            onSlideChange={updateNavigation}
+          >
+            {images.map((imageUrl, index) => (
+              <SwiperSlide key={`slide-${index}`}>
+                <Image
+                  src={imageUrl}
+                  alt={`${location} - image ${index + 1}`}
+                  fill
+                  style={{
+                    objectFit: 'cover'
+                  }}
+                  priority={index === 0 && priority ? true : undefined}
+                  fetchPriority={index === 0 && priority ? 'high' : 'low'}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
-        <S.FavoriteButton>
-          <Heart size={24} weight="duotone" />
-        </S.FavoriteButton>
-      </S.ImageContainer>
+          <S.FavoriteButton>
+            <Heart size={24} weight="duotone" />
+          </S.FavoriteButton>
+        </S.ImageContainer>
 
-      <S.Content>
-        <S.TopContent>
-          <S.Location>{location}</S.Location>
-          <S.Info>
-            <MapPin size={14} weight="fill" />
-            {distance}
-          </S.Info>
-        </S.TopContent>
+        <S.Content>
+          <S.TopContent>
+            <S.Location>{location}</S.Location>
+            <S.Info>
+              <MapPin size={14} weight="fill" />
+              {distance}
+            </S.Info>
+          </S.TopContent>
 
-        <S.BottomContent>
-          <S.Info>
-            <CalendarDots size={14} weight="fill" />
-            {date}
-          </S.Info>
+          <S.BottomContent>
+            <S.Info>
+              <CalendarDots size={14} weight="fill" />
+              {date}
+            </S.Info>
 
-          <S.Info>
-            <Clock size={14} weight="fill" />
-            {hour}
-          </S.Info>
-        </S.BottomContent>
-      </S.Content>
-    </S.Wrapper>
+            <S.Info>
+              <Clock size={14} weight="fill" />
+              {hour}
+            </S.Info>
+          </S.BottomContent>
+        </S.Content>
+      </S.Wrapper>
+    </Link>
   )
 }
