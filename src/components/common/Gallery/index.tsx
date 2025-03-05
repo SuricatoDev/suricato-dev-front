@@ -50,7 +50,6 @@ export function Gallery({ images }: GalleryProps) {
     setIsModalOpen(false)
   }
 
-  // Função para atualizar o status de carregamento de uma imagem específica
   const handleImageLoad = (index: number) => () => {
     setLoadingImages((prev) => {
       const newLoading = [...prev]
@@ -121,7 +120,7 @@ export function Gallery({ images }: GalleryProps) {
                       fill
                       style={{ objectFit: 'cover' }}
                       quality={80}
-                      // onLoad={handleImageLoad(actualIndex)}
+                      onLoad={handleImageLoad(actualIndex)}
                     />
                     {idx === extraImages.length - 1 && remainingCount > 0 && (
                       <S.Overlay>+{remainingCount}</S.Overlay>
