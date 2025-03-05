@@ -1,5 +1,4 @@
 import Header from '@/components/sections/Header'
-import api from '@/services/api'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import * as S from '@/styles/pages/caravana'
@@ -12,6 +11,7 @@ import Divider from '@/components/common/Divider'
 import { useState } from 'react'
 import Portal from '@/components/common/Portal'
 import MultiStepForm from '@/components/sections/LoginForm'
+import { caravansMock } from '@/mocks/caravans'
 
 interface Caravan {
   id: string
@@ -133,10 +133,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await api.get('/caravans')
-  const caravanas: Caravan[] = response.data
-
-  const paths = caravanas.map((caravan) => ({
+  const paths = caravansMock.map((caravan) => ({
     params: { id: caravan.id.toString() }
   }))
 
@@ -147,21 +144,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  try {
-    const id = params?.id
-    const response = await api.get(`/caravans/${id}`)
+  const id = params?.id
+  const caravan = caravansMock.find((p) => p.id === id)
 
-    if (response.status === 404) {
-      return { notFound: true }
-    }
-
-    const caravan: Caravan = response.data
-
-    return {
-      props: { caravan },
-      revalidate: 3600
-    }
-  } catch (error) {
+  if (!caravan) {
     return { notFound: true }
+  }
+
+  return {
+    props: { caravan },
+    revalidate: 3600
   }
 }
