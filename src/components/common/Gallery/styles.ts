@@ -52,7 +52,7 @@ const layoutForCount = (count: number) => {
   }
 }
 
-export const GalleryWrapper = styled.div<{ count: number }>`
+export const GalleryWrapper = styled.div<{ $count: number }>`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -60,35 +60,35 @@ export const GalleryWrapper = styled.div<{ count: number }>`
   @media (${device.md}) {
     display: grid;
     gap: 1rem;
-    ${({ count }) => layoutForCount(count <= 5 ? count : 6)}
+    ${({ $count }) => layoutForCount($count <= 5 ? $count : 6)}
 
     & > :nth-child(1) {
       grid-area: main;
     }
     & > :nth-child(2) {
       grid-area: second;
-      aspect-ratio: ${({ count }) =>
-        count === 4 || count >= 5 ? '1' : count === 3 ? '2.07' : 'unset'};
+      aspect-ratio: ${({ $count }) =>
+        $count === 4 || $count >= 5 ? '1' : $count === 3 ? '2.07' : 'unset'};
     }
     & > :nth-child(3) {
       grid-area: third;
-      aspect-ratio: ${({ count }) =>
-        count === 4 || count >= 5 ? '1' : count === 3 ? '2.07' : 'unset'};
+      aspect-ratio: ${({ $count }) =>
+        $count === 4 || $count >= 5 ? '1' : $count === 3 ? '2.07' : 'unset'};
     }
     & > :nth-child(4) {
       grid-area: fourth;
-      aspect-ratio: ${({ count }) =>
-        count === 5
+      aspect-ratio: ${({ $count }) =>
+        $count === 5
           ? '1'
-          : count === 4 || count === 3
+          : $count === 4 || $count === 3
             ? '2.07'
-            : count >= 5
+            : $count >= 5
               ? '1'
               : 'unset'};
     }
     & > :nth-child(5) {
       grid-area: fifth;
-      aspect-ratio: ${({ count }) => (count >= 5 ? '1' : 'unset')};
+      aspect-ratio: ${({ $count }) => ($count >= 5 ? '1' : 'unset')};
     }
   }
 `

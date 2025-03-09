@@ -55,7 +55,7 @@ export default function Gallery({ images }: GalleryProps) {
 
   return (
     <>
-      <S.GalleryWrapper count={images.length}>
+      <S.GalleryWrapper $count={images.length}>
         {isMobile ? (
           <ImageGallery
             items={galleryItems}
