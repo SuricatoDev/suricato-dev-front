@@ -1,3 +1,8 @@
 import styled from 'styled-components'
 
-export const Wrapper = styled.div``
+export const MapContainer = styled.div`
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+`

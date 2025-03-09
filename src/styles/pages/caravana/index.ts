@@ -417,11 +417,12 @@ export const ModalButton = styled.div`
 
 export const MapTitle = styled.h2`
   font-size: ${({ theme }) => theme.common.font.sizes.heading.xxsmall};
-  color: ${({ theme }) => theme.colors.text_standard};
+  color: ${({ theme }) => theme.colors.text_medium};
 `
 
 export const MapContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 1rem;
+  gap: 1rem;
 `

@@ -296,7 +296,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 function maskCaravanData(caravan: Caravan): Caravan {
   return {
     id: caravan.id,
-    eventName: returnInitialsLettersIfNotLogged(caravan.eventName, false),
+    eventName: caravan.eventName,
     organizerName: returnInitialsLettersIfNotLogged(
       caravan.organizerName,
       false
@@ -306,6 +306,6 @@ function maskCaravanData(caravan: Caravan): Caravan {
     organizerPhone: formatProductPhoneNumber(caravan.organizerPhone, false),
     images: caravan.images,
     price: 0,
-    description: returnInitialsLettersIfNotLogged(caravan.description, false)
+    description: caravan.description
   }
 }
