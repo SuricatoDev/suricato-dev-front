@@ -19,15 +19,35 @@ export const caravansMock = [
     eventName: 'Orquestra Sinfônica - Alumni',
     organizerName: 'João Silva',
     originLocation: 'Campos Elíseos, São Paulo',
+    destination: 'Praça Júlio Prestes, nº 16, São Paulo-SP',
     organizerPhone: '+5515991234567',
-    images
+    images,
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Praesent vitae eros eget tellus tristique bibendum. Donec
+      rutrum sed sem quis venenatis. Proin viverra risus a
+      ringilla varius. Nulla facilisi. Curabitur nec lacus
+      elit. Pellentesque convallis nisi ac augue pharetra eu
+      tristique neque consequat. Lorem ipsum dolor sit amet,
+      onsectetur adipiscing elit. Praesent vitae eros eget
+      tellus tristique bibendum.`,
+    price: 100
   },
   {
     id: '2',
     eventName: 'Circo Stankowich',
     organizerName: 'Maria Oliveira',
     originLocation: 'Sorocaba, São Paulo',
+    destination: 'Praça Júlio Prestes, nº 16, São Paulo-SP',
     organizerPhone: '+552199999999',
-    images
+    images,
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Praesent vitae eros eget tellus tristique bibendum. Donec
+      rutrum sed sem quis venenatis. Proin viverra risus a
+      ringilla varius. Nulla facilisi. Curabitur nec lacus
+      elit. Pellentesque convallis nisi ac augue pharetra eu
+      tristique neque consequat. Lorem ipsum dolor sit amet,
+      onsectetur adipiscing elit. Praesent vitae eros eget
+      tellus tristique bibendum.`,
+    price: 100
   }
 ]

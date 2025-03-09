@@ -22,31 +22,32 @@ export const Modal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 12px;
-  cursor: default;
+  background-color: ${({ theme }) => theme.colors.background_standard};
+
+  height: auto;
+  width: calc(100% - 2rem);
+  max-width: 400px;
+  max-height: calc(100% - 2rem);
+  border-radius: 8px;
+  overflow-y: auto;
   z-index: 99999;
+  cursor: default;
 `
 
-export const CloseButton = styled.div<Pick<ModalProps, '$variant'>>`
-  position: absolute;
+export const ModalHeader = styled.div`
+  position: sticky;
   top: 0;
-  right: 0;
   display: flex;
+  justify-content: flex-end;
   padding: 0.5rem;
-  z-index: 1;
-  cursor: pointer;
-  color: ${({ theme, $variant }) =>
-    $variant === 'light'
-      ? theme.colors.base_dark32
-      : theme.colors.primary_medium};
 
-  transition:
-    transform ${(props) => props.theme.common.transition.fast},
-    color ${(props) => props.theme.common.transition.fast};
+  .modal-close-btn {
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.primary_medium};
+    transition: opacity ${(props) => props.theme.common.transition.default};
 
-  &:hover {
-    color: ${({ theme, $variant }) =>
-      $variant === 'light' && theme.colors.primary_medium};
-    transform: scale(1.1);
+    &:hover {
+      opacity: 0.8;
+    }
   }
 `

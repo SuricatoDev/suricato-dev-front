@@ -9,11 +9,6 @@ export const GlobalStyle = createGlobalStyle`
     outline: none;
   }
 
-  .portal-root {
-    all: unset;
-    font-family: inherit !important;
-  }
-
   html {
     scroll-behavior: smooth;
   }
@@ -61,7 +56,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body::-webkit-scrollbar-thumb {
     background-color: ${(props) => props.theme.colors.primary_medium}cc;
-    border-radius: 10px;
+    border-radius:8px;
     border-inline: 2px solid ${(props) => props.theme.colors.background_standard};
   }
 

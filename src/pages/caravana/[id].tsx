@@ -1,27 +1,46 @@
-import Header from '@/components/sections/Header'
+import { useState } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import * as S from '@/styles/pages/caravana'
-import { Gallery } from '@/components/common/Gallery'
-import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
-import { WarningCircle } from '@phosphor-icons/react/dist/ssr/WarningCircle'
-import { Phone } from '@phosphor-icons/react/dist/ssr/Phone'
 import { useSession } from 'next-auth/react'
-import { formatProductPhoneNumber } from '@/utils/fomatProductPhoneNumber'
-import Divider from '@/components/common/Divider'
-import { useState } from 'react'
-import Portal from '@/components/common/Portal'
-import MultiStepForm from '@/components/sections/LoginForm'
-import { caravansMock } from '@/mocks/caravans'
+
+import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
+import { Phone } from '@phosphor-icons/react/dist/ssr/Phone'
+import { Flag } from '@phosphor-icons/react/dist/ssr/Flag'
+import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
+import { CheckCircle } from '@phosphor-icons/react/dist/ssr/CheckCircle'
+import { ShieldCheck } from '@phosphor-icons/react/dist/ssr/ShieldCheck'
+
+import Header from '@/components/sections/Header'
 import Footer from '@/components/sections/Footer'
+import MultiStepForm from '@/components/sections/LoginForm'
+import { Gallery } from '@/components/common/Gallery'
+import Divider from '@/components/common/Divider'
+import Button from '@/components/common/Button'
+import Modal from '@/components/common/Modal'
+import Portal from '@/components/common/Portal'
+import GatedContent from '@/components/common/GatedContent'
+import { WhatsappIcon } from '@/components/common/Icons'
+
+import * as S from '@/styles/pages/caravana'
+
+import { caravansMock } from '@/mocks/caravans'
+import {
+  formatProductPhoneNumber,
+  formatPrice,
+  returnInitialsLettersIfNotLogged
+} from '@/utils/formats'
+import MapEmbed from '@/components/common/MapEmbed'
 
 interface Caravan {
   id: string
   eventName: string
   organizerName: string
   originLocation: string
+  destination: string
   organizerPhone: string
   images: string[]
+  price: number
+  description: string
 }
 
 interface CaravanPageProps {
@@ -30,11 +49,15 @@ interface CaravanPageProps {
 
 export default function CaravanPage({ caravan }: CaravanPageProps) {
   const router = useRouter()
+
   const { data: session } = useSession()
   const isLogged = !!session
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
-  const handleShowNumber = () => {
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [expanded, setExpanded] = useState(false)
+
+  const handleShowInfos = () => {
     if (!isLogged) {
       if (window.innerWidth <= 940) {
         router.push('/login')
@@ -48,7 +71,6 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   return (
     <S.Wrapper>
       <Header $variant="simple" />
-
       <S.Main>
         <div className="container">
           <S.Container>
@@ -65,52 +87,139 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                     <MapPin weight="fill" size={24} />
                     <span>{caravan.originLocation}</span>
                   </S.Location>
-
-                  <S.Organizer>
-                    <S.OrganizerImage
-                      width={60}
-                      height={60}
-                      alt={caravan.organizerName}
-                      src="https://picsum.photos/120/120"
-                      quality={100}
-                    />
-                    <S.OrganizerInfo>
-                      <p>Organizador</p>
-                      <p>
-                        <b>{caravan.organizerName}</b>
-                      </p>
-                    </S.OrganizerInfo>
-                  </S.Organizer>
+                  <S.DescriptionContainer>
+                    <S.Description expanded={expanded}>
+                      {caravan.description}
+                    </S.Description>
+                    <button onClick={() => setExpanded(!expanded)}>
+                      {expanded ? '' : 'Ver descrição completa'}
+                    </button>
+                  </S.DescriptionContainer>
+                  <S.MapContainer>
+                    <S.MapTitle>Local do evento:</S.MapTitle>
+                    <MapEmbed location={caravan.destination} />
+                  </S.MapContainer>
                 </S.SpacingMobile>
               </S.Content>
               <S.SpacingMobile>
                 <S.Sidebar>
-                  <S.ContactCard>
-                    <S.PhoneContainer>
-                      <S.PhoneNumber $isLogged={isLogged}>
-                        <Phone size={24} weight="fill" />
-                        <p>
-                          {formatProductPhoneNumber(
-                            caravan.organizerPhone,
+                  <GatedContent
+                    isLogged={isLogged}
+                    onClick={() => !isLogged && handleShowInfos()}
+                  >
+                    <S.ContactCard>
+                      <S.ContactContainer>
+                        <S.Price
+                          style={{ filter: !isLogged ? 'blur(4px)' : 'none' }}
+                        >
+                          {isLogged ? formatPrice(caravan.price) : 'R$ XXX,XX'}
+                        </S.Price>
+
+                        <S.PhoneContainer>
+                          <S.PhoneNumber $isLogged={isLogged}>
+                            <Phone size={24} weight="fill" />
+                            <p>
+                              {formatProductPhoneNumber(
+                                caravan.organizerPhone,
+                                isLogged
+                              )}
+                            </p>
+                          </S.PhoneNumber>
+                        </S.PhoneContainer>
+
+                        <Button
+                          href={
                             isLogged
-                          )}
-                        </p>
-                      </S.PhoneNumber>
-                      {!isLogged && (
-                        <S.ShowNumbers onClick={handleShowNumber}>
-                          Ver número
-                        </S.ShowNumbers>
-                      )}
-                    </S.PhoneContainer>
-                    <Divider $marginY="8px" />
-                    <S.ContactInfo>
-                      Ao clicar para entrar em contato, seus dados serão
-                      compartilhados pela Excursionistas com o anunciante
-                    </S.ContactInfo>
-                  </S.ContactCard>
+                              ? `https://api.whatsapp.com/send?phone=${caravan.organizerPhone}`
+                              : ''
+                          }
+                          target="_blank"
+                          rel="noreferrer"
+                          as="a"
+                          className="whatsapp-button"
+                          fullWidth
+                        >
+                          <S.WhatsappContent>
+                            <WhatsappIcon />
+                            <span>Whatsapp</span>
+                          </S.WhatsappContent>
+                        </Button>
+                      </S.ContactContainer>
+                      <Divider $marginY="8px" />
+                      <S.ContactInfo>
+                        Ao clicar para entrar em contato, seus dados serão
+                        compartilhados pela Excursionistas com o anunciante
+                      </S.ContactInfo>
+                    </S.ContactCard>
+                  </GatedContent>
+
+                  <GatedContent
+                    isLogged={isLogged}
+                    onClick={() => !isLogged && handleShowInfos()}
+                  >
+                    <S.OrganizerContainer>
+                      <S.Organizer>
+                        <S.OrganizerImage
+                          width={60}
+                          height={60}
+                          alt={caravan.organizerName}
+                          src="https://picsum.photos/120/120"
+                          quality={100}
+                        />
+                        <S.OrganizerInfo>
+                          <S.OrganizerVerified>
+                            <p>Organizador verificado</p>
+                            <CheckCircle size={16} weight="fill" />
+                          </S.OrganizerVerified>
+
+                          <S.OrganizerName>
+                            {returnInitialsLettersIfNotLogged(
+                              caravan.organizerName,
+                              isLogged
+                            )}
+                          </S.OrganizerName>
+                        </S.OrganizerInfo>
+                      </S.Organizer>
+                      <S.OrganizerFooter>
+                        <S.OrganizerFooterItem>
+                          <CalendarBlank size={18} />
+                          <p>
+                            {returnInitialsLettersIfNotLogged(
+                              'No Excursionistas desde abril de 2022',
+                              isLogged
+                            )}
+                          </p>
+                        </S.OrganizerFooterItem>
+                        <S.OrganizerFooterItem>
+                          <MapPin size={18} />
+                          <p>
+                            {returnInitialsLettersIfNotLogged(
+                              'Vila Assis, Sorocaba - SP',
+                              isLogged
+                            )}
+                          </p>
+                        </S.OrganizerFooterItem>
+                      </S.OrganizerFooter>
+                    </S.OrganizerContainer>
+                  </GatedContent>
+                  <S.Hint>
+                    <h3 className="hint-title">Dicas de segurança</h3>
+                    <p className="hint-description">
+                      Não faça pagamentos antes de verificar se o veículo
+                      existe.
+                    </p>
+                    <button
+                      onClick={() => {
+                        setIsModalOpen(true)
+                      }}
+                      className="hint-button"
+                    >
+                      Ver mais dicas
+                    </button>
+                  </S.Hint>
 
                   <S.ReportLink href="#">
-                    <WarningCircle size={24} weight="bold" />
+                    <Flag size={24} weight="bold" />
                     Denunciar essa caravana
                   </S.ReportLink>
                 </S.Sidebar>
@@ -119,15 +228,43 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
           </S.Container>
         </div>
       </S.Main>
-      {isLoginModalOpen && (
-        <Portal>
+      <Portal>
+        {isLoginModalOpen && (
           <MultiStepForm
             $isModal
             $isOpen={isLoginModalOpen}
             onClose={() => setIsLoginModalOpen(false)}
           />
-        </Portal>
-      )}
+        )}
+      </Portal>
+      <Modal $isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <S.ModalContainer>
+          <S.ModalTitle>
+            <ShieldCheck size={32} weight="fill" />
+            <h2>Dicas de segurança</h2>
+          </S.ModalTitle>
+          <S.ModalContent>
+            <ul>
+              <li>
+                Não faça pagamentos antes de verificar se o veículo existe.
+              </li>
+              <li>
+                Antes de fechar negócio, sempre busque pelo histórico do
+                veículo.
+              </li>
+              <li>
+                Fique atento a preços abaixo do mercado e a excessos de
+                facilidades.
+              </li>
+            </ul>
+          </S.ModalContent>
+          <S.ModalButton>
+            <Button onClick={() => setIsModalOpen(false)} fullWidth>
+              OK
+            </Button>
+          </S.ModalButton>
+        </S.ModalContainer>
+      </Modal>
       <Footer />
     </S.Wrapper>
   )

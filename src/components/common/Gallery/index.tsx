@@ -32,8 +32,7 @@ export function Gallery({ images }: GalleryProps) {
 
   const galleryItems = images.map((img) => ({
     original: img,
-    thumbnail: img,
-    originalClass: 'image-gallery-original'
+    thumbnail: img
   }))
 
   const mainImage = images[0]

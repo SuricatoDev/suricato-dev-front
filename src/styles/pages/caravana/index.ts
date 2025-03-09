@@ -20,12 +20,12 @@ export const Container = styled.div`
 `
 
 export const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 2rem;
 
   @media (${device.md}) {
-    flex-direction: row;
+    grid-template-columns: 10fr 4fr;
     align-items: start;
   }
 
@@ -87,8 +87,60 @@ export const SpacingMobile = styled.div`
 
 export const Organizer = styled.div`
   display: flex;
-  align-items: center;
   gap: 1rem;
+`
+
+export const OrganizerImage = styled(Image)`
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+`
+
+export const OrganizerInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+`
+export const OrganizerVerified = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: ${({ theme }) => theme.common.font.sizes.body.xxsmall};
+  text-transform: uppercase;
+
+  svg {
+    color: ${({ theme }) => theme.colors.alert_success};
+  }
+`
+
+export const OrganizerName = styled.p`
+  font-size: ${({ theme }) => theme.common.font.sizes.heading.xxsmall};
+  font-weight: 600;
+`
+
+export const OrganizerFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+export const OrganizerFooterItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: ${({ theme }) => theme.colors.text_medium};
+  font-size: ${({ theme }) => theme.common.font.sizes.body.xsmall};
+`
+
+export const OrganizerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.colors.background_standard};
+  border: 1px solid #dddddd;
   color: ${({ theme }) => theme.colors.text_standard};
 `
 
@@ -135,7 +187,7 @@ export const MoreImages = styled.div`
 export const ContactCard = styled.div`
   background-color: #fff;
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 2rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
   display: flex;
   flex-direction: column;
@@ -146,68 +198,91 @@ export const PhoneNumber = styled.div<{ $isLogged: boolean }>`
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text_standard};
   position: relative;
   white-space: nowrap;
   font-size: ${({ theme }) => theme.common.font.sizes.body.xlarge};
 
-  &::after {
+  p {
+    font-size: 1rem;
+  }
+
+  &::before {
     content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: 100px;
+    width: 100%;
     height: 100%;
-    transform: translateY(-50%);
+    position: absolute;
+    left: 0px;
+    top: 0px;
     background: linear-gradient(
       to left,
-      ${({ theme, $isLogged }) =>
-          $isLogged ? 'transparent' : theme.colors.background_standard}
-        10%,
+      rgba(255, 255, 255, 0.93) 10%,
+      transparent 100%
+    );
+    background: linear-gradient(
+      to left,
+      ${({ $isLogged }) =>
+        $isLogged
+          ? 'transparent'
+          : 'rgba(255, 255, 255, 0.93) 10%, transparent 100%'},
       transparent
     );
     pointer-events: none;
   }
   svg {
-    color: ${({ theme }) => theme.colors.primary_medium};
+    color: ${({ theme }) => theme.colors.primary_dark};
   }
 `
 
 export const ShowNumbers = styled.button`
   border: none;
   background: none;
-  color: ${({ theme }) => theme.colors.primary_medium};
+  color: ${({ theme }) => theme.colors.primary_dark};
   font-size: 0.9rem;
   cursor: pointer;
   padding: 0;
   font-weight: 600;
-  font-size: ${({ theme }) => theme.common.font.sizes.body.large};
+  font-size: ${({ theme }) => theme.common.font.sizes.body.xsmall};
   white-space: nowrap;
 
   &:hover {
-    opacity: 0.8;
+    text-decoration: underline;
   }
 `
 
-export const PhoneContainer = styled.div`
+export const ContactContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1rem;
+
+  .whatsapp-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    background-color: #24a148;
+    border: 1px solid #24a148;
+
+    &:hover {
+      background-color: #197b35;
+      border-color: #197b35;
+    }
+  }
+`
+
+export const WhatsappContent = styled.div`
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-
-  @supports (gap: 0.5rem) {
-    row-gap: 1rem;
-  }
-
-  @media (${device.md}) {
-    flex-wrap: nowrap;
-    row-gap: 0;
-  }
+  gap: 0.5rem;
+  justify-content: center;
+  height: 1rem;
 `
 
 export const ContactInfo = styled.p`
-  font-size: ${({ theme }) => theme.common.font.sizes.body.large};
+  font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
   color: ${({ theme }) => theme.colors.text_standard};
 `
 
@@ -217,6 +292,7 @@ export const ReportLink = styled.a`
   gap: 0.5rem;
   justify-content: center;
   color: ${({ theme }) => theme.colors.alert_error};
+  font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
   font-weight: bold;
   text-decoration: none;
 
@@ -225,14 +301,127 @@ export const ReportLink = styled.a`
   }
 `
 
-export const OrganizerImage = styled(Image)`
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
+export const PhoneContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
 `
 
-export const OrganizerInfo = styled.div`
+export const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
+
+  button {
+    background: none;
+    border: none;
+    color: ${({ theme }) => theme.colors.primary_dark};
+    font-size: ${({ theme }) => theme.common.font.sizes.body.large};
+    font-weight: 600;
+    cursor: pointer;
+    text-align: start;
+    width: fit-content;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`
+
+export const Description = styled.p<{ expanded?: boolean }>`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: ${({ expanded }) => (expanded ? 'unset' : '2')};
+  transition: -webkit-line-clamp 0.3s ease;
+  font-size: ${({ theme }) => theme.common.font.sizes.body.large};
+`
+
+export const Hint = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.colors.background_standard};
+  border: 1px solid #dddddd;
+  color: ${({ theme }) => theme.colors.text_medium};
+
+  .hint {
+    &-title {
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+    &-description {
+      font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
+    }
+    &-button {
+      background: none;
+      border: none;
+      color: ${({ theme }) => theme.colors.primary_dark};
+      font-weight: 600;
+      cursor: pointer;
+      text-align: start;
+      width: fit-content;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+`
+
+export const Price = styled.p`
+  font-size: ${({ theme }) => theme.common.font.sizes.heading.xlarge};
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.text_medium};
+`
+
+export const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
+
+export const ModalTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  svg {
+    color: ${({ theme }) => theme.colors.primary_dark};
+  }
+`
+export const ModalContent = styled.div`
+  padding: 1rem;
+  position: relative;
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: ${({ theme }) => theme.common.font.sizes.body.large};
+  }
+`
+
+export const ModalButton = styled.div`
+  position: sticky;
+  bottom: 0;
+  padding: 1rem 1rem 0;
+  background-color: ${({ theme }) => theme.colors.background_standard};
+  width: 100%;
+  padding-bottom: 1rem;
+`
+
+export const MapTitle = styled.h2`
+  font-size: ${({ theme }) => theme.common.font.sizes.heading.xxsmall};
+  color: ${({ theme }) => theme.colors.text_standard};
+`
+
+export const MapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
 `

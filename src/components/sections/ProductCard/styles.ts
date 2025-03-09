@@ -2,7 +2,7 @@ import { device } from '@/styles/breakpoints'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   background: #fff;
