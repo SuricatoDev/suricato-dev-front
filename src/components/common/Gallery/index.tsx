@@ -13,7 +13,7 @@ interface GalleryProps {
   images: string[]
 }
 
-export function Gallery({ images }: GalleryProps) {
+export default function Gallery({ images }: GalleryProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
@@ -35,18 +35,11 @@ export function Gallery({ images }: GalleryProps) {
     thumbnail: img
   }))
 
-  const mainImage = images[0]
-  const extraImages = images.slice(1, 5)
-  const remainingCount = images.length - 5
-
   const openModal = (index: number) => {
     setCurrentIndex(index)
     setIsModalOpen(true)
   }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-  }
+  const closeModal = () => setIsModalOpen(false)
 
   const handleImageLoad = (index: number) => () => {
     setLoadingImages((prev) => {
@@ -56,9 +49,13 @@ export function Gallery({ images }: GalleryProps) {
     })
   }
 
+  const mainImage = images[0]
+  const extraImages = images.slice(1, 5)
+  const remainingCount = images.length - 5
+
   return (
     <>
-      <S.GalleryWrapper>
+      <S.GalleryWrapper count={images.length}>
         {isMobile ? (
           <ImageGallery
             items={galleryItems}
@@ -72,8 +69,12 @@ export function Gallery({ images }: GalleryProps) {
           />
         ) : (
           <>
-            <S.MainImageWrapper onClick={() => openModal(0)}>
-              {loadingImages[0] && (
+            <S.GridItem
+              onClick={() => openModal(0)}
+              variant="main"
+              onlyItem={images.length === 1}
+            >
+              {loadingImages && (
                 <Skeleton
                   rows={1}
                   columns={1}
@@ -92,41 +93,35 @@ export function Gallery({ images }: GalleryProps) {
                 priority
                 onLoad={handleImageLoad(0)}
               />
-            </S.MainImageWrapper>
-
-            <S.ThumbnailWrapper>
-              {extraImages.map((img, idx) => {
-                const actualIndex = idx + 1
-                return (
-                  <S.SmallImage
-                    key={img}
-                    onClick={() => openModal(actualIndex)}
-                  >
-                    {loadingImages[actualIndex] && (
-                      <Skeleton
-                        rows={1}
-                        columns={1}
-                        width="100%"
-                        height="300px"
-                        gap="8px"
-                        radius="4px"
-                      />
-                    )}
-                    <Image
-                      src={img}
-                      alt={`Imagem ${actualIndex}`}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      quality={80}
-                      onLoad={handleImageLoad(actualIndex)}
+            </S.GridItem>
+            {extraImages.map((img, idx) => {
+              const actualIndex = idx + 1
+              return (
+                <S.GridItem key={img} onClick={() => openModal(actualIndex)}>
+                  {loadingImages[actualIndex] && (
+                    <Skeleton
+                      rows={1}
+                      columns={1}
+                      width="100%"
+                      height="300px"
+                      gap="8px"
+                      radius="4px"
                     />
-                    {idx === extraImages.length - 1 && remainingCount > 0 && (
-                      <S.Overlay>+{remainingCount}</S.Overlay>
-                    )}
-                  </S.SmallImage>
-                )
-              })}
-            </S.ThumbnailWrapper>
+                  )}
+                  <Image
+                    src={img}
+                    alt={`Imagem ${actualIndex}`}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    quality={80}
+                    onLoad={handleImageLoad(actualIndex)}
+                  />
+                  {idx === extraImages.length - 1 && remainingCount > 0 && (
+                    <S.Overlay>+{remainingCount}</S.Overlay>
+                  )}
+                </S.GridItem>
+              )
+            })}
           </>
         )}
       </S.GalleryWrapper>

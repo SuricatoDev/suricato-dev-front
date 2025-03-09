@@ -1,6 +1,7 @@
 import { device } from '@/styles/breakpoints'
 import styled, { css } from 'styled-components'
 import { HeaderProps } from '.'
+import Image from 'next/image'
 
 export interface ScrolledProps {
   $isScrolled: boolean
@@ -282,4 +283,11 @@ export const SearchButton = styled.button<ScrolledProps>`
   }
 
   display: none;
+`
+
+export const Logo = styled(Image)`
+  transition: opacity ${(props) => props.theme.common.transition.fast};
+  &:hover {
+    opacity: 0.8;
+  }
 `

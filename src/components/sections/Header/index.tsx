@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
@@ -116,7 +115,7 @@ export default function Header({ $variant = 'default' }: HeaderProps) {
         <S.Container>
           <S.TopHeader>
             <Link href="/" passHref>
-              <Image src={logo} alt="Logo" width={50} height={50} />
+              <S.Logo src={logo} alt="Logo" width={50} height={50} />
             </Link>
 
             <S.Menu $isScrolled={isScrolled && $variant === 'default'}>

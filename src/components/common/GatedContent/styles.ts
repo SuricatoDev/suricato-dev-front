@@ -15,7 +15,7 @@ export const Overlay = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.85);
   display: flex;
   flex-direction: column;
   align-items: center;

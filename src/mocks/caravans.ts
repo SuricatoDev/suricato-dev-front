@@ -18,10 +18,14 @@ export const caravansMock = [
     id: '1',
     eventName: 'Orquestra Sinfônica - Alumni',
     category: 'shows',
+    organizerId: '1',
+    organizerImage: 'https://picsum.photos/360/360',
     organizerName: 'João Silva',
     originLocation: 'Campos Elíseos, São Paulo',
     destination: 'Praça Júlio Prestes, nº 16, São Paulo-SP',
-    organizerPhone: '+5515991234567',
+    organizerPhone: '15991234567',
+    organizerAdress: 'Vila Assis, Sorocaba - SP',
+    organizerJoinDate: 'Abril de 2022',
     images,
     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Praesent vitae eros eget tellus tristique bibendum. Donec
@@ -37,11 +41,15 @@ export const caravansMock = [
     id: '2',
     eventName: 'Circo Stankowich',
     category: 'shows',
+    organizerId: '1',
     organizerName: 'Maria Oliveira',
+    organizerImage: 'https://picsum.photos/360/360',
     originLocation: 'Sorocaba, São Paulo',
     destination: 'Praça Júlio Prestes, nº 16, São Paulo-SP',
-    organizerPhone: '+552199999999',
-    images,
+    organizerPhone: '2199999999',
+    organizerAdress: 'Vila Assis, Sorocaba - SP',
+    organizerJoinDate: 'Abril de 2022',
+    images: images.slice(0, 4),
     description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Praesent vitae eros eget tellus tristique bibendum. Donec
       rutrum sed sem quis venenatis. Proin viverra risus a

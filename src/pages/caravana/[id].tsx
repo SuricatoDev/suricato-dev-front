@@ -16,13 +16,15 @@ import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
 import Header from '@/components/sections/Header'
 import Footer from '@/components/sections/Footer'
 import MultiStepForm from '@/components/sections/LoginForm'
-import { Gallery } from '@/components/common/Gallery'
+import Gallery from '@/components/common/Gallery'
 import Divider from '@/components/common/Divider'
 import Button from '@/components/common/Button'
 import Modal from '@/components/common/Modal'
 import Portal from '@/components/common/Portal'
 import GatedContent from '@/components/common/GatedContent'
 import { WhatsappIcon } from '@/components/common/Icons'
+import MapEmbed from '@/components/common/MapEmbed'
+import RatingStars from '@/components/common/RatingStars'
 
 import * as S from '@/styles/pages/caravana'
 
@@ -32,15 +34,18 @@ import {
   formatPrice,
   returnInitialsLettersIfNotLogged
 } from '@/utils/formats'
-import MapEmbed from '@/components/common/MapEmbed'
-import RatingStars from '@/components/common/RatingStars'
 
 import { categories } from '@/constants/categories'
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr'
 interface Caravan {
   id: string
   eventName: string
   category: string
+  organizerImage: string
+  organizerId: string
   organizerName: string
+  organizerAdress: string
+  organizerJoinDate: string
   originLocation: string
   destination: string
   organizerPhone: string
@@ -91,9 +96,11 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
       <Header $variant="simple" />
       <S.Main>
         <div className="container">
+          <S.HeaderMobile onClick={() => router.back()}>
+            <CaretLeft size={32} />
+          </S.HeaderMobile>
           <S.Container>
             <S.Title className="hide-in-mobile">{caravan.eventName}</S.Title>
-
             <S.ContentWrapper>
               <S.Content>
                 <Gallery images={caravan.images} />
@@ -176,7 +183,9 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                     isLogged={isLogged}
                     onClick={() => !isLogged && handleShowInfos()}
                   >
-                    <S.ContactCard>
+                    <S.ContactCard
+                      style={{ filter: !isLogged ? 'blur(4px)' : 'none' }}
+                    >
                       <S.ContactContainer>
                         <S.Price
                           style={{ filter: !isLogged ? 'blur(4px)' : 'none' }}
@@ -226,13 +235,15 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                     isLogged={isLogged}
                     onClick={() => !isLogged && handleShowInfos()}
                   >
-                    <S.OrganizerContainer>
+                    <S.OrganizerContainer
+                      style={{ filter: !isLogged ? 'blur(4px)' : 'none' }}
+                    >
                       <S.Organizer>
                         <S.OrganizerImage
                           width={60}
                           height={60}
                           alt={caravan.organizerName}
-                          src="https://picsum.photos/120/120"
+                          src={caravan.organizerImage}
                           quality={100}
                         />
                         <S.OrganizerInfo>
@@ -364,6 +375,16 @@ function maskCaravanData(caravan: Caravan): Caravan {
     category: caravan.category,
     organizerName: returnInitialsLettersIfNotLogged(
       caravan.organizerName,
+      false
+    ),
+    organizerId: caravan.organizerId,
+    organizerImage: caravan.organizerImage,
+    organizerAdress: returnInitialsLettersIfNotLogged(
+      caravan.organizerAdress,
+      false
+    ),
+    organizerJoinDate: returnInitialsLettersIfNotLogged(
+      caravan.organizerJoinDate,
       false
     ),
     originLocation: caravan.originLocation,

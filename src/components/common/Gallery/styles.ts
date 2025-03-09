@@ -1,44 +1,110 @@
+import styled, { css } from 'styled-components'
 import { device } from '@/styles/breakpoints'
-import styled from 'styled-components'
 
-export const GalleryWrapper = styled.div`
+const layoutForCount = (count: number) => {
+  switch (count) {
+    case 1:
+      return `
+        grid-template-columns: 1fr ;
+        grid-template-rows: 1fr;
+        grid-template-areas:
+          "main";
+      `
+    case 2:
+      return `
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas:
+          "main second";
+      `
+    case 3:
+      return `
+        grid-template-columns: 2fr 2fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+          "main second second"
+          "main third third";
+      `
+    case 4:
+      return `
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+          "main second third"
+          "main fourth fourth";
+      `
+    case 5:
+      return `
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+          "main second third"
+          "main fourth fifth";
+      `
+    default:
+      return `
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+          "main second third"
+          "main fourth fifth";
+      `
+  }
+}
+
+export const GalleryWrapper = styled.div<{ count: number }>`
   display: flex;
   flex-direction: column;
   width: 100%;
 
   @media (${device.md}) {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-gap: 1rem;
-  }
+    gap: 1rem;
+    ${({ count }) => layoutForCount(count <= 5 ? count : 6)}
 
-  .image-gallery-slide .image-gallery-image {
-    object-fit: cover;
-  }
-
-  .image-gallery-image {
-    width: 100%;
-    height: auto;
-    max-height: 90vh;
-    aspect-ratio: 16 / 9;
-    object-fit: cover !important;
+    & > :nth-child(1) {
+      grid-area: main;
+    }
+    & > :nth-child(2) {
+      grid-area: second;
+      aspect-ratio: ${({ count }) =>
+        count === 4 || count >= 5 ? '1' : count === 3 ? '2.07' : 'unset'};
+    }
+    & > :nth-child(3) {
+      grid-area: third;
+      aspect-ratio: ${({ count }) =>
+        count === 4 || count >= 5 ? '1' : count === 3 ? '2.07' : 'unset'};
+    }
+    & > :nth-child(4) {
+      grid-area: fourth;
+      aspect-ratio: ${({ count }) =>
+        count === 5
+          ? '1'
+          : count === 4 || count === 3
+            ? '2.07'
+            : count >= 5
+              ? '1'
+              : 'unset'};
+    }
+    & > :nth-child(5) {
+      grid-area: fifth;
+      aspect-ratio: ${({ count }) => (count >= 5 ? '1' : 'unset')};
+    }
   }
 `
 
-export const MainImageWrapper = styled.div`
+interface GridItemProps {
+  variant?: 'main'
+  onlyItem?: boolean
+}
+
+export const GridItem = styled.div<GridItemProps>`
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  grid-column: span 2;
-  grid-row: span 2;
-  cursor: pointer;
-  overflow: hidden;
+  height: 100%;
   border-radius: 8px;
-
-  @media (${device.md}) {
-    aspect-ratio: 2 / 2;
-  }
+  overflow: hidden;
+  cursor: pointer;
 
   &::after {
     content: '';
@@ -51,48 +117,34 @@ export const MainImageWrapper = styled.div`
     transition: background-color
       ${({ theme }) => theme.common.transition.default};
   }
-
   &:hover::after {
     background: rgba(0, 0, 0, 0.35);
   }
+
+  ${({ variant, onlyItem }) =>
+    variant === 'main' &&
+    css`
+      aspect-ratio: 16 / 9;
+      @media (${device.md}) {
+        aspect-ratio: ${onlyItem ? 'unset' : '1'};
+      }
+    `}
 `
 
-export const ThumbnailWrapper = styled.div`
-  display: none;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 1rem;
-  grid-column: span 2;
-  grid-row: span 2;
-
-  @media (${device.md}) {
-    display: grid;
-  }
-`
-
-export const SmallImage = styled.div`
-  position: relative;
-  aspect-ratio: 1 / 1;
-  cursor: pointer;
-  overflow: hidden;
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
   border-radius: 8px;
-  flex-shrink: 0;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0);
-    transition: background-color
-      ${({ theme }) => theme.common.transition.default};
-  }
-
-  &:hover::after {
-    background: rgba(0, 0, 0, 0.35);
-  }
 `
 
 export const FullscreenHeader = styled.div`
@@ -130,22 +182,6 @@ export const FullscreenSmallImage = styled.div`
   flex-shrink: 0;
 `
 
-export const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  font-weight: bold;
-  border-radius: 8px;
-`
-
 const NavDefault = styled.button`
   @media (${device.md}) {
     margin: 0;
@@ -157,7 +193,6 @@ const NavDefault = styled.button`
     transform: translateY(-50%);
     z-index: 10;
     border: none;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -168,9 +203,9 @@ const NavDefault = styled.button`
     svg {
       color: ${({ theme }) => theme.colors.base_dark8};
       transition:
-        transform ${(props) => props.theme.common.transition.fast},
-        color ${(props) => props.theme.common.transition.fast},
-        opacity ${(props) => props.theme.common.transition.fast};
+        transform ${({ theme }) => theme.common.transition.fast},
+        color ${({ theme }) => theme.common.transition.fast},
+        opacity ${({ theme }) => theme.common.transition.fast};
 
       &:hover {
         color: ${({ theme }) => theme.colors.primary_medium};
@@ -201,9 +236,9 @@ export const GalleryCarouselWrapper = styled.div`
   .image-gallery-icon {
     color: ${({ theme }) => theme.colors.base_dark32};
     transition:
-      transform ${(props) => props.theme.common.transition.fast},
-      color ${(props) => props.theme.common.transition.fast},
-      opacity ${(props) => props.theme.common.transition.fast};
+      transform ${({ theme }) => theme.common.transition.fast},
+      color ${({ theme }) => theme.common.transition.fast},
+      opacity ${({ theme }) => theme.common.transition.fast};
 
     &:hover {
       color: ${({ theme }) => theme.colors.primary_medium};
@@ -257,6 +292,7 @@ export const FullscreenCloseButton = styled.button`
   font-size: 32px;
   font-weight: bold;
 `
+
 export const CloseButton = styled.div`
   position: fixed;
   top: 20px;
@@ -268,10 +304,9 @@ export const CloseButton = styled.div`
   z-index: 1;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.base_dark8};
-
   transition:
-    transform ${(props) => props.theme.common.transition.fast},
-    color ${(props) => props.theme.common.transition.fast};
+    transform ${({ theme }) => theme.common.transition.fast},
+    color ${({ theme }) => theme.common.transition.fast};
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary_medium};
