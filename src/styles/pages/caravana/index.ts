@@ -395,6 +395,7 @@ export const ModalTitle = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  color: ${({ theme }) => theme.colors.text_standard};
 
   svg {
     color: ${({ theme }) => theme.colors.primary_dark};
@@ -403,6 +404,7 @@ export const ModalTitle = styled.div`
 export const ModalContent = styled.div`
   padding: 1rem;
   position: relative;
+  color: ${({ theme }) => theme.colors.text_medium};
   ul {
     display: flex;
     flex-direction: column;

@@ -59,5 +59,51 @@ export const caravansMock = [
       onsectetur adipiscing elit. Praesent vitae eros eget
       tellus tristique bibendum.`,
     price: 100
+  },
+  {
+    id: '3',
+    eventName: 'Circo Stankowich',
+    category: 'shows',
+    organizerId: '1',
+    organizerName: 'Maria Oliveira',
+    organizerImage: 'https://picsum.photos/360/360',
+    originLocation: 'Sorocaba, São Paulo',
+    destination: 'Praça Júlio Prestes, nº 16, São Paulo-SP',
+    organizerPhone: '2199999999',
+    organizerAdress: 'Vila Assis, Sorocaba - SP',
+    organizerJoinDate: 'Abril de 2022',
+    images: images.slice(0, 3),
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Praesent vitae eros eget tellus tristique bibendum. Donec
+      rutrum sed sem quis venenatis. Proin viverra risus a
+      ringilla varius. Nulla facilisi. Curabitur nec lacus
+      elit. Pellentesque convallis nisi ac augue pharetra eu
+      tristique neque consequat. Lorem ipsum dolor sit amet,
+      onsectetur adipiscing elit. Praesent vitae eros eget
+      tellus tristique bibendum.`,
+    price: 100
+  },
+  {
+    id: '4',
+    eventName: 'Circo Stankowich',
+    category: 'shows',
+    organizerId: '1',
+    organizerName: 'Maria Oliveira',
+    organizerImage: 'https://picsum.photos/360/360',
+    originLocation: 'Sorocaba, São Paulo',
+    destination: 'Praça Júlio Prestes, nº 16, São Paulo-SP',
+    organizerPhone: '2199999999',
+    organizerAdress: 'Vila Assis, Sorocaba - SP',
+    organizerJoinDate: 'Abril de 2022',
+    images: images.slice(0, 2),
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Praesent vitae eros eget tellus tristique bibendum. Donec
+      rutrum sed sem quis venenatis. Proin viverra risus a
+      ringilla varius. Nulla facilisi. Curabitur nec lacus
+      elit. Pellentesque convallis nisi ac augue pharetra eu
+      tristique neque consequat. Lorem ipsum dolor sit amet,
+      onsectetur adipiscing elit. Praesent vitae eros eget
+      tellus tristique bibendum.`,
+    price: 100
   }
 ]
