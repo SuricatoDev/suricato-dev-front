@@ -9,6 +9,9 @@ import { Flag } from '@phosphor-icons/react/dist/ssr/Flag'
 import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
 import { CheckCircle } from '@phosphor-icons/react/dist/ssr/CheckCircle'
 import { ShieldCheck } from '@phosphor-icons/react/dist/ssr/ShieldCheck'
+import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
+import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
+import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
 
 import Header from '@/components/sections/Header'
 import Footer from '@/components/sections/Footer'
@@ -31,10 +34,8 @@ import {
 } from '@/utils/formats'
 import MapEmbed from '@/components/common/MapEmbed'
 import RatingStars from '@/components/common/RatingStars'
-import { categories } from '@/constants/categories'
-import { CalendarDots, Clock } from '@phosphor-icons/react/dist/ssr'
-import { Ticket } from '@phosphor-icons/react'
 
+import { categories } from '@/constants/categories'
 interface Caravan {
   id: string
   eventName: string
