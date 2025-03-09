@@ -21,7 +21,7 @@ export function Skeleton({
   const totalItems = rows * columns
 
   return (
-    <S.Wrapper columns={columns} gap={gap}>
+    <S.Wrapper $columns={columns} $gap={gap}>
       {Array.from({ length: totalItems }).map((_, index) => (
         <S.SkeletonItem
           radius={radius}

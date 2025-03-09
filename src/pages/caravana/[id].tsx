@@ -100,19 +100,19 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
             <CaretLeft size={32} />
           </S.HeaderMobile>
           <S.Container>
-            <S.Title className="hide-in-mobile">{caravan.eventName}</S.Title>
             <S.ContentWrapper>
               <S.Content>
                 <Gallery images={caravan.images} />
                 <S.SpacingMobile>
-                  <S.Title className="hide-in-desktop">
-                    {caravan.eventName}
-                  </S.Title>
-                  <S.Location>
-                    <MapPin weight="fill" size={18} />
-                    <span>{caravan.originLocation}</span>
-                  </S.Location>
+                  <S.TitleContainer>
+                    <S.Title>{caravan.eventName}</S.Title>
+                    <S.Location>
+                      <MapPin weight="fill" size={18} />
+                      <span>{caravan.originLocation}</span>
+                    </S.Location>
+                  </S.TitleContainer>
                   <S.DescriptionContainer>
+                    <S.Subtitle>Descrição</S.Subtitle>
                     <S.Description $expanded={expanded}>
                       {caravan.description}
                     </S.Description>
@@ -121,7 +121,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                     </button>
                   </S.DescriptionContainer>
                   <Divider $marginY="8px" />
-                  <S.Subtitle>Informações do evento:</S.Subtitle>
+                  <S.Subtitle>Informações</S.Subtitle>
                   <S.EventContainer>
                     <S.EventItem>
                       {CategoryIcon && <CategoryIcon size={24} />}
@@ -172,7 +172,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                   </S.EventContainer>
                   <Divider $marginY="8px" />
                   <S.MapContainer>
-                    <S.Subtitle>Local do evento:</S.Subtitle>
+                    <S.Subtitle>Local do evento</S.Subtitle>
                     <MapEmbed location={caravan.destination} />
                   </S.MapContainer>
                 </S.SpacingMobile>

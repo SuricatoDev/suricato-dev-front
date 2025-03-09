@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 export const Main = styled.main`
   padding-bottom: calc(64px + 1rem);
   @media (${device.md}) {
-    padding: calc(100px + 1rem) 0 150px 0;
+    padding: calc(100px + 2rem) 0 calc(53px + 2rem) 0;
   }
 `
 
@@ -150,7 +150,7 @@ export const Location = styled.div`
   align-items: center;
   gap: 0.5rem;
 
-  color: ${({ theme }) => theme.colors.text_standard};
+  color: ${({ theme }) => theme.colors.text_medium};
   font-size: ${({ theme }) => theme.common.font.sizes.body.large};
   font-weight: 500;
 `
@@ -312,6 +312,7 @@ export const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding-top: 1rem;
 
   button {
     background: none;
@@ -336,6 +337,7 @@ export const Description = styled.p<{ $expanded?: boolean }>`
   -webkit-line-clamp: ${({ $expanded }) => ($expanded ? 'unset' : '2')};
   transition: -webkit-line-clamp 0.3s ease;
   font-size: ${({ theme }) => theme.common.font.sizes.body.large};
+  color: ${({ theme }) => theme.colors.text_medium};
 `
 
 export const Hint = styled.div`
@@ -482,7 +484,7 @@ export const EventSubItem = styled.div`
 
 export const Subtitle = styled.h2`
   font-size: ${({ theme }) => theme.common.font.sizes.heading.xxsmall};
-  color: ${({ theme }) => theme.colors.text_medium};
+  color: ${({ theme }) => theme.colors.text_standard};
 `
 
 export const HeaderMobile = styled.div`
@@ -500,4 +502,10 @@ export const HeaderMobile = styled.div`
   @media (${device.md}) {
     display: none;
   }
+`
+
+export const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `
