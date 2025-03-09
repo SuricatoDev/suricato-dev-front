@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const GatedContainer = styled.div`
   position: relative;
-  cursor: pointer;
 `
 
 export const OverlayWrapper = styled.div`
@@ -26,6 +25,7 @@ export const Overlay = styled.div`
   z-index: 1;
   border: 1px solid #dddddd;
   border-radius: 8px;
+  cursor: pointer;
 
   &::before {
     content: '';

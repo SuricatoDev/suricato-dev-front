@@ -1,3 +1,4 @@
+import Button from '@/components/common/Button'
 import { device } from '@/styles/breakpoints'
 import Image from 'next/image'
 import styled from 'styled-components'
@@ -25,7 +26,7 @@ export const ContentWrapper = styled.div`
   gap: 2rem;
 
   @media (${device.md}) {
-    grid-template-columns: 10fr 4fr;
+    grid-template-columns: 10fr 3fr;
     align-items: start;
   }
 
@@ -150,7 +151,7 @@ export const Location = styled.div`
   gap: 0.5rem;
 
   color: ${({ theme }) => theme.colors.text_standard};
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.common.font.sizes.body.large};
   font-weight: 500;
 `
 
@@ -189,6 +190,7 @@ export const ContactCard = styled.div`
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
+  border: 1px solid #dddddd;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -371,9 +373,13 @@ export const Hint = styled.div`
 `
 
 export const Price = styled.p`
-  font-size: ${({ theme }) => theme.common.font.sizes.heading.xlarge};
+  font-size: ${({ theme }) => theme.common.font.sizes.heading.large};
   font-weight: 500;
   color: ${({ theme }) => theme.colors.text_medium};
+
+  @media (${device.md}) {
+    font-size: ${({ theme }) => theme.common.font.sizes.heading.xlarge};
+  }
 `
 
 export const ModalContainer = styled.div`
@@ -415,14 +421,66 @@ export const ModalButton = styled.div`
   padding-bottom: 1rem;
 `
 
-export const MapTitle = styled.h2`
-  font-size: ${({ theme }) => theme.common.font.sizes.heading.xxsmall};
-  color: ${({ theme }) => theme.colors.text_medium};
-`
-
 export const MapContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 1rem;
   gap: 1rem;
+`
+
+export const ViewProfileButton = styled(Button)`
+  margin-top: 1rem;
+  font-weight: 500;
+  border-radius: 50px;
+  padding: 0;
+
+  span {
+    padding: 0.25rem 0.5rem;
+    font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
+  }
+`
+
+export const EventContainer = styled.div`
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-flow: dense;
+  width: 100%;
+  @media (${device.md}) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`
+
+export const EventItem = styled.div`
+  border-radius: 8px;
+  border: 1px solid #dddddd;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: start;
+  color: ${({ theme }) => theme.colors.text_standard};
+
+  @media (${device.md}) {
+    flex-direction: row;
+    align-items: center;
+    border: none;
+  }
+`
+
+export const EventSubItem = styled.div`
+  .event-subitem-title {
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.colors.text_medium};
+    font-size: ${({ theme }) => theme.common.font.sizes.body.xsmall};
+  }
+
+  .event-subitem-subtitle {
+    font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
+    font-weight: 600;
+  }
+`
+
+export const Subtitle = styled.h2`
+  font-size: ${({ theme }) => theme.common.font.sizes.heading.xxsmall};
+  color: ${({ theme }) => theme.colors.text_medium};
 `

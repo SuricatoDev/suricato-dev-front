@@ -8,6 +8,7 @@ type ButtonOrLinkProps<T extends React.ElementType> = {
   fullWidth?: boolean
   icon?: React.ReactNode
   loading?: boolean
+  rounded?: boolean
 } & React.ComponentPropsWithoutRef<T> & {
     href?: string
   }
@@ -20,6 +21,7 @@ export default function Button<T extends React.ElementType = 'button'>({
   fullWidth = false,
   icon,
   loading = false,
+  rounded = false,
   ...rest
 }: ButtonOrLinkProps<T>) {
   const Component = as || (href ? 'a' : 'button')
@@ -31,6 +33,7 @@ export default function Button<T extends React.ElementType = 'button'>({
       $variant={variant}
       $fullWidth={fullWidth}
       $loading={loading}
+      $rounded={rounded}
       disabled={loading}
       {...rest}
     >

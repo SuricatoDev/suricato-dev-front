@@ -30,10 +30,15 @@ import {
   returnInitialsLettersIfNotLogged
 } from '@/utils/formats'
 import MapEmbed from '@/components/common/MapEmbed'
+import RatingStars from '@/components/common/RatingStars'
+import { categories } from '@/constants/categories'
+import { CalendarDots, Clock } from '@phosphor-icons/react/dist/ssr'
+import { Ticket } from '@phosphor-icons/react'
 
 interface Caravan {
   id: string
   eventName: string
+  category: string
   organizerName: string
   originLocation: string
   destination: string
@@ -69,7 +74,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const handleShowInfos = () => {
     if (!isLogged) {
       if (window.innerWidth <= 940) {
-        router.push('/login')
+        router.push(`/login?callbackUrl=${encodeURIComponent(router.asPath)}`)
       } else {
         setIsLoginModalOpen(true)
       }
@@ -77,6 +82,9 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
     }
   }
 
+  const category = categories.find((item) => item.id === caravan.category)
+  const CategoryIcon = category ? category.icon : null
+  const CategoryLabel = category ? category.label : null
   return (
     <S.Wrapper>
       <Header $variant="simple" />
@@ -93,7 +101,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                     {caravan.eventName}
                   </S.Title>
                   <S.Location>
-                    <MapPin weight="fill" size={24} />
+                    <MapPin weight="fill" size={18} />
                     <span>{caravan.originLocation}</span>
                   </S.Location>
                   <S.DescriptionContainer>
@@ -104,8 +112,59 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                       {expanded ? '' : 'Ver descrição completa'}
                     </button>
                   </S.DescriptionContainer>
+                  <Divider $marginY="8px" />
+                  <S.Subtitle>Informações do evento:</S.Subtitle>
+                  <S.EventContainer>
+                    <S.EventItem>
+                      {CategoryIcon && <CategoryIcon size={24} />}
+                      <S.EventSubItem>
+                        <p className="event-subitem-title">Categoria</p>
+                        <p className="event-subitem-subtitle">
+                          {CategoryLabel && CategoryLabel}
+                        </p>
+                      </S.EventSubItem>
+                    </S.EventItem>
+                    <S.EventItem>
+                      <Ticket size={24} />
+                      <S.EventSubItem>
+                        <p className="event-subitem-title">Vagas restantes</p>
+                        <p className="event-subitem-subtitle">5</p>
+                      </S.EventSubItem>
+                    </S.EventItem>
+                    <S.EventItem>
+                      <MapPin size={24} />
+                      <S.EventSubItem>
+                        <p className="event-subitem-title">Origem</p>
+                        <p className="event-subitem-subtitle">Sorocaba/SP</p>
+                      </S.EventSubItem>
+                    </S.EventItem>
+                    <S.EventItem>
+                      <MapPin size={24} weight="fill" />
+                      <S.EventSubItem>
+                        <p className="event-subitem-title">Destino</p>
+                        <p className="event-subitem-subtitle">
+                          Campos Elíseos/SP
+                        </p>
+                      </S.EventSubItem>
+                    </S.EventItem>
+                    <S.EventItem>
+                      <CalendarDots size={24} />
+                      <S.EventSubItem>
+                        <p className="event-subitem-title">Dia</p>
+                        <p className="event-subitem-subtitle">16/03/2025</p>
+                      </S.EventSubItem>
+                    </S.EventItem>
+                    <S.EventItem>
+                      <Clock size={24} />
+                      <S.EventSubItem>
+                        <p className="event-subitem-title">Horário</p>
+                        <p className="event-subitem-subtitle">10h00m</p>
+                      </S.EventSubItem>
+                    </S.EventItem>
+                  </S.EventContainer>
+                  <Divider $marginY="8px" />
                   <S.MapContainer>
-                    <S.MapTitle>Local do evento:</S.MapTitle>
+                    <S.Subtitle>Local do evento:</S.Subtitle>
                     <MapEmbed location={caravan.destination} />
                   </S.MapContainer>
                 </S.SpacingMobile>
@@ -184,6 +243,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                           <S.OrganizerName>
                             {caravan.organizerName}
                           </S.OrganizerName>
+                          <RatingStars rating={4.5} />
                         </S.OrganizerInfo>
                       </S.Organizer>
                       <S.OrganizerFooter>
@@ -205,6 +265,9 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                             )}
                           </p>
                         </S.OrganizerFooterItem>
+                        <S.ViewProfileButton rounded variant="outlined">
+                          Acessar perfil
+                        </S.ViewProfileButton>
                       </S.OrganizerFooter>
                     </S.OrganizerContainer>
                   </GatedContent>
@@ -297,6 +360,7 @@ function maskCaravanData(caravan: Caravan): Caravan {
   return {
     id: caravan.id,
     eventName: caravan.eventName,
+    category: caravan.category,
     organizerName: returnInitialsLettersIfNotLogged(
       caravan.organizerName,
       false

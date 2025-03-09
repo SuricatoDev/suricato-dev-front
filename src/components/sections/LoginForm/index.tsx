@@ -85,7 +85,8 @@ export default function MultiStepForm({
       ])
       if (isValid) {
         handleClose()
-        router.push('/')
+        const callbackUrl = (router.query.callbackUrl as string) || '/'
+        router.push(callbackUrl)
       }
     }
   }

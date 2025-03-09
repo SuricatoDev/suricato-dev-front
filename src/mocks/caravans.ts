@@ -17,6 +17,7 @@ export const caravansMock = [
   {
     id: '1',
     eventName: 'Orquestra Sinfônica - Alumni',
+    category: 'shows',
     organizerName: 'João Silva',
     originLocation: 'Campos Elíseos, São Paulo',
     destination: 'Praça Júlio Prestes, nº 16, São Paulo-SP',
@@ -35,6 +36,7 @@ export const caravansMock = [
   {
     id: '2',
     eventName: 'Circo Stankowich',
+    category: 'shows',
     organizerName: 'Maria Oliveira',
     originLocation: 'Sorocaba, São Paulo',
     destination: 'Praça Júlio Prestes, nº 16, São Paulo-SP',

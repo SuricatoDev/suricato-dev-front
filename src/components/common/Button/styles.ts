@@ -6,6 +6,7 @@ export interface ButtonProps {
   $fullWidth: boolean
   $variant: ButtonVariantType
   $loading?: boolean
+  $rounded?: boolean
 }
 
 const rotate = keyframes`
@@ -91,8 +92,8 @@ const ButtonGhost = css<ButtonProps>`
 
 const ButtonOutlined = css<ButtonProps>`
   background-color: transparent;
-  color: ${({ theme }) => theme.colors.text_medium};
-  border: 1px solid ${({ theme }) => theme.colors.text_medium};
+  color: ${({ theme }) => theme.colors.text_standard};
+  border: 1px solid ${({ theme }) => theme.colors.text_standard};
   transition: background-color ${({ theme }) => theme.common.transition.default};
 
   &:hover:not(:disabled) {
@@ -116,6 +117,7 @@ const ButtonContained = css<ButtonProps>`
 
 export const Button = styled.a<ButtonProps & { $loading?: boolean }>`
   position: relative;
+  font-family: inherit;
   ${baseStyles}
   ${({ $variant }) => {
     switch ($variant) {
@@ -128,6 +130,8 @@ export const Button = styled.a<ButtonProps & { $loading?: boolean }>`
         return ButtonContained
     }
   }}
+
+  border-radius: ${({ $rounded }) => ($rounded ? '24px' : '8px')};
 
   .content {
     display: flex;

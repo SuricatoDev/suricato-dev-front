@@ -82,7 +82,8 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
       if (isModal) {
         onClose()
       } else {
-        router.push('/')
+        const callbackUrl = (router.query.callbackUrl as string) || '/'
+        router.push(callbackUrl)
       }
     }
   }
