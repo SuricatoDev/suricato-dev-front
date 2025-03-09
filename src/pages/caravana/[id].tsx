@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { getSession, useSession } from 'next-auth/react'
@@ -56,6 +56,15 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [expanded, setExpanded] = useState(false)
+
+  const [hasReloaded, setHasReloaded] = useState(false)
+
+  useEffect(() => {
+    if (isLogged && !hasReloaded) {
+      router.replace(router.asPath)
+      setHasReloaded(true)
+    }
+  }, [isLogged, hasReloaded, router])
 
   const handleShowInfos = () => {
     if (!isLogged) {
