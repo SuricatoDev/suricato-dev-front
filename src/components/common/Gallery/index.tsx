@@ -74,12 +74,12 @@ export default function Gallery({ images }: GalleryProps) {
               $variant="main"
               $onlyItem={images.length === 1}
             >
-              {loadingImages && (
+              {loadingImages[0] && (
                 <Skeleton
                   rows={1}
                   columns={1}
                   width="100%"
-                  height="300px"
+                  height="100%"
                   gap="8px"
                   radius="4px"
                 />
