@@ -71,8 +71,8 @@ export default function Gallery({ images }: GalleryProps) {
           <>
             <S.GridItem
               onClick={() => openModal(0)}
-              variant="main"
-              onlyItem={images.length === 1}
+              $variant="main"
+              $onlyItem={images.length === 1}
             >
               {loadingImages && (
                 <Skeleton

@@ -94,8 +94,8 @@ export const GalleryWrapper = styled.div<{ count: number }>`
 `
 
 interface GridItemProps {
-  variant?: 'main'
-  onlyItem?: boolean
+  $variant?: 'main'
+  $onlyItem?: boolean
 }
 
 export const GridItem = styled.div<GridItemProps>`
@@ -121,12 +121,12 @@ export const GridItem = styled.div<GridItemProps>`
     background: rgba(0, 0, 0, 0.35);
   }
 
-  ${({ variant, onlyItem }) =>
-    variant === 'main' &&
+  ${({ $variant, $onlyItem }) =>
+    $variant === 'main' &&
     css`
       aspect-ratio: 16 / 9;
       @media (${device.md}) {
-        aspect-ratio: ${onlyItem ? 'unset' : '1'};
+        aspect-ratio: ${$onlyItem ? 'unset' : '1'};
       }
     `}
 `
