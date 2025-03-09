@@ -327,11 +327,11 @@ export const DescriptionContainer = styled.div`
   }
 `
 
-export const Description = styled.p<{ expanded?: boolean }>`
+export const Description = styled.p<{ $expanded?: boolean }>`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  -webkit-line-clamp: ${({ expanded }) => (expanded ? 'unset' : '2')};
+  -webkit-line-clamp: ${({ $expanded }) => ($expanded ? 'unset' : '2')};
   transition: -webkit-line-clamp 0.3s ease;
   font-size: ${({ theme }) => theme.common.font.sizes.body.large};
 `

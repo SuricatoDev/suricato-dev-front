@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
 import { Phone } from '@phosphor-icons/react/dist/ssr/Phone'
@@ -88,7 +88,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                     <span>{caravan.originLocation}</span>
                   </S.Location>
                   <S.DescriptionContainer>
-                    <S.Description expanded={expanded}>
+                    <S.Description $expanded={expanded}>
                       {caravan.description}
                     </S.Description>
                     <button onClick={() => setExpanded(!expanded)}>
@@ -173,10 +173,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                           </S.OrganizerVerified>
 
                           <S.OrganizerName>
-                            {returnInitialsLettersIfNotLogged(
-                              caravan.organizerName,
-                              isLogged
-                            )}
+                            {caravan.organizerName}
                           </S.OrganizerName>
                         </S.OrganizerInfo>
                       </S.Organizer>
@@ -270,27 +267,36 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = caravansMock.map((caravan) => ({
-    params: { id: caravan.id.toString() }
-  }))
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.params as { id: string }
+  const session = await getSession(context)
 
-  return {
-    paths,
-    fallback: 'blocking'
-  }
-}
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const id = params?.id
   const caravan = caravansMock.find((p) => p.id === id)
 
   if (!caravan) {
     return { notFound: true }
   }
 
+  const finalCaravan = session ? caravan : maskCaravanData(caravan)
+
   return {
-    props: { caravan },
-    revalidate: 3600
+    props: { caravan: finalCaravan }
+  }
+}
+
+function maskCaravanData(caravan: Caravan): Caravan {
+  return {
+    id: caravan.id,
+    eventName: returnInitialsLettersIfNotLogged(caravan.eventName, false),
+    organizerName: returnInitialsLettersIfNotLogged(
+      caravan.organizerName,
+      false
+    ),
+    originLocation: caravan.originLocation,
+    destination: caravan.destination,
+    organizerPhone: formatProductPhoneNumber(caravan.organizerPhone, false),
+    images: caravan.images,
+    price: 0,
+    description: returnInitialsLettersIfNotLogged(caravan.description, false)
   }
 }
