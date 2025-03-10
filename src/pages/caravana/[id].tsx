@@ -12,6 +12,7 @@ import { ShieldCheck } from '@phosphor-icons/react/dist/ssr/ShieldCheck'
 import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
 import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
 import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
 
 import Header from '@/components/sections/Header'
 import Footer from '@/components/sections/Footer'
@@ -36,7 +37,7 @@ import {
 } from '@/utils/formats'
 
 import { categories } from '@/constants/categories'
-import { CaretLeft } from '@phosphor-icons/react/dist/ssr'
+
 interface Caravan {
   id: string
   eventName: string
