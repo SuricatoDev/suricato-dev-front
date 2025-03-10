@@ -17,7 +17,7 @@ export const Shadow = styled.div<Pick<ModalProps, '$isOpen'>>`
   cursor: pointer;
 `
 
-export const Modal = styled.div`
+export const Modal = styled.div<Pick<ModalProps, '$withMaxSizes'>>`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -25,8 +25,10 @@ export const Modal = styled.div`
   background-color: ${({ theme }) => theme.colors.background_standard};
 
   height: auto;
-  width: calc(100% - 2rem);
-  max-width: 400px;
+  width: ${({ $withMaxSizes }) =>
+    $withMaxSizes ? 'calc(100% - 2rem);' : 'unset'};
+  max-width: ${({ $withMaxSizes }) =>
+    $withMaxSizes ? '400px' : 'calc(100% - 2rem);'};
   max-height: calc(100% - 2rem);
   border-radius: 8px;
   overflow-y: auto;

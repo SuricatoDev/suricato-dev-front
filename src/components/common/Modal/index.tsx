@@ -7,9 +7,17 @@ export type ModalProps = {
   children: React.ReactNode
   $isOpen: boolean
   onClose: () => void
+  $withMaxSizes?: boolean
+  closeButton?: boolean
 }
 
-export default function Modal({ children, $isOpen, onClose }: ModalProps) {
+export default function Modal({
+  children,
+  $isOpen,
+  $withMaxSizes = true,
+  onClose,
+  closeButton = true
+}: ModalProps) {
   useEffect(() => {
     if ($isOpen) {
       document.body.style.overflow = 'hidden'
@@ -23,14 +31,19 @@ export default function Modal({ children, $isOpen, onClose }: ModalProps) {
   return (
     <Portal>
       <S.Shadow $isOpen={$isOpen} onClick={onClose}>
-        <S.Modal onClick={(e) => e.stopPropagation()}>
+        <S.Modal
+          $withMaxSizes={$withMaxSizes}
+          onClick={(e) => e.stopPropagation()}
+        >
           <S.ModalHeader>
-            <X
-              className="modal-close-btn"
-              onClick={onClose}
-              size={32}
-              weight="bold"
-            />
+            {closeButton && (
+              <X
+                className="modal-close-btn"
+                onClick={onClose}
+                size={32}
+                weight="bold"
+              />
+            )}
           </S.ModalHeader>
           {children}
         </S.Modal>

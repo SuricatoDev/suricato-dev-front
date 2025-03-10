@@ -26,7 +26,7 @@ export const HeaderNavigation = {
   conta: {
     value: 'conta',
     label: 'Conta',
-    href: '/perfil',
+    href: '/conta',
     isBold: false
   },
   viagens: {

@@ -22,6 +22,6 @@ export const MobileFooterNavigation = {
     icon: Van,
     href: '/viagens'
   },
-  perfil: { id: 'perfil', label: 'Perfil', icon: UserCircle, href: '/perfil' },
+  perfil: { id: 'perfil', label: 'Perfil', icon: UserCircle, href: '/conta' },
   entrar: { id: 'entrar', label: 'Entrar', icon: UserCircle, href: '/login' }
 }
