@@ -62,7 +62,7 @@ interface CaravanPageProps {
 export default function CaravanPage({ caravan }: CaravanPageProps) {
   const router = useRouter()
 
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const isLogged = !!session
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
@@ -92,6 +92,10 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const category = categories.find((item) => item.id === caravan.category)
   const CategoryIcon = category ? category.icon : null
   const CategoryLabel = category ? category.label : null
+
+  if (status === 'loading') {
+    return
+  }
   return (
     <S.Wrapper>
       <Header $variant="simple" />
