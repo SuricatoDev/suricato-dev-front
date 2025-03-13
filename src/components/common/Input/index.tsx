@@ -1,13 +1,14 @@
-import { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, Ref } from 'react'
 import { WrapperProps } from './styles'
+import ErrorMessage from '@/components/common/ErrorMessage'
 import * as S from './styles'
-import ErrorMessage from '../ErrorMessage'
 
 export interface InputProps
   extends InputHTMLAttributes<HTMLInputElement>,
     WrapperProps {
   $error?: string
   $showErrorMessage?: boolean
+  ref?: Ref<HTMLInputElement>
 }
 
 export default function Input({

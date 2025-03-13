@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { getSession, useSession } from 'next-auth/react'
 
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
-import { Phone } from '@phosphor-icons/react/dist/ssr/Phone'
 import { Flag } from '@phosphor-icons/react/dist/ssr/Flag'
 import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
 import { CheckCircle } from '@phosphor-icons/react/dist/ssr/CheckCircle'
@@ -23,18 +22,13 @@ import Button from '@/components/common/Button'
 import Modal from '@/components/common/Modal'
 import Portal from '@/components/common/Portal'
 import GatedContent from '@/components/common/GatedContent'
-import { WhatsappIcon } from '@/components/common/Icons'
 import MapEmbed from '@/components/common/MapEmbed'
 import RatingStars from '@/components/common/RatingStars'
 
 import * as S from '@/styles/pages/caravana'
 
 import { caravansMock } from '@/mocks/caravans'
-import {
-  formatProductPhoneNumber,
-  formatPrice,
-  returnInitialsLettersIfNotLogged
-} from '@/utils/formats'
+import { formatPrice, returnInitialsLettersIfNotLogged } from '@/utils/formats'
 
 import { categories } from '@/constants/categories'
 
@@ -49,7 +43,6 @@ interface Caravan {
   organizerJoinDate: string
   originLocation: string
   destination: string
-  organizerPhone: string
   images: string[]
   price: number
   description: string
@@ -198,40 +191,12 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                           {isLogged ? formatPrice(caravan.price) : 'R$ XXX,XX'}
                         </S.Price>
 
-                        <S.PhoneContainer>
-                          <S.PhoneNumber $isLogged={isLogged}>
-                            <Phone size={24} weight="fill" />
-                            <p>
-                              {formatProductPhoneNumber(
-                                caravan.organizerPhone,
-                                isLogged
-                              )}
-                            </p>
-                          </S.PhoneNumber>
-                        </S.PhoneContainer>
-
-                        <Button
-                          href={
-                            isLogged
-                              ? `https://api.whatsapp.com/send?phone=${caravan.organizerPhone}`
-                              : ''
-                          }
-                          target="_blank"
-                          rel="noreferrer"
-                          as="a"
-                          className="whatsapp-button"
-                          fullWidth
-                        >
-                          <S.WhatsappContent>
-                            <WhatsappIcon />
-                            <span>Whatsapp</span>
-                          </S.WhatsappContent>
-                        </Button>
+                        <Button fullWidth>Inscreva-se</Button>
                       </S.ContactContainer>
                       <Divider $marginY="8px" />
                       <S.ContactInfo>
-                        Ao clicar para entrar em contato, seus dados serão
-                        compartilhados pela Excursionistas com o anunciante
+                        Ao clicar inscreva-se, seus dados serão compartilhados
+                        pela Excursionistas com o anunciante
                       </S.ContactInfo>
                     </S.ContactCard>
                   </GatedContent>
@@ -282,9 +247,9 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                             )}
                           </p>
                         </S.OrganizerFooterItem>
-                        <S.ViewProfileButton rounded variant="outlined">
+                        {/* <S.ViewProfileButton rounded variant="outlined">
                           Acessar perfil
-                        </S.ViewProfileButton>
+                        </S.ViewProfileButton> */}
                       </S.OrganizerFooter>
                     </S.OrganizerContainer>
                   </GatedContent>
@@ -394,7 +359,6 @@ function maskCaravanData(caravan: Caravan): Caravan {
     ),
     originLocation: caravan.originLocation,
     destination: caravan.destination,
-    organizerPhone: formatProductPhoneNumber(caravan.organizerPhone, false),
     images: caravan.images,
     price: 0,
     description: caravan.description

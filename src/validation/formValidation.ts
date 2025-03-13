@@ -1,6 +1,8 @@
 import { checkPasswordStrength } from '@/utils/validations'
 import * as Yup from 'yup'
 
+const phoneRegExp = /^(\([1-9]{2}\) [9]{1}[0-9]{4}-[0-9]{4})$/
+
 export const signupValidationSchema = Yup.object().shape({
   email: Yup.string()
     .required('O e-mail é obrigatório')
@@ -9,6 +11,10 @@ export const signupValidationSchema = Yup.object().shape({
   contactEmail: Yup.string()
     .required('O e-mail é obrigatório')
     .matches(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, 'Formato de e-mail inválido'),
+
+  phone: Yup.string()
+    .required('O celular é obrigatório')
+    .matches(phoneRegExp, 'O número do celular não é válido'),
 
   password: Yup.string()
     .required('A senha é obrigatória')

@@ -9,6 +9,7 @@ import InputPassword from '@/components/common/InputPassword'
 import Button from '@/components/common/Button'
 import Divider from '@/components/common/Divider'
 import ErrorMessage from '@/components/common/ErrorMessage'
+import InputMask from 'react-input-mask'
 
 interface Step2Props {
   onNext: () => void
@@ -30,6 +31,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
   const contactEmailValue = watch('contactEmail')
   const passwordValue = watch('password')
   const birthDateValue = watch('birthDate')
+  const phoneValue = watch('phone')
 
   const isButtonDisabled =
     !firstNameValue ||
@@ -39,6 +41,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
     !birthDateValue.day ||
     !birthDateValue.month ||
     !birthDateValue.year ||
+    !phoneValue ||
     Object.keys(errors).length > 0
 
   const nameErrorMessage =
@@ -114,25 +117,54 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
           Excursionistas.
         </S.LegalText>
       </div>
-      <div>
-        <Label>Informações de contato</Label>
-        <Controller
-          name="contactEmail"
-          control={control}
-          defaultValue=""
-          render={({ field, fieldState: { error } }) => (
-            <InputEmail
-              value={field.value}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              $error={error ? error.message : undefined}
-            />
-          )}
-        />
-        <S.LegalText>
-          Nossas comunicações serão enviadas para você por email.
-        </S.LegalText>
-      </div>
+      <S.ContactInformations>
+        <div>
+          <Label>Informações de contato</Label>
+          <Controller
+            name="phone"
+            control={control}
+            rules={{
+              required: 'O número de celular é obrigatório'
+            }}
+            defaultValue=""
+            render={({ field: { ref, ...field }, fieldState: { error } }) => (
+              <InputMask
+                mask="(99) 99999-9999"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+              >
+                {() => (
+                  <Input
+                    placeholder="Celular"
+                    $error={error ? error.message : undefined}
+                    $showErrorMessage
+                    ref={ref}
+                  />
+                )}
+              </InputMask>
+            )}
+          />
+        </div>
+        <div>
+          <Controller
+            name="contactEmail"
+            control={control}
+            defaultValue=""
+            render={({ field, fieldState: { error } }) => (
+              <InputEmail
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                $error={error ? error.message : undefined}
+              />
+            )}
+          />
+          <S.LegalText>
+            Nossas comunicações serão enviadas para você por email.
+          </S.LegalText>
+        </div>
+      </S.ContactInformations>
       <div>
         <Label>Senha</Label>
         <Controller

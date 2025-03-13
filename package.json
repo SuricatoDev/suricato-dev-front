@@ -16,6 +16,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@phosphor-icons/react": "^2.1.7",
+    "@types/react-input-mask": "^3.0.6",
     "axios": "^1.7.2",
     "next": "14.2.2",
     "next-auth": "^4.24.11",
@@ -24,6 +25,7 @@
     "react-easy-crop": "^5.4.1",
     "react-hook-form": "^7.51.4",
     "react-image-gallery": "1.2.8",
+    "react-input-mask": "^2.0.4",
     "styled-components": "^6.1.8",
     "swiper": "^11.2.4",
     "yup": "^1.6.1"

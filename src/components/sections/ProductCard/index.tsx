@@ -10,7 +10,6 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 
-import { Heart } from '@phosphor-icons/react/dist/ssr/Heart'
 import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
 import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
@@ -123,10 +122,6 @@ export default function ProductCard({
               </SwiperSlide>
             ))}
           </Swiper>
-
-          <S.FavoriteButton>
-            <Heart size={24} weight="duotone" />
-          </S.FavoriteButton>
         </S.ImageContainer>
 
         <S.Content>

@@ -158,3 +158,9 @@ export const CloseButton = styled.button<ModalProps>`
   cursor: pointer;
   color: ${(props) => props.theme.colors.text_medium};
 `
+
+export const ContactInformations = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`

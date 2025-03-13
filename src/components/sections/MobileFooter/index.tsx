@@ -9,16 +9,13 @@ import { MobileFooterNavigation } from './navigation'
 export default function MobileFooter() {
   const { data: session } = useSession()
   const isLogged = !!session
-  const { explorar, viagens, entrar, favoritos, perfil } =
-    MobileFooterNavigation
+  const { explorar, viagens, entrar, perfil } = MobileFooterNavigation
 
   const router = useRouter()
   const scrollingDown = useScrollDown()
 
   const navItems = useMemo(() => {
-    return isLogged
-      ? [explorar, favoritos, viagens, perfil]
-      : [explorar, favoritos, entrar]
+    return isLogged ? [explorar, viagens, perfil] : [explorar, entrar]
   }, [isLogged])
 
   const activeItem = useMemo(() => {

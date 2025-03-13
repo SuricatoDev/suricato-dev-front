@@ -7,6 +7,7 @@ export interface SignupFormData extends LoginFormData {
   contactEmail: string
   firstName: string
   lastName: string
+  phone: string
   birthDate: {
     day: number
     month: number

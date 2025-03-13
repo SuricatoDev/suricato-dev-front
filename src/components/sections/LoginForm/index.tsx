@@ -38,6 +38,7 @@ export default function MultiStepForm({
     contactEmail: '',
     firstName: '',
     lastName: '',
+    phone: '',
     birthDate: { day: 0, month: 0, year: 0 }
   })
 
@@ -81,7 +82,8 @@ export default function MultiStepForm({
         'lastName',
         'birthDate',
         'contactEmail',
-        'password'
+        'password',
+        'phone'
       ])
       if (isValid) {
         handleClose()

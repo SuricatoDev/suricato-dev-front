@@ -196,91 +196,11 @@ export const ContactCard = styled.div`
   gap: 0.5rem;
 `
 
-export const PhoneNumber = styled.div<{ $isLogged: boolean }>`
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  font-size: 1rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.text_standard};
-  position: relative;
-  white-space: nowrap;
-  font-size: ${({ theme }) => theme.common.font.sizes.body.xlarge};
-
-  p {
-    font-size: 1rem;
-  }
-
-  &::before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    background: linear-gradient(
-      to left,
-      rgba(255, 255, 255, 0.93) 10%,
-      transparent 100%
-    );
-    background: linear-gradient(
-      to left,
-      ${({ $isLogged }) =>
-        $isLogged
-          ? 'transparent'
-          : 'rgba(255, 255, 255, 0.93) 10%, transparent 100%'},
-      transparent
-    );
-    pointer-events: none;
-  }
-  svg {
-    color: ${({ theme }) => theme.colors.primary_dark};
-  }
-`
-
-export const ShowNumbers = styled.button`
-  border: none;
-  background: none;
-  color: ${({ theme }) => theme.colors.primary_dark};
-  font-size: 0.9rem;
-  cursor: pointer;
-  padding: 0;
-  font-weight: 600;
-  font-size: ${({ theme }) => theme.common.font.sizes.body.xsmall};
-  white-space: nowrap;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`
-
 export const ContactContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   gap: 1rem;
-
-  .whatsapp-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    white-space: nowrap;
-    background-color: #24a148;
-    border: 1px solid #24a148;
-
-    &:hover {
-      background-color: #197b35;
-      border-color: #197b35;
-    }
-  }
-`
-
-export const WhatsappContent = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-content: center;
-  height: 1rem;
 `
 
 export const ContactInfo = styled.p`
@@ -301,11 +221,6 @@ export const ReportLink = styled.a`
   &:hover {
     text-decoration: underline;
   }
-`
-
-export const PhoneContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
 `
 
 export const DescriptionContainer = styled.div`

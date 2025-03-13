@@ -31,21 +31,6 @@ export const ImageContainer = styled.div`
   }
 `
 
-export const FavoriteButton = styled.button`
-  background-color: transparent;
-  display: flex;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  border: none;
-  cursor: pointer;
-  z-index: 10;
-
-  svg {
-    color: ${({ theme }) => theme.colors.base_light};
-  }
-`
-
 export const TopInfo = styled.div`
   display: flex;
   justify-content: space-between;

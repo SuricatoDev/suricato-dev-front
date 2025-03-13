@@ -14,7 +14,7 @@ export const Wrapper = styled.input<WrapperProps>`
   padding: 8px;
   font-size: ${(props) => props.theme.common.font.sizes.body.large};
   background: transparent;
-  color: black;
+  color: ${(props) => props.theme.colors.text_medium};
   position: relative;
   z-index: 2;
   border: 1px solid
