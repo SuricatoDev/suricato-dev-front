@@ -14,7 +14,7 @@ export const validateFullName = async (fullName: string) => {
       'O nome completo deve ter pelo menos dois nomes',
       (value) => {
         if (!value) return false
-        return value.trim().split(/\s+/).length > 1 // Verifica se há pelo menos dois nomes
+        return value.trim().split(/\s+/).length > 1
       }
     )
 

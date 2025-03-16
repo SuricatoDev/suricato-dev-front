@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import apiBackend from '@/services/apiBackend'
-import axios from 'axios'
+import { AxiosError } from 'axios'
 
 interface CadastroPayload {
   nome: string
@@ -19,32 +19,16 @@ export default async function handler(
     return res.status(405).json({ error: 'Método não permitido' })
   }
 
-  const { nome, data_nascimento, telefone, email, password } =
-    req.body as CadastroPayload
-
-  if (!nome || !data_nascimento || !telefone || !email || !password) {
-    return res
-      .status(400)
-      .json({ error: 'Campos obrigatórios não informados.' })
-  }
-
   try {
-    const response = await apiBackend.post('/register', {
-      nome,
-      data_nascimento,
-      telefone,
-      email,
-      password
-    })
-
+    const response = await apiBackend.post(
+      '/register',
+      req.body as CadastroPayload
+    )
     return res.status(response.status).json(response.data)
-  } catch (error) {
-    console.error('Erro ao processar cadastro:', error)
-
-    if (axios.isAxiosError(error) && error.response) {
-      return res.status(error.response.status).json(error.response.data)
-    }
-
-    return res.status(500).json({ error: 'Erro interno no servidor' })
+  } catch (error: unknown) {
+    const axiosError = error as AxiosError
+    return res
+      .status(axiosError.response?.status || 500)
+      .json(axiosError.response?.data || { error: 'Erro interno no servidor' })
   }
 }
