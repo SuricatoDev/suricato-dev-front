@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { House } from '@phosphor-icons/react/dist/ssr/House'
 import { Island } from '@phosphor-icons/react/dist/ssr/Island'
 import { Confetti } from '@phosphor-icons/react/dist/ssr/Confetti'

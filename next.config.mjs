@@ -1,3 +1,6 @@
+import withPWA from 'next-pwa'
+import runtimeCaching from 'next-pwa/cache.js'
+
 const nextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -7,7 +10,7 @@ const nextConfig = {
     return config
   },
   generateBuildId: async () => {
-    return 'excursionistas-v1'
+    return 'excursionistas-v2'
   },
   reactStrictMode: true,
   ...(process.env.BASE_PATH && process.env.BASE_PATH !== ''
@@ -48,4 +51,8 @@ const nextConfig = {
   trailingSlash: true
 }
 
-export default nextConfig
+export default withPWA({
+  dest: 'public',
+  runtimeCaching,
+  disable: process.env.NODE_ENV === 'dev'
+})(nextConfig)
