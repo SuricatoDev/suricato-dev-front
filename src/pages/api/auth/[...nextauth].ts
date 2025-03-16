@@ -28,7 +28,7 @@ interface UserWithToken extends User {
   token_type: string
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
 async function loginUser(
   email: string,
