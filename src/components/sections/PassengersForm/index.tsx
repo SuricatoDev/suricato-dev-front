@@ -12,7 +12,7 @@ import {
 import ErrorMessage from '@/components/common/ErrorMessage'
 import Button from '@/components/common/Button'
 import Portal from '@/components/common/Portal'
-import { X } from '@phosphor-icons/react/dist/ssr'
+import { X } from '@phosphor-icons/react/dist/ssr/X'
 import { passengerFormStep1Schema } from '@/validation/formValidation'
 import axios from 'axios'
 import { toast } from 'react-toastify'
