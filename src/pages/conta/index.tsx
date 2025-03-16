@@ -44,56 +44,21 @@ interface AddressPayload {
   state: string
 }
 
-type ProfileState = {
-  fullName: string
-  phoneNumber: string
-  emergencyPhone: string
-  newPassword: string
-  confirmPassword: string
-  address: AddressData
-  profilePic: string | null
-  selectedImage: string | null
-  editingField: string | null
-  isLoading: boolean
-  passwordError?: string
-  nameError?: string
-  phoneError?: string
-  emergencyPhoneError?: string
-}
-
-type Action =
-  | { type: 'SET_FIELD'; field: keyof ProfileState; value: any }
-  | { type: 'SET_LOADING'; value: boolean }
-  | { type: 'RESET_EDITING' }
-
-function reducer(state: ProfileState, action: Action): ProfileState {
-  switch (action.type) {
-    case 'SET_FIELD':
-      return { ...state, [action.field]: action.value }
-    case 'SET_LOADING':
-      return { ...state, isLoading: action.value }
-    case 'RESET_EDITING':
-      return { ...state, editingField: null, isLoading: false }
-    default:
-      return state
-  }
-}
+type UpdateFieldValue = AddressPayload | string
 
 export default function ProfileEditPage() {
   const router = useRouter()
   const { data: session, update } = useSession()
 
-  const initialState: ProfileState = {
-    fullName: session?.user?.nome || '',
-    phoneNumber: session?.user?.telefone || '',
-    emergencyPhone: session?.user?.telefone_emergencia || '',
-    newPassword: '',
-    confirmPassword: '',
-    profilePic: null,
-    selectedImage: null,
-    editingField: null,
-    isLoading: false,
-    address: session?.user
+  const [fullName, setFullName] = useState(session?.user?.nome || '')
+
+  const [editingField, setEditingField] = useState<string | null>(null)
+
+  const [profilePic, setProfilePic] = useState<string | null>(null)
+  const [showModal, setShowModal] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [address, setAddress] = useState<AddressData>(
+    session?.user
       ? {
           cep: session.user.cep || '',
           street: session.user.endereco || '',
@@ -112,9 +77,26 @@ export default function ProfileEditPage() {
           complement: '',
           number: ''
         }
-  }
+  )
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [phoneNumber, setPhoneNumber] = useState(session?.user?.telefone || '')
+  const [emergencyPhone, setEmergencyPhone] = useState(
+    session?.user?.telefone_emergencia || ''
+  )
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [passwordError, setPasswordError] = useState<string | undefined>()
+
+  const [nameError, setNameError] = useState<string | undefined>()
+  const [phoneError, setPhoneError] = useState<string | undefined>()
+  const [emergencyPhoneError, setEmergencyPhoneError] = useState<
+    string | undefined
+  >()
+  const [isLoading, setIsLoading] = useState(false)
+
+  const excursionistasSince = session?.user?.created_at
+    ? formatExcursionistasSince(session?.user?.created_at)
+    : null
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -126,73 +108,159 @@ export default function ProfileEditPage() {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader()
       reader.onload = () => {
-        dispatch({
-          type: 'SET_FIELD',
-          field: 'selectedImage',
-          value: reader.result as string
-        })
+        setSelectedImage(reader.result as string)
+        setShowModal(true)
       }
       reader.readAsDataURL(e.target.files[0])
     }
   }
 
-  const toggleEditing = (field: string) => {
-    dispatch({
-      type: 'SET_FIELD',
-      field: 'editingField',
-      value: state.editingField === field ? null : field
-    })
+  const handleSaveProfilePic = (croppedImage: string) => {
+    setProfilePic(croppedImage)
+    setShowModal(false)
   }
 
-  const handleSave = async (field: keyof ProfileState) => {
-    try {
-      dispatch({ type: 'SET_LOADING', value: true })
+  const handleCancel = () => {
+    setShowModal(false)
+    setSelectedImage(null)
+    setEditingField(null)
+  }
 
-      let payload = {}
-      if (field === 'fullName') {
-        await validateFullName(state.fullName)
-        payload = { nome: state.fullName }
-      } else if (field === 'phoneNumber') {
-        await validatePhone(state.phoneNumber)
-        payload = { telefone: normalizeInput(state.phoneNumber) }
-      } else if (field === 'emergencyPhone') {
-        await validatePhone(state.emergencyPhone)
-        payload = { telefone_emergencia: normalizeInput(state.emergencyPhone) }
-      } else if (field === 'password') {
-        if (
-          !state.newPassword ||
-          !state.confirmPassword ||
-          state.newPassword !== state.confirmPassword
-        ) {
-          dispatch({
-            type: 'SET_FIELD',
-            field: 'passwordError',
-            value: 'As senhas devem coincidir.'
-          })
-          return
+  const toggleEditing = (field: string) => {
+    if (editingField === field) {
+      setEditingField(null)
+    } else {
+      setEditingField(field)
+    }
+  }
+
+  async function saveField(
+    field: 'name' | 'address' | 'phone' | 'emergencyPhone' | 'password',
+    value: UpdateFieldValue
+  ) {
+    let payload: Record<string, unknown> = {}
+
+    switch (field) {
+      case 'name':
+        payload = { nome: value }
+        break
+      case 'address':
+        {
+          const address = value as AddressPayload
+          payload = {
+            endereco: address.street,
+            numero: address.number,
+            ...(address.complement && { complemento: address.complement }),
+            bairro: address.neighborhood,
+            cep: normalizeInput(address.cep),
+            cidade: address.city,
+            estado: address.state
+          }
         }
-        payload = { senha: state.newPassword }
-        dispatch({ type: 'SET_FIELD', field: 'newPassword', value: '' })
-        dispatch({ type: 'SET_FIELD', field: 'confirmPassword', value: '' })
+        break
+      case 'phone':
+        payload = { telefone: normalizeInput(value as string) }
+        break
+      case 'password':
+        payload = { senha: value }
+        break
+      case 'emergencyPhone':
+        payload = { telefone_emergencia: normalizeInput(value as string) }
+        break
+      default:
+        return
+    }
+
+    try {
+      setIsLoading(true)
+      const response = await axios.put('/api/usuarios/', payload, {
+        headers: { 'Content-Type': 'application/json' }
+      })
+
+      return response.data
+    } catch (error) {
+      console.error('Erro ao atualizar o campo:', error)
+      throw error
+    } finally {
+      setIsLoading(false)
+      setTimeout(() => {
+        setEditingField(null)
+      }, 50)
+    }
+  }
+
+  const handleDeleteAccount = async () => {
+    try {
+      setIsLoading(true)
+      await axios.delete('/api/usuarios/')
+      signOut({ callbackUrl: '/' })
+    } catch (error) {
+      console.error('Erro ao excluir conta:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSave = async (field: string) => {
+    try {
+      if (!field || !session) return
+
+      let updatedUserData
+
+      switch (field) {
+        case 'address':
+          updatedUserData = await saveField(field, address)
+          break
+        case 'name':
+          await validateFullName(fullName)
+          updatedUserData = await saveField(field, fullName)
+          break
+        case 'phone':
+          await validatePhone(phoneNumber)
+          updatedUserData = await saveField(field, phoneNumber)
+          break
+        case 'password':
+          if (
+            !newPassword ||
+            !confirmPassword ||
+            newPassword !== confirmPassword
+          ) {
+            setPasswordError('As senhas devem coincidir.')
+            return
+          }
+
+          updatedUserData = await saveField(field, newPassword)
+          setNewPassword('')
+          setConfirmPassword('')
+          break
+
+        default:
+          return
       }
 
-      const response = await axios.put('/api/usuarios/', payload)
-      if (response.data) {
+      if (updatedUserData && updatedUserData.data) {
         await update({
           user: {
-            ...session?.user,
-            ...response.data
+            ...session.user,
+            ...updatedUserData.data
           }
         })
       }
-
-      dispatch({ type: 'RESET_EDITING' })
     } catch (error) {
       console.error('Erro ao atualizar perfil:', error)
-    } finally {
-      dispatch({ type: 'SET_LOADING', value: false })
     }
   }
+
+  useEffect(() => {
+    if (newPassword && confirmPassword) {
+      if (newPassword !== confirmPassword) {
+        setPasswordError('As senhas não coincidem.')
+      } else {
+        setPasswordError(undefined)
+      }
+    }
+  }, [newPassword, confirmPassword])
+
   if (!session) return null
   return (
     <S.Wrapper>
