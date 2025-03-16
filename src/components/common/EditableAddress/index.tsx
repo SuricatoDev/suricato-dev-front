@@ -14,7 +14,7 @@ import {
 } from '@/validation/validations'
 import { ValidationError } from 'yup'
 import Button from '@/components/common/Button'
-import useIsMobile from '@/hooks/useIsMobile'
+import useMediaQuery from '@/hooks/useMediaQuery'
 
 export interface AddressData {
   cep: string
@@ -41,7 +41,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
   onSave,
   isLoading
 }) => {
-  const isMobile = useIsMobile()
+  const isMobile = useMediaQuery()
   const [isLoadingCep, setIsLoadingCep] = useState(false)
   const [cepFetched, setCepFetched] = useState(false)
 

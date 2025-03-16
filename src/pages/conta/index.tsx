@@ -35,7 +35,7 @@ import { normalizeInput } from '@/utils/normalizer'
 import { validateFullName, validatePhone } from '@/validation/validations'
 
 import * as S from '@/styles/pages/conta'
-import useIsMobile from '@/hooks/useIsMobile'
+import useMediaQuery from '@/hooks/useMediaQuery'
 
 interface AddressPayload {
   street: string
@@ -52,7 +52,7 @@ type UpdateFieldValue = AddressPayload | string
 export default function ProfileEditPage() {
   const router = useRouter()
   const { data: session, update } = useSession()
-  const isMobile = useIsMobile()
+  const isMobile = useMediaQuery()
 
   const [fullName, setFullName] = useState(session?.user?.nome || '')
   const [editingField, setEditingField] = useState<string | null>(null)
