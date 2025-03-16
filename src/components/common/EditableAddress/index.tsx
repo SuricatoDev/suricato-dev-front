@@ -31,6 +31,7 @@ interface EditableAddressProps {
   activeSearch?: boolean
   setAddress: (addr: AddressData) => void
   onSave: () => void
+  hasButton?: boolean
   isLoading?: boolean
 }
 
@@ -39,7 +40,8 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
   activeSearch = true,
   setAddress,
   onSave,
-  isLoading
+  isLoading,
+  hasButton = true
 }) => {
   const isMobile = useMediaQuery()
   const [isLoadingCep, setIsLoadingCep] = useState(false)
@@ -165,8 +167,6 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
     try {
       const { data } = await axios.get(`/api/cep/${numericCep}`)
 
-      console.log(data)
-
       if (data.erro) {
         setCepError('CEP não encontrado. Preencha os campos manualmente.')
         setAddress({
@@ -221,6 +221,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
         <S.Row>
           <div>
             <InputMask
+              maskChar={null}
               mask="99999-999"
               value={address.cep || ''}
               onChange={handleChange}
@@ -326,18 +327,20 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
             />
           </div>
         </S.Row>
-        <S.Row>
-          <div>
-            <Button
-              fullWidth={isMobile}
-              loading={isLoading}
-              disabled={!isValid}
-              onClick={onSave}
-            >
-              Salvar
-            </Button>
-          </div>
-        </S.Row>
+        {hasButton && (
+          <S.Row>
+            <div>
+              <Button
+                fullWidth={isMobile}
+                loading={isLoading}
+                disabled={!isValid}
+                onClick={onSave}
+              >
+                Salvar
+              </Button>
+            </div>
+          </S.Row>
+        )}
       </S.Wrapper>
     </>
   )

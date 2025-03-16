@@ -137,6 +137,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
             defaultValue=""
             render={({ field: { ref, ...field }, fieldState: { error } }) => (
               <InputMask
+                maskChar={null}
                 mask="(99) 99999-9999"
                 value={field.value}
                 onChange={field.onChange}

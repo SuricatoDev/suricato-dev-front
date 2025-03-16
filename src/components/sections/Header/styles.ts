@@ -291,3 +291,7 @@ export const Logo = styled(Image)`
     opacity: 0.8;
   }
 `
+
+export const ProfilePic = styled.div`
+  display: flex;
+`

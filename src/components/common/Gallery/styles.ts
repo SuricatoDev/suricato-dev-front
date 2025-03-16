@@ -56,8 +56,10 @@ export const GalleryWrapper = styled.div<{ $count: number }>`
   display: flex;
   flex-direction: column;
   width: 100%;
+  aspect-ratio: 16 / 9;
 
   @media (${device.md}) {
+    aspect-ratio: unset;
     display: grid;
     gap: 1rem;
     ${({ $count }) => layoutForCount($count <= 5 ? $count : 6)}
@@ -105,6 +107,7 @@ export const GridItem = styled.div<GridItemProps>`
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
+  aspect-ratio: 16 / 9;
 
   &::after {
     content: '';
@@ -119,6 +122,10 @@ export const GridItem = styled.div<GridItemProps>`
   }
   &:hover::after {
     background: rgba(0, 0, 0, 0.35);
+  }
+
+  @media (${device.md}) {
+    aspect-ratio: unset;
   }
 
   ${({ $variant, $onlyItem }) =>

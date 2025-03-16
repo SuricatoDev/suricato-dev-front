@@ -1,7 +1,10 @@
 import { checkPasswordStrength } from '@/utils/validations'
 import * as Yup from 'yup'
+import { validateCPF, validateRG } from './validations'
 
 const phoneRegExp = /^(\([1-9]{2}\) [9]{1}[0-9]{4}-[0-9]{4})$/
+const removeMask = (value: string = ''): string =>
+  value.replace(/[^\dA-Za-z]/g, '')
 
 export const signupValidationSchema = Yup.object().shape({
   email: Yup.string()
@@ -83,3 +86,22 @@ export const loginValidationSchema = Yup.object().shape({
 export const getValidationSchema = (step: number) => {
   return step === 1 ? loginValidationSchema : signupValidationSchema
 }
+
+export const passengerFormStep1Schema = Yup.object().shape({
+  cpf: Yup.string()
+    .transform((_, originalValue) => removeMask(originalValue))
+    .required('CPF é obrigatório')
+    .test(
+      'cpf-valid',
+      'CPF inválido',
+      (value) => !!value && validateCPF(value)
+    ),
+  rg: Yup.string()
+    .transform((_, originalValue) => removeMask(originalValue).toUpperCase())
+    .required('RG é obrigatório')
+    .test('rg-valid', 'RG inválido', (value) => !!value && validateRG(value)),
+  emergencyContact: Yup.string()
+    .transform((_, originalValue) => removeMask(originalValue))
+    .required('Telefone é obrigatório')
+    .matches(/^\d{11}$/, 'O telefone não é válido')
+})

@@ -31,6 +31,9 @@ import { caravansMock } from '@/mocks/caravans'
 import { formatPrice, returnInitialsLettersIfNotLogged } from '@/utils/formats'
 
 import { categories } from '@/constants/categories'
+import PassengerForm from '@/components/sections/PassengersForm'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
 interface Caravan {
   id: string
@@ -63,6 +66,8 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const [expanded, setExpanded] = useState(false)
 
   const [hasReloaded, setHasReloaded] = useState(false)
+  const [passengerFormVisible, setPassengerFormVisible] = useState(false)
+  const [isSubscribing, setIsSubscribing] = useState(false)
 
   useEffect(() => {
     if (isLogged && !hasReloaded) {
@@ -79,6 +84,33 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
         setIsLoginModalOpen(true)
       }
       return
+    }
+  }
+
+  const handleSubscribe = () => {
+    const missingData =
+      session?.user?.tipo !== 'passageiro' || !session?.user?.endereco
+
+    if (missingData) {
+      setPassengerFormVisible(true)
+    } else {
+      subscribeInCaravan()
+    }
+  }
+
+  const subscribeInCaravan = async () => {
+    try {
+      setIsSubscribing(true)
+      const response = await axios.post(`/api/reservas/${caravan.id}`)
+
+      if (response.status === 200) {
+        toast.success('Inscrição realizada com sucesso!')
+      }
+    } catch (error) {
+      toast.error('Erro ao se inscrever na caravana')
+      console.error('Erro ao se inscrever na caravana', error)
+    } finally {
+      setIsSubscribing(false)
     }
   }
 
@@ -191,7 +223,13 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                           {isLogged ? formatPrice(caravan.price) : 'R$ XXX,XX'}
                         </S.Price>
 
-                        <Button fullWidth>Inscreva-se</Button>
+                        <Button
+                          loading={isSubscribing}
+                          onClick={handleSubscribe}
+                          fullWidth
+                        >
+                          Inscreva-se
+                        </Button>
                       </S.ContactContainer>
                       <Divider $marginY="8px" />
                       <S.ContactInfo>
@@ -317,6 +355,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
         </S.ModalContainer>
       </Modal>
       <Footer />
+      <PassengerForm visible={passengerFormVisible} />
     </S.Wrapper>
   )
 }

@@ -29,3 +29,22 @@ export const categories: Category[] = [
   { id: 'parque-de-diversao', label: 'Parques de diversão', icon: Smiley },
   { id: 'parques', label: 'Parques', icon: Park }
 ]
+
+const eventos = [
+  'Cafés',
+  'Carnaval',
+  'Cidades',
+  'Chácaras',
+  'Fazendas',
+  'Festivais',
+  'Jogos',
+  'Montanhas',
+  'Museus',
+  'Parques Aquáticos',
+  'Parques de Diversão',
+  'Parques Naturais',
+  'Praias',
+  'Resortes',
+  'Shows',
+  'Trilhas'
+]

@@ -57,16 +57,23 @@ export default function Gallery({ images }: GalleryProps) {
     <>
       <S.GalleryWrapper $count={images.length}>
         {isMobile ? (
-          <ImageGallery
-            items={galleryItems}
-            showIndex
-            showThumbnails={false}
-            showFullscreenButton={false}
-            showPlayButton={false}
-            infinite={false}
-            showNav={false}
-            onClick={() => openModal(currentIndex)}
-          />
+          <>
+            {!loadingImages[0] && (
+              <Skeleton rows={1} columns={1} width="100%" height="100%" />
+            )}
+            <ImageGallery
+              items={galleryItems}
+              showIndex
+              showThumbnails={false}
+              showFullscreenButton={false}
+              showPlayButton={false}
+              infinite={false}
+              showNav={false}
+              onClick={() => openModal(currentIndex)}
+              lazyLoad
+              onImageLoad={handleImageLoad(currentIndex)}
+            />
+          </>
         ) : (
           <>
             <S.GridItem

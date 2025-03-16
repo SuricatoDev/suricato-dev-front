@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
-import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
+import UserCircle from '@/assets/icons/user-circle-fill.svg'
 import logo from '@/assets/images/logo.png'
 import * as S from './styles'
 import CategoriesBar from '@/components/common/CategoriesBar'
@@ -10,6 +10,7 @@ import { HeaderNavigation } from './navigation'
 import Divider from '@/components/common/Divider'
 import Portal from '@/components/common/Portal'
 import MultiStepForm from '@/components/sections/LoginForm'
+import Image from 'next/image'
 
 export type HeaderProps = {
   $variant?: 'default' | 'simple'
@@ -133,7 +134,19 @@ export default function Header({ $variant = 'default' }: HeaderProps) {
                   <span />
                   <span />
                 </S.Hamburguer>
-                <UserCircle size={32} weight="fill" />
+                <S.ProfilePic>
+                  <Image
+                    width={32}
+                    height={32}
+                    style={{ borderRadius: '50%' }}
+                    src={
+                      isLogged && session?.user?.foto_perfil
+                        ? session.user.foto_perfil
+                        : UserCircle
+                    }
+                    alt="Profile"
+                  />
+                </S.ProfilePic>
               </S.ProfileButton>
 
               {isProfileOpen && (

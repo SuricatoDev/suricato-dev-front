@@ -41,7 +41,7 @@ export const Wrapper = styled.input<WrapperProps & { disabled?: boolean }>`
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
   &:focus {

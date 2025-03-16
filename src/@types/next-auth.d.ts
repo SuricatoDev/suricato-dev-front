@@ -24,6 +24,8 @@ declare module 'next-auth' {
       created_at: string
       updated_at: string
       telefone_emergencia: string | null
+      rg: string | null
+      cpf: string | null
     } & DefaultSession['user']
   }
 }
@@ -51,5 +53,7 @@ declare module 'next-auth/jwt' {
     access_token: string
     token_type: string
     telefone_emergencia: string | null
+    rg: string | null
+    cpf: string | null
   }
 }

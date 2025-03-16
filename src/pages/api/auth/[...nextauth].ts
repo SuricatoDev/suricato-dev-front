@@ -95,7 +95,9 @@ export const authOptions: NextAuthOptions = {
           created_at: (user as User).created_at,
           updated_at: (user as User).updated_at,
           access_token: (user as UserWithToken).access_token,
-          token_type: (user as UserWithToken).token_type
+          token_type: (user as UserWithToken).token_type,
+          cpf: (user as User).cpf,
+          rg: (user as User).rg
         }
       }
       return token
@@ -120,7 +122,9 @@ export const authOptions: NextAuthOptions = {
         ativo: token.ativo as number,
         created_at: token.created_at as string,
         updated_at: token.updated_at as string,
-        telefone_emergencia: token.telefone_emergencia as string | null
+        telefone_emergencia: token.telefone_emergencia as string | null,
+        cpf: token.cpf as string | null,
+        rg: token.rg as string | null
       }
       return session
     }

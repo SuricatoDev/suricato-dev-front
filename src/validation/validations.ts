@@ -67,3 +67,39 @@ export const validateNumber = async (number: string) => {
 
   await schema.validate(number)
 }
+
+export function validateCPF(cpf: string): boolean {
+  const cleanedCPF = cpf.replace(/[^\d]+/g, '')
+  if (cleanedCPF.length !== 11) return false
+
+  if (/^(\d)\1{10}$/.test(cleanedCPF)) return false
+
+  const cpfArray = cleanedCPF.split('').map(Number)
+
+  let sum = 0
+  for (let i = 0; i < 9; i++) {
+    sum += cpfArray[i] * (10 - i)
+  }
+
+  let remainder = (sum * 10) % 11
+  if (remainder === 10 || remainder === 11) remainder = 0
+  if (remainder !== cpfArray[9]) return false
+
+  sum = 0
+  for (let i = 0; i < 10; i++) {
+    sum += cpfArray[i] * (11 - i)
+  }
+
+  remainder = (sum * 10) % 11
+  if (remainder === 10 || remainder === 11) remainder = 0
+  if (remainder !== cpfArray[10]) return false
+
+  return true
+}
+
+export function validateRG(rg: string): boolean {
+  const cleanedRG = rg.replace(/[^\dXx]+/g, '')
+
+  const rgRegex = /^\d{8}[\dXx]$/
+  return rgRegex.test(cleanedRG)
+}

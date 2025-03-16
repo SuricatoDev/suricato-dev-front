@@ -17,6 +17,8 @@ export interface User {
   ativo: number
   created_at: string
   updated_at: string
+  cpf: string | null
+  rg: string | null
 }
 
 export interface UserWithToken extends User {

@@ -6,7 +6,7 @@ import Image from 'next/image'
 import InputMask from 'react-input-mask'
 import { getSession, signOut, useSession } from 'next-auth/react'
 import { ValidationError } from 'yup'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
@@ -56,9 +56,11 @@ export default function ProfileEditPage() {
 
   const [fullName, setFullName] = useState(session?.user?.nome || '')
   const [editingField, setEditingField] = useState<string | null>(null)
-  const [profilePic, setProfilePic] = useState<string | null>(null)
+  const [profilePic, setProfilePic] = useState<string | null>(
+    session?.user.foto_perfil || null
+  )
   const [showModal, setShowModal] = useState(false)
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<string | null>()
   const [address, setAddress] = useState<AddressData>(
     session?.user
       ? {
@@ -233,6 +235,10 @@ export default function ProfileEditPage() {
           updatedUserData = await saveField(field, newPassword)
           setNewPassword('')
           setConfirmPassword('')
+          break
+        case 'emergencyPhone':
+          await validatePhone(emergencyPhone)
+          updatedUserData = await saveField(field, emergencyPhone)
           break
         default:
           return
@@ -427,6 +433,7 @@ export default function ProfileEditPage() {
                       <S.Spacing>
                         <div style={{ width: '100%' }}>
                           <InputMask
+                            maskChar={null}
                             mask="(99) 99999-9999"
                             value={phoneNumber}
                             onChange={async (e) => {
@@ -549,6 +556,7 @@ export default function ProfileEditPage() {
                       <S.Spacing>
                         <div style={{ width: '100%' }}>
                           <InputMask
+                            maskChar={null}
                             mask="(99) 99999-9999"
                             value={emergencyPhone}
                             onChange={async (e) => {
@@ -746,12 +754,11 @@ export default function ProfileEditPage() {
 
         <ChangeProfilePicModal
           $isOpen={showModal}
-          imageSrc={selectedImage}
+          imageSrc={selectedImage || ''}
           onClose={handleCancel}
           onSave={handleSaveProfilePic}
         />
       </S.Wrapper>
-      <ToastContainer position="bottom-center" autoClose={5000} />
     </>
   )
 }
