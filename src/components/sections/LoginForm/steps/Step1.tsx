@@ -101,6 +101,7 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
               onChange={field.onChange}
               onBlur={field.onBlur}
               $error={error ? error.message : undefined}
+              showDropdown={!isModal}
               placeholder="Digite seu e-mail"
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {

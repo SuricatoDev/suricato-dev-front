@@ -11,6 +11,7 @@ interface EmailInputProps
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
   $error?: string
   label?: string
+  showDropdown?: boolean
 }
 
 const domains = [
@@ -28,6 +29,7 @@ export default function InputEmail({
   onKeyDown,
   $error,
   label = 'Email',
+  showDropdown = true,
   ...props
 }: EmailInputProps) {
   const [value, setValue] = useState<string>(initialValue)
@@ -146,7 +148,7 @@ export default function InputEmail({
             <S.GhostText style={{ left: `${leftPos}px` }}>{ghost}</S.GhostText>
             <S.HiddenSpan ref={hiddenSpanRef}>{value}</S.HiddenSpan>
           </S.InputContainer>
-          {dropdownOpen && (
+          {dropdownOpen && showDropdown && (
             <S.SuggestionsList>
               {filteredDomains.map((domain, index) => (
                 <S.SuggestionItem

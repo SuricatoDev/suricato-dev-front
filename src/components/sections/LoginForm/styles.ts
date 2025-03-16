@@ -7,6 +7,8 @@ type ModalProps = Pick<MultiStepFormProps, '$isModal'>
 export const FormContainer = styled.div<ModalProps>`
   position: relative;
   width: 100%;
+  height: auto;
+  max-height: 100vh;
   background-color: ${(props) => props.theme.colors.background_standard};
 
   position: ${(props) => (props.$isModal ? 'fixed' : 'relative')};
@@ -17,7 +19,7 @@ export const FormContainer = styled.div<ModalProps>`
   transform: ${(props) => (props.$isModal ? 'translate(-50%, 0%)' : 'none')};
   z-index: ${(props) => (props.$isModal ? '99999' : 'unset')};
   border-radius: ${(props) => (props.$isModal ? '32px 32px 0 0' : '0')};
-  overflow: visible;
+  overflow-y: auto;
   @media (${device.md}) {
     max-height: calc(100% - 2rem);
     bottom: unset;
