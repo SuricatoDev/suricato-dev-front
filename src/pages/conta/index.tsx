@@ -694,9 +694,14 @@ export default function ProfileEditPage() {
                   <Divider $marginY="24px" />
 
                   <S.LogoutContainer>
-                    <div>
-                      <Button fullWidth>Sair da conta</Button>
-                    </div>
+                    <Button
+                      fullWidth
+                      onClick={() => {
+                        signOut({ callbackUrl: '/' })
+                      }}
+                    >
+                      Sair da conta
+                    </Button>
                   </S.LogoutContainer>
                 </S.MainColumn>
 
