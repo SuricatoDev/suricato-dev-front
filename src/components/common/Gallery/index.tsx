@@ -72,6 +72,7 @@ export default function Gallery({ images }: GalleryProps) {
               onClick={() => openModal(currentIndex)}
               lazyLoad
               onImageLoad={handleImageLoad(currentIndex)}
+              onSlide={(index) => setCurrentIndex(index)}
             />
           </>
         ) : (
