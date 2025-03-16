@@ -9,6 +9,7 @@ import { getValidationSchema } from '@/validation/formValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
+import { signIn } from 'next-auth/react'
 
 export type MultiStepFormProps = {
   $isModal?: boolean
@@ -86,7 +87,39 @@ export default function MultiStepForm({
         'phone'
       ])
       if (isValid) {
+        const values = methods.getValues() as SignupFormData
+
+        const payload = {
+          nome: `${values.firstName} ${values.lastName}`,
+          data_nascimento: `${values.birthDate.year}-${String(values.birthDate.month).padStart(2, '0')}-${String(values.birthDate.day).padStart(2, '0')}`,
+          telefone: values.phone.replace(/\D/g, ''),
+          email: values.contactEmail,
+          password: values.password
+        }
+
+        try {
+          const res = await fetch('/api/cadastro', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          })
+
+          if (!res.ok) {
+            console.error('Erro no cadastro')
+            return
+          }
+
+          await signIn('credentials', {
+            email: values.contactEmail,
+            password: values.password,
+            callbackUrl: '/'
+          })
+        } catch (error) {
+          console.error('Erro na requisição:', error)
+        }
+
         handleClose()
+
         const callbackUrl = (router.query.callbackUrl as string) || '/'
         router.push(callbackUrl)
       }

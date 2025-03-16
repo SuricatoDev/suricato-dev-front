@@ -17,7 +17,7 @@ export const FormContainer = styled.div<ModalProps>`
   transform: ${(props) => (props.$isModal ? 'translate(-50%, 0%)' : 'none')};
   z-index: ${(props) => (props.$isModal ? '99999' : 'unset')};
   border-radius: ${(props) => (props.$isModal ? '32px 32px 0 0' : '0')};
-  overflow-y: auto;
+  overflow: visible;
   @media (${device.md}) {
     max-height: calc(100% - 2rem);
     bottom: unset;
@@ -38,6 +38,7 @@ export const Header = styled.div<ModalProps>`
   border-bottom: 1px solid #ebebeb;
   background-color: ${(props) => props.theme.colors.background_standard};
   z-index: 9;
+  border-radius: 32px 32px 0 0;
 `
 
 export const Title = styled.h1`
@@ -78,7 +79,7 @@ export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 24px 0;
+  padding: 24px 0 0;
 `
 
 export const LegalText = styled.p`

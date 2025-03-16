@@ -1,7 +1,4 @@
-export function formatProductPhoneNumber(
-  phone: string,
-  isLoggedIn: boolean
-): string {
+export function formatPhoneNumber(phone: string): string {
   const cleaned = phone.replace(/\D/g, '')
 
   if (cleaned.length < 11) return phone
@@ -10,11 +7,7 @@ export function formatProductPhoneNumber(
   const firstPart = cleaned.slice(-9, -4)
   const secondPart = cleaned.slice(-4)
 
-  if (isLoggedIn) {
-    return `(${areaCode}) ${firstPart}-${secondPart}`
-  } else {
-    return `(${areaCode}) ${firstPart.slice(0, 5)} - ${secondPart[0]}...`
-  }
+  return `(${areaCode}) ${firstPart}-${secondPart}`
 }
 
 export function formatPrice(price: number): string {
@@ -31,4 +24,25 @@ export const returnInitialsLettersIfNotLogged = (
 ) => {
   if (isLogged) return text
   return text.slice(0, size || 4) + '...'
+}
+
+export const formatExcursionistasSince = (createdAt: string): string => {
+  const date = new Date(createdAt)
+  const monthNames = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
+  ]
+  const month = monthNames[date.getMonth()]
+  const year = date.getFullYear()
+  return `No Excursionistas desde ${month} de ${year}`
 }

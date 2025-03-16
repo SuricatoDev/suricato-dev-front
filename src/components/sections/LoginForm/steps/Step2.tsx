@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import * as S from '../styles'
 import Input from '@/components/common/Input'
@@ -20,6 +20,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
   const {
     control,
     formState: { errors },
+    setValue,
     watch
   } = useFormContext()
 
@@ -29,9 +30,16 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
   const firstNameValue = watch('firstName')
   const lastNameValue = watch('lastName')
   const contactEmailValue = watch('contactEmail')
+  const emailValue = watch('email')
   const passwordValue = watch('password')
   const birthDateValue = watch('birthDate')
   const phoneValue = watch('phone')
+
+  useEffect(() => {
+    if (!contactEmailValue && emailValue) {
+      setValue('contactEmail', emailValue)
+    }
+  }, [emailValue, contactEmailValue, setValue])
 
   const isButtonDisabled =
     !firstNameValue ||
@@ -65,6 +73,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
                 onBlur={field.onBlur}
                 placeholder="Nome no documento de identificação"
                 $borderRadiusBottom="0"
+                label="Nome"
                 $error={error ? error.message : undefined}
                 $showErrorMessage={false}
               />
@@ -80,6 +89,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 placeholder="Sobrenome no documento de identificação"
+                label="Sobrenome"
                 $borderRadiusTop="0"
                 $borderTop="none"
                 $error={error ? error.message : undefined}
@@ -137,6 +147,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
                 {() => (
                   <Input
                     placeholder="Celular"
+                    label="Celular"
                     $error={error ? error.message : undefined}
                     $showErrorMessage
                     ref={ref}
@@ -150,7 +161,7 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
           <Controller
             name="contactEmail"
             control={control}
-            defaultValue=""
+            defaultValue={emailValue}
             render={({ field, fieldState: { error } }) => (
               <InputEmail
                 value={field.value}

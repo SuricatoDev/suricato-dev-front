@@ -5,6 +5,7 @@ import { ErrorIcon, ValidIcon } from '../Icons'
 import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
 import { EyeSlash } from '@phosphor-icons/react/dist/ssr/EyeSlash'
 import { checkPasswordStrength } from '@/utils/validations'
+import ErrorMessage from '../ErrorMessage'
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string
@@ -14,6 +15,7 @@ interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   $error?: string
   $showErrorMessage?: boolean
   $showStrengthMeter?: boolean
+  label?: string
 }
 
 export default function InputPassword({
@@ -21,6 +23,7 @@ export default function InputPassword({
   onChange,
   userName,
   userEmail,
+  label,
   $error,
   $showErrorMessage = false,
   $showStrengthMeter = true,
@@ -60,21 +63,24 @@ export default function InputPassword({
 
   return (
     <>
-      <S.Wrapper>
-        <Input
-          {...rest}
-          type={showPassword ? 'text' : 'password'}
-          value={value}
-          onChange={(e) => onChange?.(e)}
-          placeholder="Senha"
-          $error={$error}
-          $showErrorMessage={$showErrorMessage}
-        />
-        <S.ToggleButton type="button" onClick={toggleShowPassword}>
-          {showPassword ? <Eye size={28} /> : <EyeSlash size={28} />}
-        </S.ToggleButton>
-      </S.Wrapper>
-
+      <div>
+        <S.Wrapper>
+          <Input
+            {...rest}
+            type={showPassword ? 'text' : 'password'}
+            value={value}
+            onChange={(e) => onChange?.(e)}
+            $error={$error}
+            $showErrorMessage={false}
+            label={label ?? 'Senha'}
+            $largePaddingRight
+          />
+          <S.ToggleButton type="button" onClick={toggleShowPassword}>
+            {showPassword ? <Eye size={28} /> : <EyeSlash size={28} />}
+          </S.ToggleButton>
+        </S.Wrapper>
+        {$showErrorMessage && $error && <ErrorMessage $error={$error} />}
+      </div>
       {$showStrengthMeter && value && (
         <S.Requirements>
           <S.Validation $isValid={strength}>

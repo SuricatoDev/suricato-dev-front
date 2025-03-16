@@ -1,9 +1,5 @@
 import styled from 'styled-components'
 
-interface InputProps {
-  $dropdownOpen: boolean
-}
-
 interface SuggestionItemProps {
   $isSelected: boolean
 }
@@ -12,34 +8,24 @@ export const Wrapper = styled.div`
   position: relative;
   width: 100%;
   overflow: visible;
+  z-index: 2;
 `
 
 export const InputContainer = styled.div`
-  position: relative;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
   width: 100%;
-`
-
-export const InputStyled = styled.input<InputProps>`
-  width: 100%;
-  padding: 8px;
-  font-size: ${(props) => props.theme.common.font.sizes.body.large};
-  background: transparent;
-  color: ${(props) => props.theme.colors.text_medium};
-  position: relative;
-  z-index: 2;
-  border: 1px solid ${(props) => props.theme.colors.text_light};
-  border-radius: ${({ $dropdownOpen }) =>
-    $dropdownOpen ? '8px 8px 0 0' : '8px'};
-  min-height: 56px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  z-index: 0;
+  pointer-events: none;
+  z-index: 1;
 `
 
 export const GhostText = styled.span`
   position: absolute;
-  top: 50%;
+  top: calc(50% + 5px);
   transform: translateY(-50%);
   white-space: nowrap;
   color: rgba(0, 0, 0, 0.4);
@@ -58,7 +44,7 @@ export const HiddenSpan = styled.span`
 
 export const SuggestionsList = styled.ul`
   list-style: none;
-  margin: 0;
+  margin: 2px 0 0;
   padding: 0;
   border: 1px solid ${(props) => props.theme.colors.base_dark16};
   background: ${(props) => props.theme.colors.background_standard};

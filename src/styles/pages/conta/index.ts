@@ -1,5 +1,3 @@
-// components/ProfileEdit/styles.ts
-
 import styled from 'styled-components'
 import { device } from '@/styles/breakpoints'
 import backgroundProfile from '@/assets/images/background-profile.jpg'
@@ -70,11 +68,13 @@ export const SideColumn = styled.aside`
   }
 `
 
-export const Row = styled.div`
+export const Row = styled.div<{ $disabled?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
+  pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
 
   .label {
     display: block;
@@ -88,22 +88,22 @@ export const Row = styled.div`
     font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
     color: ${({ theme }) => theme.colors.text_medium};
   }
+`
 
-  .editLink {
-    color: ${({ theme }) => theme.colors.text_standard};
-    text-decoration: none;
-    font-weight: 500;
-    margin-left: 1rem;
-    transition: color 0.2s ease;
-    text-decoration: underline;
+export const EditLink = styled.button`
+  color: ${({ theme }) => theme.colors.text_standard};
+  text-decoration: none;
+  font-weight: 500;
+  font-size: ${({ theme }) => theme.common.font.sizes.body.large};
+  margin-left: 1rem;
+  transition: color 0.2s ease;
+  text-decoration: underline;
+  cursor: pointer;
+  border: none;
+  background: none;
 
-    &:hover {
-      color: ${({ theme }) => theme.colors.text_medium};
-    }
-  }
-
-  &:last-child {
-    margin-bottom: 0;
+  &:hover {
+    color: ${({ theme }) => theme.colors.text_medium};
   }
 `
 
@@ -313,4 +313,11 @@ export const ProfileName = styled.p`
   font-size: ${({ theme }) => theme.common.font.sizes.heading.xxsmall};
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text_ultralight};
+`
+
+export const Spacing = styled.div`
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  align-items: start;
 `

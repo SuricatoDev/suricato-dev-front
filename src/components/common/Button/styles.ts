@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 
-export type ButtonVariantType = 'ghost' | 'outlined' | 'contained'
+export type ButtonVariantType = 'ghost' | 'outlined' | 'contained' | 'danger'
 
 export interface ButtonProps {
   $fullWidth: boolean
@@ -115,6 +115,17 @@ const ButtonContained = css<ButtonProps>`
   }
 `
 
+const ButtonDanger = css<ButtonProps>`
+  color: ${({ theme }) => theme.colors.text_ultralight};
+  background-color: ${({ theme }) => theme.colors.alert_error};
+  border: 1px solid ${({ theme }) => theme.colors.alert_error};
+  transition: opacity ${({ theme }) => theme.common.transition.default};
+
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
+`
+
 export const Button = styled.a<ButtonProps & { $loading?: boolean }>`
   position: relative;
   font-family: inherit;
@@ -125,6 +136,8 @@ export const Button = styled.a<ButtonProps & { $loading?: boolean }>`
         return ButtonGhost
       case 'outlined':
         return ButtonOutlined
+      case 'danger':
+        return ButtonDanger
       case 'contained':
       default:
         return ButtonContained

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, InputHTMLAttributes } from 'react'
+import Input from '@/components/common/Input'
 import * as S from './styles'
 import ErrorMessage from '../ErrorMessage'
 
@@ -9,6 +10,7 @@ interface EmailInputProps
   onBlur?: () => void
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
   $error?: string
+  label?: string
 }
 
 const domains = [
@@ -24,24 +26,20 @@ export default function InputEmail({
   onChange,
   onBlur,
   onKeyDown,
-  $error
+  $error,
+  label = 'Email',
+  ...props
 }: EmailInputProps) {
   const [value, setValue] = useState<string>(initialValue)
+  const [isFocused, setIsFocused] = useState(false)
   const [ghost, setGhost] = useState<string>('')
 
   const [filteredDomains, setFilteredDomains] = useState<string[]>([])
   const [selectedIndex, setSelectedIndex] = useState<number>(-1)
   const [offset, setOffset] = useState<number>(0)
-  const [containerWidth, setContainerWidth] = useState<number>(0)
 
   const wrapperRef = useRef<HTMLDivElement>(null)
   const hiddenSpanRef = useRef<HTMLSpanElement>(null)
-
-  useEffect(() => {
-    if (wrapperRef.current) {
-      setContainerWidth(wrapperRef.current.offsetWidth)
-    }
-  }, [])
 
   useEffect(() => {
     const atIndex = value.indexOf('@')
@@ -67,25 +65,21 @@ export default function InputEmail({
 
   useEffect(() => {
     if (hiddenSpanRef.current) {
-      setOffset(hiddenSpanRef.current.offsetWidth)
+      const rect = hiddenSpanRef.current.getBoundingClientRect()
+      setOffset(rect.width)
     }
   }, [value])
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
-        setFilteredDomains([])
-        setSelectedIndex(-1)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
+  const handleFocus = () => {
+    setIsFocused(true)
+  }
+
+  const handleBlur = () => {
+    setIsFocused(false)
+    setFilteredDomains([])
+    setSelectedIndex(-1)
+    onBlur && onBlur()
+  }
 
   const completeSuggestion = (domain: string) => {
     const atIndex = value.indexOf('@')
@@ -100,7 +94,7 @@ export default function InputEmail({
     }
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDownInternal = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (filteredDomains.length > 0) {
       if (e.key === 'Tab' && ghost) {
         e.preventDefault()
@@ -124,59 +118,53 @@ export default function InputEmail({
     }
   }
 
-  const handleSuggestionClick = (domain: string) => {
-    completeSuggestion(domain)
-  }
-
-  const handleBlur = () => {
-    setGhost('')
-    setFilteredDomains([])
-    setSelectedIndex(-1)
-    onBlur && onBlur()
-  }
-
-  const dropdownOpen = filteredDomains.length > 0
-
-  const leftPos = Math.min(offset + 8, containerWidth - 16)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInternal = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
     onChange && onChange(e.target.value)
   }
 
-  return (
-    <S.Wrapper ref={wrapperRef}>
-      <S.InputContainer>
-        <S.GhostText style={{ left: `${leftPos}px` }}>{ghost}</S.GhostText>
-        <S.InputStyled
-          type="email"
-          placeholder="Digite seu email"
-          value={value}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          onBlur={handleBlur}
-          $dropdownOpen={dropdownOpen}
-        />
-        <S.HiddenSpan ref={hiddenSpanRef}>{value}</S.HiddenSpan>
-      </S.InputContainer>
+  const dropdownOpen = filteredDomains.length > 0 && ghost !== ''
 
-      {dropdownOpen && (
-        <S.SuggestionsList>
-          {filteredDomains.map((domain, index) => (
-            <S.SuggestionItem
-              key={domain}
-              $isSelected={index === selectedIndex}
-              onMouseDown={(e) => {
-                e.preventDefault()
-                handleSuggestionClick(domain)
-              }}
-            >
-              {value.split('@')[0]}@{domain}
-            </S.SuggestionItem>
-          ))}
-        </S.SuggestionsList>
-      )}
-      {$error && <ErrorMessage $error={$error} />}
-    </S.Wrapper>
+  const leftPos = 13 + offset
+
+  return (
+    <>
+      <div>
+        <S.Wrapper ref={wrapperRef}>
+          <Input
+            type="email"
+            placeholder={isFocused ? 'Digite seu email' : ''}
+            value={value}
+            onChange={handleChangeInternal}
+            onKeyDown={handleKeyDownInternal}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            label={label}
+            {...props}
+          />
+          <S.InputContainer>
+            <S.GhostText style={{ left: `${leftPos}px` }}>{ghost}</S.GhostText>
+            <S.HiddenSpan ref={hiddenSpanRef}>{value}</S.HiddenSpan>
+          </S.InputContainer>
+          {dropdownOpen && (
+            <S.SuggestionsList>
+              {filteredDomains.map((domain, index) => (
+                <S.SuggestionItem
+                  key={domain}
+                  $isSelected={index === selectedIndex}
+                  onMouseDown={(e) => {
+                    e.preventDefault()
+                    completeSuggestion(domain)
+                  }}
+                >
+                  {value.split('@')[0]}@{domain}
+                </S.SuggestionItem>
+              ))}
+            </S.SuggestionsList>
+          )}
+        </S.Wrapper>
+        {$error && <ErrorMessage $error={$error} />}
+      </div>
+    </>
   )
 }

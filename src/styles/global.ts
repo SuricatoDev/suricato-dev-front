@@ -17,7 +17,10 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
+  }
 
+  input, select, button {
+    font-family: inherit;
   }
 
   h1, h2, h3, h4, h5, p, span {

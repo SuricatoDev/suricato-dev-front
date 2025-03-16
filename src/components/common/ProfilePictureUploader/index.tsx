@@ -4,7 +4,7 @@ import { Area } from 'react-easy-crop/types'
 
 import * as S from './styles'
 import Modal from '@/components/common/Modal'
-import Button from '../common/Button'
+import Button from '@/components/common/Button'
 import { Minus } from '@phosphor-icons/react/dist/ssr/Minus'
 import { Plus } from '@phosphor-icons/react/dist/ssr/Plus'
 

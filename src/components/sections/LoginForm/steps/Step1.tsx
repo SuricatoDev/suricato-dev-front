@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import * as S from '../styles'
 import Button from '@/components/common/Button'
-import Divider from '@/components/common/Divider'
-import { GoogleIcon, FacebookIcon } from '@/components/common/Icons'
 import InputEmail from '@/components/common/InputEmail'
 import InputPassword from '@/components/common/InputPassword'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 
+// import Divider from '@/components/common/Divider'
+// import { GoogleIcon, FacebookIcon } from '@/components/common/Icons'
 interface Step1Props {
   onNext: () => void
   onClose: () => void
@@ -36,26 +36,19 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
   const handleNext = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch('/api/check-email', {
+      const response = await fetch('/api/login/verificar-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailValue })
       })
 
-      if (!response.ok) {
-        console.error('Erro ao checar email.')
-        return
-      }
-
-      const data = await response.json()
-
-      if (data.exists) {
+      if (response.status === 200) {
         setShowPasswordField(true)
       } else {
         onNext()
       }
     } catch (error) {
-      console.error('Erro na requisição:', error)
+      console.error('Erro na requisição de verificar email:', error)
     } finally {
       setIsLoading(false)
     }
@@ -81,10 +74,9 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
     } else {
       if (isModal) {
         onClose()
-      } else {
-        const callbackUrl = (router.query.callbackUrl as string) || '/'
-        router.push(callbackUrl)
       }
+      const callbackUrl = (router.query.callbackUrl as string) || '/'
+      router.push(callbackUrl)
     }
   }
 
@@ -160,7 +152,7 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
           {showPasswordField ? 'Entrar' : 'Continuar'}
         </Button>
       </S.MainContent>
-      <Divider $marginY="16px">ou</Divider>
+      {/* <Divider $marginY="16px">ou</Divider>
       <S.SocialButtons>
         <Button variant="outlined" icon={<GoogleIcon />}>
           Continuar com Google
@@ -168,7 +160,7 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
         <Button variant="outlined" icon={<FacebookIcon />}>
           Continuar com Facebook
         </Button>
-      </S.SocialButtons>
+      </S.SocialButtons> */}
     </>
   )
 }

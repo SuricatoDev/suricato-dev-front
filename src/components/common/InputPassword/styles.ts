@@ -15,8 +15,13 @@ export const ToggleButton = styled.button`
   color: ${(props) => props.theme.colors.text_medium};
   cursor: pointer;
   font-size: 14px;
-  z-index: 2;
   display: flex;
+  height: calc(100% - 6px);
+  align-items: center;
+  padding: 0 1rem;
+  margin-right: calc(-1rem + 3px);
+  background-color: ${(props) => props.theme.colors.background_standard};
+  border-radius: 0 8px 8px 0;
 `
 
 export const Requirements = styled.div`
