@@ -321,3 +321,10 @@ export const Spacing = styled.div`
   flex-direction: column;
   align-items: start;
 `
+
+export const LogoutContainer = styled.div`
+  padding: 1rem 0;
+  @media (${device.md}) {
+    display: none;
+  }
+`

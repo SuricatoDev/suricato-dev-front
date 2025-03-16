@@ -26,6 +26,7 @@
     "react-hook-form": "^7.51.4",
     "react-image-gallery": "1.2.8",
     "react-input-mask": "^2.0.4",
+    "react-toastify": "^11.0.5",
     "styled-components": "^6.1.8",
     "swiper": "^11.2.4",
     "yup": "^1.6.1"

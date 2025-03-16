@@ -1,8 +1,6 @@
 import { normalizeInput } from '@/utils/normalizer'
 import * as Yup from 'yup'
 
-const phoneRegExp = /^(\([1-9]{2}\) [9]{1}[0-9]{4}-[0-9]{4})$/
-
 export const validateFullName = async (fullName: string) => {
   const schema = Yup.string()
     .required('O nome completo é obrigatório')
@@ -22,13 +20,15 @@ export const validateFullName = async (fullName: string) => {
 }
 
 export const validatePhone = async (phone: string) => {
+  const numericNumber = normalizeInput(phone)
+  const phoneRegExp = /^\d{10,11}$/
+
   const schema = Yup.string()
     .required('O celular é obrigatório')
     .matches(phoneRegExp, 'O número do celular não é válido')
 
-  await schema.validate(phone)
+  await schema.validate(numericNumber)
 }
-
 export const validateCep = async (cep: string) => {
   const numericCep = normalizeInput(cep)
 

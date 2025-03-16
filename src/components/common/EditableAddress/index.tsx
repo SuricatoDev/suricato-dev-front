@@ -14,6 +14,7 @@ import {
 } from '@/validation/validations'
 import { ValidationError } from 'yup'
 import Button from '@/components/common/Button'
+import useIsMobile from '@/hooks/useIsMobile'
 
 export interface AddressData {
   cep: string
@@ -40,6 +41,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
   onSave,
   isLoading
 }) => {
+  const isMobile = useIsMobile()
   const [isLoadingCep, setIsLoadingCep] = useState(false)
   const [cepFetched, setCepFetched] = useState(false)
 
@@ -326,7 +328,12 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
         </S.Row>
         <S.Row>
           <div>
-            <Button loading={isLoading} disabled={!isValid} onClick={onSave}>
+            <Button
+              fullWidth={isMobile}
+              loading={isLoading}
+              disabled={!isValid}
+              onClick={onSave}
+            >
               Salvar
             </Button>
           </div>
