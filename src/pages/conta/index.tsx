@@ -178,6 +178,7 @@ export default function ProfileEditPage() {
         headers: { 'Content-Type': 'application/json' }
       })
       toast.success('Dados atualizados com sucesso!')
+      setEditingField(null)
       return response.data
     } catch (error) {
       console.error('Erro ao atualizar o campo:', error)
@@ -185,7 +186,6 @@ export default function ProfileEditPage() {
       throw error
     } finally {
       setIsLoading(false)
-      setEditingField(null)
     }
   }
 
