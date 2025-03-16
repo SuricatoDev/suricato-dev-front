@@ -36,10 +36,8 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
   const phoneValue = watch('phone')
 
   useEffect(() => {
-    if (!contactEmailValue && emailValue) {
-      setValue('contactEmail', emailValue)
-    }
-  }, [emailValue, contactEmailValue, setValue])
+    setValue('contactEmail', emailValue)
+  }, [emailValue])
 
   const isButtonDisabled =
     !firstNameValue ||

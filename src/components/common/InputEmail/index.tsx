@@ -44,6 +44,10 @@ export default function InputEmail({
   const hiddenSpanRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
+    setValue(initialValue)
+  }, [initialValue])
+
+  useEffect(() => {
     const atIndex = value.indexOf('@')
     if (atIndex !== -1) {
       const typedDomain = value.slice(atIndex + 1).toLowerCase()

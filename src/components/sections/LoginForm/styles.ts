@@ -8,7 +8,7 @@ export const FormContainer = styled.div<ModalProps>`
   position: relative;
   width: 100%;
   height: auto;
-  max-height: 100vh;
+  min-height: ${(props) => (props.$isModal ? 'unset' : '500px')};
   background-color: ${(props) => props.theme.colors.background_standard};
 
   position: ${(props) => (props.$isModal ? 'fixed' : 'relative')};
@@ -18,7 +18,7 @@ export const FormContainer = styled.div<ModalProps>`
 
   transform: ${(props) => (props.$isModal ? 'translate(-50%, 0%)' : 'none')};
   z-index: ${(props) => (props.$isModal ? '99999' : 'unset')};
-  border-radius: ${(props) => (props.$isModal ? '32px 32px 0 0' : '0')};
+  border-radius: ${(props) => (props.$isModal ? '8px 8px 0 0' : '0')};
   overflow-y: auto;
   @media (${device.md}) {
     max-height: calc(100% - 2rem);
@@ -28,8 +28,7 @@ export const FormContainer = styled.div<ModalProps>`
       props.$isModal ? 'translate(-50%, -50%)' : 'none'};
     max-width: 568px;
     margin: ${(props) => (props.$isModal ? '0 auto' : '2rem auto')};
-    border-radius: ${(props) => (props.$isModal ? '32px' : '12px')};
-    border: 1px solid ${(props) => props.theme.colors.text_light};
+    border-radius: 9px;
   }
 `
 
@@ -40,7 +39,7 @@ export const Header = styled.div<ModalProps>`
   border-bottom: 1px solid #ebebeb;
   background-color: ${(props) => props.theme.colors.background_standard};
   z-index: 9;
-  border-radius: 32px 32px 0 0;
+  border-radius: 8px 8px 0 0;
 `
 
 export const Title = styled.h1`
