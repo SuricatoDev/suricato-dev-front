@@ -56,7 +56,11 @@ export const GalleryWrapper = styled.div<{ $count: number }>`
   display: flex;
   flex-direction: column;
   width: 100%;
-  aspect-ratio: 16 / 9;
+
+  .image-gallery-image {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
 
   @media (${device.md}) {
     aspect-ratio: unset;

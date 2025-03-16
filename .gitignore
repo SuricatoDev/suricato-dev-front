@@ -41,5 +41,5 @@ next-env.d.ts
 storybook-static
 
 # PWA
-/public/sw.js
-/public/workbox-*.js
+/public/sw*
+/public/workbox-*
