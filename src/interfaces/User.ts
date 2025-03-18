@@ -12,13 +12,14 @@ export interface User {
   cidade: string | null
   estado: string | null
   telefone: string
-  tipo: string | null
   foto_perfil: string | null
   ativo: number
   created_at: string
   updated_at: string
   cpf: string | null
   rg: string | null
+  passageiro: boolean
+  organizador: boolean
 }
 
 export interface UserWithToken extends User {

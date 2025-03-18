@@ -89,7 +89,6 @@ export const authOptions: NextAuthOptions = {
           cidade: (user as User).cidade,
           estado: (user as User).estado,
           telefone: (user as User).telefone,
-          tipo: (user as User).tipo,
           foto_perfil: (user as User).foto_perfil,
           ativo: (user as User).ativo,
           created_at: (user as User).created_at,
@@ -97,7 +96,9 @@ export const authOptions: NextAuthOptions = {
           access_token: (user as UserWithToken).access_token,
           token_type: (user as UserWithToken).token_type,
           cpf: (user as User).cpf,
-          rg: (user as User).rg
+          rg: (user as User).rg,
+          passageiro: (user as User).passageiro,
+          organizador: (user as User).organizador
         }
       }
       return token
@@ -124,7 +125,9 @@ export const authOptions: NextAuthOptions = {
         updated_at: token.updated_at as string,
         telefone_emergencia: token.telefone_emergencia as string | null,
         cpf: token.cpf as string | null,
-        rg: token.rg as string | null
+        rg: token.rg as string | null,
+        passageiro: token.passageiro as boolean,
+        organizador: token.organizador as boolean
       }
       return session
     }

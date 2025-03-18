@@ -14,12 +14,14 @@ import Button from '@/components/common/Button'
 import Portal from '@/components/common/Portal'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 import { passengerFormStep1Schema } from '@/validation/formValidation'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 interface PassengerFormProps {
   visible: boolean
+  onClose: () => void
+  caravanaId: string | number
 }
 
 interface Step1Values {
@@ -28,10 +30,14 @@ interface Step1Values {
   emergencyContact: string
 }
 
-export default function PassengerForm({ visible }: PassengerFormProps) {
+export default function PassengerForm({
+  visible,
+  onClose,
+  caravanaId
+}: PassengerFormProps) {
   const { data: session } = useSession()
 
-  const hasAddress = Boolean(
+  const sessionAddressExists = Boolean(
     session?.user?.endereco &&
       session?.user?.numero &&
       session?.user?.bairro &&
@@ -40,8 +46,12 @@ export default function PassengerForm({ visible }: PassengerFormProps) {
       session?.user?.estado
   )
 
+  const hasAllRequiredData = Boolean(
+    session?.user?.cpf && session?.user?.rg && sessionAddressExists
+  )
+
   const [address, setAddress] = useState<AddressData>(
-    hasAddress
+    sessionAddressExists
       ? {
           cep: (session?.user?.cep as string) || '',
           street: (session?.user?.endereco as string) || '',
@@ -61,9 +71,15 @@ export default function PassengerForm({ visible }: PassengerFormProps) {
           number: ''
         }
   )
+
   const [step, setStep] = useState(1)
-  const [isModalOpen, setIsModalOpen] = useState(visible)
   const [isLoading, setIsLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(visible)
+  const [autoSubmitted, setAutoSubmitted] = useState(false)
+
+  useEffect(() => {
+    setIsModalOpen(visible)
+  }, [visible])
 
   const {
     control,
@@ -82,8 +98,30 @@ export default function PassengerForm({ visible }: PassengerFormProps) {
       address.number
   )
 
+  const checkExistingReservation = async (
+    caravana: string | number,
+    passageiro: string | number
+  ) => {
+    try {
+      const res = await axios.get(
+        `/api/caravanas/${caravana}/reservas/${passageiro}`
+      )
+
+      if (res.status === 200) {
+        return true
+      }
+      return false
+    } catch (error) {
+      const axiosError = error as AxiosError
+      if (axiosError.response && axiosError.response.status === 404) {
+        return false
+      }
+      throw error
+    }
+  }
+
   const onStep1Submit = (data: Step1Values) => {
-    if (hasAddress) {
+    if (sessionAddressExists) {
       onFinalSubmit(data)
     } else {
       setStep(2)
@@ -91,9 +129,23 @@ export default function PassengerForm({ visible }: PassengerFormProps) {
   }
 
   const onFinalSubmit = async (data: Step1Values) => {
+    if (session?.user?.id) {
+      const alreadyReserved = await checkExistingReservation(
+        caravanaId,
+        session.user.id
+      )
+      if (alreadyReserved) {
+        toast.error(
+          'Você já reservou essa caravana. Não é possível reservar novamente.'
+        )
+        onClose()
+        return
+      }
+    }
+
     const combinedData = { ...data, ...address }
 
-    const dataPayload = {
+    const registrationPayload = {
       cpf: combinedData.cpf,
       rg: combinedData.rg,
       endereco: combinedData.street,
@@ -102,23 +154,55 @@ export default function PassengerForm({ visible }: PassengerFormProps) {
       bairro: combinedData.neighborhood,
       cidade: combinedData.city,
       estado: combinedData.state,
-      tipo: 'passageiro'
+      passageiro: true
     }
 
     try {
       setIsLoading(true)
-      const response = await axios.post('/api/register-passageiro', dataPayload)
+
+      const response = await axios.post(
+        '/api/register-passageiro',
+        registrationPayload
+      )
+
       if (response.status === 200) {
         toast.success('Confirmação de dados realizada com sucesso!')
+
+        const inscriptionPayload = {
+          passengerId: response.data.id
+        }
+
+        const inscriptionResponse = await axios.post(
+          `/api/caravanas/${caravanaId}/reservas`,
+          inscriptionPayload
+        )
+
+        if (inscriptionResponse.status === 200) {
+          toast.success('Inscrição na caravana realizada com sucesso!')
+        }
       }
     } catch (error) {
-      toast.error('Erro ao confirmar os dados. Tente novamente.')
-      console.error('Erro ao cadastrar passageiro', error)
+      toast.error(
+        'Erro ao confirmar os dados ou inscrever na caravana. Tente novamente.'
+      )
+      console.error('Erro na inscrição:', error)
     } finally {
       setIsLoading(false)
-      setIsModalOpen(false)
+      onClose()
     }
   }
+
+  useEffect(() => {
+    if (hasAllRequiredData && !autoSubmitted && session) {
+      setAutoSubmitted(true)
+      const autoData: Step1Values = {
+        cpf: session.user.cpf ?? '',
+        rg: session.user.rg ?? '',
+        emergencyContact: session.user.telefone_emergencia || ''
+      }
+      onFinalSubmit(autoData)
+    }
+  }, [hasAllRequiredData, autoSubmitted, session])
 
   const handlePrevious = () => {
     setStep(1)
@@ -140,12 +224,31 @@ export default function PassengerForm({ visible }: PassengerFormProps) {
 
   if (!isModalOpen) return null
 
+  if (hasAllRequiredData) {
+    return (
+      <Portal>
+        <S.ModalOverlay onClick={onClose}>
+          <S.ModalContent onClick={(e) => e.stopPropagation()}>
+            <S.CloseButtonContainer>
+              <S.CloseButton onClick={onClose}>
+                <X className="modal-close-btn" size={32} weight="bold" />
+              </S.CloseButton>
+            </S.CloseButtonContainer>
+            <div style={{ padding: '20px', textAlign: 'center' }}>
+              <p>Inscrevendo, por favor aguarde...</p>
+            </div>
+          </S.ModalContent>
+        </S.ModalOverlay>
+      </Portal>
+    )
+  }
+
   return (
     <Portal>
-      <S.ModalOverlay onClick={() => setIsModalOpen(false)}>
+      <S.ModalOverlay onClick={onClose}>
         <S.ModalContent onClick={(e) => e.stopPropagation()}>
           <S.CloseButtonContainer>
-            <S.CloseButton onClick={() => setIsModalOpen(false)}>
+            <S.CloseButton onClick={onClose}>
               <X className="modal-close-btn" size={32} weight="bold" />
             </S.CloseButton>
           </S.CloseButtonContainer>
@@ -266,12 +369,12 @@ export default function PassengerForm({ visible }: PassengerFormProps) {
                   disabled={!isValid}
                   loading={isLoading}
                 >
-                  {hasAddress ? 'Concluir inscrição' : 'Próximo'}
+                  Concluir inscrição
                 </Button>
               </>
             )}
 
-            {!hasAddress && step === 2 && (
+            {step === 2 && (
               <>
                 <EditableAddress
                   address={address}

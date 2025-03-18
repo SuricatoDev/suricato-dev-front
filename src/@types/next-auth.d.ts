@@ -26,6 +26,8 @@ declare module 'next-auth' {
       telefone_emergencia: string | null
       rg: string | null
       cpf: string | null
+      passageiro: boolean
+      organizador: boolean
     } & DefaultSession['user']
   }
 }
@@ -45,7 +47,6 @@ declare module 'next-auth/jwt' {
     cidade: string | null
     estado: string | null
     telefone: string
-    tipo: string | null
     foto_perfil: string | null
     ativo: number
     created_at: string
@@ -55,5 +56,7 @@ declare module 'next-auth/jwt' {
     telefone_emergencia: string | null
     rg: string | null
     cpf: string | null
+    passageiro: boolean
+    organizador: boolean
   }
 }

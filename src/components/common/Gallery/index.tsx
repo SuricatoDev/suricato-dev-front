@@ -57,40 +57,71 @@ export default function Gallery({ images }: GalleryProps) {
     <>
       <S.GalleryWrapper $count={images.length}>
         {isMobile ? (
-          <>
-            {!loadingImages[0] && (
-              <Skeleton rows={1} columns={1} width="100%" height="100%" />
-            )}
-            <ImageGallery
-              items={galleryItems}
-              showIndex
-              showThumbnails={false}
-              showFullscreenButton={false}
-              showPlayButton={false}
-              infinite={false}
-              showNav={false}
-              onClick={() => openModal(currentIndex)}
-              lazyLoad
-              onImageLoad={handleImageLoad(currentIndex)}
-              onSlide={(index) => setCurrentIndex(index)}
-            />
-          </>
+          <ImageGallery
+            items={galleryItems}
+            showIndex
+            showThumbnails={false}
+            showFullscreenButton={false}
+            showPlayButton={false}
+            infinite={false}
+            showNav={false}
+            onClick={() => openModal(currentIndex)}
+            lazyLoad
+            onSlide={(index) => setCurrentIndex(index)}
+            renderItem={(item) => {
+              const idx = galleryItems.findIndex(
+                (i) => i.original === item.original
+              )
+              return (
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    aspectRatio: '16/9'
+                  }}
+                >
+                  {loadingImages[idx] && (
+                    <div style={{ position: 'absolute', inset: 0 }}>
+                      <Skeleton
+                        rows={1}
+                        columns={1}
+                        width="100%"
+                        height="100%"
+                      />
+                    </div>
+                  )}
+                  <Image
+                    src={item.original}
+                    alt={`Imagem ${idx}`}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    quality={90}
+                    onLoad={handleImageLoad(idx)}
+                  />
+                </div>
+              )
+            }}
+          />
         ) : (
           <>
+            {/* Imagem principal */}
             <S.GridItem
               onClick={() => openModal(0)}
               $variant="main"
               $onlyItem={images.length === 1}
+              style={{ position: 'relative', height: '100%' }}
             >
               {loadingImages[0] && (
-                <Skeleton
-                  rows={1}
-                  columns={1}
-                  width="100%"
-                  height="100%"
-                  gap="8px"
-                  radius="4px"
-                />
+                <div style={{ position: 'absolute', inset: 0 }}>
+                  <Skeleton
+                    rows={1}
+                    columns={1}
+                    width="100%"
+                    height="100%"
+                    gap="8px"
+                    radius="4px"
+                  />
+                </div>
               )}
               <Image
                 src={mainImage}
@@ -102,19 +133,26 @@ export default function Gallery({ images }: GalleryProps) {
                 onLoad={handleImageLoad(0)}
               />
             </S.GridItem>
+            {/* Imagens extras */}
             {extraImages.map((img, idx) => {
               const actualIndex = idx + 1
               return (
-                <S.GridItem key={img} onClick={() => openModal(actualIndex)}>
+                <S.GridItem
+                  key={img}
+                  onClick={() => openModal(actualIndex)}
+                  style={{ position: 'relative' }}
+                >
                   {loadingImages[actualIndex] && (
-                    <Skeleton
-                      rows={1}
-                      columns={1}
-                      width="100%"
-                      height="300px"
-                      gap="8px"
-                      radius="4px"
-                    />
+                    <div style={{ position: 'absolute', inset: 0 }}>
+                      <Skeleton
+                        rows={1}
+                        columns={1}
+                        width="100%"
+                        height="100%"
+                        gap="8px"
+                        radius="4px"
+                      />
+                    </div>
                   )}
                   <Image
                     src={img}

@@ -69,6 +69,14 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const [passengerFormVisible, setPassengerFormVisible] = useState(false)
   const [isSubscribing, setIsSubscribing] = useState(false)
 
+  const handleOpenPassengerForm = () => {
+    setPassengerFormVisible(true)
+  }
+
+  const handleClosePassengerForm = () => {
+    setPassengerFormVisible(false)
+  }
+
   useEffect(() => {
     if (isLogged && !hasReloaded) {
       router.replace(router.asPath)
@@ -89,7 +97,13 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
 
   const handleSubscribe = () => {
     const missingData =
-      session?.user?.tipo !== 'passageiro' || !session?.user?.endereco
+      !session?.user?.endereco || !session?.user?.rg || !session?.user?.cpf
+
+    console.log(
+      !session?.user?.endereco,
+      !session?.user?.rg,
+      !session?.user?.cpf
+    )
 
     if (missingData) {
       setPassengerFormVisible(true)
@@ -348,14 +362,18 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
             </ul>
           </S.ModalContent>
           <S.ModalButton>
-            <Button onClick={() => setIsModalOpen(false)} fullWidth>
+            <Button onClick={handleOpenPassengerForm} fullWidth>
               OK
             </Button>
           </S.ModalButton>
         </S.ModalContainer>
       </Modal>
       <Footer />
-      <PassengerForm visible={passengerFormVisible} />
+      <PassengerForm
+        visible={passengerFormVisible}
+        onClose={handleClosePassengerForm}
+        caravanaId={caravan.id}
+      />
     </S.Wrapper>
   )
 }
