@@ -7,7 +7,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log('aqui 1')
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
   if (!token) {
     return res.status(401).json({ message: 'Acesso negado' })

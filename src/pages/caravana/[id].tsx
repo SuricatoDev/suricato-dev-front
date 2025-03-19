@@ -97,12 +97,6 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
       !session?.user?.passageiroData?.rg ||
       !session?.user?.passageiroData?.cpf
 
-    console.log(
-      !session?.user?.endereco,
-      !session?.user?.passageiroData.rg,
-      !session?.user?.passageiroData.cpf
-    )
-
     if (missingData) {
       setPassengerFormVisible(true)
     } else {
