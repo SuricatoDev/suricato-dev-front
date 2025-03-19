@@ -93,12 +93,14 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
 
   const handleSubscribe = () => {
     const missingData =
-      !session?.user?.endereco || !session?.user?.rg || !session?.user?.cpf
+      !session?.user?.endereco ||
+      !session?.user?.passageiroData?.rg ||
+      !session?.user?.passageiroData?.cpf
 
     console.log(
       !session?.user?.endereco,
-      !session?.user?.rg,
-      !session?.user?.cpf
+      !session?.user?.passageiroData.rg,
+      !session?.user?.passageiroData.cpf
     )
 
     if (missingData) {
@@ -111,7 +113,12 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const subscribeInCaravan = async () => {
     try {
       setIsSubscribing(true)
-      const response = await axios.post(`/api/reservas/${caravan.id}`)
+      const response = await axios.post(
+        `/api/caravanas/${caravan.id}/reservas`,
+        {
+          passageiro_id: session?.user?.id
+        }
+      )
 
       if (response.status === 200) {
         toast.success('Inscrição realizada com sucesso!')
