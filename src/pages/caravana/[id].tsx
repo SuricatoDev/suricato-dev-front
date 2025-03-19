@@ -69,10 +69,6 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const [passengerFormVisible, setPassengerFormVisible] = useState(false)
   const [isSubscribing, setIsSubscribing] = useState(false)
 
-  const handleOpenPassengerForm = () => {
-    setPassengerFormVisible(true)
-  }
-
   const handleClosePassengerForm = () => {
     setPassengerFormVisible(false)
   }
@@ -362,7 +358,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
             </ul>
           </S.ModalContent>
           <S.ModalButton>
-            <Button onClick={handleOpenPassengerForm} fullWidth>
+            <Button onClick={() => setIsModalOpen(false)} fullWidth>
               OK
             </Button>
           </S.ModalButton>

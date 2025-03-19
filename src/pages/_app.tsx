@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react'
 import MobileFooter from '@/components/sections/MobileFooter'
 import Layout from '@/containers/Layout'
 import { ToastContainer } from 'react-toastify'
+import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
 
 export const inter = Inter({
   weight: ['400', '500', '600', '700'],
@@ -33,6 +34,7 @@ export default function App({
         <Layout>
           <div className={`${inter.className}`} id="modal-root">
             <Component {...pageProps} />
+            <PWAInstallPrompt />
             <ToastContainer position="bottom-center" autoClose={5000} />
             <MobileFooter />
           </div>
