@@ -65,6 +65,9 @@
     "name": "Paulo Geliandes"
   },
   "resolutions": {
-    "@types/react": "18.3.18"
+    "@types/react": "18.3.19"
+  },
+  "overrides": {
+    "@types/react": "18.3.19"
   }
 }
