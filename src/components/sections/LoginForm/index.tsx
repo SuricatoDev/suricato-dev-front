@@ -112,6 +112,7 @@ export default function MultiStepForm({
           await signIn('credentials', {
             email: values.contactEmail,
             password: values.password,
+            redirect: false,
             callbackUrl: '/'
           })
         } catch (error) {

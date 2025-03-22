@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import axios from 'axios'
 import { LoginResponse, UserWithToken } from '@/interfaces/User'
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL
+const baseUrl = process.env.BACKEND_URL
 
 async function loginUser(
   email: string,
@@ -54,10 +54,28 @@ export const authOptions: NextAuthOptions = {
   jwt: { maxAge: 30 * 24 * 60 * 60 },
 
   callbacks: {
-    async jwt({ token, user, trigger, session: sessionUpdate }) {
-      if (trigger === 'update' && sessionUpdate?.user) {
-        return { ...token, ...sessionUpdate.user }
+    async jwt({ token, user, trigger }) {
+      if (trigger === 'update') {
+        try {
+          const response = await axios.get(`${baseUrl}/user-data/${token.id}`, {
+            headers: {
+              Authorization: `${token.token_type} ${token.access_token}`
+            }
+          })
+          const { user: userData, passageiro, organizador } = response.data
+
+          return {
+            ...token,
+            ...userData,
+            passageiroData: passageiro,
+            organizadorData: organizador
+          }
+        } catch (err) {
+          console.error('Erro ao buscar dados atualizados do usuário:', err)
+          return token
+        }
       }
+
       if (user) {
         return { ...token, ...user }
       }
@@ -69,7 +87,6 @@ export const authOptions: NextAuthOptions = {
         ...(session.user as UserWithToken),
         ...token
       }
-
       return session
     }
   }

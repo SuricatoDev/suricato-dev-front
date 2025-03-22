@@ -104,7 +104,6 @@ export default function Gallery({ images }: GalleryProps) {
           />
         ) : (
           <>
-            {/* Imagem principal */}
             <S.GridItem
               onClick={() => openModal(0)}
               $variant="main"
@@ -133,7 +132,6 @@ export default function Gallery({ images }: GalleryProps) {
                 onLoad={handleImageLoad(0)}
               />
             </S.GridItem>
-            {/* Imagens extras */}
             {extraImages.map((img, idx) => {
               const actualIndex = idx + 1
               return (

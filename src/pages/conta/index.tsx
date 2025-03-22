@@ -54,23 +54,19 @@ export default function ProfileEditPage() {
   const { data: session, update } = useSession()
   const isMobile = useMediaQuery()
 
-  const [fullName, setFullName] = useState(session?.user?.nome || '')
-  const [editingField, setEditingField] = useState<string | null>(null)
-  const [profilePic, setProfilePic] = useState<string | null>(
-    session?.user.foto_perfil || null
-  )
-  const [showModal, setShowModal] = useState(false)
-  const [selectedImage, setSelectedImage] = useState<string | null>()
+  const [userData, setUserData] = useState(session?.user || {})
+
+  const [fullName, setFullName] = useState(userData?.nome || '')
   const [address, setAddress] = useState<AddressData>(
-    session?.user
+    userData
       ? {
-          cep: session.user.cep || '',
-          street: session.user.endereco || '',
-          neighborhood: session.user.bairro || '',
-          city: session.user.cidade || '',
-          state: session.user.estado || '',
-          complement: session.user.complemento || '',
-          number: session.user.numero || ''
+          cep: userData.cep || '',
+          street: userData.endereco || '',
+          neighborhood: userData.bairro || '',
+          city: userData.cidade || '',
+          state: userData.estado || '',
+          complement: userData.complemento || '',
+          number: userData.numero || ''
         }
       : {
           cep: '',
@@ -82,10 +78,9 @@ export default function ProfileEditPage() {
           number: ''
         }
   )
-
-  const [phoneNumber, setPhoneNumber] = useState(session?.user?.telefone || '')
+  const [phoneNumber, setPhoneNumber] = useState(userData?.telefone || '')
   const [emergencyPhone, setEmergencyPhone] = useState(
-    session?.user?.telefone_emergencia || ''
+    userData?.contato_emergencia || ''
   )
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -96,12 +91,37 @@ export default function ProfileEditPage() {
     string | undefined
   >()
   const [isLoading, setIsLoading] = useState(false)
+  const [editingField, setEditingField] = useState<string | null>(null)
+  const [profilePic, setProfilePic] = useState<string | null>(
+    userData?.foto_perfil || null
+  )
+  const [showModal, setShowModal] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
-  const excursionistasSince = session?.user?.created_at
-    ? formatExcursionistasSince(session?.user?.created_at)
+  const excursionistasSince = userData?.created_at
+    ? formatExcursionistasSince(userData.created_at)
     : null
 
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (session?.user) {
+      setUserData(session.user)
+      setFullName(session.user.nome || '')
+      setPhoneNumber(session.user.telefone || '')
+      setEmergencyPhone(session.user.passageiroData.contato_emergencia || '')
+      setAddress({
+        cep: session.user.cep || '',
+        street: session.user.endereco || '',
+        neighborhood: session.user.bairro || '',
+        city: session.user.cidade || '',
+        state: session.user.estado || '',
+        complement: session.user.complemento || '',
+        number: session.user.numero || ''
+      })
+      setProfilePic(session.user.foto_perfil || null)
+    }
+  }, [session])
 
   const handleFileClick = () => {
     fileInputRef.current?.click()
@@ -149,15 +169,15 @@ export default function ProfileEditPage() {
         payload = { nome: value }
         break
       case 'address': {
-        const address = value as AddressPayload
+        const addr = value as AddressPayload
         payload = {
-          endereco: address.street,
-          numero: address.number,
-          ...(address.complement && { complemento: address.complement }),
-          bairro: address.neighborhood,
-          cep: normalizeInput(address.cep),
-          cidade: address.city,
-          estado: address.state
+          endereco: addr.street,
+          numero: addr.number,
+          ...(addr.complement && { complemento: addr.complement }),
+          bairro: addr.neighborhood,
+          cep: normalizeInput(addr.cep),
+          cidade: addr.city,
+          estado: addr.state
         }
         break
       }
@@ -165,10 +185,12 @@ export default function ProfileEditPage() {
         payload = { telefone: normalizeInput(value as string) }
         break
       case 'password':
-        payload = { senha: value }
+        payload = { password: value }
         break
       case 'emergencyPhone':
-        payload = { telefone_emergencia: normalizeInput(value as string) }
+        payload = {
+          contato_emergencia: normalizeInput(value as string)
+        }
         break
       default:
         return
@@ -179,15 +201,92 @@ export default function ProfileEditPage() {
       const response = await axios.put('/api/usuarios/', payload, {
         headers: { 'Content-Type': 'application/json' }
       })
-      toast.success('Dados atualizados com sucesso!')
-      setEditingField(null)
       return response.data
     } catch (error) {
       console.error('Erro ao atualizar o campo:', error)
-      toast.error('Erro ao atualizar os dados. Tente novamente.')
       throw error
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleSave = async (field: string) => {
+    if (!field || !userData) return
+
+    const previousData = { ...userData }
+
+    let newUserData = { ...userData }
+
+    switch (field) {
+      case 'address':
+        newUserData = {
+          ...newUserData,
+          endereco: address.street,
+          numero: address.number,
+          complemento: address.complement,
+          bairro: address.neighborhood,
+          cep: normalizeInput(address.cep),
+          cidade: address.city,
+          estado: address.state
+        }
+        break
+      case 'name':
+        newUserData.nome = fullName
+        break
+      case 'phone':
+        newUserData.telefone = normalizeInput(phoneNumber)
+        break
+      case 'emergencyPhone':
+        newUserData.contato_emergencia = normalizeInput(emergencyPhone)
+        break
+      case 'password':
+        break
+      default:
+        return
+    }
+
+    setUserData(newUserData)
+
+    try {
+      switch (field) {
+        case 'address':
+          await saveField(field, address)
+          break
+        case 'name':
+          await validateFullName(fullName)
+          await saveField(field, fullName)
+          break
+        case 'phone':
+          await validatePhone(phoneNumber)
+          await saveField(field, phoneNumber)
+          break
+        case 'emergencyPhone':
+          await validatePhone(emergencyPhone)
+          await saveField(field, emergencyPhone)
+          break
+        case 'password':
+          if (
+            !newPassword ||
+            !confirmPassword ||
+            newPassword !== confirmPassword
+          ) {
+            setPasswordError('As senhas devem coincidir.')
+            return
+          }
+          await saveField(field, newPassword)
+          setNewPassword('')
+          setConfirmPassword('')
+          break
+        default:
+          return
+      }
+      toast.success('Dados atualizados com sucesso!')
+      setEditingField(null)
+      await update({})
+    } catch (error) {
+      console.error('Erro ao atualizar perfil:', error)
+      setUserData(previousData)
+      toast.error('Erro ao atualizar. Tente novamente.')
     }
   }
 
@@ -202,58 +301,6 @@ export default function ProfileEditPage() {
       toast.error('Erro ao excluir a conta.')
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const handleSave = async (field: string) => {
-    try {
-      if (!field || !session) return
-
-      let updatedUserData
-
-      switch (field) {
-        case 'address':
-          updatedUserData = await saveField(field, address)
-          break
-        case 'name':
-          await validateFullName(fullName)
-          updatedUserData = await saveField(field, fullName)
-          break
-        case 'phone':
-          await validatePhone(phoneNumber)
-          updatedUserData = await saveField(field, phoneNumber)
-          break
-        case 'password':
-          if (
-            !newPassword ||
-            !confirmPassword ||
-            newPassword !== confirmPassword
-          ) {
-            setPasswordError('As senhas devem coincidir.')
-            return
-          }
-          updatedUserData = await saveField(field, newPassword)
-          setNewPassword('')
-          setConfirmPassword('')
-          break
-        case 'emergencyPhone':
-          await validatePhone(emergencyPhone)
-          updatedUserData = await saveField(field, emergencyPhone)
-          break
-        default:
-          return
-      }
-
-      if (updatedUserData && updatedUserData.data) {
-        await update({
-          user: {
-            ...session.user,
-            ...updatedUserData.data
-          }
-        })
-      }
-    } catch (error) {
-      console.error('Erro ao atualizar perfil:', error)
     }
   }
 
@@ -302,7 +349,7 @@ export default function ProfileEditPage() {
                 </S.EditIcon>
               </S.ProfilePicWrapper>
               <S.ProfileInfo>
-                <S.ProfileName>{session?.user.nome || 'Usuário'}</S.ProfileName>
+                <S.ProfileName>{userData?.nome || 'Usuário'}</S.ProfileName>
                 <S.ProfileInfoItem>
                   {excursionistasSince && (
                     <>
@@ -311,17 +358,14 @@ export default function ProfileEditPage() {
                     </>
                   )}
                 </S.ProfileInfoItem>
-                {session.user.bairro &&
-                  session.user.cidade &&
-                  session.user.estado && (
-                    <S.ProfileInfoItem>
-                      <MapPin size={18} weight="bold" />
-                      <p>
-                        {session.user.bairro}, {session.user.cidade} -{' '}
-                        {session.user.estado}
-                      </p>
-                    </S.ProfileInfoItem>
-                  )}
+                {userData?.bairro && userData?.cidade && userData?.estado && (
+                  <S.ProfileInfoItem>
+                    <MapPin size={18} weight="bold" />
+                    <p>
+                      {userData.bairro}, {userData.cidade} - {userData.estado}
+                    </p>
+                  </S.ProfileInfoItem>
+                )}
               </S.ProfileInfo>
               <input
                 type="file"
@@ -351,7 +395,7 @@ export default function ProfileEditPage() {
                           <span className="value">Digite seu nome</span>
                         ) : (
                           <span className="value">
-                            {session.user.nome ?? 'Não fornecido'}
+                            {userData?.nome ?? 'Não fornecido'}
                           </span>
                         )}
                       </div>
@@ -374,7 +418,6 @@ export default function ProfileEditPage() {
                             onChange={async (e) => {
                               const value = e.target.value
                               setFullName(value)
-
                               try {
                                 await validateFullName(value)
                                 setNameError(undefined)
@@ -390,7 +433,7 @@ export default function ProfileEditPage() {
                         </div>
                         <Button
                           fullWidth={isMobile}
-                          disabled={!nameError ? false : true}
+                          disabled={!!nameError}
                           onClick={() => handleSave('name')}
                           loading={isLoading}
                         >
@@ -414,8 +457,8 @@ export default function ProfileEditPage() {
                           <span className="value">Insira um número válido</span>
                         ) : (
                           <span className="value">
-                            {session.user.telefone
-                              ? formatPhoneNumber(session.user.telefone)
+                            {userData?.telefone
+                              ? formatPhoneNumber(userData.telefone)
                               : 'Não fornecido'}
                           </span>
                         )}
@@ -439,7 +482,6 @@ export default function ProfileEditPage() {
                             onChange={async (e) => {
                               const value = e.target.value
                               setPhoneNumber(value)
-
                               try {
                                 await validatePhone(value)
                                 setPhoneError(undefined)
@@ -463,7 +505,7 @@ export default function ProfileEditPage() {
                         </div>
                         <Button
                           fullWidth={isMobile}
-                          disabled={!phoneError ? false : true}
+                          disabled={!!phoneError}
                           onClick={() => handleSave('phone')}
                           loading={isLoading}
                         >
@@ -487,12 +529,12 @@ export default function ProfileEditPage() {
                           <span className="value">Use um endereço válido</span>
                         ) : (
                           <span className="value">
-                            {session.user.endereco &&
-                            session.user.bairro &&
-                            session.user.cidade &&
-                            session.user.estado &&
-                            session.user.numero
-                              ? `${session.user.endereco}, ${session.user.numero}. ${session.user.bairro}, ${session.user.cidade} - ${session.user.estado}`
+                            {userData?.endereco &&
+                            userData?.bairro &&
+                            userData?.cidade &&
+                            userData?.estado &&
+                            userData?.numero
+                              ? `${userData.endereco}, ${userData.numero}. ${userData.bairro}, ${userData.cidade} - ${userData.estado}`
                               : 'Não fornecido'}
                           </span>
                         )}
@@ -537,7 +579,11 @@ export default function ProfileEditPage() {
                           </span>
                         ) : (
                           <span className="value">
-                            {emergencyPhone ? emergencyPhone : 'Não fornecido'}
+                            {userData?.passageiroData?.contato_emergencia
+                              ? formatPhoneNumber(
+                                  userData.passageiroData.contato_emergencia
+                                )
+                              : 'Não fornecido'}
                           </span>
                         )}
                       </div>
@@ -562,7 +608,6 @@ export default function ProfileEditPage() {
                             onChange={async (e) => {
                               const value = e.target.value
                               setEmergencyPhone(value)
-
                               try {
                                 await validatePhone(value)
                                 setEmergencyPhoneError(undefined)
@@ -586,7 +631,7 @@ export default function ProfileEditPage() {
                         </div>
                         <Button
                           fullWidth={isMobile}
-                          disabled={!emergencyPhoneError ? false : true}
+                          disabled={!!emergencyPhoneError}
                           onClick={() => handleSave('emergencyPhone')}
                           loading={isLoading}
                         >

@@ -35,31 +35,39 @@ export default function PassengerForm({
   onClose,
   caravanaId
 }: PassengerFormProps) {
-  const { data: session } = useSession()
+  const { data: session, update } = useSession()
+
+  const [localUser, setLocalUser] = useState(session?.user || {})
+
+  useEffect(() => {
+    if (session && session.user) {
+      setLocalUser(session.user)
+    }
+  }, [session])
 
   const sessionAddressExists = Boolean(
-    session?.user?.endereco &&
-      session?.user?.numero &&
-      session?.user?.bairro &&
-      session?.user?.cep &&
-      session?.user?.cidade &&
-      session?.user?.estado
+    localUser?.endereco &&
+      localUser?.numero &&
+      localUser?.bairro &&
+      localUser?.cep &&
+      localUser?.cidade &&
+      localUser?.estado
   )
 
   const hasAllRequiredData = Boolean(
-    session?.user?.cpf && session?.user?.rg && sessionAddressExists
+    localUser?.cpf && localUser?.rg && sessionAddressExists
   )
 
   const [address, setAddress] = useState<AddressData>(
     sessionAddressExists
       ? {
-          cep: (session?.user?.cep as string) || '',
-          street: (session?.user?.endereco as string) || '',
-          neighborhood: (session?.user?.bairro as string) || '',
-          city: (session?.user?.cidade as string) || '',
-          state: (session?.user?.estado as string) || '',
-          complement: (session?.user?.complemento as string) || '',
-          number: (session?.user?.numero as string) || ''
+          cep: (localUser?.cep as string) || '',
+          street: (localUser?.endereco as string) || '',
+          neighborhood: (localUser?.bairro as string) || '',
+          city: (localUser?.cidade as string) || '',
+          state: (localUser?.estado as string) || '',
+          complement: (localUser?.complemento as string) || '',
+          number: (localUser?.numero as string) || ''
         }
       : {
           cep: '',
@@ -91,11 +99,12 @@ export default function PassengerForm({
   })
 
   const isAddressComplete = Boolean(
-    address.street &&
-      address.neighborhood &&
-      address.city &&
-      address.state &&
-      address.number
+    address?.street !== '' &&
+      address?.neighborhood !== '' &&
+      address?.city !== '' &&
+      address?.state !== '' &&
+      address?.number !== '' &&
+      address?.cep !== ''
   )
 
   const checkExistingReservation = async (
@@ -106,7 +115,6 @@ export default function PassengerForm({
       const res = await axios.get(
         `/api/caravanas/${caravana}/reservas/${passageiro}`
       )
-
       if (res.status === 200) {
         return true
       }
@@ -129,10 +137,10 @@ export default function PassengerForm({
   }
 
   const onFinalSubmit = async (data: Step1Values) => {
-    if (session?.user?.id) {
+    if (localUser?.id) {
       const alreadyReserved = await checkExistingReservation(
         caravanaId,
-        session.user.id
+        localUser.id
       )
       if (alreadyReserved) {
         toast.error(
@@ -154,6 +162,8 @@ export default function PassengerForm({
       bairro: combinedData.neighborhood,
       cidade: combinedData.city,
       estado: combinedData.state,
+      cep: combinedData.cep,
+      contato_emergencia: combinedData.emergencyContact,
       passageiro: true
     }
 
@@ -166,6 +176,7 @@ export default function PassengerForm({
       )
 
       if (response.status === 200) {
+        await update({})
         toast.success('Confirmação de dados realizada com sucesso!')
 
         const inscriptionPayload = {
@@ -178,6 +189,7 @@ export default function PassengerForm({
         )
 
         if (inscriptionResponse.status === 200) {
+          await update({})
           toast.success('Inscrição na caravana realizada com sucesso!')
         }
       }
@@ -196,20 +208,16 @@ export default function PassengerForm({
     if (hasAllRequiredData && !autoSubmitted && session) {
       setAutoSubmitted(true)
       const autoData: Step1Values = {
-        cpf: session.user.cpf ?? '',
-        rg: session.user.rg ?? '',
-        emergencyContact: session.user.telefone_emergencia || ''
+        cpf: localUser.cpf ?? '',
+        rg: localUser.rg ?? '',
+        emergencyContact: localUser.passageiroData?.contato_emergencia || ''
       }
       onFinalSubmit(autoData)
     }
-  }, [hasAllRequiredData, autoSubmitted, session])
+  }, [hasAllRequiredData, autoSubmitted, session, localUser])
 
   const handlePrevious = () => {
     setStep(1)
-  }
-
-  const handleAddressSave = () => {
-    console.log('Endereço salvo', address)
   }
 
   useEffect(() => {
@@ -350,9 +358,9 @@ export default function PassengerForm({
                         ) => (
                           <Input
                             {...inputProps}
-                            type="text"
-                            placeholder="Digite seu telefone"
-                            label="Telefone"
+                            type="phone"
+                            placeholder="Digite o contato de emergência"
+                            label="Contato de emergência"
                           />
                         )}
                       </InputMask>
@@ -369,7 +377,7 @@ export default function PassengerForm({
                   disabled={!isValid}
                   loading={isLoading}
                 >
-                  Concluir inscrição
+                  {sessionAddressExists ? 'Concluir inscrição' : 'Próximo'}
                 </Button>
               </>
             )}
@@ -379,7 +387,7 @@ export default function PassengerForm({
                 <EditableAddress
                   address={address}
                   setAddress={setAddress}
-                  onSave={handleAddressSave}
+                  onSave={() => {}}
                   hasButton={false}
                 />
                 <S.ActionButtons>

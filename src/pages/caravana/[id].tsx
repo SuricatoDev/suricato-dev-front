@@ -91,7 +91,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
     }
   }
 
-  const handleSubscribe = () => {
+  const handleSubscribe = async () => {
     const missingData =
       !session?.user?.endereco ||
       !session?.user?.passageiroData?.rg ||
@@ -129,7 +129,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const CategoryIcon = category ? category.icon : null
   const CategoryLabel = category ? category.label : null
 
-  if (status === 'loading') {
+  if (status === 'loading' && !session) {
     return
   }
   return (
