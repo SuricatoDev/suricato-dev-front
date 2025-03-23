@@ -94,7 +94,7 @@ export default function CreateAd() {
   }
 
   const renderStep = () => {
-    if (step === 1) return <Step7 setCanProceed={setCanProceed} />
+    if (step === 1) return <Step1 />
     if (step === 2) return <Step2 setCanProceed={setCanProceed} />
     if (step === 3) {
       return (
