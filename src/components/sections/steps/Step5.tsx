@@ -79,7 +79,6 @@ export default function Step5({ setCanProceed }: Step5Props) {
           <S.Row>
             <S.Label>Data e Hora de saída</S.Label>
             <S.DateTimeInput
-              type="datetime-local"
               name="departureDateTime"
               value={departureDateTime}
               onChange={handleChange}
@@ -93,7 +92,6 @@ export default function Step5({ setCanProceed }: Step5Props) {
           <S.Row>
             <S.Label>Data e Hora de chegada</S.Label>
             <S.DateTimeInput
-              type="datetime-local"
               name="arrivalDateTime"
               value={arrivalDateTime}
               onChange={handleChange}

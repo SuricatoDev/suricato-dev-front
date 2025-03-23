@@ -76,7 +76,11 @@ export const CounterInput = styled.input`
   }
 `
 
-export const DateTimeInput = styled.input`
+export const DateTimeInput = styled.input.attrs({ type: 'datetime-local' })`
+  -webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: none;
+
   border: none;
   border-bottom: 1px solid #ddd;
   font-size: 16px;

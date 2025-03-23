@@ -34,7 +34,7 @@ export const MapWrapper = styled.div<{ borderRadius?: boolean }>`
 
   @media (${device.md}) {
     border-radius: 16px;
-    height: calc(100dvh - 292px - 2rem);
+    max-height: calc(100dvh - 292px - 2rem);
   }
 `
 

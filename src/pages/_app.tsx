@@ -7,6 +7,7 @@ import Layout from '@/containers/Layout'
 import { ToastContainer } from 'react-toastify'
 import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 export const inter = Inter({
   weight: ['400', '500', '600', '700'],
@@ -30,7 +31,16 @@ export default function App({
   pageProps: { session, ...pageProps }
 }: AppProps) {
   const router = useRouter()
+
   const hideMobileFooter = router.pathname.startsWith('/anunciar')
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach((registration) => registration.unregister())
+      })
+    }
+  }, [])
+
   return (
     <AccessibilityContextProvider>
       <SessionProvider session={session}>
