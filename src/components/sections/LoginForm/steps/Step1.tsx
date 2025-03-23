@@ -7,8 +7,8 @@ import InputPassword from '@/components/common/InputPassword'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 
-// import Divider from '@/components/common/Divider'
-// import { GoogleIcon, FacebookIcon } from '@/components/common/Icons'
+
+
 interface Step1Props {
   onNext: () => void
   onClose: () => void
@@ -153,15 +153,7 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
           {showPasswordField ? 'Entrar' : 'Continuar'}
         </Button>
       </S.MainContent>
-      {/* <Divider $marginY="16px">ou</Divider>
-      <S.SocialButtons>
-        <Button variant="outlined" icon={<GoogleIcon />}>
-          Continuar com Google
-        </Button>
-        <Button variant="outlined" icon={<FacebookIcon />}>
-          Continuar com Facebook
-        </Button>
-      </S.SocialButtons> */}
+      {}
     </>
   )
 }

@@ -1,4 +1,4 @@
-// styles.ts
+
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
@@ -21,7 +21,7 @@ export const FooterNavContainer = styled.div`
 `
 
 export const ProgressBarContainer = styled.div`
-  position: relative; /* Necessário para posicionar as divisórias */
+  position: relative; 
   background-color: #eee;
   height: 6px;
   overflow: hidden;

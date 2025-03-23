@@ -1,4 +1,4 @@
-// components/HeaderNav.tsx
+
 import React from 'react'
 import * as S from './styles'
 import logo from '@/assets/images/logo.png'

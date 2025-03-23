@@ -296,9 +296,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                             )}
                           </p>
                         </S.OrganizerFooterItem>
-                        {/* <S.ViewProfileButton rounded variant="outlined">
-                          Acessar perfil
-                        </S.ViewProfileButton> */}
+                        {}
                       </S.OrganizerFooter>
                     </S.OrganizerContainer>
                   </GatedContent>

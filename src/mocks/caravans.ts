@@ -1,13 +1,13 @@
 const getImages = () => {
   return [
-    `https://picsum.photos/1920/1080`, // Full HD
-    `https://picsum.photos/1600/900`, // Widescreen menor
-    `https://picsum.photos/1366/768`, // Laptop
-    `https://picsum.photos/1280/720`, // HD
-    `https://picsum.photos/1080/1920`, // Mobile (Retrato)
-    `https://picsum.photos/750/1334`, // iPhone 7 (Mobile)
-    `https://picsum.photos/414/896`, // iPhone XR
-    `https://picsum.photos/360/640` // Android Padrão
+    `https://picsum.photos/1920/1080`, 
+    `https://picsum.photos/1600/900`, 
+    `https://picsum.photos/1366/768`, 
+    `https://picsum.photos/1280/720`, 
+    `https://picsum.photos/1080/1920`, 
+    `https://picsum.photos/750/1334`, 
+    `https://picsum.photos/414/896`, 
+    `https://picsum.photos/360/640` 
   ]
 }
 

@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 import * as S from './styles'
 import Cam3dIcon from '@/assets/icons/cam-3d.png'
-import { Plus } from '@phosphor-icons/react/dist/ssr'
+import { Plus } from '@phosphor-icons/react/dist/ssr/Plus'
 
 type ImageDropzoneProps = {
   onFilesChange?: (files: File[]) => void
@@ -11,7 +11,7 @@ type ImageDropzoneProps = {
 
 export function ImageDropzone({ onFilesChange }: ImageDropzoneProps) {
   const [images, setImages] = useState<File[]>([])
-  // Usamos uma key para reinicializar o input
+
   const [inputKey, setInputKey] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -22,7 +22,7 @@ export function ImageDropzone({ onFilesChange }: ImageDropzoneProps) {
       if (onFilesChange) {
         onFilesChange(newImages)
       }
-      // Atualiza a key para forçar a remontagem do input
+
       setInputKey((prev) => prev + 1)
     },
     [images, onFilesChange]
@@ -40,7 +40,7 @@ export function ImageDropzone({ onFilesChange }: ImageDropzoneProps) {
     if (onFilesChange) {
       onFilesChange(updatedImages)
     }
-    // Também atualiza a key ao remover, para garantir que o input seja reinicializado
+
     setInputKey((prev) => prev + 1)
   }
 
