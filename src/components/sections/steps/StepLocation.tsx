@@ -19,12 +19,6 @@ type StepLocationProps = {
   setAddress: (a: AddressDataNoApi) => void
 }
 
-const variants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 }
-}
-
 export default function StepLocation({
   title,
   subtitle,
@@ -91,16 +85,26 @@ export default function StepLocation({
         {subStep === 1 ? (
           <motion.div
             key="step1"
-            variants={variants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
           >
-            <S.Heading>
+            <S.Heading
+              as={motion.div}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
               <S.Title>{title}</S.Title>
               <S.Subtitle>{subtitle}</S.Subtitle>
             </S.Heading>
-            <S.MapContainer>
+            <S.MapContainer
+              as={motion.div}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
+            >
               <S.SearchWrapper>
                 <AddressAutocomplete
                   value={selectedAddress}
@@ -119,24 +123,42 @@ export default function StepLocation({
         ) : (
           <motion.div
             key="step2"
-            variants={variants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
           >
             <S.ContainerSubStep2>
-              <S.Heading withoutPadding>
+              <S.Heading
+                withoutPadding
+                as={motion.div}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
                 <S.Title>{titleStep2}</S.Title>
                 <S.Subtitle>{subtitleStep2}</S.Subtitle>
               </S.Heading>
-              <EditableAddressNoApi
-                address={address}
-                setAddress={setAddress}
-                hasButton={false}
-                onSave={() => setCanProceed(true)}
-              />
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <EditableAddressNoApi
+                  address={address}
+                  setAddress={setAddress}
+                  hasButton={false}
+                  onSave={() => setCanProceed(true)}
+                />
+              </motion.div>
               <Divider $marginY="16px" />
-              <S.MapWrapper borderRadius>
+              <S.MapWrapper
+                borderRadius
+                as={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6 }}
+              >
                 <Map center={location!} zoom={15} height="250px" />
               </S.MapWrapper>
             </S.ContainerSubStep2>

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   padding: 88px 1.5rem 136px;
-  height: 100vh;
+  height: 100dvh;
   box-sizing: border-box;
   gap: 1.5rem;
   display: flex;

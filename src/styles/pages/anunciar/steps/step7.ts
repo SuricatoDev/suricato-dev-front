@@ -2,11 +2,11 @@ import { device } from '@/styles/breakpoints'
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 1rem 1.5rem;
+  padding: 0 1.5rem;
   max-width: 630px;
   margin: 0 auto;
   @media (${device.md}) {
-    height: calc(100vh - 88px - 86px);
+    height: calc(100dvh - 88px - 86px);
     display: flex;
     align-items: center;
   }

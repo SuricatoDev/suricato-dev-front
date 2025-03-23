@@ -28,7 +28,7 @@ export const CropperWrapper = styled.div`
   position: relative;
   width: calc(100vw - 4rem);
   max-width: 500px;
-  height: calc(100vh - 4rem);
+  height: calc(100dvh - 4rem);
   max-height: 350px;
   margin: 0 auto;
   background: ${({ theme }) => theme.colors.background_standard};

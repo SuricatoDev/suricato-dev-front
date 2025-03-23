@@ -140,7 +140,7 @@ export const ModalOverlay = styled.div<ModalProps>`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background: rgba(0, 0, 0, 0.5);
   align-items: center;
   justify-content: center;

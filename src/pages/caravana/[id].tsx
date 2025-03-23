@@ -296,7 +296,6 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                             )}
                           </p>
                         </S.OrganizerFooterItem>
-                        {}
                       </S.OrganizerFooter>
                     </S.OrganizerContainer>
                   </GatedContent>

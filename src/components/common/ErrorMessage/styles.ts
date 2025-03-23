@@ -6,4 +6,7 @@ export const Wrapper = styled.span`
   margin-top: 4px;
   display: block;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `

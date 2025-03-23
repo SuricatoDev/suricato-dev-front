@@ -1,17 +1,23 @@
-
 import React from 'react'
 import * as S from './styles'
 import logo from '@/assets/images/logo.png'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 interface HeaderNavProps {
   showDoubtsButton?: boolean
 }
 
 export default function HeaderNav({ showDoubtsButton = true }: HeaderNavProps) {
-  const handleExit = () => {}
+  const router = useRouter()
 
-  const handleHelp = () => {}
+  const handleExit = () => {
+    router.push('/')
+  }
+
+  const handleHelp = () => {
+    router.push('/faq')
+  }
 
   return (
     <S.HeaderNavContainer>

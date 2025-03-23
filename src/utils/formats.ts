@@ -46,3 +46,11 @@ export const formatExcursionistasSince = (createdAt: string): string => {
   const year = date.getFullYear()
   return `No Excursionistas desde ${month} de ${year}`
 }
+
+export function formatCurrency(value: number) {
+  return value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2
+  })
+}

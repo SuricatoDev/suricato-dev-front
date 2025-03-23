@@ -34,7 +34,7 @@ export const MapWrapper = styled.div<{ borderRadius?: boolean }>`
 
   @media (${device.md}) {
     border-radius: 16px;
-    height: calc(100vh - 292px - 2rem);
+    height: calc(100dvh - 292px - 2rem);
   }
 `
 
@@ -72,7 +72,8 @@ export const MapCaption = styled.p`
 export const Heading = styled.div<{ withoutPadding?: boolean }>`
   display: flex;
   flex-direction: column;
-  padding: ${({ withoutPadding }) => (withoutPadding ? '0' : '1rem 1.5rem')};
+  padding: ${({ withoutPadding }) =>
+    withoutPadding ? '0' : ' 0 1.5rem 1rem '};
   gap: 8px;
 
   @media (${device.md}) {
@@ -107,7 +108,7 @@ export const ConfirmPanel = styled.div`
 `
 
 export const ContainerSubStep2 = styled.div`
-  padding: 1rem 1.5rem 1.5rem;
+  padding: 0 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;

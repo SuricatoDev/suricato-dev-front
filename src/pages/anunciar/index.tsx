@@ -13,13 +13,22 @@ import { AddressDataNoApi } from '@/components/common/EditableAddressNoApi'
 import Step5 from '@/components/sections/steps/Step5'
 import Step6 from '@/components/sections/steps/Step6'
 import Step7 from '@/components/sections/steps/Step7'
+import Step8 from '@/components/sections/steps/Step8'
+import Step9 from '@/components/sections/steps/Step9'
+import Step10 from '@/components/sections/steps/Step10'
+import Step11 from '@/components/sections/steps/Step11'
+import Step12 from '@/components/sections/steps/Step12'
 
 const Container = styled.div`
-  padding: 88px 0 86px;
+  padding: calc(64px + 1rem) 0 calc(87px + 1rem);
   position: relative;
   z-index: 0;
   box-sizing: border-box;
+  height: calc(100vh);
+  overflow-y: auto;
 `
+type Library = 'places'
+const googleMapsLibraries: Library[] = ['places']
 
 export default function CreateAd() {
   const [step, setStep] = useState(1)
@@ -37,11 +46,11 @@ export default function CreateAd() {
     ...origin
   })
   const [canProceed, setCanProceed] = useState(false)
-  const totalSteps = 5
+  const totalSteps = 12
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries: ['places'],
+    libraries: googleMapsLibraries,
     language: 'pt',
     region: 'BR'
   })
@@ -94,40 +103,57 @@ export default function CreateAd() {
   }
 
   const renderStep = () => {
-    if (step === 1) return <Step1 />
-    if (step === 2) return <Step2 setCanProceed={setCanProceed} />
-    if (step === 3) {
-      return (
-        <StepLocation
-          title="De onde a caravana irá partir?"
-          subtitle="Endereço público da partida"
-          titleStep2="Confirme o endereço de partida"
-          subtitleStep2="O endereço da origem será compartilhado publicamente na página da caravana."
-          subStep={subStep3}
-          setSubStep={setSubStep3}
-          address={origin}
-          setAddress={setOrigin}
-          setCanProceed={setCanProceed}
-        />
-      )
-    }
-    if (step === 4) {
-      return (
-        <StepLocation
-          title="Qual o destino da caravana?"
-          subtitle="Endereço público do destino"
-          titleStep2="Confirme o endereço de destino"
-          subtitleStep2="O endereço do destino será compartilhado publicamente na página da caravana."
-          subStep={subStep4}
-          setSubStep={setSubStep4}
-          address={destination}
-          setAddress={setDestination}
-          setCanProceed={setCanProceed}
-        />
-      )
-    }
-    if (step === 5) {
-      return <Step5 setCanProceed={setCanProceed} />
+    switch (step) {
+      case 1:
+        return <Step1 />
+      case 2:
+        return <Step2 setCanProceed={setCanProceed} />
+      case 3:
+        return (
+          <StepLocation
+            title="De onde a caravana irá partir?"
+            subtitle="Endereço público da partida"
+            titleStep2="Confirme o endereço de partida"
+            subtitleStep2="O endereço da origem será compartilhado publicamente na página da caravana."
+            subStep={subStep3}
+            setSubStep={setSubStep3}
+            address={origin}
+            setAddress={setOrigin}
+            setCanProceed={setCanProceed}
+          />
+        )
+      case 4:
+        return (
+          <StepLocation
+            title="Qual o destino da caravana?"
+            subtitle="Endereço público do destino"
+            titleStep2="Confirme o endereço de destino"
+            subtitleStep2="O endereço do destino será compartilhado publicamente na página da caravana."
+            subStep={subStep4}
+            setSubStep={setSubStep4}
+            address={destination}
+            setAddress={setDestination}
+            setCanProceed={setCanProceed}
+          />
+        )
+      case 5:
+        return <Step5 setCanProceed={setCanProceed} />
+      case 6:
+        return <Step6 setCanProceed={setCanProceed} />
+      case 7:
+        return <Step7 setCanProceed={setCanProceed} />
+      case 8:
+        return <Step8 setCanProceed={setCanProceed} />
+      case 9:
+        return <Step9 setCanProceed={setCanProceed} />
+      case 10:
+        return <Step10 setCanProceed={setCanProceed} />
+      case 11:
+        return <Step11 setCanProceed={setCanProceed} />
+      case 12:
+        return <Step12 setCanProceed={setCanProceed} />
+      default:
+        return null
     }
   }
 

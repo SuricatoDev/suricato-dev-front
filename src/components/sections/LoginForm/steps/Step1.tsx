@@ -7,8 +7,6 @@ import InputPassword from '@/components/common/InputPassword'
 import { useRouter } from 'next/router'
 import { signIn } from 'next-auth/react'
 
-
-
 interface Step1Props {
   onNext: () => void
   onClose: () => void
@@ -153,7 +151,6 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
           {showPasswordField ? 'Entrar' : 'Continuar'}
         </Button>
       </S.MainContent>
-      {}
     </>
   )
 }

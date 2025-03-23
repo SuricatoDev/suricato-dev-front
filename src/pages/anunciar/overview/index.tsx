@@ -23,6 +23,24 @@ export default function Overview() {
     }, 500)
   }
 
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: 'easeOut' }
+    }
+  }
+
   return (
     <motion.div
       initial={{ opacity: 1 }}
@@ -35,50 +53,76 @@ export default function Overview() {
       <HeaderNav showDoubtsButton={false} />
 
       <S.Container>
-        <S.TitleContainer>
+        <S.TitleContainer
+          as={motion.div}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
           <S.Title>É muito fácil anunciar no Excursionistas</S.Title>
         </S.TitleContainer>
-        <S.InfoContainer>
-          <S.InfoItem>
-            <S.InfoNumber>1</S.InfoNumber>
-            <S.InfoText>
-              <S.InfoTitle>Descreva sua caravana</S.InfoTitle>
-              <S.InfoDescription>
-                Compartilhe algumas informações básicas, como a localização do
-                ponto de partida, o destino e quantos passageiros podem
-                participar.
-              </S.InfoDescription>
-            </S.InfoText>
-            <S.InfoIcon src={mapPinIcon.src} width={76} height={76} alt="" />
-          </S.InfoItem>
+        <S.InfoContainer
+          as={motion.div}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div variants={itemVariants}>
+            <S.InfoItem>
+              <S.InfoNumber>1</S.InfoNumber>
+              <S.InfoText>
+                <S.InfoTitle>Descreva sua caravana</S.InfoTitle>
+                <S.InfoDescription>
+                  Compartilhe algumas informações básicas, como a localização do
+                  ponto de partida, o destino e quantos passageiros podem
+                  participar.
+                </S.InfoDescription>
+              </S.InfoText>
+              <S.InfoIcon src={mapPinIcon.src} width={76} height={76} alt="" />
+            </S.InfoItem>
+          </motion.div>
 
-          <Divider $marginY={isMobile ? '40px' : '32px'} />
+          <motion.div
+            initial={{ opacity: 0, x: 500 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <Divider $marginY={isMobile ? '40px' : '32px'} />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <S.InfoItem>
+              <S.InfoNumber>2</S.InfoNumber>
+              <S.InfoText>
+                <S.InfoTitle>Faça com que se destaque</S.InfoTitle>
+                <S.InfoDescription>
+                  Adicione cinco fotos ou mais, além de um título e uma
+                  descrição. Nós ajudaremos você.
+                </S.InfoDescription>
+              </S.InfoText>
+              <S.InfoIcon src={pictureIcon.src} width={76} height={76} alt="" />
+            </S.InfoItem>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -500 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <Divider $marginY={isMobile ? '40px' : '32px'} />
+          </motion.div>
 
-          <S.InfoItem>
-            <S.InfoNumber>2</S.InfoNumber>
-            <S.InfoText>
-              <S.InfoTitle>Faça com que se destaque</S.InfoTitle>
-              <S.InfoDescription>
-                Adicione cinco fotos ou mais, além de um título e uma descrição.
-                Nós ajudaremos você.
-              </S.InfoDescription>
-            </S.InfoText>
-            <S.InfoIcon src={pictureIcon.src} width={76} height={76} alt="" />
-          </S.InfoItem>
-
-          <Divider $marginY={isMobile ? '40px' : '32px'} />
-
-          <S.InfoItem>
-            <S.InfoNumber>3</S.InfoNumber>
-            <S.InfoText>
-              <S.InfoTitle>Concluir e publicar</S.InfoTitle>
-              <S.InfoDescription>
-                Escolha um preço inicial, verifique algumas informações e
-                publique seu anúncio.
-              </S.InfoDescription>
-            </S.InfoText>
-            <S.InfoIcon src={likeIcon.src} width={120} height={120} alt="" />
-          </S.InfoItem>
+          <motion.div variants={itemVariants}>
+            <S.InfoItem>
+              <S.InfoNumber>3</S.InfoNumber>
+              <S.InfoText>
+                <S.InfoTitle>Concluir e publicar</S.InfoTitle>
+                <S.InfoDescription>
+                  Escolha um preço inicial, verifique algumas informações e
+                  publique seu anúncio.
+                </S.InfoDescription>
+              </S.InfoText>
+              <S.InfoIcon src={likeIcon.src} width={120} height={120} alt="" />
+            </S.InfoItem>
+          </motion.div>
         </S.InfoContainer>
       </S.Container>
 

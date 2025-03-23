@@ -22,7 +22,7 @@ export default function Step5({ setCanProceed }: Step5Props) {
   const adjustSeats = (delta: number) =>
     updateFormData(
       'availableSeats',
-      String(Math.max(1, Number(availableSeats || 1) + delta))
+      String(Math.max(1, Number(availableSeats || 0) + delta))
     )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -63,7 +63,7 @@ export default function Step5({ setCanProceed }: Step5Props) {
               <S.CounterInput
                 type="number"
                 name="availableSeats"
-                value={availableSeats || 1}
+                value={availableSeats || 0}
                 min={1}
                 onChange={handleChange}
               />

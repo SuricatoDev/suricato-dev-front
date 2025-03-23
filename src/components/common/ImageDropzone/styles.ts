@@ -7,7 +7,6 @@ export const DropzoneContainer = styled.div<{ isDragActive: boolean }>`
   border-radius: 8px;
   text-align: center;
   transition: border-color 0.3s ease;
-  cursor: pointer;
   width: 100%;
   aspect-ratio: 1/1;
 
@@ -36,17 +35,18 @@ export const UploadButton = styled.button`
 
 export const PreviewsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, 80px);
-  gap: 8px;
-  margin: 10px 0;
+  grid-template-columns: repeat(auto-fill, 100px);
+  gap: 16px;
+  padding: 10px;
   width: 100%;
   justify-content: center;
 `
 
 export const PreviewWrapper = styled.div`
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
+  cursor: auto;
 `
 
 export const PreviewImage = styled.img`

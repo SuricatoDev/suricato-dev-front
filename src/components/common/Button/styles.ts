@@ -1,3 +1,4 @@
+import { device } from '@/styles/breakpoints'
 import styled, { css, keyframes } from 'styled-components'
 
 export type ButtonVariantType = 'ghost' | 'outlined' | 'contained' | 'danger'
@@ -84,9 +85,10 @@ const ButtonGhost = css<ButtonProps>`
   color: ${({ theme }) => theme.colors.text_medium};
   border: 1px solid transparent;
   transition: background-color ${({ theme }) => theme.common.transition.default};
-
-  &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.colors.text_light};
+  @media (${device.md}) {
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => theme.colors.text_light};
+    }
   }
 `
 
@@ -95,9 +97,10 @@ const ButtonOutlined = css<ButtonProps>`
   color: ${({ theme }) => theme.colors.text_standard};
   border: 1px solid ${({ theme }) => theme.colors.text_standard};
   transition: background-color ${({ theme }) => theme.common.transition.default};
-
-  &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.colors.base_dark8};
+  @media (${device.md}) {
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => theme.colors.base_dark8};
+    }
   }
 `
 
@@ -108,10 +111,11 @@ const ButtonContained = css<ButtonProps>`
   transition:
     background-color ${({ theme }) => theme.common.transition.default},
     border ${({ theme }) => theme.common.transition.default};
-
-  &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.colors.primary_light};
-    border: 1px solid ${({ theme }) => theme.colors.primary_light};
+  @media (${device.md}) {
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => theme.colors.primary_light};
+      border: 1px solid ${({ theme }) => theme.colors.primary_light};
+    }
   }
 `
 
@@ -120,9 +124,10 @@ const ButtonDanger = css<ButtonProps>`
   background-color: ${({ theme }) => theme.colors.alert_error};
   border: 1px solid ${({ theme }) => theme.colors.alert_error};
   transition: opacity ${({ theme }) => theme.common.transition.default};
-
-  &:hover:not(:disabled) {
-    opacity: 0.8;
+  @media (${device.md}) {
+    &:hover:not(:disabled) {
+      opacity: 0.8;
+    }
   }
 `
 

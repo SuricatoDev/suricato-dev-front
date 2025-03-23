@@ -1,0 +1,135 @@
+import { device } from '@/styles/breakpoints'
+import styled from 'styled-components'
+
+export const Grid = styled.div`
+  display: grid;
+  gap: 16px;
+  width: 100%;
+
+  grid-template-columns: repeat(1, 1fr);
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`
+
+export const ImageWrapper = styled.div<{ isCover?: boolean }>`
+  position: relative;
+  width: 100%;
+  border: 2px dashed transparent;
+  background-color: #f8f8f8;
+  overflow: hidden;
+  transition:
+    border 0.2s ease,
+    background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.text_foggy};
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+
+  svg {
+    transition: color 0.2s ease;
+  }
+`
+
+export const MenuButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-clip: padding-box;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  cursor: pointer;
+`
+
+export const MenuList = styled.ul`
+  position: absolute;
+  top: 40px;
+  right: 8px;
+  background: ${({ theme }) => theme.colors.background_standard};
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 0;
+  list-style: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+`
+
+export const MenuItem = styled.li`
+  padding: 8px 12px;
+  cursor: pointer;
+  &:hover {
+    background: #f5f5f5;
+  }
+`
+
+export const OverlayImage = styled(ImageWrapper)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.9;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  z-index: 9999;
+`
+export const CoverTag = styled.div`
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: ${({ theme }) => theme.colors.background_standard};
+  color: ${({ theme }) => theme.colors.text_standard};
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  font-size: 0.875rem;
+  font-weight: bold;
+  height: 32px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+`
+
+export const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
+export const Title = styled.h1`
+  color: ${({ theme }) => theme.colors.text_standard};
+  font-size: 1.625rem;
+  font-weight: 500;
+
+  @media (${device.md}) {
+    font-size: 2rem;
+  }
+`
+
+export const Description = styled.p`
+  ${({ theme }) => theme.colors.text_standard};
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.text_medium};
+  line-height: 1.3;
+`
+
+export const Container = styled.div`
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0 1.5rem 1.5rem;
+`
