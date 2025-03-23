@@ -24,7 +24,7 @@ export default function MobileFooter() {
   }, [router.pathname, navItems])
 
   return (
-    <S.FooterWrapper $isScrollingDown={scrollingDown}>
+    <S.FooterWrapper className="main-footer" $isScrollingDown={scrollingDown}>
       <S.Nav>
         {navItems.map(({ id, label, icon: Icon, href }) => {
           const isActive = id === activeItem

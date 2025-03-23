@@ -90,5 +90,17 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
 `

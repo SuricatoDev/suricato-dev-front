@@ -6,7 +6,7 @@ export default function Footer() {
   const currentYear = getYear().toString()
 
   return (
-    <S.Wrapper id="footer">
+    <S.Wrapper className="main-footer" id="footer">
       <div className="container">
         <S.Content>
           <S.Items>

@@ -26,7 +26,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/@types"
+    "src/@types",
+    "src/components/sections/HeaderNav"
   ],
   "exclude": ["node_modules"],
   "files": ["src/styles/styled.d.ts"]

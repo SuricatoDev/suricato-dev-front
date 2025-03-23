@@ -6,6 +6,7 @@ import MobileFooter from '@/components/sections/MobileFooter'
 import Layout from '@/containers/Layout'
 import { ToastContainer } from 'react-toastify'
 import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
+import { useRouter } from 'next/router'
 
 export const inter = Inter({
   weight: ['400', '500', '600', '700'],
@@ -28,6 +29,8 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps }
 }: AppProps) {
+  const router = useRouter()
+  const hideMobileFooter = router.pathname.startsWith('/anunciar')
   return (
     <AccessibilityContextProvider>
       <SessionProvider session={session}>
@@ -36,7 +39,7 @@ export default function App({
             <Component {...pageProps} />
             <PWAInstallPrompt />
             <ToastContainer position="bottom-center" autoClose={5000} />
-            <MobileFooter />
+            {!hideMobileFooter && <MobileFooter />}
           </div>
         </Layout>
       </SessionProvider>
