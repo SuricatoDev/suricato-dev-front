@@ -54,5 +54,5 @@ const nextConfig = {
 export default withPWA({
   dest: 'public',
   runtimeCaching,
-  disable: true
+  disable: process.env.NODE_ENV === 'development'
 })(nextConfig)
