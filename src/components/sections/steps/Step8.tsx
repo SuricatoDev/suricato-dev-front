@@ -223,7 +223,6 @@ export default function Step8({
             {idx === 0 && <S.CoverTag>Foto de capa</S.CoverTag>}
             {isMobile && openMenuId === img.id && (
               <S.MenuList>
-                <S.MenuItem onClick={() => alert('Editar')}>Editar</S.MenuItem>
                 {idx > 0 && (
                   <S.MenuItem onClick={() => reorder(idx, idx - 1)}>
                     Mover para trás

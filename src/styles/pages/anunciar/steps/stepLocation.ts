@@ -23,7 +23,7 @@ export const MapWrapper = styled.div<{ borderRadius?: boolean }>`
   width: 100%;
   height: 100%;
   border-radius: ${({ borderRadius }) => (borderRadius ? '12px' : '0')};
-  filter: brightness(0.8);
+  filter: brightness(0.9);
   overflow: hidden;
 
   iframe {

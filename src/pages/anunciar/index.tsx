@@ -162,15 +162,16 @@ export default function CreateAd() {
       <HeaderNav />
       <Container>
         <AnimatePresence mode="wait">
-          <motion.div
+          <motion.span
             key={step}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
+            style={{ height: 'auto' }}
           >
             {renderStep()}
-          </motion.div>
+          </motion.span>
         </AnimatePresence>
       </Container>
       <FooterNav

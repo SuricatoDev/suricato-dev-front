@@ -35,17 +35,16 @@ export const UploadButton = styled.button`
 
 export const PreviewsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, 100px);
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 16px;
   padding: 10px;
   width: 100%;
-  justify-content: center;
 `
 
 export const PreviewWrapper = styled.div`
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  aspect-ratio: 1;
   cursor: auto;
 `
 
@@ -56,7 +55,6 @@ export const PreviewImage = styled.img`
   border-radius: 8px;
   border: 1px solid #ddd;
 `
-
 export const RemoveButton = styled.button`
   position: absolute;
   top: -8px;
