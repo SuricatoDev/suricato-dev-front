@@ -87,10 +87,16 @@ export const DateTimeInput = styled.input.attrs({ type: 'datetime-local' })`
   padding: 4px;
   width: 180px;
   color: ${({ theme }) => theme.colors.text_medium};
+  background-color: transparent;
 
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.text_standard};
+  }
+
+  &::-webkit-datetime-edit {
+    background-color: transparent;
+    color: ${({ theme }) => theme.colors.text_medium};
   }
 `
 

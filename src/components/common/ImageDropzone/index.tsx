@@ -31,14 +31,18 @@ export function ImageDropzone({
         file,
         previewUrl: URL.createObjectURL(file)
       }))
-      const newImages = [...images, ...newFiles]
-      setImages(newImages)
-      if (onFilesChange) {
-        onFilesChange(newFiles.map(({ file }) => file))
-      }
+
+      setImages((prev) => {
+        const merged = [...prev, ...newFiles]
+        if (onFilesChange) {
+          onFilesChange(merged.map(({ file }) => file))
+        }
+        return merged
+      })
+
       setInputKey((prev) => prev + 1)
     },
-    [images, onFilesChange]
+    [onFilesChange]
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
