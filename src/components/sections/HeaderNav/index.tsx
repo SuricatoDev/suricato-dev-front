@@ -12,7 +12,7 @@ export default function HeaderNav({ showDoubtsButton = true }: HeaderNavProps) {
   const router = useRouter()
 
   const handleExit = () => {
-    router.push('/')
+    router.back()
   }
 
   const handleHelp = () => {

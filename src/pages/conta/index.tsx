@@ -138,15 +138,34 @@ export default function ProfileEditPage() {
     }
   }
 
-  const handleSaveProfilePic = (croppedImage: string) => {
-    setProfilePic(croppedImage)
+  const handleSaveProfilePic = async (croppedFile: File) => {
+    setProfilePic(URL.createObjectURL(croppedFile))
+    const formData = new FormData()
+
+    formData.append('foto_perfil', croppedFile)
+
+    try {
+      await axios.put('/api/usuarios/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      })
+      toast.success('Foto de perfil atualizada com sucesso!')
+    } catch (error) {
+      toast.error('Erro ao atualizar a foto de perfil.')
+    }
+
     setShowModal(false)
-    toast.success('Foto de perfil atualizada com sucesso!')
+    setSelectedImage(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
   }
 
   const handleCancel = () => {
     setShowModal(false)
     setSelectedImage(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
     setEditingField(null)
   }
 
@@ -159,7 +178,13 @@ export default function ProfileEditPage() {
   }
 
   async function saveField(
-    field: 'name' | 'address' | 'phone' | 'emergencyPhone' | 'password',
+    field:
+      | 'name'
+      | 'address'
+      | 'phone'
+      | 'emergencyPhone'
+      | 'password'
+      | 'profilePic',
     value: UpdateFieldValue
   ) {
     let payload: Record<string, unknown> = {}
@@ -188,9 +213,10 @@ export default function ProfileEditPage() {
         payload = { password: value }
         break
       case 'emergencyPhone':
-        payload = {
-          contato_emergencia: normalizeInput(value as string)
-        }
+        payload = { contato_emergencia: normalizeInput(value as string) }
+        break
+      case 'profilePic':
+        payload = { foto_perfil: value }
         break
       default:
         return

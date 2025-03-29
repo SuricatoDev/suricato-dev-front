@@ -17,10 +17,7 @@ async function createImage(url: string): Promise<HTMLImageElement> {
   })
 }
 
-async function getCroppedImg(
-  imageSrc: string,
-  pixelCrop: Area
-): Promise<string> {
+async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<File> {
   const image = await createImage(imageSrc)
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
@@ -41,12 +38,14 @@ async function getCroppedImg(
     pixelCrop.height
   )
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
-      if (blob) {
-        const fileUrl = URL.createObjectURL(blob)
-        resolve(fileUrl)
+      if (!blob) {
+        return reject(new Error('Canvas está vazio'))
       }
+
+      const file = new File([blob], 'cropped.jpeg', { type: 'image/jpeg' })
+      resolve(file)
     }, 'image/jpeg')
   })
 }
@@ -55,7 +54,7 @@ export type ChangeProfilePicModalProps = {
   $isOpen: boolean
   imageSrc: string | null
   onClose: () => void
-  onSave: (croppedImage: string, isTemporary: boolean) => void
+  onSave: (croppedImage: File, isTemporary: boolean) => void
 }
 
 export default function ChangeProfilePicModal({

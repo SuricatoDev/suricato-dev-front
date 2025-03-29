@@ -40,7 +40,7 @@ const FooterNav: React.FC<FooterNavProps> = ({
       </S.ProgressBarContainer>
 
       <S.FooterNavContainer>
-        <S.Back onClick={onBack} disabled={step <= 1}>
+        <S.Back hide={step <= 1} onClick={onBack} disabled={step <= 1}>
           Voltar
         </S.Back>
         <Button onClick={onNext} disabled={!canProceed}>

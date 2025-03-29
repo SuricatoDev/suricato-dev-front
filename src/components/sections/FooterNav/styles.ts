@@ -19,7 +19,8 @@ export const FooterNavContainer = styled.div`
   z-index: 9999;
 `
 
-export const Back = styled.button`
+export const Back = styled.button<{ hide?: boolean }>`
+  opacity: ${({ hide }) => (hide ? 0 : 1)};
   border-radius: 8px;
   border-width: 1px;
   border-style: solid;

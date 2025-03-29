@@ -34,6 +34,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .container {
+    position: relative;
     max-width: 1440px;
     padding: 0;
     margin: 0 auto;

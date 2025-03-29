@@ -53,6 +53,14 @@ const nextConfig = {
 
 export default withPWA({
   dest: 'public',
-  runtimeCaching: [],
+  runtimeCaching: [
+    {
+      urlPattern: /^https:\/\/(.*)\/api\//,
+      handler: 'NetworkOnly',
+      options: {
+        cacheName: 'no-cache-api'
+      }
+    }
+  ],
   disable: process.env.NODE_ENV === 'development'
 })(nextConfig)

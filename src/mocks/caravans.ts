@@ -1,13 +1,13 @@
 const getImages = () => {
   return [
-    `https://picsum.photos/1920/1080`, 
-    `https://picsum.photos/1600/900`, 
-    `https://picsum.photos/1366/768`, 
-    `https://picsum.photos/1280/720`, 
-    `https://picsum.photos/1080/1920`, 
-    `https://picsum.photos/750/1334`, 
-    `https://picsum.photos/414/896`, 
-    `https://picsum.photos/360/640` 
+    `https://picsum.photos/1920/1080`,
+    `https://picsum.photos/1600/900`,
+    `https://picsum.photos/1366/768`,
+    `https://picsum.photos/1280/720`,
+    `https://picsum.photos/1080/1920`,
+    `https://picsum.photos/750/1334`,
+    `https://picsum.photos/414/896`,
+    `https://picsum.photos/360/640`
   ]
 }
 
@@ -17,7 +17,7 @@ export const caravansMock = [
   {
     id: '1',
     eventName: 'Orquestra Sinfônica - Alumni',
-    category: 'shows',
+    category: 'show',
     organizerId: '1',
     organizerImage: 'https://picsum.photos/360/360',
     organizerName: 'João Silva',
@@ -39,7 +39,7 @@ export const caravansMock = [
   {
     id: '2',
     eventName: 'Circo Stankowich',
-    category: 'shows',
+    category: 'show',
     organizerId: '1',
     organizerName: 'Maria Oliveira',
     organizerImage: 'https://picsum.photos/360/360',
@@ -61,7 +61,7 @@ export const caravansMock = [
   {
     id: '3',
     eventName: 'Circo Stankowich',
-    category: 'shows',
+    category: 'show',
     organizerId: '1',
     organizerName: 'Maria Oliveira',
     organizerImage: 'https://picsum.photos/360/360',
@@ -83,7 +83,7 @@ export const caravansMock = [
   {
     id: '4',
     eventName: 'Circo Stankowich',
-    category: 'shows',
+    category: 'show',
     organizerId: '1',
     organizerName: 'Maria Oliveira',
     organizerImage: 'https://picsum.photos/360/360',
