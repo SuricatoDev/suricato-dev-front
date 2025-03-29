@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
         const { user, access_token, token_type, passageiro, organizador } =
           login
 
-        // Retorne os dados do usuário, garantindo que o ID seja string
+        
         return {
           ...user,
           id: user.id.toString(),
@@ -52,13 +52,13 @@ export const authOptions: NextAuthOptions = {
     })
   ],
 
-  // Estratégia de sessão e JWT com duração de 30 dias
+  
   session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 },
   jwt: { maxAge: 30 * 24 * 60 * 60 },
 
   callbacks: {
     async jwt({ token, user, trigger }) {
-      // Se o token for atualizado (por exemplo, ao atualizar a sessão), busque os dados atualizados
+      
       if (trigger === 'update') {
         try {
           const response = await axios.get(`${baseUrl}/user-data/${token.id}`, {
@@ -80,7 +80,7 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
-      // Na primeira autenticação, se houver um usuário retornado, mescle os dados no token
+      
       if (user) {
         return { ...token, ...user }
       }
@@ -89,7 +89,7 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      // Atualiza a sessão com as informações do token.
+      
       session.user = {
         ...(session.user as UserWithToken),
         ...token
