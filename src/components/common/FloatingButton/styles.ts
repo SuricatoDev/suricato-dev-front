@@ -13,11 +13,11 @@ const pulse = keyframes`
   }
 `
 
-export const FloatingButton = styled.button`
+export const FloatingButton = styled.button<{ footerVisible: boolean }>`
   position: fixed;
-  bottom: 80px;
+  bottom: ${({ footerVisible }) => (footerVisible ? '80px' : '20px')};
   right: 1rem;
-  background-color: ${({ theme }) => theme.colors.primary_medium};
+  background-color: ${({ theme }) => theme.colors.primary_standard};
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -32,11 +32,14 @@ export const FloatingButton = styled.button`
   z-index: 99999;
   animation: ${pulse} 2s infinite;
 
+  transition: bottom ${({ theme }) => theme.common.transition.fast};
+
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary_standard};
   }
 
   @media (${device.md}) {
     right: 40px;
+    bottom: 80px;
   }
 `

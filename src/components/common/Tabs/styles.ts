@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const TabsWrapper = styled.div`
   border-bottom: 1px solid #ccc;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `
 
 export const TabsList = styled.ul`
@@ -33,6 +33,8 @@ export const TabItem = styled.li<TabItemProps>`
       : active
         ? theme.colors.primary_medium
         : theme.colors.text_foggy};
+
+  user-select: none;
 
   &::after {
     content: '';

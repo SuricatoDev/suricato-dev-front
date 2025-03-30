@@ -34,6 +34,7 @@ import { categories } from '@/constants/categories'
 import PassengerForm from '@/components/sections/PassengersForm'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import MobileHeader from '@/components/sections/MobileHeader'
 
 interface Caravan {
   id: string
@@ -137,9 +138,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
       <Header $variant="simple" />
       <S.Main>
         <div className="container">
-          <S.HeaderMobile onClick={() => router.back()}>
-            <CaretLeft size={32} />
-          </S.HeaderMobile>
+          <MobileHeader />
           <S.Container>
             <S.ContentWrapper>
               <S.Content>
@@ -314,11 +313,6 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                       Ver mais dicas
                     </button>
                   </S.Hint>
-
-                  <S.ReportLink href="#">
-                    <Flag size={24} weight="bold" />
-                    Denunciar essa caravana
-                  </S.ReportLink>
                 </S.Sidebar>
               </S.SpacingMobile>
             </S.ContentWrapper>

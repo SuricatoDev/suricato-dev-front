@@ -36,6 +36,7 @@ import { validateFullName, validatePhone } from '@/validation/validations'
 
 import * as S from '@/styles/pages/conta'
 import useMediaQuery from '@/hooks/useMediaQuery'
+import MobileHeader from '@/components/sections/MobileHeader'
 
 interface AddressPayload {
   street: string
@@ -95,6 +96,7 @@ export default function ProfileEditPage() {
   const [profilePic, setProfilePic] = useState<string | null>(
     userData?.foto_perfil || null
   )
+  const [profilePicLoad, setProfilePicLoad] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
@@ -348,20 +350,19 @@ export default function ProfileEditPage() {
         <Header $variant="simple" />
         <S.Main>
           <div className="container">
-            <S.HeaderMobile onClick={() => router.back()}>
-              <CaretLeft size={32} />
-            </S.HeaderMobile>
+            <MobileHeader>Meu perfil</MobileHeader>
 
             <S.ProfileHeader>
               <S.ProfilePicWrapper onClick={handleFileClick}>
                 <S.ProfilePicContainer>
-                  {profilePic ? (
+                  {profilePic && profilePicLoad ? (
                     <S.ProfilePic>
                       <Image
                         src={profilePic}
                         alt="Foto de perfil"
                         layout="fill"
                         objectFit="cover"
+                        onError={() => setProfilePicLoad(false)}
                       />
                     </S.ProfilePic>
                   ) : (

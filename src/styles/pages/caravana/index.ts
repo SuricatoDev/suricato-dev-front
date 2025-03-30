@@ -404,23 +404,6 @@ export const Subtitle = styled.h2`
   color: ${({ theme }) => theme.colors.text_standard};
 `
 
-export const HeaderMobile = styled.div`
-  position: sticky;
-  top: 0;
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  width: 100%;
-  z-index: 999;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
-  background-color: ${({ theme }) => theme.colors.background_standard};
-  color: ${({ theme }) => theme.colors.text_standard};
-
-  @media (${device.md}) {
-    display: none;
-  }
-`
-
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;

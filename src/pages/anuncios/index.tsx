@@ -1,49 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Header from '@/components/sections/Header'
 import Footer from '@/components/sections/Footer'
 import Button from '@/components/common/Button'
 import * as S from '@/styles/pages/anuncios'
-import { format } from 'date-fns'
 import Tabs, { TabKey } from '@/components/common/Tabs'
 import FloatingActionButton from '@/components/common/FloatingButton'
-
-import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
-import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
-import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
-import { MoneyWavy } from '@phosphor-icons/react/dist/ssr/MoneyWavy'
-import { ArrowsLeftRight } from '@phosphor-icons/react/dist/ssr/ArrowsLeftRight'
-import { DotsThree } from '@phosphor-icons/react/dist/ssr/DotsThree'
-import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
-import { useRouter } from 'next/router'
+import MobileHeader from '@/components/sections/MobileHeader'
+import { useFooterVisibility } from '@/hooks/useFooterVisibility'
 import Portal from '@/components/common/Portal'
 import Modal from '@/components/common/Modal'
-
-interface Caravan {
-  id: string
-  titulo: string
-  descricao: string
-  categoria: string
-  data_partida: string
-  data_retorno: string
-  endereco_origem: string
-  numero_origem: string
-  bairro_origem: string
-  cep_origem: string
-  cidade_origem: string
-  estado_origem: string
-  endereco_destino: string
-  numero_destino: string
-  bairro_destino: string
-  cep_destino: string
-  cidade_destino: string
-  estado_destino: string
-  numero_vagas: number
-  valor: number
-  organizador_id: number
-  imagens: {
-    path: string
-  }[]
-}
+import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
+import ProductCardEdit, { Caravan } from '@/components/sections/ProductCardEdit'
 
 const baseCaravan: Caravan = {
   id: '1',
@@ -74,9 +42,15 @@ const baseCaravan: Caravan = {
   numero_vagas: 50,
   valor: 250,
   organizador_id: 1,
-  imagens: [{ path: 'https://picsum.photos/1920/1081' }]
+  imagens: [
+    { path: 'https://picsum.photos/1920/1081' },
+    { path: 'https://picsum.photos/1920/1082' },
+    { path: 'https://picsum.photos/1920/1083' },
+    { path: 'https://picsum.photos/1920/1084' },
+    { path: 'https://picsum.photos/1920/1085' },
+    { path: 'https://picsum.photos/1920/1086' }
+  ]
 }
-
 
 function generateMockCaravans(count: number): Caravan[] {
   const baseNumber = 1080
@@ -85,11 +59,17 @@ function generateMockCaravans(count: number): Caravan[] {
     return {
       ...baseCaravan,
       id: String(id),
-      imagens: [{ path: `https://picsum.photos/1920/${baseNumber + id}` }]
+      imagens: [
+        { path: `https://picsum.photos/1920/${baseNumber + id}` },
+        { path: `https://picsum.photos/1921/${baseNumber + id + 1}` },
+        { path: `https://picsum.photos/1922/${baseNumber + id + 2}` },
+        { path: `https://picsum.photos/1923/${baseNumber + id + 3}` },
+        { path: `https://picsum.photos/1924/${baseNumber + id + 4}` },
+        { path: `https://picsum.photos/1925/${baseNumber + id + 5}` }
+      ]
     }
   })
 }
-
 
 const mockedCaravans = generateMockCaravans(20)
 
@@ -98,8 +78,10 @@ export default function CaravanasManagementPage() {
   const [caravans, setCaravans] = useState<Caravan[]>(mockedCaravans)
   const [activeTab, setActiveTab] = useState<TabKey>('upcoming')
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
-  
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const footerVisible = useFooterVisibility('mobile-footer', { threshold: 0.1 })
 
   const today = new Date()
   const upcomingCaravans = caravans.filter(
@@ -120,129 +102,70 @@ export default function CaravanasManagementPage() {
     if (caravans.length === 0) {
       return router.push('/anunciar/overview')
     }
-
     return router.push('/anunciar/')
   }
 
+  const handleToggleMenu = (id: string) => {
+    setOpenMenuId(openMenuId === id ? null : id)
+  }
+
+  const handleEdit = (id: string) => {
+    setOpenMenuId(null)
+
+    router.push(`/anunciar/editar/${id}`)
+  }
+
+  const handleDelete = (id: string) => {
+    setOpenMenuId(null)
+    setConfirmDelete(id)
+  }
+
   const handleConfirmDelete = (id: string) => {
-    
     setCaravans((prev) => prev.filter((c) => c.id !== id))
     setConfirmDelete(null)
   }
+
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCaravans(mockedCaravans)
+      setIsLoading(false)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <>
       <S.Wrapper>
         <Header $variant="simple" />
-        <FloatingActionButton onClick={handleFloatingButtonClick} />
+        <MobileHeader>Meus anúncios</MobileHeader>
+        <FloatingActionButton
+          onClick={handleFloatingButtonClick}
+          footerVisible={footerVisible}
+        />
         <S.Main>
           <div className="container">
-            <S.SpacingMobile>
-              <S.Title>Meus anúncios</S.Title>
-            </S.SpacingMobile>
-
+            <S.Title>Meus anúncios</S.Title>
             <Tabs
               activeTab={activeTab}
               onChange={handleTabChange}
               disablePrevious={previousCaravans.length === 0}
             />
-
             <S.SpacingMobile>
               {caravansToShow.length > 0 ? (
                 <S.CaravanGrid>
-                  {caravansToShow.map((caravan) => (
-                    <S.Card key={caravan.id}>
-                      <S.CardHeader>
-                        <S.CardImage bg={caravan.imagens[0].path} />
-                        <S.CardCategory>{caravan.categoria}</S.CardCategory>
-                      </S.CardHeader>
-
-                      <S.CardBody>
-                        <S.CardTitle>{caravan.titulo}</S.CardTitle>
-                        <S.Description>
-                          <span>
-                            <b>Descrição:</b>{' '}
-                            {caravan.descricao.length > 80
-                              ? `${caravan.descricao.substring(0, 80)}...`
-                              : caravan.descricao}
-                          </span>
-                        </S.Description>
-                        <S.CardSubInfo>
-                          <S.SubInfoItem>
-                            <MapPin size={16} weight="bold" /> <b>Endereço:</b>{' '}
-                            {caravan.cidade_origem}/{caravan.estado_origem}{' '}
-                            <ArrowsLeftRight size={16} />
-                            {caravan.cidade_destino}/{caravan.estado_destino}
-                          </S.SubInfoItem>
-                          <S.SubInfoItem>
-                            <CalendarBlank size={16} weight="bold" />{' '}
-                            <b>Data</b>{' '}
-                            <span>
-                              {format(
-                                new Date(caravan.data_partida),
-                                'dd/MM/yyyy'
-                              )}{' '}
-                              -{' '}
-                              {format(
-                                new Date(caravan.data_retorno),
-                                'dd/MM/yyyy'
-                              )}
-                            </span>
-                          </S.SubInfoItem>
-
-                          <S.SubInfoItem>
-                            <MoneyWavy size={16} fill="bold" /> <b>Preço:</b>{' '}
-                            {caravan.valor.toLocaleString('pt-BR', {
-                              style: 'currency',
-                              currency: 'BRL'
-                            })}
-                          </S.SubInfoItem>
-                          <S.SubInfoItem>
-                            <Ticket fill="bold" size={16} /> <b>Reservas:</b>
-                            10 / 50
-                          </S.SubInfoItem>
-                        </S.CardSubInfo>
-                      </S.CardBody>
-
-                      <S.MenuWrapper>
-                        <S.MenuToggle
-                          onClick={() =>
-                            setOpenMenuId(
-                              openMenuId === caravan.id ? null : caravan.id
-                            )
-                          }
-                        >
-                          <DotsThree size={20} weight="bold" />
-                        </S.MenuToggle>
-                        {openMenuId === caravan.id && (
-                          <S.MenuList>
-                            <S.MenuItem
-                              onClick={() => {
-                                setOpenMenuId(null)
-                                
-                              }}
-                            >
-                              Editar
-                            </S.MenuItem>
-                            <S.MenuItem
-                              onClick={() => {
-                                setOpenMenuId(null)
-                                
-                                setConfirmDelete(caravan.id)
-                              }}
-                            >
-                              Excluir
-                            </S.MenuItem>
-                          </S.MenuList>
-                        )}
-                      </S.MenuWrapper>
-
-                      {activeTab === 'upcoming' && (
-                        <S.CardFooter>
-                          <Button fullWidth>Ver reservas</Button>
-                        </S.CardFooter>
-                      )}
-                    </S.Card>
+                  {caravansToShow.map((caravan, index) => (
+                    <ProductCardEdit
+                      key={caravan.id}
+                      caravan={caravan}
+                      activeTab={activeTab}
+                      isOpenMenu={openMenuId === caravan.id}
+                      onToggleMenu={handleToggleMenu}
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                      priority={index === 0}
+                      isLoading={isLoading}
+                    />
                   ))}
                 </S.CaravanGrid>
               ) : (
@@ -256,41 +179,38 @@ export default function CaravanasManagementPage() {
         </S.Main>
         <Footer />
       </S.Wrapper>
-
-      {
-        <Portal>
-          <Modal
-            $isOpen={!!confirmDelete}
-            onClose={() => setConfirmDelete(null)}
-            closeButton={false}
-          >
-            <S.ModalContent>
-              <h3>Confirmação</h3>
-              <p>Deseja realmente excluir esta caravana?</p>
-              <S.ModalButtons>
-                <Button
-                  variant="outlined"
-                  fullWidth
-                  onClick={() => setConfirmDelete(null)}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  fullWidth
-                  variant="danger"
-                  onClick={() => {
-                    if (confirmDelete) {
-                      handleConfirmDelete(confirmDelete)
-                    }
-                  }}
-                >
-                  Confirmar
-                </Button>
-              </S.ModalButtons>
-            </S.ModalContent>
-          </Modal>
-        </Portal>
-      }
+      <Portal>
+        <Modal
+          $isOpen={!!confirmDelete}
+          onClose={() => setConfirmDelete(null)}
+          closeButton={false}
+        >
+          <S.ModalContent>
+            <h3>Confirmação</h3>
+            <p>Deseja realmente excluir esta caravana?</p>
+            <S.ModalButtons>
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => setConfirmDelete(null)}
+              >
+                Cancelar
+              </Button>
+              <Button
+                fullWidth
+                variant="danger"
+                onClick={() => {
+                  if (confirmDelete) {
+                    handleConfirmDelete(confirmDelete)
+                  }
+                }}
+              >
+                Confirmar
+              </Button>
+            </S.ModalButtons>
+          </S.ModalContent>
+        </Modal>
+      </Portal>
     </>
   )
 }

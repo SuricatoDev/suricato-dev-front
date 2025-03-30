@@ -1,54 +1,5 @@
-import styled from 'styled-components'
 import { device } from '@/styles/breakpoints'
-
-export const Wrapper = styled.div`
-  background-color: ${({ theme }) => theme.colors.background_standard};
-`
-
-export const Main = styled.main`
-  padding-bottom: calc(64px + 1rem);
-  padding-top: 2rem;
-  @media (${device.md}) {
-    padding: 100px 0 calc(53px + 2rem) 0;
-  }
-`
-export const SpacingMobile = styled.div`
-  padding: 0 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  @media (${device.md}) {
-    padding: 0;
-  }
-`
-export const Title = styled.h1`
-  display: none;
-  font-size: 1.5rem;
-  color: ${({ theme }) => theme.colors.text_standard};
-  padding: 2rem 0;
-
-  @media (${device.md}) {
-    font-size: 2rem;
-    display: flex;
-  }
-`
-
-export const TopActions = styled.div`
-  margin: 1rem 0;
-`
-
-export const CaravanGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-
-  @media (${device.md}) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (${device.lg}) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-`
+import styled from 'styled-components'
 
 export const Card = styled.div`
   position: relative;
@@ -71,7 +22,7 @@ export const CardHeader = styled.div`
 
 export const CardImage = styled.div<{ bg: string }>`
   width: 100%;
-  height: 160px;
+  height: 200px;
   background-image: url(${(props) => props.bg});
   background-size: cover;
   background-position: center;
@@ -91,12 +42,14 @@ export const CardCategory = styled.span`
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background-color: #ff6600;
+  background-color: ${({ theme }) => theme.colors.primary_medium};
   color: #fff;
   font-size: 0.75rem;
   padding: 4px 8px;
   border-radius: 4px;
   text-transform: uppercase;
+  z-index: 1;
+  font-weight: 500;
 `
 
 export const CardBody = styled.div`
@@ -105,6 +58,7 @@ export const CardBody = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   flex: 1;
+  z-index: 0;
 `
 
 export const CardTitle = styled.h2`
@@ -127,6 +81,7 @@ export const SubInfoItem = styled.div`
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  flex-wrap: wrap;
 `
 
 export const CardFooter = styled.div`
@@ -144,6 +99,7 @@ export const MenuWrapper = styled.div`
   right: 8px;
   background-color: #fff;
   border-radius: 50%;
+  z-index: 2;
 `
 
 export const MenuToggle = styled.button`
@@ -187,42 +143,89 @@ export const Description = styled.p`
   padding-bottom: 0.75rem;
 `
 
-export const Fallback = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  text-align: center;
-  gap: 0.5rem;
-  color: ${({ theme }) => theme.colors.text_medium};
-  font-weight: 500;
-  font-size: ${({ theme }) => theme.common.font.sizes.body.large};
-`
+export const ImageContainer = styled.div`
+  --swiper-pagination-color: ${({ theme }) => theme.colors.text_ultralight};
+  --swiper-pagination-bullet-inactive-color: ${({ theme }) =>
+    theme.colors.base_dark32};
+  --swiper-pagination-bullet-inactive-opacity: 1;
 
-export const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  height: 200px;
+
+  .hide {
+    opacity: 0;
+  }
+
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(
+        to bottom right,
+        transparent,
+        rgba(0, 0, 0, 0.7)
+      );
+      z-index: 1;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity ${({ theme }) => theme.common.transition.slow};
+    }
+  }
 `
 
-export const ModalContent = styled.div`
-  background: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  text-align: center;
+export const NavDefault = styled.button`
+  @media (${device.md}) {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: ${({ theme }) => theme.colors.base_light};
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    user-select: none;
+    transition: transform ${({ theme }) => theme.common.transition.fast};
+    border: 0.5px solid rgb(0 0 0 / 0.3);
+
+    &::after {
+      font-size: 1rem;
+      font-weight: bold;
+      color: ${({ theme }) => theme.colors.text_standard};
+    }
+
+    &:hover {
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    }
+  }
+  display: none;
 `
 
-export const ModalButtons = styled.div`
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+export const NavPrev = styled(NavDefault)`
+  transition: opacity ${({ theme }) => theme.common.transition.default};
+  left: 0.5rem;
+  z-index: 2;
+`
+
+export const NavNext = styled(NavDefault)`
+  transition: opacity ${({ theme }) => theme.common.transition.default};
+  right: 0.5rem;
+  z-index: 2;
 `

@@ -1,19 +1,18 @@
 import React from 'react'
 import * as S from './styles'
-import { useRouter } from 'next/router'
 import { Plus } from '@phosphor-icons/react/dist/ssr/Plus'
 
 interface FloatingActionButtonProps {
   onClick: () => void
+  footerVisible: boolean
 }
 
 export default function FloatingActionButton({
-  onClick
+  onClick,
+  footerVisible
 }: FloatingActionButtonProps) {
-  const router = useRouter()
-
   return (
-    <S.FloatingButton onClick={onClick}>
+    <S.FloatingButton onClick={onClick} footerVisible={footerVisible}>
       <Plus size={28} weight="bold" />
     </S.FloatingButton>
   )

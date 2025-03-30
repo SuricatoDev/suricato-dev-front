@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 
@@ -9,13 +9,16 @@ import { MobileFooterNavigation } from './navigation'
 export default function MobileFooter() {
   const { data: session } = useSession()
   const isLogged = !!session
-  const { explorar, viagens, entrar, perfil } = MobileFooterNavigation
+  const { explorar, caravanas, entrar, perfil, anunciar } =
+    MobileFooterNavigation
 
   const router = useRouter()
   const scrollingDown = useScrollDown()
 
   const navItems = useMemo(() => {
-    return isLogged ? [explorar, viagens, perfil] : [explorar, entrar]
+    return isLogged
+      ? [explorar, caravanas, anunciar, perfil]
+      : [explorar, entrar]
   }, [isLogged])
 
   const activeItem = useMemo(() => {
@@ -24,7 +27,11 @@ export default function MobileFooter() {
   }, [router.pathname, navItems])
 
   return (
-    <S.FooterWrapper className="main-footer" $isScrollingDown={scrollingDown}>
+    <S.FooterWrapper
+      id="mobile-footer"
+      className="main-footer"
+      $isScrollingDown={scrollingDown}
+    >
       <S.Nav>
         {navItems.map(({ id, label, icon: Icon, href }) => {
           const isActive = id === activeItem
