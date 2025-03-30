@@ -49,144 +49,6 @@ export const CaravanGrid = styled.div`
     grid-template-columns: repeat(3, 1fr);
   }
 `
-
-export const Card = styled.div`
-  position: relative;
-  background-color: #fff;
-  border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: box-shadow 0.2s ease-in-out;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-
-  &:hover {
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  }
-`
-
-export const CardHeader = styled.div`
-  position: relative;
-`
-
-export const CardImage = styled.div<{ bg: string }>`
-  width: 100%;
-  height: 160px;
-  background-image: url(${(props) => props.bg});
-  background-size: cover;
-  background-position: center;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 80%;
-    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.7));
-  }
-`
-
-export const CardCategory = styled.span`
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background-color: #ff6600;
-  color: #fff;
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  border-radius: 4px;
-  text-transform: uppercase;
-`
-
-export const CardBody = styled.div`
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
-`
-
-export const CardTitle = styled.h2`
-  font-size: 1.25rem;
-  color: ${({ theme }) => theme.colors.text_standard};
-  margin-bottom: 0.25rem;
-`
-
-export const CardSubInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wreap;
-  gap: 0.5rem;
-  justify-content: space-between;
-  font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
-  color: ${({ theme }) => theme.colors.text_medium};
-`
-
-export const SubInfoItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-`
-
-export const CardFooter = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  justify-content: flex-end;
-  flex-direction: column;
-`
-
-export const MenuWrapper = styled.div`
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background-color: #fff;
-  border-radius: 50%;
-`
-
-export const MenuToggle = styled.button`
-  background: none;
-  border: none;
-  color: #666;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: 0.25rem;
-
-  &:hover {
-    color: #000;
-  }
-`
-
-export const MenuList = styled.ul`
-  position: absolute;
-  top: 110%;
-  right: 8px;
-  background: ${({ theme }) => theme.colors.background_standard};
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 4px 0;
-  list-style: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-`
-
-export const MenuItem = styled.li`
-  padding: 8px 12px;
-  cursor: pointer;
-  &:hover {
-    background: #f5f5f5;
-  }
-`
-
-export const Description = styled.p`
-  font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
-  color: ${({ theme }) => theme.colors.text_medium};
-  padding-bottom: 0.75rem;
-`
-
 export const Fallback = styled.div`
   display: flex;
   flex-direction: column;
@@ -218,6 +80,19 @@ export const ModalContent = styled.div`
   padding: 2rem;
   border-radius: 8px;
   text-align: center;
+
+  h3 {
+    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    color: ${({ theme }) => theme.colors.text_standard};
+  }
+
+  p {
+    font-size: 1rem;
+    color: ${({ theme }) => theme.colors.text_medium};
+    font-weight: 500;
+    line-height: 1.25;
+  }
 `
 
 export const ModalButtons = styled.div`

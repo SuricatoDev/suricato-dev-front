@@ -95,6 +95,8 @@ export default function CaravanasManagementPage() {
   const caravansToShow =
     activeTab === 'upcoming' ? upcomingCaravans : previousCaravans
 
+  const caravanToDelete = caravans.find((c) => c.id === confirmDelete)
+
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab)
   }
@@ -172,7 +174,7 @@ export default function CaravanasManagementPage() {
               ) : (
                 <S.Fallback>
                   <SmileySad size={48} />
-                  <p>Nenhuma caravana cadastrada.</p>
+                  <p>Nenhuma próxima caravana</p>
                 </S.Fallback>
               )}
             </S.SpacingMobile>
@@ -188,7 +190,16 @@ export default function CaravanasManagementPage() {
         >
           <S.ModalContent>
             <h3>Confirmação</h3>
-            <p>Deseja realmente excluir esta caravana?</p>
+
+            <p>
+              Deseja realmente excluir a caravana
+              {caravanToDelete?.titulo ? (
+                <b> {caravanToDelete.titulo + '?'}</b>
+              ) : (
+                '?'
+              )}
+            </p>
+
             <S.ModalButtons>
               <Button
                 variant="outlined"

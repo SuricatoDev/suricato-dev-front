@@ -45,7 +45,7 @@ export const TabItem = styled.li<TabItemProps>`
     border-radius: 2px;
     width: 100%;
     background-color: ${({ theme }) => theme.colors.primary_medium};
-    transform: translateY(50%) scaleX(${({ active }) => (active ? 1 : 0)});
+    transform: translateY(50%) scaleX(${({ $active }) => ($active ? 1 : 0)});
     transform-origin: center;
     transition: transform 0.3s ease;
   }
