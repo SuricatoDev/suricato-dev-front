@@ -26,22 +26,12 @@ export const CardImage = styled.div<{ bg: string }>`
   background-image: url(${(props) => props.bg});
   background-size: cover;
   background-position: center;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 80%;
-    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.7));
-  }
 `
 
 export const CardCategory = styled.span`
   position: absolute;
-  bottom: 8px;
-  right: 8px;
+  top: 8px;
+  left: 8px;
   background-color: ${({ theme }) => theme.colors.primary_medium};
   color: #fff;
   font-size: 0.75rem;
@@ -49,7 +39,7 @@ export const CardCategory = styled.span`
   border-radius: 4px;
   text-transform: uppercase;
   z-index: 1;
-  font-weight: 500;
+  font-weight: 900;
 `
 
 export const CardBody = styled.div`
@@ -168,15 +158,11 @@ export const ImageContainer = styled.div`
     &::after {
       content: '';
       position: absolute;
-      top: 0;
+      top: 0%;
       right: 0;
       bottom: 0;
       left: 0;
-      background: linear-gradient(
-        to bottom right,
-        transparent,
-        rgba(0, 0, 0, 0.7)
-      );
+      background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
       z-index: 1;
       pointer-events: none;
       opacity: 1;
