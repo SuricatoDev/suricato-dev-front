@@ -12,6 +12,7 @@ import Portal from '@/components/common/Portal'
 import Modal from '@/components/common/Modal'
 import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
 import ProductCardEdit, { Caravan } from '@/components/sections/ProductCardEdit'
+import { toast } from 'react-toastify'
 
 const baseCaravan: Caravan = {
   id: '1',
@@ -121,11 +122,11 @@ export default function CaravanasManagementPage() {
   }
 
   const handleConfirmDelete = (id: string) => {
+    toast.success('Caravana excluída com sucesso!')
     setCaravans((prev) => prev.filter((c) => c.id !== id))
     setConfirmDelete(null)
   }
 
-  
   useEffect(() => {
     const timer = setTimeout(() => {
       setCaravans(mockedCaravans)

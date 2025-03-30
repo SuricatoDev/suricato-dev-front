@@ -12,7 +12,7 @@ export default function FloatingActionButton({
   footerVisible
 }: FloatingActionButtonProps) {
   return (
-    <S.FloatingButton onClick={onClick} footerVisible={footerVisible}>
+    <S.FloatingButton onClick={onClick} $footerVisible={footerVisible}>
       <Plus size={28} weight="bold" />
     </S.FloatingButton>
   )

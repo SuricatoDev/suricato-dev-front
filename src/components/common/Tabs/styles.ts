@@ -16,21 +16,21 @@ export const TabsList = styled.ul`
 `
 
 interface TabItemProps {
-  active: boolean
+  $active: boolean
   disabled?: boolean
 }
 
 export const TabItem = styled.li<TabItemProps>`
   position: relative;
-  font-weight: ${({ active }) => (active ? '900' : '600')};
+  font-weight: ${({ $active }) => ($active ? '900' : '600')};
   flex: 1;
   text-align: center;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   padding-bottom: 0.5rem;
-  color: ${({ active, disabled, theme }) =>
+  color: ${({ $active, disabled, theme }) =>
     disabled
       ? theme.colors.base_dark32
-      : active
+      : $active
         ? theme.colors.primary_medium
         : theme.colors.text_foggy};
 

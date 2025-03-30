@@ -35,16 +35,16 @@ export default function Modal({
           $withMaxSizes={$withMaxSizes}
           onClick={(e) => e.stopPropagation()}
         >
-          <S.ModalHeader>
-            {closeButton && (
+          {closeButton && (
+            <S.ModalHeader>
               <X
                 className="modal-close-btn"
                 onClick={onClose}
                 size={32}
                 weight="bold"
               />
-            )}
-          </S.ModalHeader>
+            </S.ModalHeader>
+          )}
           {children}
         </S.Modal>
       </S.Shadow>

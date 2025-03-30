@@ -25,13 +25,13 @@ export default function Tabs({
     <S.TabsWrapper>
       <S.TabsList>
         <S.TabItem
-          active={activeTab === 'upcoming'}
+          $active={activeTab === 'upcoming'}
           onClick={() => handleClick('upcoming')}
         >
           Próximas Caravanas
         </S.TabItem>
         <S.TabItem
-          active={activeTab === 'previous'}
+          $active={activeTab === 'previous'}
           disabled={disablePrevious}
           onClick={() => handleClick('previous')}
         >

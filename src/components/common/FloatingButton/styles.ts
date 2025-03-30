@@ -13,9 +13,9 @@ const pulse = keyframes`
   }
 `
 
-export const FloatingButton = styled.button<{ footerVisible: boolean }>`
+export const FloatingButton = styled.button<{ $footerVisible: boolean }>`
   position: fixed;
-  bottom: ${({ footerVisible }) => (footerVisible ? '80px' : '20px')};
+  bottom: ${({ $footerVisible }) => ($footerVisible ? '80px' : '20px')};
   right: 1rem;
   background-color: ${({ theme }) => theme.colors.primary_standard};
   color: #fff;
@@ -29,7 +29,7 @@ export const FloatingButton = styled.button<{ footerVisible: boolean }>`
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s ease;
-  z-index: 99999;
+  z-index: 9;
   animation: ${pulse} 2s infinite;
 
   transition: bottom ${({ theme }) => theme.common.transition.fast};
