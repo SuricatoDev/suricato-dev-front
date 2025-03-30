@@ -22,6 +22,7 @@ export default function MobileFooter() {
   }, [isLogged])
 
   const activeItem = useMemo(() => {
+    if (router.pathname === '/cadastrar-empresa') return 'anunciar'
     const currentItem = navItems.find((item) => item.href === router.pathname)
     return currentItem ? currentItem.id : 'explorar'
   }, [router.pathname, navItems])

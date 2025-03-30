@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface RangeInputProps {
-  progress: string
+  $progress: string
 }
 
 export const Container = styled.div`
@@ -69,8 +69,9 @@ export const RangeInput = styled.input.attrs({
 
   background-image: linear-gradient(
     to right,
-    ${({ theme }) => theme.colors.primary_medium} ${({ progress }) => progress},
-    #ddd ${({ progress }) => progress}
+    ${({ theme }) => theme.colors.primary_medium}
+      ${({ $progress }) => $progress},
+    #ddd ${({ $progress }) => $progress}
   );
   background-repeat: no-repeat;
 

@@ -12,6 +12,21 @@ export const Main = styled.main`
     padding: 100px 0 calc(53px + 2rem) 0;
   }
 `
+
+export const MainCenter = styled.main`
+  padding-bottom: calc(64px + 1rem);
+  padding-top: 2rem;
+  height: 100vh;
+
+  margin: auto auto;
+  @media (${device.md}) {
+    padding: 100px 0 calc(53px + 2rem) 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+`
+
 export const SpacingMobile = styled.div`
   padding: 0 1rem;
   display: flex;

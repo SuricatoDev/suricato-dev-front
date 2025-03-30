@@ -43,6 +43,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'teste-suricatos.s3.sa-east-1.amazonaws.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'suricatodev.s3.sa-east-1.amazonaws.com'
       }
     ],
     deviceSizes: [320, 500, 768, 960, 1024, 1440, 1920],

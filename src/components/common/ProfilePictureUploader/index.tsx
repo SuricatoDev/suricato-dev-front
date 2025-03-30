@@ -44,7 +44,7 @@ async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<File> {
         return reject(new Error('Canvas está vazio'))
       }
 
-      const file = new File([blob], 'cropped.jpeg', { type: 'image/jpeg' })
+      const file = new File([blob], 'foto_perfil.jpeg', { type: 'image/jpeg' })
       resolve(file)
     }, 'image/jpeg')
   })
@@ -53,6 +53,7 @@ async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<File> {
 export type ChangeProfilePicModalProps = {
   $isOpen: boolean
   imageSrc: string | null
+  isLoading?: boolean
   onClose: () => void
   onSave: (croppedImage: File, isTemporary: boolean) => void
 }
@@ -61,7 +62,8 @@ export default function ChangeProfilePicModal({
   $isOpen,
   imageSrc,
   onClose,
-  onSave
+  onSave,
+  isLoading = false
 }: ChangeProfilePicModalProps) {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
@@ -124,7 +126,7 @@ export default function ChangeProfilePicModal({
                   step={0.01}
                   value={zoom}
                   onChange={(e) => setZoom(Number(e.target.value))}
-                  progress={`${percent}%`}
+                  $progress={`${percent}%`}
                 />
 
                 <S.ControlButton
@@ -141,10 +143,20 @@ export default function ChangeProfilePicModal({
           )}
         </S.Body>
         <S.Footer>
-          <Button fullWidth variant="outlined" onClick={onClose}>
+          <Button
+            disabled={isLoading}
+            fullWidth
+            variant="outlined"
+            onClick={onClose}
+          >
             Cancelar
           </Button>
-          <Button fullWidth onClick={handleSave}>
+          <Button
+            disabled={isLoading}
+            loading={isLoading}
+            fullWidth
+            onClick={handleSave}
+          >
             Salvar
           </Button>
         </S.Footer>

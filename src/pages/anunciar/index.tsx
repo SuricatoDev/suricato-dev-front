@@ -1,186 +1,278 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useJsApiLoader } from '@react-google-maps/api'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import Header from '@/components/sections/Header'
+import Footer from '@/components/sections/Footer'
+import Button from '@/components/common/Button'
+import * as S from '@/styles/pages/anuncios'
+import Tabs, { TabKey } from '@/components/common/Tabs'
+import FloatingActionButton from '@/components/common/FloatingButton'
+import MobileHeader from '@/components/sections/MobileHeader'
+import { useFooterVisibility } from '@/hooks/useFooterVisibility'
+import Portal from '@/components/common/Portal'
+import Modal from '@/components/common/Modal'
+import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
+import ProductCardEdit, { Caravan } from '@/components/sections/ProductCardEdit'
+import { toast } from 'react-toastify'
+import OrganizerForm from '@/components/sections/OrganizerForm'
+import { getSession } from 'next-auth/react'
+import NotOrganizerMessage from '@/components/common/NotOrganizerMessage'
+import { GetServerSideProps } from 'next'
+import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 
-import { CreateAdProvider } from '@/contexts/CreateAdContext'
-import Step1 from '@/components/sections/steps/Step1'
-import Step2 from '@/components/sections/steps/Step2'
-import StepLocation from '@/components/sections/steps/StepLocation'
-import HeaderNav from '@/components/sections/HeaderNav'
-import FooterNav from '@/components/sections/FooterNav'
-import { AddressDataNoApi } from '@/components/common/EditableAddressNoApi'
-import Step5 from '@/components/sections/steps/Step5'
-import Step6 from '@/components/sections/steps/Step6'
-import Step7 from '@/components/sections/steps/Step7'
-import Step8 from '@/components/sections/steps/Step8'
-import Step9 from '@/components/sections/steps/Step9'
-import Step10 from '@/components/sections/steps/Step10'
-import Step11 from '@/components/sections/steps/Step11'
-import Step12 from '@/components/sections/steps/Step12'
+const baseCaravan: Caravan = {
+  id: '1',
+  titulo: 'Orquestra Sinfônica - Alumni',
+  descricao: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Praesent vitae eros eget tellus tristique bibendum. Donec
+    rutrum sed sem quis venenatis. Proin viverra risus a
+    ringilla varius. Nulla facilisi. Curabitur nec lacus
+    elit. Pellentesque convallis nisi ac augue pharetra eu
+    tristique neque consequat. Lorem ipsum dolor sit amet,
+    onsectetur adipiscing elit. Praesent vitae eros eget
+    tellus tristique bibendum.`,
+  categoria: 'Show',
+  data_partida: '2025-06-15',
+  data_retorno: '2025-06-16',
+  endereco_origem: 'Avenida Paulista',
+  numero_origem: '1000',
+  bairro_origem: 'Bela Vista',
+  cep_origem: '01310-100',
+  cidade_origem: 'São Paulo',
+  estado_origem: 'SP',
+  endereco_destino: 'Praia de Copacabana',
+  numero_destino: '200',
+  bairro_destino: 'Copacabana',
+  cep_destino: '22060-001',
+  cidade_destino: 'Rio de Janeiro',
+  estado_destino: 'RJ',
+  numero_vagas: 50,
+  valor: 250,
+  organizador_id: 1,
+  imagens: [
+    { path: 'https://picsum.photos/1920/1081' },
+    { path: 'https://picsum.photos/1920/1082' },
+    { path: 'https://picsum.photos/1920/1083' },
+    { path: 'https://picsum.photos/1920/1084' },
+    { path: 'https://picsum.photos/1920/1085' },
+    { path: 'https://picsum.photos/1920/1086' }
+  ]
+}
 
-const Container = styled.div`
-  padding: calc(64px + 1rem) 0 calc(87px + 1rem);
-  position: relative;
-  z-index: 0;
-  box-sizing: border-box;
-  height: calc(100vh);
-  overflow-y: auto;
-`
-type Library = 'places'
-const googleMapsLibraries: Library[] = ['places']
-
-export default function CreateAd() {
-  const [step, setStep] = useState(1)
-  const [subStep3, setSubStep3] = useState<1 | 2>(1)
-  const [subStep4, setSubStep4] = useState<1 | 2>(1)
-  const [origin, setOrigin] = useState<AddressDataNoApi>({
-    cep: '',
-    street: '',
-    neighborhood: '',
-    city: '',
-    state: '',
-    number: ''
+function generateMockCaravans(count: number): Caravan[] {
+  const baseNumber = 1080
+  return Array.from({ length: count }, (_, index) => {
+    const id = index + 1
+    return {
+      ...baseCaravan,
+      id: String(id),
+      imagens: [
+        { path: `https://picsum.photos/1920/${baseNumber + id}` },
+        { path: `https://picsum.photos/1921/${baseNumber + id + 1}` },
+        { path: `https://picsum.photos/1922/${baseNumber + id + 2}` },
+        { path: `https://picsum.photos/1923/${baseNumber + id + 3}` },
+        { path: `https://picsum.photos/1924/${baseNumber + id + 4}` },
+        { path: `https://picsum.photos/1925/${baseNumber + id + 5}` }
+      ]
+    }
   })
-  const [destination, setDestination] = useState<AddressDataNoApi>({
-    ...origin
-  })
-  const [canProceed, setCanProceed] = useState(false)
-  const totalSteps = 12
+}
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries: googleMapsLibraries,
-    language: 'pt',
-    region: 'BR'
-  })
+const mockedCaravans = generateMockCaravans(20)
+
+export default function CaravanasManagementPage() {
+  const isOrganizer = useIsOrganizer()
+  const router = useRouter()
+  const [caravans, setCaravans] = useState<Caravan[]>(mockedCaravans)
+  const [activeTab, setActiveTab] = useState<TabKey>('upcoming')
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isOrganizerModalOpen, setIsOrganizerModalOpen] = useState(false)
+
+  const footerVisible = useFooterVisibility('mobile-footer', { threshold: 0.1 })
+
+  const today = new Date()
+  const upcomingCaravans = caravans.filter(
+    (caravan) => new Date(caravan.data_partida) >= today
+  )
+  const previousCaravans = caravans.filter(
+    (caravan) => new Date(caravan.data_partida) < today
+  )
+
+  const caravansToShow =
+    activeTab === 'upcoming' ? upcomingCaravans : previousCaravans
+
+  const caravanToDelete = caravans.find((c) => c.id === confirmDelete)
+
+  const handleTabChange = (tab: TabKey) => {
+    setActiveTab(tab)
+  }
+
+  const handleFloatingButtonClick = () => {
+    if (caravans.length === 0) {
+      return router.push('/anunciar/overview/')
+    }
+    return router.push('/anunciar/novo/')
+  }
+
+  const handleToggleMenu = (id: string) => {
+    setOpenMenuId(openMenuId === id ? null : id)
+  }
+
+  const handleEdit = (id: string) => {
+    setOpenMenuId(null)
+
+    router.push(`/anunciar/editar/${id}`)
+  }
+
+  const handleDelete = (id: string) => {
+    setOpenMenuId(null)
+    setConfirmDelete(id)
+  }
+
+  const handleConfirmDelete = (id: string) => {
+    toast.success('Caravana excluída com sucesso!')
+    setCaravans((prev) => prev.filter((c) => c.id !== id))
+    setConfirmDelete(null)
+  }
 
   useEffect(() => {
-    if (step === 1 || step === 2) {
-      setCanProceed(true)
-    }
-    if (step === 3) {
-      setCanProceed(subStep3 === 2)
-    }
-    if (step === 4) {
-      setCanProceed(subStep4 === 2)
-    }
-    if (step === 5) {
-      setCanProceed(true)
-    }
-  }, [step, subStep3, subStep4])
+    const timer = setTimeout(() => {
+      setCaravans(mockedCaravans)
+      setIsLoading(false)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
 
-  if (!isLoaded) return null
-
-  const handleNext = () => {
-    if (step === 3 && subStep3 === 1) {
-      return setSubStep3(2)
-    }
-    if (step === 4 && subStep4 === 1) {
-      return setSubStep4(2)
-    }
-    if (step < totalSteps) {
-      setStep((prev) => prev + 1)
-      setSubStep3(1)
-      setSubStep4(1)
+  const handleRegisterCompany = () => {
+    if (window.innerWidth <= 940) {
+      router.push(
+        `/cadastrar-empresa?callbackUrl=${encodeURIComponent(router.asPath)}`
+      )
     } else {
-      alert('Concluído!')
+      setIsOrganizerModalOpen(true)
     }
+    return
   }
 
-  const handleBack = () => {
-    if (step === 3 && subStep3 === 2) {
-      return setSubStep3(1)
-    }
-    if (step === 4 && subStep4 === 2) {
-      return setSubStep4(1)
-    }
-    if (step > 1) {
-      setStep((prev) => prev - 1)
-      setSubStep3(1)
-      setSubStep4(1)
-    }
-  }
-
-  const renderStep = () => {
-    switch (step) {
-      case 1:
-        return <Step1 />
-      case 2:
-        return <Step2 setCanProceed={setCanProceed} />
-      case 3:
-        return (
-          <StepLocation
-            title="De onde a caravana irá partir?"
-            subtitle="Endereço público da partida"
-            titleStep2="Confirme o endereço de partida"
-            subtitleStep2="O endereço da origem será compartilhado publicamente na página da caravana."
-            subStep={subStep3}
-            setSubStep={setSubStep3}
-            address={origin}
-            setAddress={setOrigin}
-            setCanProceed={setCanProceed}
-          />
-        )
-      case 4:
-        return (
-          <StepLocation
-            title="Qual o destino da caravana?"
-            subtitle="Endereço público do destino"
-            titleStep2="Confirme o endereço de destino"
-            subtitleStep2="O endereço do destino será compartilhado publicamente na página da caravana."
-            subStep={subStep4}
-            setSubStep={setSubStep4}
-            address={destination}
-            setAddress={setDestination}
-            setCanProceed={setCanProceed}
-          />
-        )
-      case 5:
-        return <Step5 setCanProceed={setCanProceed} />
-      case 6:
-        return <Step6 setCanProceed={setCanProceed} />
-      case 7:
-        return <Step7 setCanProceed={setCanProceed} />
-      case 8:
-        return <Step8 setCanProceed={setCanProceed} />
-      case 9:
-        return <Step9 setCanProceed={setCanProceed} />
-      case 10:
-        return <Step10 setCanProceed={setCanProceed} />
-      case 11:
-        return <Step11 setCanProceed={setCanProceed} />
-      case 12:
-        return <Step12 setCanProceed={setCanProceed} />
-      default:
-        return null
-    }
+  if (!isOrganizer) {
+    return (
+      <>
+        <S.Wrapper>
+          <Header $variant="simple" />
+          <MobileHeader>Cadastrar Empresa</MobileHeader>
+          <S.MainCenter>
+            <S.SpacingMobile>
+              <NotOrganizerMessage onClick={handleRegisterCompany} />
+            </S.SpacingMobile>
+          </S.MainCenter>
+          <Footer />
+        </S.Wrapper>
+        <OrganizerForm
+          $isModal
+          onClose={() => {
+            setIsOrganizerModalOpen(false)
+          }}
+          $isOpen={isOrganizerModalOpen}
+        />
+      </>
+    )
   }
 
   return (
-    <CreateAdProvider>
-      <HeaderNav />
-      <Container>
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={step}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            style={{ height: 'auto' }}
-          >
-            {renderStep()}
-          </motion.span>
-        </AnimatePresence>
-      </Container>
-      <FooterNav
-        step={step}
-        totalSteps={totalSteps}
-        onBack={handleBack}
-        onNext={handleNext}
-        canProceed={canProceed}
-      />
-    </CreateAdProvider>
+    <>
+      <S.Wrapper>
+        <Header $variant="simple" />
+        <MobileHeader>Meus anúncios</MobileHeader>
+        <FloatingActionButton
+          onClick={handleFloatingButtonClick}
+          footerVisible={footerVisible}
+        />
+        <S.Main>
+          <div className="container">
+            <S.Title>Meus anúncios</S.Title>
+            <Tabs
+              activeTab={activeTab}
+              onChange={handleTabChange}
+              disablePrevious={previousCaravans.length === 0}
+            />
+            <S.SpacingMobile>
+              {caravansToShow.length > 0 ? (
+                <S.CaravanGrid>
+                  {caravansToShow.map((caravan, index) => (
+                    <ProductCardEdit
+                      key={caravan.id}
+                      caravan={caravan}
+                      activeTab={activeTab}
+                      isOpenMenu={openMenuId === caravan.id}
+                      onToggleMenu={handleToggleMenu}
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                      priority={index === 0}
+                      isLoading={isLoading}
+                    />
+                  ))}
+                </S.CaravanGrid>
+              ) : (
+                <S.Fallback>
+                  <SmileySad size={48} />
+                  <p>Nenhuma próxima caravana</p>
+                </S.Fallback>
+              )}
+            </S.SpacingMobile>
+          </div>
+        </S.Main>
+        <Footer />
+      </S.Wrapper>
+      <Portal>
+        <Modal
+          $isOpen={!!confirmDelete}
+          onClose={() => setConfirmDelete(null)}
+          closeButton={false}
+        >
+          <S.ModalContent>
+            <h3>Confirmação</h3>
+
+            <p>
+              Deseja realmente excluir a caravana
+              {caravanToDelete?.titulo ? (
+                <b> {caravanToDelete.titulo + '?'}</b>
+              ) : (
+                '?'
+              )}
+            </p>
+
+            <S.ModalButtons>
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => setConfirmDelete(null)}
+              >
+                Cancelar
+              </Button>
+              <Button
+                fullWidth
+                variant="danger"
+                onClick={() => {
+                  if (confirmDelete) {
+                    handleConfirmDelete(confirmDelete)
+                  }
+                }}
+              >
+                Confirmar
+              </Button>
+            </S.ModalButtons>
+          </S.ModalContent>
+        </Modal>
+      </Portal>
+    </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context)
+
+  return {
+    props: { session }
+  }
 }

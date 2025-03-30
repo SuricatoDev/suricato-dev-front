@@ -32,6 +32,7 @@ interface EditableAddressProps {
   setAddress: (addr: AddressData) => void
   onSave: () => void
   hasButton?: boolean
+  buttonFullWidth?: boolean
   isLoading?: boolean
 }
 
@@ -41,7 +42,8 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
   setAddress,
   onSave,
   isLoading,
-  hasButton = true
+  hasButton = true,
+  buttonFullWidth = false
 }) => {
   const isMobile = useMediaQuery()
   const [isLoadingCep, setIsLoadingCep] = useState(false)
@@ -259,7 +261,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
           </div>
         </S.Row>
         <S.Row>
-          <div>
+          <div style={{ flex: 1 }}>
             <Input
               type="text"
               name="number"
@@ -272,7 +274,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
               $showErrorMessage
             />
           </div>
-          <div>
+          <div style={{ flex: 4 }}>
             <Input
               type="text"
               name="complement"
@@ -284,7 +286,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
           </div>
         </S.Row>
         <S.Row>
-          <div>
+          <div style={{ flex: 3 }}>
             <Input
               type="text"
               name="neighborhood"
@@ -298,7 +300,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
               $showErrorMessage
             />
           </div>
-          <div>
+          <div style={{ flex: 3 }}>
             <Input
               type="text"
               name="city"
@@ -312,7 +314,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
               $showErrorMessage
             />
           </div>
-          <div>
+          <div style={{ flex: 1 }}>
             <Input
               type="text"
               name="state"
@@ -331,7 +333,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
           <S.Row>
             <div>
               <Button
-                fullWidth={isMobile}
+                fullWidth={isMobile || buttonFullWidth}
                 loading={isLoading}
                 disabled={!isValid}
                 onClick={onSave}

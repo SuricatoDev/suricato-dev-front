@@ -19,7 +19,7 @@ export default function Overview() {
   const handleStart = () => {
     setIsExiting(true)
     setTimeout(() => {
-      router.push('/anunciar')
+      router.push('/anunciar/novo')
     }, 500)
   }
 

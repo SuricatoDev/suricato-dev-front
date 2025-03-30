@@ -97,6 +97,7 @@ export default function ProfileEditPage() {
     userData?.foto_perfil || null
   )
   const [profilePicLoad, setProfilePicLoad] = useState(true)
+  const [profilePicUpdateLoading, setProfilePicUpdateLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
@@ -108,20 +109,20 @@ export default function ProfileEditPage() {
 
   useEffect(() => {
     if (session?.user) {
-      setUserData(session.user)
-      setFullName(session.user.nome || '')
-      setPhoneNumber(session.user.telefone || '')
-      setEmergencyPhone(session.user.passageiroData.contato_emergencia || '')
+      setUserData(session?.user)
+      setFullName(session?.user?.nome || '')
+      setPhoneNumber(session?.user?.telefone || '')
+      setEmergencyPhone(session?.user?.passageiroData?.contato_emergencia || '')
       setAddress({
-        cep: session.user.cep || '',
-        street: session.user.endereco || '',
-        neighborhood: session.user.bairro || '',
-        city: session.user.cidade || '',
-        state: session.user.estado || '',
-        complement: session.user.complemento || '',
-        number: session.user.numero || ''
+        cep: session?.user?.cep || '',
+        street: session?.user?.endereco || '',
+        neighborhood: session?.user?.bairro || '',
+        city: session?.user?.cidade || '',
+        state: session?.user?.estado || '',
+        complement: session?.user?.complemento || '',
+        number: session?.user?.numero || ''
       })
-      setProfilePic(session.user.foto_perfil || null)
+      setProfilePic(session?.user?.foto_perfil || null)
     }
   }, [session])
 
@@ -141,24 +142,26 @@ export default function ProfileEditPage() {
   }
 
   const handleSaveProfilePic = async (croppedFile: File) => {
-    setProfilePic(URL.createObjectURL(croppedFile))
     const formData = new FormData()
-
     formData.append('foto_perfil', croppedFile)
 
     try {
-      await axios.put('/api/usuarios/', formData, {
+      setProfilePicUpdateLoading(true)
+      await axios.post('/api/update-foto-perfil/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
+      setProfilePic(URL.createObjectURL(croppedFile))
       toast.success('Foto de perfil atualizada com sucesso!')
     } catch (error) {
       toast.error('Erro ao atualizar a foto de perfil.')
-    }
-
-    setShowModal(false)
-    setSelectedImage(null)
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
+    } finally {
+      setShowModal(false)
+      setSelectedImage(null)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+      setProfilePicUpdateLoading(false)
+      await update()
     }
   }
 
@@ -829,6 +832,7 @@ export default function ProfileEditPage() {
           imageSrc={selectedImage || ''}
           onClose={handleCancel}
           onSave={handleSaveProfilePic}
+          isLoading={profilePicUpdateLoading}
         />
       </S.Wrapper>
     </>
