@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google'
 import { AppProps } from 'next/app'
 import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
-import { SessionProvider, useSession } from 'next-auth/react'
+import { SessionProvider } from 'next-auth/react'
 import MobileFooter from '@/components/sections/MobileFooter'
 import Layout from '@/containers/Layout'
 import { ToastContainer } from 'react-toastify'

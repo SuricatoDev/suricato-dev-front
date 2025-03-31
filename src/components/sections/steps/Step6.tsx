@@ -1,4 +1,4 @@
-import React, { use, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import * as S from '@/styles/pages/anunciar/steps/step1'
 import VanImg from '@/assets/images/parte-2.png'
 import { motion } from 'framer-motion'

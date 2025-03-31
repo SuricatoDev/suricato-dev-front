@@ -20,6 +20,8 @@ import Step11 from '@/components/sections/steps/Step11'
 import Step12 from '@/components/sections/steps/Step12'
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 import { useRouter } from 'next/router'
+import { getSession } from 'next-auth/react'
+import { GetServerSideProps } from 'next'
 
 const Container = styled.div`
   padding: calc(64px + 1rem) 0 calc(87px + 1rem);
@@ -194,4 +196,21 @@ export default function CreateAd() {
       />
     </CreateAdProvider>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login?callbackUrl=/anunciar/novo',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: { session }
+  }
 }

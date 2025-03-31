@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
 import Image from 'next/image'
 import InputMask from 'react-input-mask'
 import { getSession, signOut, useSession } from 'next-auth/react'
@@ -9,7 +8,6 @@ import { ValidationError } from 'yup'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
 import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
 import { LockKey } from '@phosphor-icons/react/dist/ssr/LockKey'
 import { ShieldCheckered } from '@phosphor-icons/react/dist/ssr/ShieldCheckered'
@@ -51,7 +49,6 @@ interface AddressPayload {
 type UpdateFieldValue = AddressPayload | string
 
 export default function ProfileEditPage() {
-  const router = useRouter()
   const { data: session, update } = useSession()
   const isMobile = useMediaQuery()
 

@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import * as S from './styles'
 import { format } from 'date-fns'
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
-import { ArrowsLeftRight } from '@phosphor-icons/react/dist/ssr/ArrowsLeftRight'
 import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
 import { MoneyWavy } from '@phosphor-icons/react/dist/ssr/MoneyWavy'
 import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
@@ -99,7 +98,10 @@ const ProductCardEdit: React.FC<ProductCardEditProps> = ({
           </S.Description>
           <S.CardSubInfo as="div">
             <S.SubInfoItem as="div">
-              <Skeleton height="17px" width="100%" />
+              <Skeleton height="17px" width="70%" />
+            </S.SubInfoItem>
+            <S.SubInfoItem as="div">
+              <Skeleton height="17px" width="70%" />
             </S.SubInfoItem>
             <S.SubInfoItem as="div">
               <Skeleton height="17px" width="60%" />
@@ -112,9 +114,11 @@ const ProductCardEdit: React.FC<ProductCardEditProps> = ({
             </S.SubInfoItem>
           </S.CardSubInfo>
         </S.CardBody>
-        <S.CardFooter as="div">
-          <Skeleton height="48px" radius="8px" />
-        </S.CardFooter>
+        {activeTab === 'upcoming' && (
+          <S.CardFooter as="div">
+            <Skeleton height="48px" radius="8px" />
+          </S.CardFooter>
+        )}
       </S.Card>
     )
   }
@@ -190,9 +194,11 @@ const ProductCardEdit: React.FC<ProductCardEditProps> = ({
         </S.Description>
         <S.CardSubInfo>
           <S.SubInfoItem>
-            <MapPin size={16} weight="bold" /> <b>Endereço:</b>{' '}
-            {caravan.cidade_origem}/{caravan.estado_origem}{' '}
-            <ArrowsLeftRight size={16} />
+            <MapPin size={16} weight="bold" /> <b>Origem: </b>
+            {caravan.cidade_origem}/{caravan.estado_origem}
+          </S.SubInfoItem>
+          <S.SubInfoItem>
+            <MapPin size={16} weight="fill" /> <b>Destino:</b>
             {caravan.cidade_destino}/{caravan.estado_destino}
           </S.SubInfoItem>
           <S.SubInfoItem>

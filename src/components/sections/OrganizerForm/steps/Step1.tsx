@@ -9,10 +9,9 @@ import ErrorMessage from '@/components/common/ErrorMessage'
 interface Step1Props {
   onNext: () => void
   onClose: () => void
-  isModal: boolean
 }
 
-export default function Step1({ onNext, isModal, onClose }: Step1Props) {
+export default function Step1({ onNext }: Step1Props) {
   const {
     control,
     setValue,

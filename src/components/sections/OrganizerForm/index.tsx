@@ -190,14 +190,8 @@ export default function OrganizerForm({
             e.preventDefault()
           }}
         >
-          {step === 1 && (
-            <Step1
-              onNext={handleNext}
-              onClose={handleClose}
-              isModal={$isModal}
-            />
-          )}
-          {step === 2 && <Step2 onNext={handleNext} $isModal={$isModal} />}
+          {step === 1 && <Step1 onNext={handleNext} onClose={handleClose} />}
+          {step === 2 && <Step2 onNext={handleNext} />}
         </S.StyledForm>
       </S.FormContainer>
     </FormProvider>

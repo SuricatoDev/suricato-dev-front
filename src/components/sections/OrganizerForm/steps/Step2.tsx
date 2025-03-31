@@ -5,10 +5,9 @@ import { AddressData } from '@/components/common/EditableAddress'
 
 interface Step2Props {
   onNext: () => void
-  $isModal: boolean
 }
 
-export default function Step2({ onNext, $isModal }: Step2Props) {
+export default function Step2({ onNext }: Step2Props) {
   const { watch, trigger, setValue } = useFormContext()
 
   const [cep, endereco, bairro, cidade, estado, complemento, numero] = watch([

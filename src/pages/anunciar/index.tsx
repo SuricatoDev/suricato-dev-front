@@ -77,7 +77,39 @@ function generateMockCaravans(count: number): Caravan[] {
   })
 }
 
-const mockedCaravans = generateMockCaravans(20)
+let mockedCaravans = generateMockCaravans(20)
+
+function generatePastDateCaravans(count: number): Caravan[] {
+  const baseNumber = 1080
+  const today = new Date()
+  return Array.from({ length: count }, (_, index) => {
+    const pastDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - (index + 1) * 5
+    )
+    return {
+      ...baseCaravan,
+      id: String(index + 1),
+      data_partida: pastDate.toISOString().split('T')[0],
+      data_retorno: new Date(pastDate.getTime() + 86400000)
+        .toISOString()
+        .split('T')[0],
+      imagens: [
+        { path: `https://picsum.photos/1927/${baseNumber + index + 1}` },
+        { path: `https://picsum.photos/1928/${baseNumber + index + 2}` },
+        { path: `https://picsum.photos/1929/${baseNumber + index + 3}` },
+        { path: `https://picsum.photos/1930/${baseNumber + index + 4}` },
+        { path: `https://picsum.photos/1931/${baseNumber + index + 5}` },
+        { path: `https://picsum.photos/1932/${baseNumber + index + 6}` }
+      ]
+    }
+  })
+}
+
+const pastCaravans = generatePastDateCaravans(3)
+
+mockedCaravans = [...mockedCaravans, ...pastCaravans]
 
 export default function CaravanasManagementPage() {
   const { isOrganizer, loading } = useIsOrganizer()
@@ -275,6 +307,15 @@ export default function CaravanasManagementPage() {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login?callbackUrl=/anunciar',
+        permanent: false
+      }
+    }
+  }
 
   return {
     props: { session }

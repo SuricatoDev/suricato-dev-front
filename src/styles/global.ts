@@ -104,4 +104,11 @@ export const GlobalStyle = createGlobalStyle`
     display: none;
   }
 
+  .swiper-pagination {
+    pointer-events: none;
+  }
+
+.swiper-pagination-bullet {
+  pointer-events: all;
+}
 `
