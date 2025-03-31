@@ -15,15 +15,15 @@ import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 export default function Overview() {
   const isMobile = useMediaQuery()
   const router = useRouter()
-  const isOrganizer = useIsOrganizer()
+  const { isOrganizer, loading } = useIsOrganizer()
 
   const [isExiting, setIsExiting] = useState(false)
 
   useEffect(() => {
-    if (!isOrganizer) {
+    if (!isOrganizer && !loading) {
       router.push('/anunciar')
     }
-  }, [isOrganizer, router])
+  }, [isOrganizer, loading, router])
 
   const handleStart = () => {
     setIsExiting(true)

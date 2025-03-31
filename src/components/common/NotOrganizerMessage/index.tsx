@@ -12,8 +12,8 @@ interface NotOrganizerMessageProps {
 export default function NotOrganizerMessage({
   onClick
 }: NotOrganizerMessageProps) {
-  const isOrganizer = useIsOrganizer()
-  if (isOrganizer) return null
+  const { isOrganizer, loading } = useIsOrganizer()
+  if (isOrganizer && !loading) return null
 
   const animationVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -41,7 +41,7 @@ export default function NotOrganizerMessage({
         width={400}
         height={400}
         priority
-        alt="Imagem ilustrativa para cadastro de empresa"
+        alt=""
       />
 
       <S.Text>

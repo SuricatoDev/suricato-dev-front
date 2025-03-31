@@ -80,7 +80,7 @@ function generateMockCaravans(count: number): Caravan[] {
 const mockedCaravans = generateMockCaravans(20)
 
 export default function CaravanasManagementPage() {
-  const isOrganizer = useIsOrganizer()
+  const { isOrganizer, loading } = useIsOrganizer()
   const router = useRouter()
   const [caravans, setCaravans] = useState<Caravan[]>(mockedCaravans)
   const [activeTab, setActiveTab] = useState<TabKey>('upcoming')
@@ -155,7 +155,11 @@ export default function CaravanasManagementPage() {
     return
   }
 
-  if (!isOrganizer) {
+  if (loading) {
+    return null
+  }
+
+  if (!isOrganizer && !loading) {
     return (
       <>
         <S.Wrapper>

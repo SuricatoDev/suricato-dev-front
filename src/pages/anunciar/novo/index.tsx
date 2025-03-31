@@ -33,7 +33,7 @@ type Library = 'places'
 const googleMapsLibraries: Library[] = ['places']
 
 export default function CreateAd() {
-  const isOrganizer = useIsOrganizer()
+  const { isOrganizer, loading } = useIsOrganizer()
   const router = useRouter()
 
   const [step, setStep] = useState(1)
@@ -76,10 +76,10 @@ export default function CreateAd() {
   }, [step, subStep3, subStep4])
 
   useEffect(() => {
-    if (!isOrganizer) {
+    if (!loading && !isOrganizer) {
       router.push('/anunciar')
     }
-  }, [isOrganizer, router])
+  }, [loading, isOrganizer, router])
 
   if (!isLoaded || !isOrganizer) return null
 
