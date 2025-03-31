@@ -13,7 +13,10 @@ export default function NotOrganizerMessage({
   onClick
 }: NotOrganizerMessageProps) {
   const { isOrganizer, loading } = useIsOrganizer()
-  if (isOrganizer && !loading) return null
+
+  if (loading) return
+
+  if (isOrganizer) return null
 
   const animationVariants = {
     hidden: { opacity: 0, y: 40 },
