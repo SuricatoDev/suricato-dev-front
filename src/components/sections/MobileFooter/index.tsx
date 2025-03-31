@@ -21,6 +21,13 @@ export default function MobileFooter() {
       : [explorar, entrar]
   }, [isLogged])
 
+  const knownPaths = navItems.map((item) => item.href)
+
+  // ⛔ Se a rota atual não estiver na lista de navegação, não renderiza o footer
+  if (!knownPaths.includes(router.pathname)) {
+    return null
+  }
+
   const activeItem = useMemo(() => {
     if (router.pathname === '/cadastrar-empresa') return 'anunciar'
     const currentItem = navItems.find((item) => item.href === router.pathname)
@@ -36,8 +43,15 @@ export default function MobileFooter() {
       <S.Nav>
         {navItems.map(({ id, label, icon: Icon, href }) => {
           const isActive = id === activeItem
+          const shouldLink = router.pathname !== href
+
           return (
-            <S.NavItem key={id} href={href} passHref $isActive={isActive}>
+            <S.NavItem
+              key={id}
+              href={shouldLink ? href : '#'}
+              passHref
+              $isActive={isActive}
+            >
               <Icon size={24} weight={isActive ? 'bold' : 'regular'} />
               <S.NavLabel $isActive={isActive}>{label}</S.NavLabel>
             </S.NavItem>
