@@ -22,6 +22,6 @@ export const MobileFooterNavigation = {
     id: 'anunciar',
     label: 'Anunciar',
     icon: Tag,
-    href: '/anuncios'
+    href: '/anunciar'
   }
 }

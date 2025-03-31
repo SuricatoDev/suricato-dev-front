@@ -13,8 +13,8 @@ export const HeaderNavigation = {
   },
   oferecer: {
     value: 'oferecer',
-    label: 'Oferecer uma experiência',
-    href: '/',
+    label: 'Anunciar uma caravana',
+    href: '/anunciar/novo',
     isBold: false
   },
   faq: {
@@ -50,7 +50,7 @@ export const HeaderNavigation = {
   editar: {
     value: 'editar',
     label: 'Editar anúncios',
-    href: '/anuncios',
+    href: '/anunciar',
     isBold: false
   },
   explorar: {
@@ -62,7 +62,7 @@ export const HeaderNavigation = {
   anunciar: {
     value: 'anunciar',
     label: 'Anunciar',
-    href: '/',
+    href: '/anunciar',
     isBold: false
   },
   sobre: {

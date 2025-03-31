@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import * as S from '@/styles/pages/anunciar/overview'
@@ -10,11 +10,20 @@ import likeIcon from '@/assets/icons/like-3d.png'
 import Button from '@/components/common/Button'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import Head from 'next/head'
+import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 
 export default function Overview() {
   const isMobile = useMediaQuery()
   const router = useRouter()
+  const isOrganizer = useIsOrganizer()
+
   const [isExiting, setIsExiting] = useState(false)
+
+  useEffect(() => {
+    if (!isOrganizer) {
+      router.push('/anunciar')
+    }
+  }, [isOrganizer, router])
 
   const handleStart = () => {
     setIsExiting(true)
@@ -39,6 +48,10 @@ export default function Overview() {
       y: 0,
       transition: { duration: 0.5, ease: 'easeOut' }
     }
+  }
+
+  if (!isOrganizer) {
+    return null
   }
 
   return (

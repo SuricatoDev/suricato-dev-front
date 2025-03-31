@@ -18,6 +18,8 @@ import Step9 from '@/components/sections/steps/Step9'
 import Step10 from '@/components/sections/steps/Step10'
 import Step11 from '@/components/sections/steps/Step11'
 import Step12 from '@/components/sections/steps/Step12'
+import { useIsOrganizer } from '@/hooks/useIsOrganizer'
+import { useRouter } from 'next/router'
 
 const Container = styled.div`
   padding: calc(64px + 1rem) 0 calc(87px + 1rem);
@@ -31,6 +33,9 @@ type Library = 'places'
 const googleMapsLibraries: Library[] = ['places']
 
 export default function CreateAd() {
+  const isOrganizer = useIsOrganizer()
+  const router = useRouter()
+
   const [step, setStep] = useState(1)
   const [subStep3, setSubStep3] = useState<1 | 2>(1)
   const [subStep4, setSubStep4] = useState<1 | 2>(1)
@@ -70,7 +75,13 @@ export default function CreateAd() {
     }
   }, [step, subStep3, subStep4])
 
-  if (!isLoaded) return null
+  useEffect(() => {
+    if (!isOrganizer) {
+      router.push('/anunciar')
+    }
+  }, [isOrganizer, router])
+
+  if (!isLoaded || !isOrganizer) return null
 
   const handleNext = () => {
     if (step === 3 && subStep3 === 1) {

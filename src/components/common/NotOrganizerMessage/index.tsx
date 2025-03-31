@@ -1,10 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { useSession } from 'next-auth/react'
 import Button from '@/components/common/Button'
 import * as S from './styles'
-import Image from 'next/image'
 import EspereImg from '@/assets/images/espere.png'
+import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 
 interface NotOrganizerMessageProps {
   onClick: () => void
@@ -13,13 +12,7 @@ interface NotOrganizerMessageProps {
 export default function NotOrganizerMessage({
   onClick
 }: NotOrganizerMessageProps) {
-  const { data: session } = useSession()
-
-  const isOrganizer =
-    session?.user?.organizador &&
-    session?.user?.razao_social &&
-    session?.user?.cnpj
-
+  const isOrganizer = useIsOrganizer()
   if (isOrganizer) return null
 
   const animationVariants = {
