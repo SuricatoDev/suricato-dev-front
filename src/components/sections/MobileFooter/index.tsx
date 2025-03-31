@@ -23,16 +23,15 @@ export default function MobileFooter() {
 
   const knownPaths = navItems.map((item) => item.href)
 
-  // ⛔ Se a rota atual não estiver na lista de navegação, não renderiza o footer
-  if (!knownPaths.includes(router.pathname)) {
-    return null
-  }
-
   const activeItem = useMemo(() => {
     if (router.pathname === '/cadastrar-empresa') return 'anunciar'
     const currentItem = navItems.find((item) => item.href === router.pathname)
     return currentItem ? currentItem.id : 'explorar'
   }, [router.pathname, navItems])
+
+  if (!knownPaths.includes(router.pathname)) {
+    return null
+  }
 
   return (
     <S.FooterWrapper
