@@ -185,10 +185,7 @@ const ProductCardEdit: React.FC<ProductCardEditProps> = ({
         <S.CardTitle>{caravan.titulo}</S.CardTitle>
         <S.Description>
           <span>
-            <b>Descrição:</b>{' '}
-            {caravan.descricao.length > 80
-              ? `${caravan.descricao.substring(0, 80)}...`
-              : caravan.descricao}
+            <b>Descrição:</b> {caravan.descricao}
           </span>
         </S.Description>
         <S.CardSubInfo>

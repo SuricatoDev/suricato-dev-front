@@ -1,13 +1,14 @@
 import { Inter } from 'next/font/google'
 import { AppProps } from 'next/app'
 import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
-import { SessionProvider } from 'next-auth/react'
+import { SessionProvider, useSession } from 'next-auth/react'
 import MobileFooter from '@/components/sections/MobileFooter'
 import Layout from '@/containers/Layout'
 import { ToastContainer } from 'react-toastify'
 import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { SessionUpdater } from '@/components/common/SessionUpdater'
 
 export const inter = Inter({
   weight: ['400', '500', '600', '700'],
@@ -46,6 +47,7 @@ export default function App({
   return (
     <AccessibilityContextProvider>
       <SessionProvider session={session}>
+        <SessionUpdater />
         <Layout>
           <div className={`${inter.className}`} id="modal-root">
             <Component {...pageProps} />

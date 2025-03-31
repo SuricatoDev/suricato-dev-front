@@ -131,6 +131,14 @@ export const Description = styled.p`
   font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
   color: ${({ theme }) => theme.colors.text_medium};
   padding-bottom: 0.75rem;
+
+  span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `
 
 export const ImageContainer = styled.div`
