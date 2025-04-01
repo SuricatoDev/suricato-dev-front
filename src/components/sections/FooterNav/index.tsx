@@ -10,13 +10,13 @@ type FooterNavProps = {
   canProceed?: boolean
 }
 
-const FooterNav: React.FC<FooterNavProps> = ({
+export default function FooterNav({
   step,
   totalSteps,
   onBack,
   onNext,
   canProceed = true
-}) => {
+}: FooterNavProps) {
   const getPartInfo = (step: number) => {
     if (step <= 1) return { part: 0, min: 2, max: 6, base: 0 }
     if (step <= 6) return { part: 1, min: 2, max: 6, base: 0 }
@@ -50,5 +50,3 @@ const FooterNav: React.FC<FooterNavProps> = ({
     </S.Wrapper>
   )
 }
-
-export default FooterNav

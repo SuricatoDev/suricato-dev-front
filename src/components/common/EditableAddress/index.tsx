@@ -36,7 +36,7 @@ interface EditableAddressProps {
   isLoading?: boolean
 }
 
-export const EditableAddress: React.FC<EditableAddressProps> = ({
+export function EditableAddress({
   address,
   activeSearch = true,
   setAddress,
@@ -44,7 +44,7 @@ export const EditableAddress: React.FC<EditableAddressProps> = ({
   isLoading,
   hasButton = true,
   buttonFullWidth = false
-}) => {
+}: EditableAddressProps) {
   const isMobile = useMediaQuery()
   const [isLoadingCep, setIsLoadingCep] = useState(false)
   const [cepFetched, setCepFetched] = useState(false)

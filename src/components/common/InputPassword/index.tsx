@@ -79,7 +79,9 @@ export default function InputPassword({
             {showPassword ? <Eye size={28} /> : <EyeSlash size={28} />}
           </S.ToggleButton>
         </S.Wrapper>
-        {$showErrorMessage && $error && <ErrorMessage $error={$error} />}
+        {$showErrorMessage && $showStrengthMeter && $error && (
+          <ErrorMessage $error={$error} />
+        )}
       </div>
       {$showStrengthMeter && value && (
         <S.Requirements>

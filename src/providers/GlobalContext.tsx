@@ -19,10 +19,7 @@ interface GlobalProviderProps {
   children: React.ReactNode
 }
 
-export const GlobalProvider: React.FC<GlobalProviderProps> = ({
-  pageName,
-  children
-}) => {
+export function GlobalProvider({ pageName, children }: GlobalProviderProps) {
   return (
     <GlobalContext.Provider value={{ pageName }}>
       {children}

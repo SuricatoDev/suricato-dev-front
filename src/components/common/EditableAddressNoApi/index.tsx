@@ -31,13 +31,13 @@ interface EditableAddressNoApiProps {
   isLoading?: boolean
 }
 
-export const EditableAddressNoApi: React.FC<EditableAddressNoApiProps> = ({
+export function EditableAddressNoApi({
   address,
   setAddress,
   onSave,
   isLoading,
   hasButton = true
-}) => {
+}: EditableAddressNoApiProps) {
   const isMobile = useMediaQuery()
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [isValid, setIsValid] = useState(false)

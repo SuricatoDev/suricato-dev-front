@@ -8,11 +8,11 @@ interface GatedContentProps {
   children: ReactNode
 }
 
-const GatedContent: React.FC<GatedContentProps> = ({
+export default function GatedContent({
   isLogged,
   onClick,
   children
-}) => {
+}: GatedContentProps) {
   return (
     <S.GatedContainer onClick={onClick}>
       {children}
@@ -29,5 +29,3 @@ const GatedContent: React.FC<GatedContentProps> = ({
     </S.GatedContainer>
   )
 }
-
-export default GatedContent

@@ -14,9 +14,7 @@ interface Props {
   children: ReactNode
 }
 
-export const AccessibilityContextProvider: React.FC<Props> = ({
-  children
-}: Props) => {
+export function AccessibilityContextProvider({ children }: Props) {
   const [themeDarkMode, setThemeDarkMode] = useState(false)
 
   useEffect(() => {

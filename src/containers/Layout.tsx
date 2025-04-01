@@ -8,7 +8,7 @@ interface LayoutProps {
   theme?: undefined
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+export default function Layout({ children, theme }: LayoutProps) {
   const selectedTheme = defaultTheme
 
   const finalTheme = createTheme({
@@ -25,5 +25,3 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     </>
   )
 }
-
-export default Layout

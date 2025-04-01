@@ -57,7 +57,7 @@ interface ProductCardEditProps {
   onDelete: (id: string) => void
 }
 
-const ProductCardEdit: React.FC<ProductCardEditProps> = ({
+export function ProductCardEdit({
   caravan,
   activeTab,
   isOpenMenu,
@@ -66,7 +66,7 @@ const ProductCardEdit: React.FC<ProductCardEditProps> = ({
   onDelete,
   priority,
   isLoading
-}) => {
+}: ProductCardEditProps) {
   const prevRef = useRef<HTMLButtonElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
   const [isHovered, setIsHovered] = useState(false)
