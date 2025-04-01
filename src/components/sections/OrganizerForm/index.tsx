@@ -126,7 +126,6 @@ export default function OrganizerForm({
           organizador: true
         }
         try {
-          console.log(payload)
           const res = await fetch(`/api/register-organizador/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -156,7 +155,11 @@ export default function OrganizerForm({
   }
 
   const handleBack = () => {
-    setStep(step - 1)
+    if (step > 1) {
+      return setStep(step - 1)
+    }
+
+    return router.back()
   }
 
   if ($isModal && !isOpen) return null
@@ -166,6 +169,9 @@ export default function OrganizerForm({
       {$isModal && <S.ModalOverlay onClick={handleClose} />}
       <S.FormContainer $isModal={$isModal}>
         <S.Header $isModal={$isModal}>
+          <S.BackButton onClick={handleBack}>
+            <ArrowLeft size={24} weight="bold" />
+          </S.BackButton>
           {step === 1 && (
             <>
               {$isModal && (

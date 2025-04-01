@@ -5,6 +5,7 @@ import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 import InputMask from 'react-input-mask'
 import ErrorMessage from '@/components/common/ErrorMessage'
+import axios from 'axios'
 
 interface Step1Props {
   onNext: () => void
@@ -21,12 +22,14 @@ export default function Step1({ onNext }: Step1Props) {
   const [isLoadingCnpj, setIsLoadingCnpj] = useState(false)
 
   const [hasFetched, setHasFetched] = useState(false)
+  const [cnpjError, setCnpjError] = useState<string | undefined>()
   const [prevCnpj, setPrevCnpj] = useState('')
 
   const handleCnpjChange = async (
     value: string,
     onChange: (value: string) => void
   ) => {
+    setCnpjError(undefined)
     onChange(value)
     const cnpjDigits = value.replace(/\D/g, '')
 
@@ -39,14 +42,14 @@ export default function Step1({ onNext }: Step1Props) {
       setHasFetched(true)
       setIsLoadingCnpj(true)
       try {
-        const response = await fetch(
-          `https://brasilapi.com.br/api/cnpj/v1/${cnpjDigits}`
-        )
-        if (!response.ok) {
-          console.error('Erro ao buscar dados do CNPJ')
+        setCnpjError(undefined)
+        const { data } = await axios.get(`/api/cnpj/${cnpjDigits}`)
+
+        if (data.error) {
+          console.error('Erro ao buscar dados do CNPJ, preencha')
           return
         }
-        const data = await response.json()
+
         setValue('razao_social', data.razao_social || '', {
           shouldValidate: true
         })
@@ -63,6 +66,9 @@ export default function Step1({ onNext }: Step1Props) {
         setValue('numero', data.numero || '')
         setValue('complemento', data.complemento || '')
       } catch (error) {
+        setCnpjError(
+          'Erro ao buscar dados do CNPJ, preencha os campos manualmente'
+        )
         console.error('Erro ao buscar dados do CNPJ', error)
       } finally {
         setIsLoadingCnpj(false)
@@ -95,15 +101,13 @@ export default function Step1({ onNext }: Step1Props) {
                     label="CNPJ*"
                     required
                     $loading={isLoadingCnpj}
-                    $error={error ? error.message : undefined}
+                    $error={error ? error.message : cnpjError ?? ''}
+                    $showErrorMessage
                   />
                 )}
               </InputMask>
             )}
           />
-          {errors.cnpj && (
-            <ErrorMessage $error={errors.cnpj.message as string} />
-          )}
         </div>
         <div>
           <Controller
@@ -120,12 +124,10 @@ export default function Step1({ onNext }: Step1Props) {
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 $error={error ? error.message : undefined}
+                $showErrorMessage
               />
             )}
           />
-          {errors.razao_social && (
-            <ErrorMessage $error={errors.razao_social.message as string} />
-          )}
         </div>
         <div>
           <Controller
@@ -141,12 +143,10 @@ export default function Step1({ onNext }: Step1Props) {
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 $error={error ? error.message : undefined}
+                $showErrorMessage
               />
             )}
           />
-          {errors.nome_fantasia && (
-            <ErrorMessage $error={errors.nome_fantasia.message as string} />
-          )}
         </div>
         <div>
           <Controller
@@ -162,14 +162,10 @@ export default function Step1({ onNext }: Step1Props) {
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 $error={error ? error.message : undefined}
+                $showErrorMessage
               />
             )}
           />
-          {errors.inscricao_estadual && (
-            <ErrorMessage
-              $error={errors.inscricao_estadual.message as string}
-            />
-          )}
         </div>
         <div>
           <Controller
@@ -185,14 +181,10 @@ export default function Step1({ onNext }: Step1Props) {
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 $error={error ? error.message : undefined}
+                $showErrorMessage
               />
             )}
           />
-          {errors.inscricao_municipal && (
-            <ErrorMessage
-              $error={errors.inscricao_municipal.message as string}
-            />
-          )}
         </div>
 
         <Button

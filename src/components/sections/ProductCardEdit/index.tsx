@@ -221,24 +221,28 @@ const ProductCardEdit: React.FC<ProductCardEditProps> = ({
         </S.CardSubInfo>
       </S.CardBody>
 
-      <S.MenuWrapper>
-        <S.MenuToggle onClick={() => onToggleMenu(caravan.id)}>
-          <DotsThree size={20} weight="bold" />
-        </S.MenuToggle>
-        {isOpenMenu && (
-          <S.MenuList>
-            <S.MenuItem onClick={() => onEdit(caravan.id)}>Editar</S.MenuItem>
-            <S.MenuItem onClick={() => onDelete(caravan.id)}>
-              Excluir
-            </S.MenuItem>
-          </S.MenuList>
-        )}
-      </S.MenuWrapper>
-
       {activeTab === 'upcoming' && (
-        <S.CardFooter>
-          <Button fullWidth>Ver reservas</Button>
-        </S.CardFooter>
+        <>
+          <S.MenuWrapper>
+            <S.MenuToggle onClick={() => onToggleMenu(caravan.id)}>
+              <DotsThree size={20} weight="bold" />
+            </S.MenuToggle>
+            {isOpenMenu && (
+              <S.MenuList>
+                <S.MenuItem onClick={() => onEdit(caravan.id)}>
+                  Editar
+                </S.MenuItem>
+                <S.MenuItem onClick={() => onDelete(caravan.id)}>
+                  Excluir
+                </S.MenuItem>
+              </S.MenuList>
+            )}
+          </S.MenuWrapper>
+
+          <S.CardFooter>
+            <Button fullWidth>Ver reservas</Button>
+          </S.CardFooter>
+        </>
       )}
     </S.Card>
   )
