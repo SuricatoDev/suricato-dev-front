@@ -129,7 +129,7 @@ export default function OrganizerForm({
           organizador: true
         }
         try {
-          const res = await fetch(`/api/register-organizador/`, {
+          const res = await fetch(`/api/organizador`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)

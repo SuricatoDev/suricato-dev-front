@@ -68,6 +68,7 @@ export const authOptions: NextAuthOptions = {
               Authorization: `${token.token_type} ${token.access_token}`
             }
           })
+
           const { user: userData, passageiro, organizador } = response.data
 
           return {
@@ -76,7 +77,11 @@ export const authOptions: NextAuthOptions = {
             passageiroData: passageiro,
             organizadorData: organizador
           }
-        } catch (err) {
+        } catch (err: unknown) {
+          if (axios.isAxiosError(err) && err.response?.status === 401) {
+            console.error('Sessão expirada, forçando logout.')
+            return null
+          }
           console.error('Erro ao buscar dados atualizados do usuário:', err)
           return token
         }
@@ -90,9 +95,13 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      session.user = {
-        ...(session.user as UserWithToken),
-        ...token
+      if (!token) {
+        session.user = null
+      } else {
+        session.user = {
+          ...(session.user as UserWithToken),
+          ...token
+        }
       }
       return session
     }

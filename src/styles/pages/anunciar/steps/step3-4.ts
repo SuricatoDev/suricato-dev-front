@@ -108,7 +108,7 @@ export const ConfirmPanel = styled.div`
 `
 
 export const ContainerSubStep2 = styled.div`
-  padding: 0 1.5rem;
+  padding: 0 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;

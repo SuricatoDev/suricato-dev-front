@@ -1,39 +1,45 @@
-import React, { useEffect, useState } from 'react'
-import * as S from '@/styles/pages/anunciar/steps/stepLocation'
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState
+} from 'react'
+import * as S from '@/styles/pages/anunciar/steps/step3-4'
 import AddressAutocomplete from '@/components/common/AddressAutocomplete'
 import Map from '@/components/common/Map'
 import Divider from '@/components/common/Divider'
-import { EditableAddressNoApi } from '@/components/common/EditableAddressNoApi'
-import { AddressDataNoApi } from '@/components/common/EditableAddressNoApi'
+import { EditableAddress } from '@/components/common/EditableAddress'
+import { AddressData } from '@/components/common/EditableAddress'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useContext } from 'react'
+import { CreateAdContext } from '@/contexts/CreateAdContext'
 
-type StepLocationProps = {
-  title: string
-  subtitle: string
-  titleStep2: string
-  subtitleStep2: string
+type Step4Props = {
   setCanProceed: (b: boolean) => void
-  subStep: 1 | 2
-  setSubStep: (s: 1 | 2) => void
-  address: AddressDataNoApi
-  setAddress: (a: AddressDataNoApi) => void
+}
+export type Step4Ref = {
+  handleNext: () => boolean
+  handleBack: () => boolean
 }
 
-export default function StepLocation({
-  title,
-  subtitle,
-  titleStep2,
-  subtitleStep2,
-  setCanProceed,
-  subStep,
-  setSubStep,
-  address,
-  setAddress
-}: StepLocationProps) {
+const Step4 = forwardRef<Step4Ref, Step4Props>(({ setCanProceed }, ref) => {
+  const { formData, updateFormData } = useContext(CreateAdContext)!
+
   const [selectedAddress, setSelectedAddress] = useState('')
   const [location, setLocation] = useState<google.maps.LatLngLiteral | null>(
     null
   )
+
+  const [subStep, setSubStep] = useState(1)
+  const [address, setAddress] = useState<AddressData>({
+    cep: '',
+    street: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+    complement: '',
+    number: ''
+  })
 
   useEffect(() => {
     if (subStep === 2) {
@@ -48,11 +54,12 @@ export default function StepLocation({
     } else {
       setCanProceed(false)
     }
-  }, [address, subStep, setCanProceed])
+  }, [subStep, setCanProceed])
 
   const handleSelect = (text: string, latLng: google.maps.LatLngLiteral) => {
     setSelectedAddress(text)
     setLocation(latLng)
+
     new window.google.maps.Geocoder().geocode(
       { location: latLng, language: 'pt', region: 'BR' },
       (results, status) => {
@@ -61,7 +68,8 @@ export default function StepLocation({
           const get = (types: string[]) =>
             comps.find((c) => types.some((t) => c.types.includes(t)))
               ?.long_name || ''
-          setAddress({
+
+          const fullAddress: AddressData = {
             cep: get(['postal_code']),
             street: get(['route']),
             neighborhood: get(['administrative_area_level_2', 'sublocality']),
@@ -71,13 +79,44 @@ export default function StepLocation({
               'postal_town'
             ]),
             state: get(['administrative_area_level_1']),
-            number: get(['street_number'])
-          })
+            number: get(['street_number']),
+            complement: ''
+          }
+
+          setAddress(fullAddress)
           setSubStep(2)
+
+          if (updateFormData) {
+            updateFormData('cep_destino', fullAddress.cep)
+            updateFormData('endereco_destino', fullAddress.street)
+            updateFormData('bairro_destino', fullAddress.neighborhood)
+            updateFormData('cidade_destino', fullAddress.city)
+            updateFormData('estado_destino', fullAddress.state)
+            updateFormData('numero_destino', fullAddress.number)
+            updateFormData('complemento_destino', fullAddress.complement)
+          }
         }
       }
     )
   }
+
+  useImperativeHandle(ref, () => ({
+    handleNext: () => {
+      if (subStep === 1) {
+        setSubStep(2)
+        return false
+      }
+
+      return true
+    },
+    handleBack: () => {
+      if (subStep === 2) {
+        setSubStep(1)
+        return false
+      }
+      return true
+    }
+  }))
 
   return (
     <S.Container>
@@ -96,8 +135,8 @@ export default function StepLocation({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
-              <S.Title>{title}</S.Title>
-              <S.Subtitle>{subtitle}</S.Subtitle>
+              <S.Title>De onde a caravana irá partir?</S.Title>
+              <S.Subtitle>Endereço público da partida</S.Subtitle>
             </S.Heading>
             <S.MapContainer
               as={motion.div}
@@ -136,19 +175,23 @@ export default function StepLocation({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
               >
-                <S.Title>{titleStep2}</S.Title>
-                <S.Subtitle>{subtitleStep2}</S.Subtitle>
+                <S.Title>Confirme o endereço de partida</S.Title>
+                <S.Subtitle>
+                  O endereço da origem será compartilhado publicamente na página
+                  da caravana.
+                </S.Subtitle>
               </S.Heading>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
               >
-                <EditableAddressNoApi
+                <EditableAddress
                   address={address}
                   setAddress={setAddress}
                   hasButton={false}
                   onSave={() => setCanProceed(true)}
+                  activeSearch={false}
                 />
               </motion.div>
               <Divider $marginY="16px" />
@@ -167,4 +210,8 @@ export default function StepLocation({
       </AnimatePresence>
     </S.Container>
   )
-}
+})
+
+Step4.displayName = 'Step4'
+
+export default Step4

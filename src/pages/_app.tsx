@@ -9,6 +9,9 @@ import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { SessionUpdater } from '@/components/common/SessionUpdater'
+import { GoogleMapsProvider } from '@/contexts/GoogleMapsProvider'
+import { StyleSheetManager } from 'styled-components'
+import isPropValid from '@emotion/is-prop-valid'
 
 export const inter = Inter({
   weight: ['400', '500', '600', '700'],
@@ -48,14 +51,18 @@ export default function App({
     <AccessibilityContextProvider>
       <SessionProvider session={session}>
         <SessionUpdater />
-        <Layout>
-          <div className={`${inter.className}`} id="modal-root">
-            <Component {...pageProps} />
-            <PWAInstallPrompt />
-            <ToastContainer position="bottom-center" autoClose={5000} />
-            {!hideMobileFooter && <MobileFooter />}
-          </div>
-        </Layout>
+        <GoogleMapsProvider>
+          <Layout>
+            <StyleSheetManager shouldForwardProp={(prop) => isPropValid(prop)}>
+              <div className={`${inter.className}`} id="modal-root">
+                <Component {...pageProps} />
+                <PWAInstallPrompt />
+                <ToastContainer position="bottom-center" autoClose={5000} />
+                {!hideMobileFooter && <MobileFooter />}
+              </div>
+            </StyleSheetManager>
+          </Layout>
+        </GoogleMapsProvider>
       </SessionProvider>
     </AccessibilityContextProvider>
   )

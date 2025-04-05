@@ -170,10 +170,7 @@ export default function PassengerForm({
     try {
       setIsLoading(true)
 
-      const response = await axios.post(
-        '/api/register-passageiro',
-        registrationPayload
-      )
+      const response = await axios.post('/api/passageiro', registrationPayload)
 
       if (response.status === 200) {
         await update({})

@@ -34,7 +34,7 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
   const handleNext = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch('/api/login/verificar-email', {
+      const response = await fetch('/api/autenticacao/verificar-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailValue })

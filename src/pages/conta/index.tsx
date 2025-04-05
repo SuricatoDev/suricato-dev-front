@@ -144,7 +144,7 @@ export default function ProfileEditPage() {
 
     try {
       setProfilePicUpdateLoading(true)
-      await axios.post('/api/update-foto-perfil/', formData, {
+      await axios.post('/api/usuarios/update-foto-perfil/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       setProfilePic(URL.createObjectURL(croppedFile))
@@ -226,7 +226,7 @@ export default function ProfileEditPage() {
 
     try {
       setIsLoading(true)
-      const response = await axios.put('/api/usuarios/', payload, {
+      const response = await axios.put('/api/usuarios/users', payload, {
         headers: { 'Content-Type': 'application/json' }
       })
       return response.data
@@ -321,7 +321,7 @@ export default function ProfileEditPage() {
   const handleDeleteAccount = async () => {
     try {
       setIsLoading(true)
-      await axios.delete('/api/usuarios/')
+      await axios.delete('/api/usuarios/users')
       toast.success('Conta excluída com sucesso!')
       signOut({ callbackUrl: '/' })
     } catch (error) {

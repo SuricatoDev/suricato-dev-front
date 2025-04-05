@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, ReactNode } from 'react'
 
 export type ImageItem = {
   id: string
@@ -19,12 +19,16 @@ export type FormData = {
   cep_origem: string
   cidade_origem: string
   estado_origem: string
+  complemento_origem: string
+
   endereco_destino: string
   numero_destino: string
   bairro_destino: string
   cep_destino: string
   cidade_destino: string
   estado_destino: string
+  complemento_destino: string
+
   numero_vagas: number
   valor: number
   imagens: ImageItem[]
@@ -55,12 +59,14 @@ export const CreateAdProvider = ({ children }: { children: ReactNode }) => {
     cep_origem: '',
     cidade_origem: '',
     estado_origem: '',
+    complemento_origem: '',
     endereco_destino: '',
     numero_destino: '',
     bairro_destino: '',
     cep_destino: '',
     cidade_destino: '',
     estado_destino: '',
+    complemento_destino: '',
     numero_vagas: 0,
     valor: 0,
     imagens: []
@@ -81,4 +87,12 @@ export const CreateAdProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </CreateAdContext.Provider>
   )
+}
+
+export const useCreateAd = () => {
+  const context = useContext(CreateAdContext)
+  if (!context) {
+    throw new Error('useCreateAd must be used within a CreateAdProvider')
+  }
+  return context
 }

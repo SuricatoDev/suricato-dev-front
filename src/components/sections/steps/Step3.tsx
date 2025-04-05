@@ -4,13 +4,15 @@ import React, {
   useImperativeHandle,
   useState
 } from 'react'
-import * as S from '@/styles/pages/anunciar/steps/stepLocation'
+import * as S from '@/styles/pages/anunciar/steps/step3-4'
 import AddressAutocomplete from '@/components/common/AddressAutocomplete'
 import Map from '@/components/common/Map'
 import Divider from '@/components/common/Divider'
 import { EditableAddress } from '@/components/common/EditableAddress'
 import { AddressData } from '@/components/common/EditableAddress'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useContext } from 'react'
+import { CreateAdContext } from '@/contexts/CreateAdContext'
 
 type Step3Props = {
   setCanProceed: (b: boolean) => void
@@ -21,6 +23,8 @@ export type Step3Ref = {
 }
 
 const Step3 = forwardRef<Step3Ref, Step3Props>(({ setCanProceed }, ref) => {
+  const { updateFormData } = useContext(CreateAdContext)!
+
   const [selectedAddress, setSelectedAddress] = useState('')
   const [location, setLocation] = useState<google.maps.LatLngLiteral | null>(
     null
@@ -55,6 +59,7 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(({ setCanProceed }, ref) => {
   const handleSelect = (text: string, latLng: google.maps.LatLngLiteral) => {
     setSelectedAddress(text)
     setLocation(latLng)
+
     new window.google.maps.Geocoder().geocode(
       { location: latLng, language: 'pt', region: 'BR' },
       (results, status) => {
@@ -63,7 +68,8 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(({ setCanProceed }, ref) => {
           const get = (types: string[]) =>
             comps.find((c) => types.some((t) => c.types.includes(t)))
               ?.long_name || ''
-          setAddress({
+
+          const fullAddress: AddressData = {
             cep: get(['postal_code']),
             street: get(['route']),
             neighborhood: get(['administrative_area_level_2', 'sublocality']),
@@ -75,8 +81,20 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(({ setCanProceed }, ref) => {
             state: get(['administrative_area_level_1']),
             number: get(['street_number']),
             complement: ''
-          })
+          }
+
+          setAddress(fullAddress)
           setSubStep(2)
+
+          if (updateFormData) {
+            updateFormData('cep_origem', fullAddress.cep)
+            updateFormData('endereco_origem', fullAddress.street)
+            updateFormData('bairro_origem', fullAddress.neighborhood)
+            updateFormData('cidade_origem', fullAddress.city)
+            updateFormData('estado_origem', fullAddress.state)
+            updateFormData('numero_origem', fullAddress.number)
+            updateFormData('complemento_origem', fullAddress.complement)
+          }
         }
       }
     )

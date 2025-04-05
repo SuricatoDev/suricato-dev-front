@@ -286,7 +286,7 @@ export function EditableAddress({
           </div>
         </S.Row>
         <S.Row>
-          <div style={{ flex: 3 }}>
+          <div>
             <Input
               type="text"
               name="neighborhood"
@@ -300,7 +300,9 @@ export function EditableAddress({
               $showErrorMessage
             />
           </div>
-          <div style={{ flex: 3 }}>
+        </S.Row>
+        <S.Row>
+          <div>
             <Input
               type="text"
               name="city"
@@ -314,7 +316,7 @@ export function EditableAddress({
               $showErrorMessage
             />
           </div>
-          <div style={{ flex: 1 }}>
+          <div>
             <Input
               type="text"
               name="state"

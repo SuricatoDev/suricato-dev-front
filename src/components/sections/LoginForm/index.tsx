@@ -98,7 +98,7 @@ export default function MultiStepForm({
         }
 
         try {
-          const res = await fetch('/api/cadastro', {
+          const res = await fetch('/api/usuarios/user-data', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)

@@ -1,69 +1,58 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useJsApiLoader } from '@react-google-maps/api'
-
-import { CreateAdProvider } from '@/contexts/CreateAdContext'
-import Step1 from '@/components/sections/steps/Step1'
-import Step2 from '@/components/sections/steps/Step2'
-import StepLocation from '@/components/sections/steps/StepLocation'
+import { CreateAdProvider, useCreateAd } from '@/contexts/CreateAdContext'
+import { useGoogleMaps } from '@/contexts/GoogleMapsProvider'
 import HeaderNav from '@/components/sections/HeaderNav'
 import FooterNav from '@/components/sections/FooterNav'
-import { AddressDataNoApi } from '@/components/common/EditableAddressNoApi'
-import Step5 from '@/components/sections/steps/Step5'
-import Step6 from '@/components/sections/steps/Step6'
-import Step7 from '@/components/sections/steps/Step7'
-import Step8 from '@/components/sections/steps/Step8'
-import Step9 from '@/components/sections/steps/Step9'
-import Step10 from '@/components/sections/steps/Step10'
-import Step11 from '@/components/sections/steps/Step11'
-import Step12 from '@/components/sections/steps/Step12'
+import {
+  Step1,
+  Step2,
+  Step3,
+  Step3Ref,
+  Step4,
+  Step4Ref,
+  Step5,
+  Step6,
+  Step7,
+  Step8,
+  Step9,
+  Step10,
+  Step11,
+  Step12
+} from '@/components/sections/steps'
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
-import Step3, { Step3Ref } from '@/components/sections/steps/Step3'
+import axios from 'axios'
 
 const Container = styled.div`
   padding: calc(64px + 1rem) 0 87px;
   position: relative;
   z-index: 0;
   box-sizing: border-box;
-  height: calc(100vh);
+  height: 100vh;
   overflow-y: auto;
 `
-type Library = 'places'
-const googleMapsLibraries: Library[] = ['places']
 
-export default function CreateAd() {
+function CreateAdPage() {
   const { isOrganizer, loading } = useIsOrganizer()
+  const { isLoaded } = useGoogleMaps()
   const router = useRouter()
 
-  const [step, setStep] = useState(1)
-  const [subStep4, setSubStep4] = useState<1 | 2>(1)
+  const { formData } = useCreateAd()
 
+  const [step, setStep] = useState(1)
+  const totalSteps = 12
   const [canProceed, setCanProceed] = useState(false)
   const step3Ref = useRef<Step3Ref>(null)
-  const totalSteps = 12
-
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries: googleMapsLibraries,
-    language: 'pt',
-    region: 'BR'
-  })
+  const step4Ref = useRef<Step4Ref>(null)
 
   useEffect(() => {
-    if (step === 1 || step === 2) {
-      setCanProceed(true)
-    }
-    if (step === 4) {
-      setCanProceed(subStep4 === 2)
-    }
-    if (step === 5) {
-      setCanProceed(true)
-    }
-  }, [step, subStep4])
+    const autoProceedSteps = [1, 2, 5]
+    setCanProceed(autoProceedSteps.includes(step))
+  }, [step])
 
   useEffect(() => {
     if (!loading && !isOrganizer) {
@@ -73,75 +62,72 @@ export default function CreateAd() {
 
   if (!isLoaded || !isOrganizer) return null
 
-  const handleNext = () => {
-    if (step === 3) {
-      const completed = step3Ref.current?.handleNext()
+  const handleNext = async () => {
+    if (step === 3 && !step3Ref.current?.handleNext()) return
+    if (step === 4 && !step4Ref.current?.handleNext()) return
 
-      if (completed) {
-        setStep((prev) => prev + 1)
-      }
-    }
-    if (step === 4 && subStep4 === 1) {
-      return setSubStep4(2)
-    }
     if (step < totalSteps) {
       setStep((prev) => prev + 1)
-      setSubStep4(1)
     } else {
-      alert('Concluído!')
+      try {
+        const payload = new FormData()
+
+        Object.keys(formData).forEach((key) => {
+          if (key === 'imagens') {
+            formData.imagens.forEach((image) => {
+              payload.append('imagens', image.file)
+            })
+          } else {
+            payload.append(key, String(formData[key as keyof typeof formData]))
+          }
+        })
+
+        console.log('Dados para envio:', formData)
+        const response = await axios.post(
+          `${process.env.BACKEND_URL}/caravanas`,
+          payload,
+          {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          }
+        )
+
+        console.log('Anúncio criado com sucesso:', response.data)
+        alert('Concluído!')
+      } catch (error) {
+        console.error('Erro ao concluir o anúncio:', error)
+        alert('Ocorreu um erro ao concluir o anúncio, tente novamente.')
+      }
     }
   }
 
   const handleBack = () => {
-    if (step === 3) {
-      const atStart = step3Ref.current?.handleBack()
-      if (atStart) {
-        setStep((prev) => prev - 1)
-      }
-      return
-    }
-    if (step === 4 && subStep4 === 2) {
-      return setSubStep4(1)
-    }
+    if (step === 3 && !step3Ref.current?.handleBack()) return
+    if (step === 4 && !step4Ref.current?.handleBack()) return
+
     if (step > 1) {
       setStep((prev) => prev - 1)
-      setSubStep4(1)
     }
   }
 
-  const renderStep = () => {
-    switch (step) {
-      case 1:
-        return <Step1 />
-      case 2:
-        return <Step2 setCanProceed={setCanProceed} />
-      case 3:
-        return <Step3 ref={step3Ref} setCanProceed={setCanProceed} />
-      case 4:
-        return <h1>step4</h1>
-      case 5:
-        return <Step5 setCanProceed={setCanProceed} />
-      case 6:
-        return <Step6 setCanProceed={setCanProceed} />
-      case 7:
-        return <Step7 setCanProceed={setCanProceed} />
-      case 8:
-        return <Step8 setCanProceed={setCanProceed} />
-      case 9:
-        return <Step9 setCanProceed={setCanProceed} />
-      case 10:
-        return <Step10 setCanProceed={setCanProceed} />
-      case 11:
-        return <Step11 setCanProceed={setCanProceed} />
-      case 12:
-        return <Step12 setCanProceed={setCanProceed} />
-      default:
-        return null
-    }
-  }
+  const steps = (
+    setCanProceed: React.Dispatch<React.SetStateAction<boolean>>
+  ) => [
+    <Step1 key="step1" />,
+    <Step2 key="step2" setCanProceed={setCanProceed} />,
+    <Step3 key="step3" ref={step3Ref} setCanProceed={setCanProceed} />,
+    <Step4 key="step4" ref={step4Ref} setCanProceed={setCanProceed} />,
+    <Step5 key="step5" setCanProceed={setCanProceed} />,
+    <Step6 key="step6" setCanProceed={setCanProceed} />,
+    <Step7 key="step7" setCanProceed={setCanProceed} />,
+    <Step8 key="step8" setCanProceed={setCanProceed} />,
+    <Step9 key="step9" setCanProceed={setCanProceed} />,
+    <Step10 key="step10" setCanProceed={setCanProceed} />,
+    <Step11 key="step11" setCanProceed={setCanProceed} />,
+    <Step12 key="step12" setCanProceed={setCanProceed} />
+  ]
 
   return (
-    <CreateAdProvider>
+    <>
       <HeaderNav />
       <Container>
         <AnimatePresence mode="wait">
@@ -153,7 +139,7 @@ export default function CreateAd() {
             transition={{ duration: 0.4 }}
             style={{ height: 'auto' }}
           >
-            {renderStep()}
+            {steps(setCanProceed)[step - 1]}
           </motion.span>
         </AnimatePresence>
       </Container>
@@ -164,6 +150,14 @@ export default function CreateAd() {
         onNext={handleNext}
         canProceed={canProceed}
       />
+    </>
+  )
+}
+
+export default function CreateAd() {
+  return (
+    <CreateAdProvider>
+      <CreateAdPage />
     </CreateAdProvider>
   )
 }
