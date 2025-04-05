@@ -2,7 +2,7 @@ import { device } from '@/styles/breakpoints'
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 0 1.5rem;
+  padding: 1rem 1.5rem;
   box-sizing: border-box;
   gap: 1.5rem;
   display: flex;

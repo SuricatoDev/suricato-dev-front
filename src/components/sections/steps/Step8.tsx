@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import * as S from '@/styles/pages/anunciar/steps/step8'
-import { CreateAdContext } from '@/contexts/CreateAdContext'
+import { CreateAdContext, ImageItem } from '@/contexts/CreateAdContext'
 
 import {
   DndContext,
@@ -24,7 +24,6 @@ import { Camera } from '@phosphor-icons/react/dist/ssr/Camera'
 import { DotsThree } from '@phosphor-icons/react/dist/ssr/DotsThree'
 import { CameraPlus } from '@phosphor-icons/react/dist/ssr/CameraPlus'
 import { motion } from 'framer-motion'
-type ImageItem = { id: string; file: File }
 
 interface SortableImageProps {
   item: ImageItem
@@ -105,18 +104,21 @@ export default function Step8({
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isDraggingFile, setIsDraggingFile] = useState(false)
 
+  console.log(formData.imagens)
+
   const handleDragEnter = () => setIsDraggingFile(true)
   const handleDragLeave = () => setIsDraggingFile(false)
 
-  const activeImage = formData.images.find((img) => img.id === activeId) || null
+  const activeImage =
+    formData.imagens.find((img) => img.id === activeId) || null
 
   useEffect(() => {
-    setCanProceed(formData.images.length > 0)
-  }, [formData.images])
+    setCanProceed(formData.imagens.length > 0)
+  }, [formData.imagens])
 
   useEffect(() => {
     const urls: { [id: string]: string } = {}
-    formData.images.forEach((img) => {
+    formData.imagens.forEach((img) => {
       urls[img.id] = URL.createObjectURL(img.file)
     })
     setImageUrls(urls)
@@ -124,18 +126,26 @@ export default function Step8({
     return () => {
       Object.values(urls).forEach((url) => URL.revokeObjectURL(url))
     }
-  }, [formData.images])
+  }, [formData.imagens])
+
+  const updateImageOrders = (images: ImageItem[]): ImageItem[] => {
+    return images.map((image, index) => ({
+      ...image,
+      order: index
+    }))
+  }
 
   const reorder = (from: number, to: number) => {
-    const reordered = arrayMove(formData.images, from, to)
-    updateFormData('images', reordered)
+    let reordered = arrayMove(formData.imagens, from, to)
+    reordered = updateImageOrders(reordered)
+    updateFormData('imagens', reordered)
     setOpenMenuId(null)
   }
 
   const deleteImage = (index: number) => {
-    const updated = [...formData.images]
+    const updated = [...formData.imagens]
     updated.splice(index, 1)
-    updateFormData('images', updated)
+    updateFormData('imagens', updated)
     setOpenMenuId(null)
   }
 
@@ -147,8 +157,8 @@ export default function Step8({
     setActiveId(null)
     if (!over || active.id === over.id) return
 
-    const oldIndex = formData.images.findIndex((i) => i.id === active.id)
-    const newIndex = formData.images.findIndex((i) => i.id === over.id)
+    const oldIndex = formData.imagens.findIndex((i) => i.id === active.id)
+    const newIndex = formData.imagens.findIndex((i) => i.id === over.id)
     reorder(oldIndex, newIndex)
   }
 
@@ -158,9 +168,10 @@ export default function Step8({
       const newImage = {
         id: crypto.randomUUID(),
         file,
-        previewUrl: URL.createObjectURL(file)
+        previewUrl: URL.createObjectURL(file),
+        order: formData.imagens.length
       }
-      updateFormData('images', [...formData.images, newImage])
+      updateFormData('imagens', [...formData.imagens, newImage])
     }
   }
 
@@ -171,9 +182,10 @@ export default function Step8({
       const newImage = {
         id: crypto.randomUUID(),
         file,
-        previewUrl: URL.createObjectURL(file)
+        previewUrl: URL.createObjectURL(file),
+        order: formData.imagens.length
       }
-      updateFormData('images', [...formData.images, newImage])
+      updateFormData('imagens', [...formData.imagens, newImage])
     }
   }
 
@@ -201,7 +213,7 @@ export default function Step8({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2 }}
       >
-        {formData.images.map((img, idx) => (
+        {formData.imagens.map((img, idx) => (
           <div
             key={img.id}
             style={{
@@ -228,7 +240,7 @@ export default function Step8({
                     Mover para trás
                   </S.MenuItem>
                 )}
-                {idx < formData.images.length - 1 && (
+                {idx < formData.imagens.length - 1 && (
                   <S.MenuItem onClick={() => reorder(idx, idx + 1)}>
                     Mover para frente
                   </S.MenuItem>
@@ -285,7 +297,7 @@ export default function Step8({
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={formData.images} strategy={rectSortingStrategy}>
+      <SortableContext items={formData.imagens} strategy={rectSortingStrategy}>
         {renderImages()}
       </SortableContext>
 

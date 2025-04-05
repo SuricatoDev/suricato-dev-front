@@ -11,7 +11,7 @@ export default function Step10({
 }) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
   const [description, setDescription] = useState(
-    formData.description || 'Você jamais esquecerá dessa experiência.'
+    formData.descricao || 'Você jamais esquecerá dessa experiência.'
   )
 
   const maxLength = 500
@@ -20,7 +20,7 @@ export default function Step10({
   const showError = isTooLong
 
   useEffect(() => {
-    updateFormData('description', description)
+    updateFormData('descricao', description)
     setCanProceed(!isEmpty && !isTooLong)
   }, [description])
 

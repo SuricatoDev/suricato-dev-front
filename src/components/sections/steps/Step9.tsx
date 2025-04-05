@@ -10,7 +10,7 @@ export default function Step9({
   setCanProceed: (ok: boolean) => void
 }) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
-  const [title, setTitle] = useState(formData.title || '')
+  const [title, setTitle] = useState(formData.titulo)
 
   const maxLength = 32
   const isTooLong = title.length > maxLength
@@ -18,7 +18,7 @@ export default function Step9({
   const showError = isTooLong
 
   useEffect(() => {
-    updateFormData('title', title)
+    updateFormData('titulo', title)
     setCanProceed(!isEmpty && !isTooLong)
   }, [title])
 

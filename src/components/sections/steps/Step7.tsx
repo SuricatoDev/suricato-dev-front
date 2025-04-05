@@ -11,17 +11,20 @@ type Step7Props = {
 export default function Step7({ setCanProceed }: Step7Props) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
 
+  console.log('Step 7', formData.imagens)
+
   useEffect(() => {
-    setCanProceed(formData.images.length >= 5)
-  }, [formData.images, setCanProceed])
+    setCanProceed(formData.imagens.length >= 5)
+  }, [formData.imagens, setCanProceed])
 
   const handleFilesChange = (files: File[]) => {
-    const items = files.map((file) => ({
+    const items = files.map((file, index) => ({
       id: crypto.randomUUID(),
       file,
-      previewUrl: URL.createObjectURL(file)
+      previewUrl: URL.createObjectURL(file),
+      order: index
     }))
-    updateFormData('images', items)
+    updateFormData('imagens', items)
   }
   return (
     <S.Container>
@@ -45,7 +48,7 @@ export default function Step7({ setCanProceed }: Step7Props) {
           transition={{ duration: 0.4, delay: 0.2 }}
         >
           <ImageDropzone
-            initialFiles={formData.images}
+            initialFiles={formData.imagens}
             onFilesChange={handleFilesChange}
           />
         </motion.div>

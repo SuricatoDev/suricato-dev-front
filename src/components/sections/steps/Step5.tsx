@@ -10,20 +10,18 @@ type Step5Props = { setCanProceed: (b: boolean) => void }
 
 export default function Step5({ setCanProceed }: Step5Props) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
-  const { availableSeats, departureDateTime, arrivalDateTime } = formData
+  const { numero_vagas, data_partida, data_retorno } = formData
 
   useEffect(() => {
     setCanProceed(
-      Number(availableSeats) > 0 &&
-        Boolean(departureDateTime) &&
-        Boolean(arrivalDateTime)
+      Number(numero_vagas) > 0 && Boolean(data_partida) && Boolean(data_retorno)
     )
-  }, [availableSeats, departureDateTime, arrivalDateTime])
+  }, [numero_vagas, data_partida, data_retorno])
 
   const adjustSeats = (delta: number) =>
     updateFormData(
-      'availableSeats',
-      String(Math.max(1, Number(availableSeats || 0) + delta))
+      'numero_vagas',
+      String(Math.max(1, Number(numero_vagas || 0) + delta))
     )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -57,14 +55,14 @@ export default function Step5({ setCanProceed }: Step5Props) {
             <S.Counter>
               <S.CounterButton
                 onClick={() => adjustSeats(-1)}
-                disabled={Number(availableSeats) <= 1}
+                disabled={Number(numero_vagas) <= 1}
               >
                 <Minus size={20} />
               </S.CounterButton>
               <S.CounterInput
                 type="number"
-                name="availableSeats"
-                value={availableSeats || 0}
+                name="numero_vagas"
+                value={numero_vagas || 0}
                 min={1}
                 onChange={handleChange}
               />
@@ -79,8 +77,8 @@ export default function Step5({ setCanProceed }: Step5Props) {
           <S.Row>
             <S.Label>Data e Hora de saída</S.Label>
             <S.DateTimeInput
-              name="departureDateTime"
-              value={departureDateTime}
+              name="data_partida"
+              value={data_partida}
               onChange={handleChange}
               step={1800}
               required
@@ -92,10 +90,10 @@ export default function Step5({ setCanProceed }: Step5Props) {
           <S.Row>
             <S.Label>Data e Hora de chegada</S.Label>
             <S.DateTimeInput
-              name="arrivalDateTime"
-              value={arrivalDateTime}
+              name="data_retorno"
+              value={data_retorno}
               onChange={handleChange}
-              min={departureDateTime || undefined}
+              min={data_partida || undefined}
               step={1800}
               required
             />

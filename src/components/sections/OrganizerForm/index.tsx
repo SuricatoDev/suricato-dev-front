@@ -53,7 +53,8 @@ export default function OrganizerForm({
     bairro: '',
     cep: '',
     cidade: '',
-    estado: ''
+    estado: '',
+    telefone_comercial: ''
   })
 
   const methods = useForm<OrganizerFormDataStep1 | OrganizerFormDataStep2>({
@@ -106,7 +107,8 @@ export default function OrganizerForm({
         'bairro',
         'cep',
         'cidade',
-        'estado'
+        'estado',
+        'telefone_comercial'
       ])
       if (isValid) {
         const values = methods.getValues() as OrganizerFormData
@@ -123,6 +125,7 @@ export default function OrganizerForm({
           cep: values.cep,
           cidade: values.cidade,
           estado: values.estado,
+          telefone_comercial: values.telefone_comercial.replace(/\D/g, ''),
           organizador: true
         }
         try {

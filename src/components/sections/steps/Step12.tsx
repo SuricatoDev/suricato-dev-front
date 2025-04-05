@@ -14,7 +14,7 @@ export default function Step12({
   setCanProceed: (ok: boolean) => void
 }) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
-  const [price, setPrice] = useState(formData.price || 20)
+  const [price, setPrice] = useState(formData.valor || 20)
   const [editing, setEditing] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
   const [activeInner, setActiveInner] = useState<'guest' | 'host'>('guest')
@@ -29,7 +29,7 @@ export default function Step12({
   const isValid = price >= min && price <= max
 
   useEffect(() => {
-    updateFormData('price', price)
+    updateFormData('valor', price)
     setCanProceed(isValid)
   }, [price])
 

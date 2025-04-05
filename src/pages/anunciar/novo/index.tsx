@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useJsApiLoader } from '@react-google-maps/api'
@@ -22,9 +22,10 @@ import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 import { useRouter } from 'next/router'
 import { getSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
+import Step3, { Step3Ref } from '@/components/sections/steps/Step3'
 
 const Container = styled.div`
-  padding: calc(64px + 1rem) 0 calc(87px + 1rem);
+  padding: calc(64px + 1rem) 0 87px;
   position: relative;
   z-index: 0;
   box-sizing: border-box;
@@ -39,20 +40,10 @@ export default function CreateAd() {
   const router = useRouter()
 
   const [step, setStep] = useState(1)
-  const [subStep3, setSubStep3] = useState<1 | 2>(1)
   const [subStep4, setSubStep4] = useState<1 | 2>(1)
-  const [origin, setOrigin] = useState<AddressDataNoApi>({
-    cep: '',
-    street: '',
-    neighborhood: '',
-    city: '',
-    state: '',
-    number: ''
-  })
-  const [destination, setDestination] = useState<AddressDataNoApi>({
-    ...origin
-  })
+
   const [canProceed, setCanProceed] = useState(false)
+  const step3Ref = useRef<Step3Ref>(null)
   const totalSteps = 12
 
   const { isLoaded } = useJsApiLoader({
@@ -66,16 +57,13 @@ export default function CreateAd() {
     if (step === 1 || step === 2) {
       setCanProceed(true)
     }
-    if (step === 3) {
-      setCanProceed(subStep3 === 2)
-    }
     if (step === 4) {
       setCanProceed(subStep4 === 2)
     }
     if (step === 5) {
       setCanProceed(true)
     }
-  }, [step, subStep3, subStep4])
+  }, [step, subStep4])
 
   useEffect(() => {
     if (!loading && !isOrganizer) {
@@ -86,15 +74,18 @@ export default function CreateAd() {
   if (!isLoaded || !isOrganizer) return null
 
   const handleNext = () => {
-    if (step === 3 && subStep3 === 1) {
-      return setSubStep3(2)
+    if (step === 3) {
+      const completed = step3Ref.current?.handleNext()
+
+      if (completed) {
+        setStep((prev) => prev + 1)
+      }
     }
     if (step === 4 && subStep4 === 1) {
       return setSubStep4(2)
     }
     if (step < totalSteps) {
       setStep((prev) => prev + 1)
-      setSubStep3(1)
       setSubStep4(1)
     } else {
       alert('Concluído!')
@@ -102,15 +93,18 @@ export default function CreateAd() {
   }
 
   const handleBack = () => {
-    if (step === 3 && subStep3 === 2) {
-      return setSubStep3(1)
+    if (step === 3) {
+      const atStart = step3Ref.current?.handleBack()
+      if (atStart) {
+        setStep((prev) => prev - 1)
+      }
+      return
     }
     if (step === 4 && subStep4 === 2) {
       return setSubStep4(1)
     }
     if (step > 1) {
       setStep((prev) => prev - 1)
-      setSubStep3(1)
       setSubStep4(1)
     }
   }
@@ -122,33 +116,9 @@ export default function CreateAd() {
       case 2:
         return <Step2 setCanProceed={setCanProceed} />
       case 3:
-        return (
-          <StepLocation
-            title="De onde a caravana irá partir?"
-            subtitle="Endereço público da partida"
-            titleStep2="Confirme o endereço de partida"
-            subtitleStep2="O endereço da origem será compartilhado publicamente na página da caravana."
-            subStep={subStep3}
-            setSubStep={setSubStep3}
-            address={origin}
-            setAddress={setOrigin}
-            setCanProceed={setCanProceed}
-          />
-        )
+        return <Step3 ref={step3Ref} setCanProceed={setCanProceed} />
       case 4:
-        return (
-          <StepLocation
-            title="Qual o destino da caravana?"
-            subtitle="Endereço público do destino"
-            titleStep2="Confirme o endereço de destino"
-            subtitleStep2="O endereço do destino será compartilhado publicamente na página da caravana."
-            subStep={subStep4}
-            setSubStep={setSubStep4}
-            address={destination}
-            setAddress={setDestination}
-            setCanProceed={setCanProceed}
-          />
-        )
+        return <h1>step4</h1>
       case 5:
         return <Step5 setCanProceed={setCanProceed} />
       case 6:

@@ -3,8 +3,8 @@ import Image from 'next/image'
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 0 1.5rem;
-  height: calc(100dvh - 88px - 100px);
+  padding: 1rem 1.5rem;
+  min-height: calc(100dvh - 87px);
   box-sizing: border-box;
   gap: 1.5rem;
   display: flex;

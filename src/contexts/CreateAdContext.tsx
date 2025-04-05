@@ -4,18 +4,30 @@ export type ImageItem = {
   id: string
   file: File
   previewUrl: string
+  order: number
 }
 
 export type FormData = {
-  category: string
-  address: string
-  departureDateTime: string
-  arrivalDateTime: string
-  availableSeats: string
-  price: number
-  images: ImageItem[]
-  title: string
-  description: string
+  titulo: string
+  descricao: string
+  categoria: string
+  data_partida: string
+  data_retorno: string
+  endereco_origem: string
+  numero_origem: string
+  bairro_origem: string
+  cep_origem: string
+  cidade_origem: string
+  estado_origem: string
+  endereco_destino: string
+  numero_destino: string
+  bairro_destino: string
+  cep_destino: string
+  cidade_destino: string
+  estado_destino: string
+  numero_vagas: number
+  valor: number
+  imagens: ImageItem[]
 }
 
 type CreateAdContextProps = {
@@ -32,15 +44,26 @@ export const CreateAdContext = createContext<CreateAdContextProps | undefined>(
 
 export const CreateAdProvider = ({ children }: { children: ReactNode }) => {
   const [formData, setFormData] = useState<FormData>({
-    category: '',
-    address: '',
-    departureDateTime: '',
-    arrivalDateTime: '',
-    availableSeats: '',
-    price: 0,
-    images: [],
-    title: '',
-    description: ''
+    titulo: '',
+    descricao: '',
+    categoria: '',
+    data_partida: '',
+    data_retorno: '',
+    endereco_origem: '',
+    numero_origem: '',
+    bairro_origem: '',
+    cep_origem: '',
+    cidade_origem: '',
+    estado_origem: '',
+    endereco_destino: '',
+    numero_destino: '',
+    bairro_destino: '',
+    cep_destino: '',
+    cidade_destino: '',
+    estado_destino: '',
+    numero_vagas: 0,
+    valor: 0,
+    imagens: []
   })
 
   const updateFormData = (

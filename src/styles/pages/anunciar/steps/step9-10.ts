@@ -25,12 +25,12 @@ export const Description = styled.p`
 `
 
 export const Container = styled.div`
-  padding: 0 1.5rem;
+  padding: 1rem 1.5rem;
   max-width: 700px;
   width: 100%;
   margin: 0 auto;
   @media (${device.md}) {
-    height: calc(100dvh - 88px - 86px);
+    height: calc(100dvh - 87px);
     display: flex;
     padding: 0;
     align-items: center;

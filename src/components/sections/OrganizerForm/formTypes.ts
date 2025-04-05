@@ -10,11 +10,16 @@ export interface OrganizerFormData {
   cep: string
   cidade: string
   estado: string
+  telefone_comercial: string
 }
 
 export type OrganizerFormDataStep1 = Pick<
   OrganizerFormData,
-  'razao_social' | 'cnpj' | 'inscricao_estadual' | 'inscricao_municipal'
+  | 'razao_social'
+  | 'cnpj'
+  | 'inscricao_estadual'
+  | 'inscricao_municipal'
+  | 'telefone_comercial'
 >
 
 export type OrganizerFormDataStep2 = Pick<

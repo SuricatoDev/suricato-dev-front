@@ -186,6 +186,32 @@ export default function Step1({ onNext }: Step1Props) {
             )}
           />
         </div>
+        <div>
+          <Controller
+            name="telefone_comercial"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <InputMask
+                mask="(99) 99999-9999"
+                maskChar={null}
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+              >
+                {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
+                  <Input
+                    {...inputProps}
+                    type="phone"
+                    placeholder="Digite o telefone comercial"
+                    label="Telefone Comercial"
+                    required
+                  />
+                )}
+              </InputMask>
+            )}
+          />
+        </div>
 
         <Button
           type="button"

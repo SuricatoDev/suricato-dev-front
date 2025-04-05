@@ -12,11 +12,11 @@ export default function Step2({ setCanProceed }: Step2Props) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
 
   useEffect(() => {
-    setCanProceed(!!formData.category)
-  }, [formData.category])
+    setCanProceed(!!formData.categoria)
+  }, [formData.categoria])
 
   const handleCategorySelect = (categoryId: string) => {
-    updateFormData('category', categoryId)
+    updateFormData('categoria', categoryId)
   }
 
   return (
@@ -33,7 +33,7 @@ export default function Step2({ setCanProceed }: Step2Props) {
 
         <S.OptionsContainer>
           {categories.map((category, index) => {
-            const isSelected = formData.category === category.id
+            const isSelected = formData.categoria === category.id
 
             return (
               <S.Option
