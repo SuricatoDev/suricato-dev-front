@@ -360,8 +360,8 @@ export default function ProfileEditPage() {
                       <Image
                         src={profilePic}
                         alt="Foto de perfil"
-                        layout="fill"
-                        objectFit="cover"
+                        fill
+                        style={{ objectFit: 'cover' }}
                         onError={() => setProfilePicLoad(false)}
                       />
                     </S.ProfilePic>

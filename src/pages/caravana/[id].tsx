@@ -107,7 +107,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
     try {
       setIsSubscribing(true)
       const response = await axios.post(
-        `/api/caravanas/${caravan.id}/reservas`,
+        `/api/reservas/${caravan.id}/reservas`,
         {
           passageiro_id: session?.user?.id
         }

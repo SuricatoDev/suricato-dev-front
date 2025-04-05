@@ -113,7 +113,7 @@ export default function PassengerForm({
   ) => {
     try {
       const res = await axios.get(
-        `/api/caravanas/${caravana}/reservas/${passageiro}`
+        `/api/reservas/${caravana}/reservas/${passageiro}`
       )
       if (res.status === 200) {
         return true
@@ -181,7 +181,7 @@ export default function PassengerForm({
         }
 
         const inscriptionResponse = await axios.post(
-          `/api/caravanas/${caravanaId}/reservas`,
+          `/api/reservas/${caravanaId}/reservas`,
           inscriptionPayload
         )
 

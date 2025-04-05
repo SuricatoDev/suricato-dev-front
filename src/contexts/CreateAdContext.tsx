@@ -32,6 +32,9 @@ export type FormData = {
   numero_vagas: number
   valor: number
   imagens: ImageItem[]
+
+  organizador_id: number
+  ordem: number
 }
 
 type CreateAdContextProps = {
@@ -69,6 +72,8 @@ export const CreateAdProvider = ({ children }: { children: ReactNode }) => {
     complemento_destino: '',
     numero_vagas: 0,
     valor: 0,
+    organizador_id: 29,
+    ordem: 1,
     imagens: []
   })
 

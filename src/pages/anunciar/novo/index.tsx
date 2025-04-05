@@ -72,24 +72,18 @@ function CreateAdPage() {
       try {
         const payload = new FormData()
 
-        Object.keys(formData).forEach((key) => {
-          if (key === 'imagens') {
-            formData.imagens.forEach((image) => {
-              payload.append('imagens', image.file)
-            })
-          } else {
-            payload.append(key, String(formData[key as keyof typeof formData]))
-          }
+        const { imagens, ...dados } = formData
+
+        payload.append('dados', JSON.stringify(dados))
+
+        imagens.forEach((image) => {
+          payload.append('imagens', image.file)
         })
 
         console.log('Dados para envio:', formData)
-        const response = await axios.post(
-          `${process.env.BACKEND_URL}/caravanas`,
-          payload,
-          {
-            headers: { 'Content-Type': 'multipart/form-data' }
-          }
-        )
+        const response = await axios.post(`/api/caravanas`, payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
 
         console.log('Anúncio criado com sucesso:', response.data)
         alert('Concluído!')
