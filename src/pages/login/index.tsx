@@ -1,7 +1,12 @@
 import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
-import LoginForm from '@/components/sections/LoginForm'
+import dynamic from 'next/dynamic'
+
 import * as S from '@/styles/pages/login'
+
+const LoginForm = dynamic(() => import('@/components/sections/LoginForm'), {
+  ssr: false
+})
 
 export default function Login() {
   return (

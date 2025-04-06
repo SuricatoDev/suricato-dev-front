@@ -1,9 +1,14 @@
 import { GetServerSideProps } from 'next'
-import { CaravanForm } from '@/components/sections/CaravanForm'
+import dynamic from 'next/dynamic'
+
 import {
   CreateAdProvider,
   CreateAdProviderProps
 } from '@/contexts/CreateAdContext'
+
+const CaravanForm = dynamic(() => import('@/components/sections/CaravanForm'), {
+  ssr: false
+})
 
 export default function EditarCaravanaPage({
   initialData

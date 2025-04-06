@@ -9,8 +9,13 @@ import CategoriesBar from '@/components/common/CategoriesBar'
 import { HeaderNavigation } from './navigation'
 import Divider from '@/components/common/Divider'
 import Portal from '@/components/common/Portal'
-import MultiStepForm from '@/components/sections/LoginForm'
+
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
+
+const MultiStepForm = dynamic(() => import('@/components/sections/LoginForm'), {
+  ssr: false
+})
 
 export type HeaderProps = {
   $variant?: 'default' | 'simple'

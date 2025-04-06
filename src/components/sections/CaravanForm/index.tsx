@@ -40,7 +40,7 @@ interface CaravanFormProps {
   initialData?: any
 }
 
-export function CaravanForm({ mode, initialData }: CaravanFormProps) {
+export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
   const { isOrganizer, loading } = useIsOrganizer()
   const { isLoaded } = useGoogleMaps()
   const router = useRouter()
