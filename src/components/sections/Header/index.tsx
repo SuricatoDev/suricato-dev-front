@@ -171,7 +171,11 @@ export default function Header({ $variant = 'default' }: HeaderProps) {
                           ) : item.value === 'sair' ? (
                             <S.MenuItem
                               as="button"
-                              onClick={() => handleOptionClick(() => signOut())}
+                              onClick={() =>
+                                handleOptionClick(() => {
+                                  signOut({ callbackUrl: '/' })
+                                })
+                              }
                               $isBold={item.isBold}
                             >
                               {item.label}
