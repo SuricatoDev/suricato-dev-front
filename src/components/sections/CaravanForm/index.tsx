@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -20,11 +21,9 @@ import {
   Step10,
   Step11,
   Step12
-} from '@/components/sections/steps'
+} from './steps'
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 import { useRouter } from 'next/router'
-import { getSession } from 'next-auth/react'
-import { GetServerSideProps } from 'next'
 import axios from 'axios'
 
 const Container = styled.div`
@@ -36,7 +35,12 @@ const Container = styled.div`
   overflow-y: auto;
 `
 
-function CreateAdPage() {
+interface CaravanFormProps {
+  mode: 'create' | 'edit'
+  initialData?: any
+}
+
+export function CaravanForm({ mode, initialData }: CaravanFormProps) {
   const { isOrganizer, loading } = useIsOrganizer()
   const { isLoaded } = useGoogleMaps()
   const router = useRouter()
@@ -56,7 +60,7 @@ function CreateAdPage() {
 
   useEffect(() => {
     if (!loading && !isOrganizer) {
-      router.push('/anunciar')
+      router.push('/anuncios')
     }
   }, [loading, isOrganizer, router])
 
@@ -71,22 +75,29 @@ function CreateAdPage() {
     } else {
       try {
         const payload = new FormData()
-
         const { imagens, ...dados } = formData
 
         payload.append('dados', JSON.stringify(dados))
-
         imagens.forEach((image) => {
           payload.append('imagens', image.file)
         })
 
-        console.log('Dados para envio:', formData)
-        const response = await axios.post(`/api/caravanas`, payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
-
-        console.log('Anúncio criado com sucesso:', response.data)
-        alert('Concluído!')
+        let response
+        if (mode === 'edit') {
+          response = await axios.put(
+            `/api/caravanas/${formData.caravana_id}`,
+            payload,
+            {
+              headers: { 'Content-Type': 'multipart/form-data' }
+            }
+          )
+          alert('Edição concluída!')
+        } else {
+          response = await axios.post(`/api/caravanas`, payload, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+          alert('Caravana criada com sucesso!')
+        }
       } catch (error) {
         console.error('Erro ao concluir o anúncio:', error)
         alert('Ocorreu um erro ao concluir o anúncio, tente novamente.')
@@ -146,29 +157,4 @@ function CreateAdPage() {
       />
     </>
   )
-}
-
-export default function CreateAd() {
-  return (
-    <CreateAdProvider>
-      <CreateAdPage />
-    </CreateAdProvider>
-  )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context)
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login?callbackUrl=/anunciar/novo',
-        permanent: false
-      }
-    }
-  }
-
-  return {
-    props: { session }
-  }
 }

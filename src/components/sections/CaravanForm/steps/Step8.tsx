@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import * as S from '@/styles/pages/anunciar/steps/step8'
+import * as S from '@/styles/pages/anuncios/steps/step8'
 import { CreateAdContext, ImageItem } from '@/contexts/CreateAdContext'
 
 import {
@@ -103,8 +103,6 @@ export default function Step8({
   const sensors = useSensors(useSensor(PointerSensor))
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isDraggingFile, setIsDraggingFile] = useState(false)
-
-  console.log(formData.imagens)
 
   const handleDragEnter = () => setIsDraggingFile(true)
   const handleDragLeave = () => setIsDraggingFile(false)

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { CreateAdContext } from '@/contexts/CreateAdContext'
-import * as S from '@/styles/pages/anunciar/steps/step2'
+import * as S from '@/styles/pages/anuncios/steps/step2'
 import { categories } from '@/constants/categories'
 import { motion } from 'framer-motion'
 

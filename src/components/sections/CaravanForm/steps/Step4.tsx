@@ -4,7 +4,7 @@ import React, {
   useImperativeHandle,
   useState
 } from 'react'
-import * as S from '@/styles/pages/anunciar/steps/step3-4'
+import * as S from '@/styles/pages/anuncios/steps/step3-4'
 import AddressAutocomplete from '@/components/common/AddressAutocomplete'
 import Map from '@/components/common/Map'
 import Divider from '@/components/common/Divider'
@@ -14,16 +14,16 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useContext } from 'react'
 import { CreateAdContext } from '@/contexts/CreateAdContext'
 
-type Step3Props = {
+type Step4Props = {
   setCanProceed: (b: boolean) => void
 }
-export type Step3Ref = {
+export type Step4Ref = {
   handleNext: () => boolean
   handleBack: () => boolean
 }
 
-const Step3 = forwardRef<Step3Ref, Step3Props>(({ setCanProceed }, ref) => {
-  const { updateFormData } = useContext(CreateAdContext)!
+const Step4 = forwardRef<Step4Ref, Step4Props>(({ setCanProceed }, ref) => {
+  const { formData, updateFormData } = useContext(CreateAdContext)!
 
   const [selectedAddress, setSelectedAddress] = useState('')
   const [location, setLocation] = useState<google.maps.LatLngLiteral | null>(
@@ -87,13 +87,13 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(({ setCanProceed }, ref) => {
           setSubStep(2)
 
           if (updateFormData) {
-            updateFormData('cep_origem', fullAddress.cep)
-            updateFormData('endereco_origem', fullAddress.street)
-            updateFormData('bairro_origem', fullAddress.neighborhood)
-            updateFormData('cidade_origem', fullAddress.city)
-            updateFormData('estado_origem', fullAddress.state)
-            updateFormData('numero_origem', fullAddress.number)
-            updateFormData('complemento_origem', fullAddress.complement)
+            updateFormData('cep_destino', fullAddress.cep)
+            updateFormData('endereco_destino', fullAddress.street)
+            updateFormData('bairro_destino', fullAddress.neighborhood)
+            updateFormData('cidade_destino', fullAddress.city)
+            updateFormData('estado_destino', fullAddress.state)
+            updateFormData('numero_destino', fullAddress.number)
+            updateFormData('complemento_destino', fullAddress.complement)
           }
         }
       }
@@ -212,6 +212,6 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(({ setCanProceed }, ref) => {
   )
 })
 
-Step3.displayName = 'Step3'
+Step4.displayName = 'Step4'
 
-export default Step3
+export default Step4

@@ -1,26 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react'
-import * as S from '@/styles/pages/anunciar/steps/step9-10'
+import * as S from '@/styles/pages/anuncios/steps/step9-10'
 import { CreateAdContext } from '@/contexts/CreateAdContext'
 import ErrorMessage from '@/components/common/ErrorMessage'
 import { motion } from 'framer-motion'
 
-export default function Step9({
+export default function Step10({
   setCanProceed
 }: {
   setCanProceed: (ok: boolean) => void
 }) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
-  const [title, setTitle] = useState(formData.titulo)
+  const [description, setDescription] = useState(
+    formData.descricao || 'Você jamais esquecerá dessa experiência.'
+  )
 
-  const maxLength = 32
-  const isTooLong = title.length > maxLength
-  const isEmpty = title.trim().length === 0
+  const maxLength = 500
+  const isTooLong = description.length > maxLength
+  const isEmpty = description.trim().length === 0
   const showError = isTooLong
 
   useEffect(() => {
-    updateFormData('titulo', title)
+    updateFormData('descricao', description)
     setCanProceed(!isEmpty && !isTooLong)
-  }, [title])
+  }, [description])
 
   return (
     <S.Container>
@@ -31,10 +33,9 @@ export default function Step9({
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <S.Title>Agora, vamos dar um título à sua caravana</S.Title>
+          <S.Title>Crie sua descrição</S.Title>
           <S.Description>
-            Títulos curtos funcionam melhor. Não se preocupe, você poderá fazer
-            alterações depois.
+            Explique o que sua caravana tem de especial.
           </S.Description>
         </S.Heading>
 
@@ -44,14 +45,14 @@ export default function Step9({
           transition={{ duration: 0.4 }}
         >
           <S.Textarea
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             rows={4}
             hasError={showError}
           />
 
           <S.CharCount>
-            {title.length}/{maxLength}
+            {description.length}/{maxLength}
           </S.CharCount>
 
           {showError && (

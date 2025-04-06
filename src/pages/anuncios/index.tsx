@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Header from '@/components/sections/Header'
 import Footer from '@/components/sections/Footer'
 import Button from '@/components/common/Button'
-import * as S from '@/styles/pages/anunciar'
+import * as S from '@/styles/pages/anuncios'
 import Tabs, { TabKey } from '@/components/common/Tabs'
 import FloatingActionButton from '@/components/common/FloatingButton'
 import MobileHeader from '@/components/sections/MobileHeader'
@@ -142,9 +142,9 @@ export default function CaravanasManagementPage() {
 
   const handleFloatingButtonClick = () => {
     if (caravans.length === 0) {
-      return router.push('/anunciar/overview/')
+      return router.push('/anuncios/overview/')
     }
-    return router.push('/anunciar/novo/')
+    return router.push('/anuncios/novo/')
   }
 
   const handleToggleMenu = (id: string) => {
@@ -154,7 +154,7 @@ export default function CaravanasManagementPage() {
   const handleEdit = (id: string) => {
     setOpenMenuId(null)
 
-    router.push(`/anunciar/editar/${id}`)
+    router.push(`/anuncios/editar/${id}`)
   }
 
   const handleDelete = (id: string) => {
@@ -311,7 +311,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!session) {
     return {
       redirect: {
-        destination: '/login?callbackUrl=/anunciar',
+        destination: '/login?callbackUrl=/anuncios',
         permanent: false
       }
     }

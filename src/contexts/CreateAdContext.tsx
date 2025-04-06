@@ -7,7 +7,8 @@ export type ImageItem = {
   order: number
 }
 
-export type FormData = {
+export type CaravanFormProps = {
+  caravana_id?: number
   titulo: string
   descricao: string
   categoria: string
@@ -37,10 +38,15 @@ export type FormData = {
   ordem: number
 }
 
+export interface CreateAdProviderProps {
+  children: ReactNode
+  initialData?: CaravanFormProps
+}
+
 type CreateAdContextProps = {
-  formData: FormData
+  formData: CaravanFormProps
   updateFormData: (
-    key: keyof FormData,
+    key: keyof CaravanFormProps,
     value: string | number | ImageItem[]
   ) => void
 }
@@ -49,36 +55,41 @@ export const CreateAdContext = createContext<CreateAdContextProps | undefined>(
   undefined
 )
 
-export const CreateAdProvider = ({ children }: { children: ReactNode }) => {
-  const [formData, setFormData] = useState<FormData>({
-    titulo: '',
-    descricao: '',
-    categoria: '',
-    data_partida: '',
-    data_retorno: '',
-    endereco_origem: '',
-    numero_origem: '',
-    bairro_origem: '',
-    cep_origem: '',
-    cidade_origem: '',
-    estado_origem: '',
-    complemento_origem: '',
-    endereco_destino: '',
-    numero_destino: '',
-    bairro_destino: '',
-    cep_destino: '',
-    cidade_destino: '',
-    estado_destino: '',
-    complemento_destino: '',
-    numero_vagas: 0,
-    valor: 0,
-    organizador_id: 29,
-    ordem: 1,
-    imagens: []
-  })
+export const CreateAdProvider = ({
+  children,
+  initialData
+}: CreateAdProviderProps) => {
+  const [formData, setFormData] = useState<CaravanFormProps>(
+    initialData || {
+      titulo: '',
+      descricao: '',
+      categoria: '',
+      data_partida: '',
+      data_retorno: '',
+      endereco_origem: '',
+      numero_origem: '',
+      bairro_origem: '',
+      cep_origem: '',
+      cidade_origem: '',
+      estado_origem: '',
+      complemento_origem: '',
+      endereco_destino: '',
+      numero_destino: '',
+      bairro_destino: '',
+      cep_destino: '',
+      cidade_destino: '',
+      estado_destino: '',
+      complemento_destino: '',
+      numero_vagas: 0,
+      valor: 0,
+      organizador_id: 29,
+      ordem: 1,
+      imagens: []
+    }
+  )
 
   const updateFormData = (
-    key: keyof FormData,
+    key: keyof CaravanFormProps,
     value: string | number | ImageItem[]
   ) => {
     setFormData((prev) => ({

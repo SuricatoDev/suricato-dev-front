@@ -12,7 +12,7 @@ export default async function handler(
   if (!token || !token.id) {
     return res.status(403).json({ message: 'Acesso negado' })
   }
-  console.log('aqui')
+
   const userId = String(token.id)
   const tokenType = token.token_type || 'Bearer'
   const accessToken = token.access_token

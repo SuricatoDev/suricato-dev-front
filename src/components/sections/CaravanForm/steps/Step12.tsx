@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import * as S from '@/styles/pages/anunciar/steps/step12'
+import * as S from '@/styles/pages/anuncios/steps/step12'
 import { CreateAdContext } from '@/contexts/CreateAdContext'
 import ErrorMessage from '@/components/common/ErrorMessage'
 import { PencilSimple } from '@phosphor-icons/react/dist/ssr/PencilSimple'

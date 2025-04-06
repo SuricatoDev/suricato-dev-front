@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { CreateAdContext } from '@/contexts/CreateAdContext'
-import * as S from '@/styles/pages/anunciar/steps/step7'
+import * as S from '@/styles/pages/anuncios/steps/step7'
 import { motion } from 'framer-motion'
 import { ImageDropzone } from '@/components/common/ImageDropzone'
 
@@ -10,8 +10,6 @@ type Step7Props = {
 
 export default function Step7({ setCanProceed }: Step7Props) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
-
-  console.log('Step 7', formData.imagens)
 
   useEffect(() => {
     setCanProceed(formData.imagens.length >= 5)

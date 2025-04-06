@@ -37,8 +37,8 @@ export default function App({
   const router = useRouter()
 
   const hideMobileFooter =
-    router.pathname.startsWith('/anunciar/novo') ||
-    router.pathname.startsWith('/anunciar/overview')
+    router.pathname.startsWith('/anuncios/novo') ||
+    router.pathname.startsWith('/anuncios/overview')
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then((registrations) => {

@@ -1,25 +1,25 @@
 import React, { useEffect } from 'react'
-import * as S from '@/styles/pages/anunciar/steps/step1'
-import VanImg from '@/assets/images/parte-2.png'
+import * as S from '@/styles/pages/anuncios/steps/step1'
+import Part3 from '@/assets/images/parte-3.png'
 import { motion } from 'framer-motion'
 
-type Step6Props = {
+type Step7Props = {
   setCanProceed: (canProceed: boolean) => void
 }
 
-export default function Step6({ setCanProceed }: Step6Props) {
+export default function Step11({ setCanProceed }: Step7Props) {
   useEffect(() => {
     setCanProceed(true)
   }, [])
-
   const container = {
     hidden: { opacity: 0, y: 20 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 1,
-        staggerChildren: 0.2
+        duration: 0.8,
+        ease: 'easeOut',
+        staggerChildren: 0.3
       }
     }
   }
@@ -29,7 +29,7 @@ export default function Step6({ setCanProceed }: Step6Props) {
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8 }
+      transition: { duration: 0.8, ease: 'easeOut' }
     }
   }
 
@@ -37,13 +37,13 @@ export default function Step6({ setCanProceed }: Step6Props) {
     <S.Container>
       <S.StepImg
         as={motion.img}
-        src={VanImg.src}
+        src={Part3.src}
         width={720}
         height={720}
         alt=""
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
       />
       <S.StepInfo
         as={motion.div}
@@ -52,16 +52,14 @@ export default function Step6({ setCanProceed }: Step6Props) {
         animate="show"
       >
         <motion.div variants={item}>
-          <S.StepNumber>Etapa 2</S.StepNumber>
+          <S.StepNumber>Etapa 3</S.StepNumber>
         </motion.div>
         <motion.div variants={item}>
-          <S.Title>Faça sua caravana se destacar</S.Title>
+          <S.Title>Conclua e publique</S.Title>
         </motion.div>
         <motion.div variants={item}>
           <S.Instructions>
-            Nessa etapa, você adicionará informações sobre a sua caravana, além
-            de 5 fotos ou mais. Depois, você deverá criar um título e uma
-            descrição.
+            Por fim, você poderá configurar os preços e publicar seu anúncio.
           </S.Instructions>
         </motion.div>
       </S.StepInfo>

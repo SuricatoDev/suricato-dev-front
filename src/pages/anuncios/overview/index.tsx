@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
-import * as S from '@/styles/pages/anunciar/overview'
+import * as S from '@/styles/pages/anuncios/overview'
 import HeaderNav from '@/components/sections/HeaderNav'
 import Divider from '@/components/common/Divider'
 import mapPinIcon from '@/assets/icons/map-pin-3d.png'
@@ -23,14 +23,14 @@ export default function Overview() {
 
   useEffect(() => {
     if (!isOrganizer && !loading) {
-      router.push('/anunciar')
+      router.push('/anuncios')
     }
   }, [isOrganizer, loading, router])
 
   const handleStart = () => {
     setIsExiting(true)
     setTimeout(() => {
-      router.push('/anunciar/novo')
+      router.push('/anuncios/novo')
     }, 500)
   }
 
@@ -156,7 +156,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!session) {
     return {
       redirect: {
-        destination: '/login?callbackUrl=/anunciar/overview',
+        destination: '/login?callbackUrl=/anuncios/overview',
         permanent: false
       }
     }
