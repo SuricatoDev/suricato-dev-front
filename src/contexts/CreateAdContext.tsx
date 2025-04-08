@@ -32,10 +32,10 @@ export type CaravanFormProps = {
 
   numero_vagas: number
   valor: number
-  imagens: ImageItem[]
 
   organizador_id: number
-  ordem: number
+
+  imagens: ImageItem[]
 }
 
 export interface CreateAdProviderProps {
@@ -82,8 +82,7 @@ export const CreateAdProvider = ({
       complemento_destino: '',
       numero_vagas: 0,
       valor: 0,
-      organizador_id: 29,
-      ordem: 1,
+      organizador_id: 0,
       imagens: []
     }
   )

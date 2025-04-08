@@ -25,6 +25,7 @@ import {
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 import { useRouter } from 'next/router'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const Container = styled.div`
   padding: calc(64px + 1rem) 0 87px;
@@ -78,8 +79,10 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
         const { imagens, ...dados } = formData
 
         payload.append('dados', JSON.stringify(dados))
+
         imagens.forEach((image) => {
-          payload.append('imagens', image.file)
+          payload.append('imagens[]', image.file)
+          payload.append('ordem_imagens[]', String(image.order))
         })
 
         let response
@@ -91,16 +94,16 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
               headers: { 'Content-Type': 'multipart/form-data' }
             }
           )
-          alert('Edição concluída!')
+          toast.success('Edição concluída!')
         } else {
           response = await axios.post(`/api/caravanas`, payload, {
             headers: { 'Content-Type': 'multipart/form-data' }
           })
-          alert('Caravana criada com sucesso!')
+          toast.success('Caravana criada com sucesso!')
         }
       } catch (error) {
         console.error('Erro ao concluir o anúncio:', error)
-        alert('Ocorreu um erro ao concluir o anúncio, tente novamente.')
+        toast.error('Ocorreu um erro ao concluir o anúncio, tente novamente.')
       }
     }
   }
