@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import * as S from '../styles'
 import Button from '@/components/common/Button'
@@ -30,6 +30,13 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
     !emailValue ||
     !!errors.email ||
     (showPasswordField && (!passwordValue || !!errors.password))
+  const [validatedEmail, setValidatedEmail] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (validatedEmail && emailValue !== validatedEmail) {
+      setShowPasswordField(false)
+    }
+  }, [emailValue, validatedEmail])
 
   const handleNext = async () => {
     try {
@@ -42,6 +49,7 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
 
       if (response.status === 200) {
         setShowPasswordField(true)
+        setValidatedEmail(emailValue)
       } else {
         onNext()
       }
@@ -136,7 +144,7 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
                 placeholder="Digite sua senha"
                 $error={error ? error.message : undefined}
                 $showStrengthMeter={false}
-                $showErrorMessage
+                $showErrorMessage={true}
               />
             )}
           />

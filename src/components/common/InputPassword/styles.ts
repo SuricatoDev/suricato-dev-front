@@ -8,20 +8,19 @@ export const Wrapper = styled.div`
 export const ToggleButton = styled.button`
   position: absolute;
   right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 2px;
   background: none;
   border: none;
   color: ${(props) => props.theme.colors.text_medium};
   cursor: pointer;
   font-size: 14px;
   display: flex;
-  height: calc(100% - 6px);
   align-items: center;
   padding: 0 1rem;
   margin-right: calc(-1rem + 3px);
   background-color: ${(props) => props.theme.colors.background_standard};
   border-radius: 0 8px 8px 0;
+  height: 52px;
 `
 
 export const Requirements = styled.div`

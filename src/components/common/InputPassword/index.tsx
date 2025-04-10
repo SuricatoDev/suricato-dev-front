@@ -1,4 +1,4 @@
-import React, { useState, useEffect, InputHTMLAttributes } from 'react'
+import React, { useState, useEffect, InputHTMLAttributes, useRef } from 'react'
 import Input from '@/components/common/Input'
 import * as S from './styles'
 import { ErrorIcon, ValidIcon } from '../Icons'
@@ -35,6 +35,9 @@ export default function InputPassword({
   const [hasNumberOrSymbol, setHasNumberOrSymbol] = useState(false)
   const [notContainsUserData, setNotContainsUserData] = useState(true)
 
+  
+  const inputRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     if (!value || !$showStrengthMeter) return
 
@@ -58,7 +61,24 @@ export default function InputPassword({
   }, [value, userName, userEmail, $showStrengthMeter])
 
   const toggleShowPassword = () => {
-    setShowPassword((prev) => !prev)
+    if (inputRef.current) {
+      const selectionStart = inputRef.current.selectionStart
+      const selectionEnd = inputRef.current.selectionEnd
+
+      setShowPassword((prev) => !prev)
+
+      setTimeout(() => {
+        if (
+          inputRef.current &&
+          selectionStart !== null &&
+          selectionEnd !== null
+        ) {
+          inputRef.current.setSelectionRange(selectionStart, selectionEnd)
+        }
+      }, 0)
+    } else {
+      setShowPassword((prev) => !prev)
+    }
   }
 
   return (
@@ -67,15 +87,20 @@ export default function InputPassword({
         <S.Wrapper>
           <Input
             {...rest}
+            ref={inputRef}
             type={showPassword ? 'text' : 'password'}
             value={value}
             onChange={(e) => onChange?.(e)}
             $error={$error}
-            $showErrorMessage={false}
+            $showErrorMessage={$showErrorMessage}
             label={label ?? 'Senha'}
             $largePaddingRight
           />
-          <S.ToggleButton type="button" onClick={toggleShowPassword}>
+          <S.ToggleButton
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={toggleShowPassword}
+          >
             {showPassword ? <Eye size={28} /> : <EyeSlash size={28} />}
           </S.ToggleButton>
         </S.Wrapper>

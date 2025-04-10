@@ -44,7 +44,7 @@ export default function MultiStepForm({
   })
 
   const methods = useForm<LoginFormData | SignupFormData>({
-    resolver: yupResolver(getValidationSchema(2)),
+    resolver: yupResolver(getValidationSchema(step)),
     mode: 'all',
     defaultValues: formValues
   })
@@ -146,7 +146,7 @@ export default function MultiStepForm({
   if ($isModal && !isOpen) return null
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider key={step} {...methods}>
       {$isModal && <S.ModalOverlay onClick={handleClose} />}
       <S.FormContainer $isModal={$isModal}>
         <S.Header $isModal={$isModal}>
