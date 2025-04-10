@@ -172,15 +172,16 @@ export default function OrganizerForm({
       {$isModal && <S.ModalOverlay onClick={handleClose} />}
       <S.FormContainer $isModal={$isModal}>
         <S.Header $isModal={$isModal}>
-          <S.BackButton onClick={handleBack}>
-            <ArrowLeft size={24} weight="bold" />
-          </S.BackButton>
           {step === 1 && (
             <>
-              {$isModal && (
+              {$isModal ? (
                 <S.CloseButton onClick={handleClose}>
                   <X size={24} weight="bold" />
                 </S.CloseButton>
+              ) : (
+                <S.BackButton onClick={handleBack}>
+                  <ArrowLeft size={24} weight="bold" />
+                </S.BackButton>
               )}
               <S.Title>Cadastre sua Empresa</S.Title>
             </>

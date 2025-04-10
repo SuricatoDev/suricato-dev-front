@@ -10,7 +10,13 @@ export const organizerStep1Schema = Yup.object().shape({
     .matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, 'Formato de CNPJ inválido'),
 
   inscricao_estadual: Yup.string(),
-  inscricao_municipal: Yup.string()
+  inscricao_municipal: Yup.string(),
+  telefone_comercial: Yup.string()
+    .transform((originalValue) =>
+      originalValue ? originalValue.replace(/\D/g, '') : ''
+    )
+    .required('O telefone comercial é obrigatório')
+    .matches(/^\d{10,11}$/, 'Formato de telefone inválido')
 })
 
 export const organizerStep2Schema = Yup.object().shape({

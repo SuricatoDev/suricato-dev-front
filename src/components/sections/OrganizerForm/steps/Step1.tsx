@@ -16,7 +16,7 @@ export default function Step1({ onNext }: Step1Props) {
   const {
     control,
     setValue,
-    formState: { errors, isValid }
+    formState: { isValid }
   } = useFormContext()
 
   const [isLoadingCnpj, setIsLoadingCnpj] = useState(false)
@@ -45,26 +45,29 @@ export default function Step1({ onNext }: Step1Props) {
         setCnpjError(undefined)
         const { data } = await axios.get(`/api/cnpj/${cnpjDigits}`)
 
-        if (data.error) {
+        if (!data) {
           console.error('Erro ao buscar dados do CNPJ, preencha')
           return
         }
 
-        setValue('razao_social', data.razao_social || '', {
+        setValue('razao_social', data.dados.razao_social || '', {
           shouldValidate: true
         })
-        setValue('nome_fantasia', data.nome_fantasia || '', {
+        setValue('nome_fantasia', data.dados.nome_fantasia || '', {
           shouldValidate: true
         })
-        setValue('inscricao_estadual', data.inscricao_estadual || '', {
+        setValue('inscricao_estadual', data.dados.inscricao_estadual || '', {
           shouldValidate: true
         })
-        setValue('inscricao_municipal', data.inscricao_municipal || '', {
+        setValue('inscricao_municipal', data.dados.inscricao_municipal || '', {
           shouldValidate: true
         })
-        setValue('cep', data.cep || '')
-        setValue('numero', data.numero || '')
-        setValue('complemento', data.complemento || '')
+        setValue('cep', data.dados.cep || '')
+        setValue('numero', data.dados.numero || '')
+        setValue('complemento', data.dados.complemento || '')
+        setValue('telefone_comercial', data.dados.ddd_telefone_1 || '', {
+          shouldValidate: true
+        })
       } catch (error) {
         setCnpjError(
           'Erro ao buscar dados do CNPJ, preencha os campos manualmente'
@@ -191,25 +194,39 @@ export default function Step1({ onNext }: Step1Props) {
             name="telefone_comercial"
             control={control}
             defaultValue=""
-            render={({ field }) => (
-              <InputMask
-                mask="(99) 99999-9999"
-                maskChar={null}
-                value={field.value}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-              >
-                {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
-                  <Input
-                    {...inputProps}
-                    type="phone"
-                    placeholder="Digite o telefone comercial"
-                    label="Telefone Comercial"
-                    required
-                  />
-                )}
-              </InputMask>
-            )}
+            render={({ field, fieldState: { error } }) => {
+              const rawValue = field.value || ''
+              const digits = rawValue.replace(/\D/g, '')
+
+              const phoneMask =
+                digits.length >= 3 && digits[2] === '9'
+                  ? '(99) 99999-9999'
+                  : '(99) 9999-9999'
+
+              return (
+                <InputMask
+                  mask={phoneMask}
+                  maskChar={null}
+                  value={field.value}
+                  onBlur={field.onBlur}
+                  onChange={(e) => {
+                    const unmaskedValue = e.target.value.replace(/\D/g, '')
+                    field.onChange(unmaskedValue)
+                  }}
+                >
+                  {(inputProps) => (
+                    <Input
+                      {...inputProps}
+                      placeholder="Digite o telefone comercial"
+                      label="Telefone Comercial"
+                      required
+                      $error={error ? error.message : undefined}
+                      $showErrorMessage
+                    />
+                  )}
+                </InputMask>
+              )
+            }}
           />
         </div>
 

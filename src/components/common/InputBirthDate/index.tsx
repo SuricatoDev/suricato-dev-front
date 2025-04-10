@@ -128,7 +128,12 @@ export default function InputBirthDate({
     <S.Container>
       <S.SelectWrapper>
         {day && <label>Dia</label>}
-        <S.Select value={day} onChange={handleDayChange} onBlur={handleBlur}>
+        <S.Select
+          id="dia"
+          value={day}
+          onChange={handleDayChange}
+          onBlur={handleBlur}
+        >
           <option value="" disabled>
             Dia
           </option>
@@ -141,11 +146,10 @@ export default function InputBirthDate({
         <CaretDown size={20} weight="bold" />
       </S.SelectWrapper>
 
-      <S.Divider />
-
       <S.SelectWrapper>
         {month && <label>Mês</label>}
         <S.Select
+          id="mes"
           value={month}
           onChange={handleMonthChange}
           onBlur={handleBlur}
@@ -162,11 +166,14 @@ export default function InputBirthDate({
         <CaretDown size={20} weight="bold" />
       </S.SelectWrapper>
 
-      <S.Divider />
-
       <S.SelectWrapper>
         {year && <label>Ano</label>}
-        <S.Select value={year} onChange={handleYearChange} onBlur={handleBlur}>
+        <S.Select
+          id="ano"
+          value={year}
+          onChange={handleYearChange}
+          onBlur={handleBlur}
+        >
           <option value="" disabled>
             Ano
           </option>

@@ -21,7 +21,7 @@ export default function Step5({ setCanProceed }: Step5Props) {
   const adjustSeats = (delta: number) =>
     updateFormData(
       'numero_vagas',
-      String(Math.max(1, Number(numero_vagas || 0) + delta))
+      Math.max(1, Number(numero_vagas || 0) + delta)
     )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>

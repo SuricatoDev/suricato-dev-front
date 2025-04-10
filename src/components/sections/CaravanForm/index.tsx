@@ -26,6 +26,7 @@ import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useSession } from 'next-auth/react'
 
 const Container = styled.div`
   padding: calc(64px + 1rem) 0 87px;
@@ -54,6 +55,9 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
   const step3Ref = useRef<Step3Ref>(null)
   const step4Ref = useRef<Step4Ref>(null)
 
+  const { data: session } = useSession()
+  const { updateFormData } = useCreateAd()
+
   useEffect(() => {
     const autoProceedSteps = [1, 2, 5]
     setCanProceed(autoProceedSteps.includes(step))
@@ -65,7 +69,15 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
     }
   }, [loading, isOrganizer, router])
 
-  if (!isLoaded || !isOrganizer) return null
+  useEffect(() => {
+    if (session && session.user) {
+      updateFormData('organizador_id', session.user.id)
+    }
+  }, [])
+
+  if (!isLoaded || !isOrganizer) {
+    return null
+  }
 
   const handleNext = async () => {
     if (step === 3 && !step3Ref.current?.handleNext()) return
@@ -86,19 +98,35 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
         })
 
         let response
+
+        const backendUrl = process.env.BACKEND_URL
+
+        const tokenType = session?.user?.token_type || 'Bearer'
+        const accessToken = session?.user?.access_token
+
         if (mode === 'edit') {
           response = await axios.put(
-            `/api/caravanas/${formData.caravana_id}`,
+            `http://64.23.235.200/api/caravanas/${formData.caravana_id}`,
             payload,
             {
-              headers: { 'Content-Type': 'multipart/form-data' }
+              headers: {
+                Authorization: `${tokenType} ${accessToken}`,
+                'Content-Type': 'multipart/form-data'
+              }
             }
           )
           toast.success('Edição concluída!')
         } else {
-          response = await axios.post(`/api/caravanas`, payload, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-          })
+          response = await axios.post(
+            `http://64.23.235.200/api/caravanas`,
+            payload,
+            {
+              headers: {
+                Authorization: `${tokenType} ${accessToken}`,
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+          )
           toast.success('Caravana criada com sucesso!')
         }
       } catch (error) {

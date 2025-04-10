@@ -13,11 +13,16 @@ import Modal from '@/components/common/Modal'
 import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
 import ProductCardEdit, { Caravan } from '@/components/sections/ProductCardEdit'
 import { toast } from 'react-toastify'
-import OrganizerForm from '@/components/sections/OrganizerForm'
 import { getSession } from 'next-auth/react'
 import NotOrganizerMessage from '@/components/common/NotOrganizerMessage'
 import { GetServerSideProps } from 'next'
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
+import dynamic from 'next/dynamic'
+
+const OrganizerForm = dynamic(
+  () => import('@/components/sections/OrganizerForm'),
+  { ssr: false }
+)
 
 const baseCaravan: Caravan = {
   id: '1',
