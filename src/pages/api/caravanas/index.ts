@@ -21,12 +21,10 @@ export default async function handler(
   const tokenType = token.token_type || 'Bearer'
   const accessToken = token.access_token
 
-  const backendUrl = `${process.env.BACKEND_URL}/api/caravanas`
-
   try {
     const response = await axios({
       method: req.method,
-      url: backendUrl,
+      url: `${process.env.BACKEND_URL}/caravanas`,
       headers: {
         ...req.headers,
         host: '',

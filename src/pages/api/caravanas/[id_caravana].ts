@@ -27,12 +27,10 @@ export default async function handler(
     return res.status(400).json({ message: 'ID da caravana inválido' })
   }
 
-  const backendUrl = `${process.env.BACKEND_URL}/api/caravanas/${id_caravana}`
-
   try {
     const response = await axios({
       method: req.method,
-      url: backendUrl,
+      url: `${process.env.BACKEND_URL}/caravanas/${id_caravana}`,
       headers: {
         ...req.headers,
         host: '',

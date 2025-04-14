@@ -123,7 +123,7 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
           })
           toast.success('Caravana criada com sucesso!')
           setTimeout(() => {
-            // router.push(`/anuncios`)
+            router.push(`/anuncios`)
           }, 1000)
         }
       } catch (error) {
