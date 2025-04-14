@@ -322,6 +322,7 @@ export function EditableAddress({
               name="state"
               label="Estado"
               placeholder="ex. SP"
+              maxLength={2}
               required
               value={address.state}
               onChange={handleChange}

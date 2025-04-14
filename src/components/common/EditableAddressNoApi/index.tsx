@@ -173,6 +173,7 @@ export function EditableAddressNoApi({
             value={address.state}
             onChange={handleChange}
             label="Estado"
+            maxLength={2}
             required
             placeholder="ex. SP"
             $error={errors.state}
