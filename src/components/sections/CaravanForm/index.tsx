@@ -106,35 +106,29 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
 
         if (mode === 'edit') {
           response = await axios.put(
-            `http://64.23.235.200/api/caravanas/${formData.caravana_id}`,
+            `/api/caravanas/${formData.caravana_id}`,
             payload,
             {
               headers: {
-                Authorization: `${tokenType} ${accessToken}`,
                 'Content-Type': 'multipart/form-data'
               }
             }
           )
           toast.success('Edição concluída!')
         } else {
-          response = await axios.post(
-            `http://64.23.235.200/api/caravanas`,
-            payload,
-            {
-              headers: {
-                Authorization: `${tokenType} ${accessToken}`,
-                'Content-Type': 'multipart/form-data'
-              }
+          response = await axios.post('/api/caravanas', payload, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-          )
+          })
           toast.success('Caravana criada com sucesso!')
           setTimeout(() => {
-            router.push(`/anuncios`)
+            // router.push(`/anuncios`)
           }, 1000)
         }
       } catch (error) {
-        console.error('Erro ao concluir o anúncio:', error)
-        toast.error('Ocorreu um erro ao concluir o anúncio, tente novamente.')
+        console.error('Erro ao criar o anúncio:', error)
+        toast.error('Ocorreu um erro ao criar o anúncio, tente novamente.')
       }
     }
   }

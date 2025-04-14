@@ -78,7 +78,10 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(({ setCanProceed }, ref) => {
               'locality',
               'postal_town'
             ]),
-            state: get(['administrative_area_level_1']),
+            state:
+              comps.find((c) =>
+                ['administrative_area_level_1'].some((t) => c.types.includes(t))
+              )?.short_name || '',
             number: get(['street_number']),
             complement: ''
           }

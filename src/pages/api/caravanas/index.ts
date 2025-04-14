@@ -1,7 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import apiBackend from '@/services/apiBackend'
 import { getToken } from 'next-auth/jwt'
-import { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
+
+export const config = {
+  api: {
+    bodyParser: false
+  }
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,21 +18,32 @@ export default async function handler(
     return res.status(403).json({ message: 'Acesso negado' })
   }
 
-  const userId = String(token.id)
   const tokenType = token.token_type || 'Bearer'
   const accessToken = token.access_token
 
+  const backendUrl = `${process.env.BACKEND_URL}/api/caravanas`
+
   try {
-    const response = await apiBackend({
-      method: 'POST',
-      url: `/caravanas`,
-      headers: { Authorization: `${tokenType} ${accessToken}` },
-      data: req.body
+    const response = await axios({
+      method: req.method,
+      url: backendUrl,
+      headers: {
+        ...req.headers,
+        host: '',
+        Authorization: `${tokenType} ${accessToken}`
+      },
+      data: req,
+      maxContentLength: Infinity,
+      maxBodyLength: Infinity,
+      responseType: 'stream'
     })
-    return res.status(response.status).json(response.data)
+
+    res.status(response.status)
+    response.data.pipe(res)
   } catch (error: unknown) {
     const axiosError = error as AxiosError
-    return res
+
+    res
       .status(axiosError.response?.status || 500)
       .json(
         axiosError.response?.data || { message: 'Erro interno no servidor' }
