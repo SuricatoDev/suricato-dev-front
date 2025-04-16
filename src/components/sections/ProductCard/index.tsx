@@ -11,7 +11,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 
 import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
-import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
+import { MoneyWavy } from '@phosphor-icons/react/dist/ssr/MoneyWavy'
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
 
 import Skeleton from '@/components/common/Skeleton'
@@ -21,10 +21,10 @@ import Link from 'next/link'
 
 export type ProductCardProps = {
   images: string[]
-  location: string
-  distance: string
+  name: string
+  origin: string
   date: string
-  hour: string
+  price: number
   priority?: boolean
   isLoading?: boolean
   href: string
@@ -32,10 +32,10 @@ export type ProductCardProps = {
 
 export default function ProductCard({
   images,
-  location,
-  distance,
+  name,
+  origin,
   date,
-  hour,
+  price,
   priority,
   isLoading = false,
   href
@@ -111,7 +111,7 @@ export default function ProductCard({
               <SwiperSlide key={`slide-${index}`}>
                 <Image
                   src={imageUrl}
-                  alt={`${location} - image ${index + 1}`}
+                  alt=""
                   fill
                   style={{
                     objectFit: 'cover'
@@ -126,22 +126,24 @@ export default function ProductCard({
 
         <S.Content>
           <S.TopContent>
-            <S.Location>{location}</S.Location>
-            <S.Info>
-              <MapPin size={14} weight="fill" />
-              {distance}
-            </S.Info>
+            <S.Name>{name}</S.Name>
           </S.TopContent>
 
           <S.BottomContent>
             <S.Info>
+              <MapPin size={14} weight="fill" />
+              {origin}
+            </S.Info>
+            <S.Info>
               <CalendarDots size={14} weight="fill" />
               {date}
             </S.Info>
-
             <S.Info>
-              <Clock size={14} weight="fill" />
-              {hour}
+              <MoneyWavy size={14} weight="fill" />
+              {price.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+              })}
             </S.Info>
           </S.BottomContent>
         </S.Content>

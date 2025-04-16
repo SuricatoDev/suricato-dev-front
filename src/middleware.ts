@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
     if (
       pathname !== '/anuncios' &&
       pathname.startsWith('/anuncios') &&
-      !token.organizador
+      !token
     ) {
       return NextResponse.redirect(new URL('/unauthorized', origin))
     }

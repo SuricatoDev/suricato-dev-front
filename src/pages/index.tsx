@@ -8,9 +8,14 @@ import Head from 'next/head'
 import Image1 from '@/assets/images/example-1.webp'
 import Image2 from '@/assets/images/example-2.webp'
 import Image3 from '@/assets/images/example-3.webp'
+import axios from 'axios'
+import { Caravan } from '@/interfaces/caravan'
 
-export default function Home() {
-  const cards = Array.from({ length: 20 })
+interface HomeProps {
+  caravans: Caravan[]
+}
+
+export default function Home({ caravans }: HomeProps) {
   return (
     <S.Wrapper>
       <Head>
@@ -53,15 +58,19 @@ export default function Home() {
       <S.Main>
         <div className="container">
           <S.ProductsContainer>
-            {cards.map((_, index) => (
+            {caravans.map((caravan, index) => (
               <ProductCard
                 key={index}
-                images={[Image1.src, Image2.src, Image3.src]}
-                location="Orquestra Sinfônica - Alumni"
-                distance="Campos Elíseos - SP"
+                images={
+                  caravan.imagens?.map((img) =>
+                    img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
+                  ) || []
+                }
+                name={caravan.titulo}
+                origin={`${caravan.cidade_origem} - ${caravan.estado_origem}`}
                 date="16 de março"
-                hour="10h00"
                 priority={index === 0}
+                price={caravan.valor}
                 href="/caravana/1"
               />
             ))}
@@ -75,7 +84,13 @@ export default function Home() {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context)
+  const caravans = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/caravanas/todas`
+  )
+
+  const { data } = caravans
+
   return {
-    props: { session }
+    props: { session, caravans: data?.data }
   }
 }

@@ -15,8 +15,8 @@ export const Main = styled.main`
 
 export const MainCenter = styled.main`
   padding-bottom: calc(64px + 1rem);
-  padding-top: 2rem;
-  height: 100vh;
+  padding: 2rem 0;
+  min-height: 100vh;
 
   margin: auto auto;
   @media (${device.md}) {

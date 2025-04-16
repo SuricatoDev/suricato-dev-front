@@ -38,7 +38,7 @@ export const TopInfo = styled.div`
   margin-bottom: 8px;
 `
 
-export const Location = styled.h2`
+export const Name = styled.h2`
   font-size: 14px;
   font-weight: 600;
   margin: 0;

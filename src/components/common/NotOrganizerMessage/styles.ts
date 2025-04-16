@@ -11,8 +11,8 @@ export const Wrapper = styled.div`
   margin: 0 auto;
 
   img {
-    max-width: 80%;
-    max-height: 80%;
+    max-width: 60%;
+    max-height: 60%;
     height: auto;
     width: 100%;
     border-radius: 8px;
