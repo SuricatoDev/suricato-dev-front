@@ -11,13 +11,14 @@ import { useFooterVisibility } from '@/hooks/useFooterVisibility'
 import Portal from '@/components/common/Portal'
 import Modal from '@/components/common/Modal'
 import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
-import ProductCardEdit, { Caravan } from '@/components/sections/ProductCardEdit'
+import ProductCardEdit from '@/components/sections/ProductCardEdit'
 import { toast } from 'react-toastify'
 import { getSession } from 'next-auth/react'
 import NotOrganizerMessage from '@/components/common/NotOrganizerMessage'
 import { GetServerSideProps } from 'next'
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 import dynamic from 'next/dynamic'
+import { Caravan } from '@/interfaces/caravan'
 
 const OrganizerForm = dynamic(
   () => import('@/components/sections/OrganizerForm'),

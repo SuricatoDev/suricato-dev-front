@@ -24,14 +24,6 @@ export interface Caravan {
     path: string
   }[]
 }
-
-interface Image {
-  id: string
-  path: string
-  ordem: number
-  caravana_id: number
-}
-
 interface Organizer {
   id: number
   razao_social: string
