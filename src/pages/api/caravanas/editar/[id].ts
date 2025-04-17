@@ -21,16 +21,16 @@ export default async function handler(
   const tokenType = token.token_type || 'Bearer'
   const accessToken = token.access_token
 
-  const { id_caravana } = req.query
+  const { id } = req.query
 
-  if (!id_caravana || typeof id_caravana !== 'string') {
+  if (!id || typeof id !== 'string') {
     return res.status(400).json({ message: 'ID da caravana inválido' })
   }
 
   try {
     const response = await axios({
       method: req.method,
-      url: `${process.env.BACKEND_URL}/caravanas/${id_caravana}`,
+      url: `${process.env.BACKEND_URL}/caravanas/${id}`,
       headers: {
         ...req.headers,
         host: '',

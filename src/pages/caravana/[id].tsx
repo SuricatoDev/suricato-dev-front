@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { getSession, useSession } from 'next-auth/react'
@@ -25,33 +25,23 @@ import RatingStars from '@/components/common/RatingStars'
 
 import * as S from '@/styles/pages/caravana'
 
-import { caravansMock } from '@/mocks/caravans'
-import { formatPrice, returnInitialsLettersIfNotLogged } from '@/utils/formats'
+import {
+  formatDateBR,
+  formatExcursionistasSince,
+  formatPrice,
+  formatTimeBR,
+  returnInitialsLettersIfNotLogged
+} from '@/utils/formats'
 
 import { categories } from '@/constants/categories'
 import PassengerForm from '@/components/sections/PassengersForm'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import MobileHeader from '@/components/sections/MobileHeader'
-
-interface Caravan {
-  id: string
-  eventName: string
-  category: string
-  organizerImage: string
-  organizerId: string
-  organizerName: string
-  organizerAdress: string
-  organizerJoinDate: string
-  originLocation: string
-  destination: string
-  images: string[]
-  price: number
-  description: string
-}
+import { Caravan, SingleCaravan } from '@/interfaces/caravan'
 
 interface CaravanPageProps {
-  caravan: Caravan
+  caravan: SingleCaravan
 }
 
 export default function CaravanPage({ caravan }: CaravanPageProps) {
@@ -68,6 +58,9 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const [passengerFormVisible, setPassengerFormVisible] = useState(false)
   const [isSubscribing, setIsSubscribing] = useState(false)
 
+  const descriptionRef = useRef<HTMLParagraphElement>(null)
+  const [shouldShowExpandButton, setShouldShowExpandButton] = useState(false)
+
   const handleClosePassengerForm = () => {
     setPassengerFormVisible(false)
   }
@@ -78,6 +71,14 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
       setHasReloaded(true)
     }
   }, [isLogged, hasReloaded, router])
+
+  useEffect(() => {
+    const el = descriptionRef.current
+    if (!el) return
+
+    const isOverflowing = el.scrollHeight > el.clientHeight
+    setShouldShowExpandButton(isOverflowing)
+  }, [caravan.descricao])
 
   const handleShowInfos = () => {
     if (!isLogged) {
@@ -124,7 +125,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
     }
   }
 
-  const category = categories.find((item) => item.id === caravan.category)
+  const category = categories.find((item) => item.id === caravan.categoria)
   const CategoryIcon = category ? category.icon : null
   const CategoryLabel = category ? category.label : null
 
@@ -140,23 +141,31 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
           <S.Container>
             <S.ContentWrapper>
               <S.Content>
-                <Gallery images={caravan.images} />
+                <Gallery
+                  images={
+                    caravan.imagens?.map((img) =>
+                      img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
+                    ) || []
+                  }
+                />
                 <S.SpacingMobile>
                   <S.TitleContainer>
-                    <S.Title>{caravan.eventName}</S.Title>
+                    <S.Title>{caravan.titulo}</S.Title>
                     <S.Location>
                       <MapPin weight="fill" size={18} />
-                      <span>{caravan.originLocation}</span>
+                      <span>{`${caravan.cidade_origem} - ${caravan.estado_origem}`}</span>
                     </S.Location>
                   </S.TitleContainer>
                   <S.DescriptionContainer>
-                    <S.Subtitle>Descrição</S.Subtitle>
-                    <S.Description $expanded={expanded}>
-                      {caravan.description}
+                    <S.Description ref={descriptionRef} $expanded={expanded}>
+                      {caravan.descricao}
                     </S.Description>
-                    <button onClick={() => setExpanded(!expanded)}>
-                      {expanded ? '' : 'Ver descrição completa'}
-                    </button>
+
+                    {shouldShowExpandButton && (
+                      <button onClick={() => setExpanded(!expanded)}>
+                        {expanded ? 'Ver menos' : 'Ver descrição completa'}
+                      </button>
+                    )}
                   </S.DescriptionContainer>
                   <Divider $marginY="8px" />
                   <S.Subtitle>Informações</S.Subtitle>
@@ -174,14 +183,18 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                       <Ticket size={24} />
                       <S.EventSubItem>
                         <p className="event-subitem-title">Vagas restantes</p>
-                        <p className="event-subitem-subtitle">5</p>
+                        <p className="event-subitem-subtitle">
+                          {caravan.numero_vagas}
+                        </p>
                       </S.EventSubItem>
                     </S.EventItem>
                     <S.EventItem>
                       <MapPin size={24} />
                       <S.EventSubItem>
                         <p className="event-subitem-title">Origem</p>
-                        <p className="event-subitem-subtitle">Sorocaba/SP</p>
+                        <p className="event-subitem-subtitle">
+                          {caravan.cidade_origem}/{caravan.estado_origem}
+                        </p>
                       </S.EventSubItem>
                     </S.EventItem>
                     <S.EventItem>
@@ -189,29 +202,57 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                       <S.EventSubItem>
                         <p className="event-subitem-title">Destino</p>
                         <p className="event-subitem-subtitle">
-                          Campos Elíseos/SP
+                          {caravan.cidade_destino}/{caravan.estado_destino}
                         </p>
                       </S.EventSubItem>
                     </S.EventItem>
                     <S.EventItem>
                       <CalendarDots size={24} />
                       <S.EventSubItem>
-                        <p className="event-subitem-title">Dia</p>
-                        <p className="event-subitem-subtitle">16/03/2025</p>
+                        <p className="event-subitem-title">Data de partida</p>
+                        <p className="event-subitem-subtitle">
+                          {formatDateBR(caravan.data_partida)}
+                        </p>
                       </S.EventSubItem>
                     </S.EventItem>
                     <S.EventItem>
                       <Clock size={24} />
                       <S.EventSubItem>
-                        <p className="event-subitem-title">Horário</p>
-                        <p className="event-subitem-subtitle">10h00m</p>
+                        <p className="event-subitem-title">
+                          Horário de partida
+                        </p>
+                        <p className="event-subitem-subtitle">
+                          {formatTimeBR(caravan.data_partida)}
+                        </p>
+                      </S.EventSubItem>
+                    </S.EventItem>
+                    <S.EventItem>
+                      <CalendarDots weight="fill" size={24} />
+                      <S.EventSubItem>
+                        <p className="event-subitem-title">Data de retorno</p>
+                        <p className="event-subitem-subtitle">
+                          {formatDateBR(caravan.data_retorno)}
+                        </p>
+                      </S.EventSubItem>
+                    </S.EventItem>
+                    <S.EventItem>
+                      <Clock weight="fill" size={24} />
+                      <S.EventSubItem>
+                        <p className="event-subitem-title">
+                          Horário de retorno
+                        </p>
+                        <p className="event-subitem-subtitle">
+                          {formatTimeBR(caravan.data_retorno)}
+                        </p>
                       </S.EventSubItem>
                     </S.EventItem>
                   </S.EventContainer>
                   <Divider $marginY="8px" />
                   <S.MapContainer>
                     <S.Subtitle>Local do evento</S.Subtitle>
-                    <MapEmbed location={caravan.destination} />
+                    <MapEmbed
+                      location={`${caravan.endereco_destino} - ${caravan.bairro_destino}, ${caravan.cidade_destino} - ${caravan.estado_destino}`}
+                    />
                   </S.MapContainer>
                 </S.SpacingMobile>
               </S.Content>
@@ -228,7 +269,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                         <S.Price
                           style={{ filter: !isLogged ? 'blur(4px)' : 'none' }}
                         >
-                          {isLogged ? formatPrice(caravan.price) : 'R$ XXX,XX'}
+                          {isLogged ? formatPrice(caravan.valor) : 'R$ XXX,XX'}
                         </S.Price>
 
                         <Button
@@ -258,8 +299,8 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                         <S.OrganizerImage
                           width={60}
                           height={60}
-                          alt={caravan.organizerName}
-                          src={caravan.organizerImage}
+                          alt={''}
+                          src={caravan?.organizador?.user?.foto_perfil ?? ''}
                           quality={100}
                         />
                         <S.OrganizerInfo>
@@ -269,7 +310,9 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                           </S.OrganizerVerified>
 
                           <S.OrganizerName>
-                            {caravan.organizerName}
+                            {caravan?.organizador?.nome_fantasia ??
+                              caravan?.organizador?.razao_social ??
+                              ''}
                           </S.OrganizerName>
                           <RatingStars rating={4.5} />
                         </S.OrganizerInfo>
@@ -279,7 +322,9 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                           <CalendarBlank size={18} />
                           <p>
                             {returnInitialsLettersIfNotLogged(
-                              'No Excursionistas desde abril de 2022',
+                              formatExcursionistasSince(
+                                caravan.organizador.created_at
+                              ),
                               isLogged
                             )}
                           </p>
@@ -288,7 +333,8 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                           <MapPin size={18} />
                           <p>
                             {returnInitialsLettersIfNotLogged(
-                              'Vila Assis, Sorocaba - SP',
+                              `${caravan.organizador.bairro}, ${caravan.organizador.cidade} - ${caravan.organizador.estado}`,
+
                               isLogged
                             )}
                           </p>
@@ -368,42 +414,47 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params as { id: string }
   const session = await getSession(context)
 
-  const caravan = caravansMock.find((p) => p.id === id)
+  try {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/caravanas/${id}`
+    )
 
-  if (!caravan) {
-    return { notFound: true }
-  }
+    const finalCaravan = session ? data.data : maskCaravanData(data.data)
 
-  const finalCaravan = session ? caravan : maskCaravanData(caravan)
-
-  return {
-    props: { caravan: finalCaravan }
+    return {
+      props: { caravan: finalCaravan }
+    }
+  } catch (error) {
+    return {
+      notFound: true
+    }
   }
 }
-
 function maskCaravanData(caravan: Caravan): Caravan {
   return {
+    ...caravan,
     id: caravan.id,
-    eventName: caravan.eventName,
-    category: caravan.category,
-    organizerName: returnInitialsLettersIfNotLogged(
-      caravan.organizerName,
-      false
-    ),
-    organizerId: caravan.organizerId,
-    organizerImage: caravan.organizerImage,
-    organizerAdress: returnInitialsLettersIfNotLogged(
-      caravan.organizerAdress,
-      false
-    ),
-    organizerJoinDate: returnInitialsLettersIfNotLogged(
-      caravan.organizerJoinDate,
-      false
-    ),
-    originLocation: caravan.originLocation,
-    destination: caravan.destination,
-    images: caravan.images,
-    price: 0,
-    description: caravan.description
+    titulo: caravan.titulo,
+    categoria: caravan.categoria,
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    cidade_origem: caravan.cidade_origem,
+    estado_origem: caravan.estado_origem,
+    cidade_destino: caravan.cidade_destino,
+
+    imagens: caravan.imagens,
+    valor: 0,
+    descricao: caravan.descricao
   }
 }

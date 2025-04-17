@@ -106,7 +106,7 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
 
         if (mode === 'edit') {
           response = await axios.put(
-            `/api/caravanas/${formData.caravana_id}`,
+            `/api/caravanas/editar/${formData.caravana_id}`,
             payload,
             {
               headers: {

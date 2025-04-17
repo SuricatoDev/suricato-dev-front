@@ -11,6 +11,7 @@ export function formatPhoneNumber(phone: string): string {
 }
 
 export function formatPrice(price: number): string {
+  if (!price) return 'R$ 0,00'
   return price.toLocaleString('pt-br', {
     style: 'currency',
     currency: 'BRL'
@@ -53,4 +54,35 @@ export function formatCurrency(value: number) {
     currency: 'BRL',
     minimumFractionDigits: 2
   })
+}
+
+export function formatDateBR(dateString: string): string {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('pt-BR')
+}
+
+export function formatTimeBR(dateString: string): string {
+  const date = new Date(dateString)
+  return date.toLocaleTimeString('pt-BR', {
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
+export function formatDateRangeBR(start: string, end: string): string {
+  const startDate = new Date(start)
+  const endDate = new Date(end)
+  const currentYear = new Date().getFullYear()
+
+  const showYear =
+    startDate.getFullYear() > currentYear || endDate.getFullYear() > currentYear
+
+  const format = (date: Date) =>
+    date.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: showYear ? '2-digit' : undefined
+    })
+
+  return `${format(startDate)} - ${format(endDate)}`
 }

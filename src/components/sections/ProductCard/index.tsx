@@ -18,11 +18,13 @@ import Skeleton from '@/components/common/Skeleton'
 
 import * as S from './styles'
 import Link from 'next/link'
+import { ArrowsLeftRight } from '@phosphor-icons/react/dist/ssr/ArrowsLeftRight'
 
 export type ProductCardProps = {
   images: string[]
   name: string
   origin: string
+  destination: string
   date: string
   price: number
   priority?: boolean
@@ -34,6 +36,7 @@ export default function ProductCard({
   images,
   name,
   origin,
+  destination,
   date,
   price,
   priority,
@@ -133,6 +136,12 @@ export default function ProductCard({
             <S.Info>
               <MapPin size={14} weight="fill" />
               {origin}
+              <ArrowsLeftRight
+                style={{ transform: 'scaleX(-1)' }}
+                size={14}
+                weight="bold"
+              />
+              {destination}
             </S.Info>
             <S.Info>
               <CalendarDots size={14} weight="fill" />

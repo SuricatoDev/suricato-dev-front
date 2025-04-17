@@ -1,5 +1,5 @@
 export interface Caravan {
-  id: number
+  id: string
   titulo: string
   descricao: string
   categoria: string
@@ -20,7 +20,9 @@ export interface Caravan {
   numero_vagas: number
   valor: number
   organizador_id: number
-  imagens?: Image[]
+  imagens: {
+    path: string
+  }[]
 }
 
 interface Image {
@@ -28,4 +30,21 @@ interface Image {
   path: string
   ordem: number
   caravana_id: number
+}
+
+interface Organizer {
+  id: number
+  razao_social: string
+  nome_fantasia: string
+  bairro: string
+  cidade: string
+  estado: string
+  created_at: string
+  user: {
+    foto_perfil: string
+  }
+}
+
+export interface SingleCaravan extends Caravan {
+  organizador: Organizer
 }

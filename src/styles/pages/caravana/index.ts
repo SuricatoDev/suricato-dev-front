@@ -249,10 +249,18 @@ export const Description = styled.p<{ $expanded?: boolean }>`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  -webkit-line-clamp: ${({ $expanded }) => ($expanded ? 'unset' : '2')};
-  transition: -webkit-line-clamp 0.3s ease;
   font-size: ${({ theme }) => theme.common.font.sizes.body.large};
   color: ${({ theme }) => theme.colors.text_medium};
+
+  ${({ $expanded }) =>
+    $expanded
+      ? `
+    -webkit-line-clamp: initial;
+    max-height: none;
+  `
+      : `
+    -webkit-line-clamp: 2;
+  `}
 `
 
 export const Hint = styled.div`
@@ -365,7 +373,7 @@ export const EventContainer = styled.div`
   grid-auto-flow: dense;
   width: 100%;
   @media (${device.md}) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 `
 

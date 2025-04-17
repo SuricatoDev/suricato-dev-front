@@ -10,6 +10,7 @@ import Image2 from '@/assets/images/example-2.webp'
 import Image3 from '@/assets/images/example-3.webp'
 import axios from 'axios'
 import { Caravan } from '@/interfaces/caravan'
+import { formatDateRangeBR } from '@/utils/formats'
 
 interface HomeProps {
   caravans: Caravan[]
@@ -67,11 +68,15 @@ export default function Home({ caravans }: HomeProps) {
                   ) || []
                 }
                 name={caravan.titulo}
-                origin={`${caravan.cidade_origem} - ${caravan.estado_origem}`}
-                date="16 de março"
+                origin={`${caravan.cidade_origem}/${caravan.estado_origem}`}
+                destination={`${caravan.cidade_destino}/${caravan.estado_destino}`}
+                date={formatDateRangeBR(
+                  caravan.data_partida,
+                  caravan.data_retorno
+                )}
                 priority={index === 0}
                 price={caravan.valor}
-                href="/caravana/1"
+                href={`/caravana/${caravan.id}`}
               />
             ))}
           </S.ProductsContainer>

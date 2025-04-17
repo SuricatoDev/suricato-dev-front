@@ -18,33 +18,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-
-export interface Caravan {
-  id: string
-  titulo: string
-  descricao: string
-  categoria: string
-  data_partida: string
-  data_retorno: string
-  endereco_origem: string
-  numero_origem: string
-  bairro_origem: string
-  cep_origem: string
-  cidade_origem: string
-  estado_origem: string
-  endereco_destino: string
-  numero_destino: string
-  bairro_destino: string
-  cep_destino: string
-  cidade_destino: string
-  estado_destino: string
-  numero_vagas: number
-  valor: number
-  organizador_id: number
-  imagens: {
-    path: string
-  }[]
-}
+import { Caravan } from '@/interfaces/caravan'
 
 interface ProductCardEditProps {
   caravan: Caravan

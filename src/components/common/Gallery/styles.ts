@@ -135,9 +135,8 @@ export const GridItem = styled.div<GridItemProps>`
   ${({ $variant, $onlyItem }) =>
     $variant === 'main' &&
     css`
-      aspect-ratio: 16 / 9;
       @media (${device.md}) {
-        aspect-ratio: ${$onlyItem ? 'unset' : '1'};
+        aspect-ratio: ${$onlyItem ? '16 / 9' : '1'};
       }
     `}
 `
