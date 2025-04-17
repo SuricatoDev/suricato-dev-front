@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getToken } from 'next-auth/jwt'
+
 import axios, { AxiosError } from 'axios'
+import { getToken } from 'next-auth/jwt'
 
 export const config = {
   api: {

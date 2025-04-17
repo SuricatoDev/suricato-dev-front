@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components'
+
 import { defaultTheme } from '@/styles/themes/default'
 
 export const createTheme = (dynamicTheme: {

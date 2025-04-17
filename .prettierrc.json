@@ -1,5 +1,19 @@
 {
   "trailingComma": "none",
   "semi": false,
-  "singleQuote": true
+  "singleQuote": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^react$",
+    "^next$",
+    "<THIRD_PARTY_MODULES>",
+    "^@phosphor-icons",
+    "^@/hooks",
+    "^@/contexts",
+    "^@/components",
+    "^@/styles",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

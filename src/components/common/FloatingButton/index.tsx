@@ -1,6 +1,8 @@
 import React from 'react'
-import * as S from './styles'
+
 import { Plus } from '@phosphor-icons/react/dist/ssr/Plus'
+
+import * as S from './styles'
 
 interface FloatingActionButtonProps {
   onClick: () => void

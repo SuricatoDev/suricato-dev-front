@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
 import Image from 'next/image'
 import ImageGallery from 'react-image-gallery'
 import 'react-image-gallery/styles/css/image-gallery.css'
-import * as S from './styles'
-import Portal from '../Portal'
+
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
+
+import Portal from '../Portal'
 import Skeleton from '../Skeleton'
+import * as S from './styles'
 
 interface GalleryProps {
   images: string[]

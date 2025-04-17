@@ -1,9 +1,10 @@
+import Image404 from '@/assets/images/404.png'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import * as S from '@/styles/pages/404'
-import Image404 from '@/assets/images/404.png'
 import Button from '@/components/common/Button'
+
+import * as S from '@/styles/pages/404'
 
 export default function Custom404() {
   return (

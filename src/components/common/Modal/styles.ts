@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { ModalProps } from '.'
 
 export const Shadow = styled.div<Pick<ModalProps, '$isOpen'>>`

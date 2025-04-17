@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { DividerProps } from '.'
 
 export const Divider = styled.div<DividerProps>`

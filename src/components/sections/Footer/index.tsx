@@ -1,6 +1,7 @@
 import { getYear } from '@/utils/getYear'
-import * as S from './styles'
 import Link from 'next/link'
+
+import * as S from './styles'
 
 export default function Footer() {
   const currentYear = getYear().toString()

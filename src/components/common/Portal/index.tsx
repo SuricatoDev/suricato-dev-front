@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import ReactDOM from 'react-dom'
 import { ReactNode } from 'react'
+
+import ReactDOM from 'react-dom'
 
 const Portal = ({ children }: { children: ReactNode }) => {
   const [container, setContainer] = useState<HTMLElement | null>(null)

@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { NextApiRequest, NextApiResponse } from 'next'
-import formidable from 'formidable'
-import FormData from 'form-data'
-import fs from 'fs'
+
 import apiBackend from '@/services/apiBackend'
-import { getToken } from 'next-auth/jwt'
 import { AxiosError } from 'axios'
+import FormData from 'form-data'
+import formidable from 'formidable'
+import fs from 'fs'
+import { getToken } from 'next-auth/jwt'
 
 export const config = {
   api: {

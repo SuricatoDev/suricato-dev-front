@@ -1,8 +1,10 @@
 import React from 'react'
-import * as S from './styles'
+
 import logo from '@/assets/images/logo.png'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+
+import * as S from './styles'
 
 interface HeaderNavProps {
   showDoubtsButton?: boolean

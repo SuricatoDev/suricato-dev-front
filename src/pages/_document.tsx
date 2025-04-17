@@ -1,10 +1,10 @@
 import type { AppProps } from 'next/app'
 import Document, {
-  Html,
+  DocumentContext,
   Head,
+  Html,
   Main,
-  NextScript,
-  DocumentContext
+  NextScript
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 

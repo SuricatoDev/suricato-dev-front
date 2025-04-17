@@ -1,7 +1,9 @@
 import React from 'react'
-import * as S from '@/styles/pages/anuncios/steps/step1'
+
 import VanImg from '@/assets/images/van-editada.png'
 import { motion } from 'framer-motion'
+
+import * as S from '@/styles/pages/anuncios/steps/step1'
 
 export default function Step1() {
   const container = {

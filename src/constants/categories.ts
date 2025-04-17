@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Island } from '@phosphor-icons/react/dist/ssr/Island'
-import { Confetti } from '@phosphor-icons/react/dist/ssr/Confetti'
-import { Mountains } from '@phosphor-icons/react/dist/ssr/Mountains'
-import { Buildings } from '@phosphor-icons/react/dist/ssr/Buildings'
-import { Path } from '@phosphor-icons/react/dist/ssr/Path'
-import { Farm } from '@phosphor-icons/react/dist/ssr/Farm'
 import { Barn } from '@phosphor-icons/react/dist/ssr/Barn'
+import { Buildings } from '@phosphor-icons/react/dist/ssr/Buildings'
 import { Coffee } from '@phosphor-icons/react/dist/ssr/Coffee'
-import { Smiley } from '@phosphor-icons/react/dist/ssr/Smiley'
+import { Confetti } from '@phosphor-icons/react/dist/ssr/Confetti'
+import { Farm } from '@phosphor-icons/react/dist/ssr/Farm'
+import { Island } from '@phosphor-icons/react/dist/ssr/Island'
+import { Mountains } from '@phosphor-icons/react/dist/ssr/Mountains'
 import { Park } from '@phosphor-icons/react/dist/ssr/Park'
+import { Path } from '@phosphor-icons/react/dist/ssr/Path'
+import { Smiley } from '@phosphor-icons/react/dist/ssr/Smiley'
 
 interface Category {
   id: string

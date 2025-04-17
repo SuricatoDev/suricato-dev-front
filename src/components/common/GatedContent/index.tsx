@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
+
 import { LockKey } from '@phosphor-icons/react/dist/ssr/LockKey'
+
 import * as S from './styles'
 
 interface GatedContentProps {

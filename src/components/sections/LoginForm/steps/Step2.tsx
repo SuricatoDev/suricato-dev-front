@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react'
+
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
-import * as S from '../styles'
-import Input from '@/components/common/Input'
-import Label from '@/components/common/Label'
-import InputBirthDate from '@/components/common/InputBirthDate'
-import InputEmail from '@/components/common/InputEmail'
-import InputPassword from '@/components/common/InputPassword'
+import InputMask from 'react-input-mask'
+
 import Button from '@/components/common/Button'
 import Divider from '@/components/common/Divider'
 import ErrorMessage from '@/components/common/ErrorMessage'
-import InputMask from 'react-input-mask'
+import Input from '@/components/common/Input'
+import InputBirthDate from '@/components/common/InputBirthDate'
+import InputEmail from '@/components/common/InputEmail'
+import InputPassword from '@/components/common/InputPassword'
+import Label from '@/components/common/Label'
+
+import * as S from '../styles'
 
 interface Step2Props {
   onNext: () => void

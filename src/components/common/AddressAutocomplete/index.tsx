@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
+
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
+
 import * as S from './styles'
 
 type Suggestion = { description: string; placeId: string }

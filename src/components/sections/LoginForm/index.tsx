@@ -1,15 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useForm, FormProvider } from 'react-hook-form'
-import Step1 from './steps/Step1'
-import Step2 from './steps/Step2'
-import { LoginFormData, SignupFormData } from './formTypes'
-import * as S from './styles'
-import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
+import React, { useCallback, useEffect, useState } from 'react'
+
 import { getValidationSchema } from '@/validation/formValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useRouter } from 'next/router'
-import { X } from '@phosphor-icons/react/dist/ssr/X'
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { FormProvider, useForm } from 'react-hook-form'
+
+import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
+import { X } from '@phosphor-icons/react/dist/ssr/X'
+
+import { LoginFormData, SignupFormData } from './formTypes'
+import Step1 from './steps/Step1'
+import Step2 from './steps/Step2'
+import * as S from './styles'
 
 export type MultiStepFormProps = {
   $isModal?: boolean

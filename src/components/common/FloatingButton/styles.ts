@@ -1,5 +1,6 @@
-import { device } from '@/styles/breakpoints'
 import styled, { keyframes } from 'styled-components'
+
+import { device } from '@/styles/breakpoints'
 
 const pulse = keyframes`
   0% {

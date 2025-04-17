@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
+
+import { categories } from '@/constants/categories'
 import { Swiper as SwiperType } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
-import * as S from './styles'
+import { Navigation } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { categories } from '@/constants/categories'
+import * as S from './styles'
 
 export default function CategoriesBar() {
   const [selectedCategory, setSelectedCategory] = useState('destaques')

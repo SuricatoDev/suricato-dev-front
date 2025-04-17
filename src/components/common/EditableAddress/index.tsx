@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import Input from '@/components/common/Input'
-import * as S from './styles'
-import axios from 'axios'
-import InputMask from 'react-input-mask'
+import React, { useEffect, useState } from 'react'
+
 import { normalizeInput } from '@/utils/normalizer'
 import {
   validateCep,
@@ -12,9 +9,16 @@ import {
   validateState,
   validateStreet
 } from '@/validation/validations'
+import axios from 'axios'
+import InputMask from 'react-input-mask'
 import { ValidationError } from 'yup'
-import Button from '@/components/common/Button'
+
 import useMediaQuery from '@/hooks/useMediaQuery'
+
+import Button from '@/components/common/Button'
+import Input from '@/components/common/Input'
+
+import * as S from './styles'
 
 export interface AddressData {
   cep: string

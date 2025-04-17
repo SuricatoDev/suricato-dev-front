@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { useSession } from 'next-auth/react'
+import React, { useEffect, useState } from 'react'
+
+import { passengerFormStep1Schema } from '@/validation/formValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
-import Input from '@/components/common/Input'
+import axios, { AxiosError } from 'axios'
+import { useSession } from 'next-auth/react'
+import { Controller, useForm } from 'react-hook-form'
 import InputMask from 'react-input-mask'
-import * as S from './styles'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+import { X } from '@phosphor-icons/react/dist/ssr/X'
+
+import Button from '@/components/common/Button'
 import {
   AddressData,
   EditableAddress
 } from '@/components/common/EditableAddress'
 import ErrorMessage from '@/components/common/ErrorMessage'
-import Button from '@/components/common/Button'
+import Input from '@/components/common/Input'
 import Portal from '@/components/common/Portal'
-import { X } from '@phosphor-icons/react/dist/ssr/X'
-import { passengerFormStep1Schema } from '@/validation/formValidation'
-import axios, { AxiosError } from 'axios'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+
+import * as S from './styles'
 
 interface PassengerFormProps {
   visible: boolean

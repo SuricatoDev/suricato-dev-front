@@ -1,11 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from 'react'
+
+import axios from 'axios'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 import styled from 'styled-components'
-import { motion, AnimatePresence } from 'framer-motion'
+
+import { useIsOrganizer } from '@/hooks/useIsOrganizer'
+
 import { CreateAdProvider, useCreateAd } from '@/contexts/CreateAdContext'
 import { useGoogleMaps } from '@/contexts/GoogleMapsProvider'
-import HeaderNav from '@/components/sections/HeaderNav'
+
 import FooterNav from '@/components/sections/FooterNav'
+import HeaderNav from '@/components/sections/HeaderNav'
+
 import {
   Step1,
   Step2,
@@ -22,11 +32,6 @@ import {
   Step11,
   Step12
 } from './steps'
-import { useIsOrganizer } from '@/hooks/useIsOrganizer'
-import { useRouter } from 'next/router'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-import { useSession } from 'next-auth/react'
 
 const Container = styled.div`
   padding: calc(64px + 1rem) 0 87px;

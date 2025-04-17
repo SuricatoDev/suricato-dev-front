@@ -1,6 +1,7 @@
-import { device } from '@/styles/breakpoints'
 import Image from 'next/image'
 import styled from 'styled-components'
+
+import { device } from '@/styles/breakpoints'
 
 export const Container = styled.div`
   padding: 88px 1.5rem 136px;

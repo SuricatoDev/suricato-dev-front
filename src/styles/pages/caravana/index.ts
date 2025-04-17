@@ -1,7 +1,9 @@
-import Button from '@/components/common/Button'
-import { device } from '@/styles/breakpoints'
 import Image from 'next/image'
 import styled from 'styled-components'
+
+import Button from '@/components/common/Button'
+
+import { device } from '@/styles/breakpoints'
 
 export const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.background_standard};

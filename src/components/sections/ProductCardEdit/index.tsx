@@ -1,24 +1,26 @@
 import React, { useRef, useState } from 'react'
-import * as S from './styles'
+
+import { Caravan } from '@/interfaces/caravan'
 import { format } from 'date-fns'
-import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
-import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
-import { MoneyWavy } from '@phosphor-icons/react/dist/ssr/MoneyWavy'
-import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
-import { DotsThree } from '@phosphor-icons/react/dist/ssr/DotsThree'
-import Button from '@/components/common/Button'
-import Skeleton from '@/components/common/Skeleton'
 import Image from 'next/image'
-
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
 import { Swiper as SwiperType } from 'swiper'
-
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-import { Caravan } from '@/interfaces/caravan'
+import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
+import { DotsThree } from '@phosphor-icons/react/dist/ssr/DotsThree'
+import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
+import { MoneyWavy } from '@phosphor-icons/react/dist/ssr/MoneyWavy'
+import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
+
+import Button from '@/components/common/Button'
+import Skeleton from '@/components/common/Skeleton'
+
+import * as S from './styles'
 
 interface ProductCardEditProps {
   caravan: Caravan

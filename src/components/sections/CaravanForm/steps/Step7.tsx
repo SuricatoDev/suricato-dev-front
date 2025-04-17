@@ -1,8 +1,12 @@
 import React, { useContext, useEffect } from 'react'
-import { CreateAdContext } from '@/contexts/CreateAdContext'
-import * as S from '@/styles/pages/anuncios/steps/step7'
+
 import { motion } from 'framer-motion'
+
+import { CreateAdContext } from '@/contexts/CreateAdContext'
+
 import { ImageDropzone } from '@/components/common/ImageDropzone'
+
+import * as S from '@/styles/pages/anuncios/steps/step7'
 
 type Step7Props = {
   setCanProceed: (canProceed: boolean) => void

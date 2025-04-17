@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import * as S from './styles'
+import React, { useEffect, useMemo, useState } from 'react'
+
 import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
+
+import * as S from './styles'
+
 interface BirthDate {
   day: string
   month: string

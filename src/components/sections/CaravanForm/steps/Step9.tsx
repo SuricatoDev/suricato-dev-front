@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import * as S from '@/styles/pages/anuncios/steps/step9-10'
-import { CreateAdContext } from '@/contexts/CreateAdContext'
-import ErrorMessage from '@/components/common/ErrorMessage'
+
 import { motion } from 'framer-motion'
+
+import { CreateAdContext } from '@/contexts/CreateAdContext'
+
+import ErrorMessage from '@/components/common/ErrorMessage'
+
+import * as S from '@/styles/pages/anuncios/steps/step9-10'
 
 export default function Step9({
   setCanProceed

@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
-import * as S from '../styles'
-import Button from '@/components/common/Button'
-import Input from '@/components/common/Input'
-import InputMask from 'react-input-mask'
-import ErrorMessage from '@/components/common/ErrorMessage'
+
 import axios from 'axios'
+import { Controller, useFormContext } from 'react-hook-form'
+import InputMask from 'react-input-mask'
+
+import Button from '@/components/common/Button'
+import ErrorMessage from '@/components/common/ErrorMessage'
+import Input from '@/components/common/Input'
+
+import * as S from '../styles'
 
 interface Step1Props {
   onNext: () => void

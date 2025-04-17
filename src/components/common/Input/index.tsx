@@ -1,7 +1,9 @@
-import React, { useState, forwardRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 import { InputHTMLAttributes } from 'react'
-import { WrapperProps } from './styles'
+
 import ErrorMessage from '@/components/common/ErrorMessage'
+
+import { WrapperProps } from './styles'
 import * as S from './styles'
 
 export interface InputProps

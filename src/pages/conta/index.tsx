@@ -1,40 +1,42 @@
 import React, { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
+
 import { GetServerSideProps } from 'next'
-import Image from 'next/image'
-import InputMask from 'react-input-mask'
-import { getSession, signOut, useSession } from 'next-auth/react'
-import { ValidationError } from 'yup'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
-import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
-import { LockKey } from '@phosphor-icons/react/dist/ssr/LockKey'
-import { ShieldCheckered } from '@phosphor-icons/react/dist/ssr/ShieldCheckered'
-import { PencilSimple } from '@phosphor-icons/react/dist/ssr/PencilSimple'
-import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
-import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
-import { User } from '@phosphor-icons/react/dist/ssr/User'
-
-import { AccordionItem } from '@/components/common/AccordionItem'
-import Button from '@/components/common/Button'
-import ChangeProfilePicModal from '@/components/common/ProfilePictureUploader'
-import Divider from '@/components/common/Divider'
-import {
-  EditableAddress,
-  AddressData
-} from '@/components/common/EditableAddress'
-import Header from '@/components/sections/Header'
-import Input from '@/components/common/Input'
-import InputPassword from '@/components/common/InputPassword'
 
 import { formatExcursionistasSince, formatPhoneNumber } from '@/utils/formats'
 import { normalizeInput } from '@/utils/normalizer'
 import { validateFullName, validatePhone } from '@/validation/validations'
+import axios from 'axios'
+import { getSession, signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
+import InputMask from 'react-input-mask'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { ValidationError } from 'yup'
+
+import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
+import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
+import { LockKey } from '@phosphor-icons/react/dist/ssr/LockKey'
+import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
+import { PencilSimple } from '@phosphor-icons/react/dist/ssr/PencilSimple'
+import { ShieldCheckered } from '@phosphor-icons/react/dist/ssr/ShieldCheckered'
+import { User } from '@phosphor-icons/react/dist/ssr/User'
+
+import useMediaQuery from '@/hooks/useMediaQuery'
+
+import { AccordionItem } from '@/components/common/AccordionItem'
+import Button from '@/components/common/Button'
+import Divider from '@/components/common/Divider'
+import {
+  AddressData,
+  EditableAddress
+} from '@/components/common/EditableAddress'
+import Input from '@/components/common/Input'
+import InputPassword from '@/components/common/InputPassword'
+import ChangeProfilePicModal from '@/components/common/ProfilePictureUploader'
+import Header from '@/components/sections/Header'
+import MobileHeader from '@/components/sections/MobileHeader'
 
 import * as S from '@/styles/pages/conta'
-import useMediaQuery from '@/hooks/useMediaQuery'
-import MobileHeader from '@/components/sections/MobileHeader'
 
 interface AddressPayload {
   street: string

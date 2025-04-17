@@ -1,5 +1,6 @@
-import { device } from '@/styles/breakpoints'
 import styled, { css, keyframes } from 'styled-components'
+
+import { device } from '@/styles/breakpoints'
 
 export type ButtonVariantType = 'ghost' | 'outlined' | 'contained' | 'danger'
 

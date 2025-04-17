@@ -4,15 +4,19 @@ import React, {
   useImperativeHandle,
   useState
 } from 'react'
-import * as S from '@/styles/pages/anuncios/steps/step3-4'
+import { useContext } from 'react'
+
+import { AnimatePresence, motion } from 'framer-motion'
+
+import { CreateAdContext } from '@/contexts/CreateAdContext'
+
 import AddressAutocomplete from '@/components/common/AddressAutocomplete'
-import Map from '@/components/common/Map'
 import Divider from '@/components/common/Divider'
 import { EditableAddress } from '@/components/common/EditableAddress'
 import { AddressData } from '@/components/common/EditableAddress'
-import { AnimatePresence, motion } from 'framer-motion'
-import { useContext } from 'react'
-import { CreateAdContext } from '@/contexts/CreateAdContext'
+import Map from '@/components/common/Map'
+
+import * as S from '@/styles/pages/anuncios/steps/step3-4'
 
 type Step3Props = {
   setCanProceed: (b: boolean) => void

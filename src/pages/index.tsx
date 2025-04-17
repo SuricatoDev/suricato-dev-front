@@ -1,16 +1,16 @@
 import { GetServerSidePropsContext } from 'next'
-import * as S from '@/styles/pages/home'
-import Header from '@/components/sections/Header'
-import Footer from '@/components/sections/Footer'
-import ProductCard from '@/components/sections/ProductCard'
-import { getSession } from 'next-auth/react'
-import Head from 'next/head'
-import Image1 from '@/assets/images/example-1.webp'
-import Image2 from '@/assets/images/example-2.webp'
-import Image3 from '@/assets/images/example-3.webp'
-import axios from 'axios'
+
 import { Caravan } from '@/interfaces/caravan'
 import { formatDateRangeBR } from '@/utils/formats'
+import axios from 'axios'
+import { getSession } from 'next-auth/react'
+import Head from 'next/head'
+
+import Footer from '@/components/sections/Footer'
+import Header from '@/components/sections/Header'
+import ProductCard from '@/components/sections/ProductCard'
+
+import * as S from '@/styles/pages/home'
 
 interface HomeProps {
   caravans: Caravan[]

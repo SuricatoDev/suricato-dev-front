@@ -1,6 +1,8 @@
 import React from 'react'
-import * as S from './styles'
+
 import Button from '@/components/common/Button'
+
+import * as S from './styles'
 
 type FooterNavProps = {
   step: number

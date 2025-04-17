@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import * as S from '@/styles/pages/anuncios/steps/step12'
-import { CreateAdContext } from '@/contexts/CreateAdContext'
-import ErrorMessage from '@/components/common/ErrorMessage'
-import { PencilSimple } from '@phosphor-icons/react/dist/ssr/PencilSimple'
+
+import { motion } from 'framer-motion'
+
 import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
 import { CaretUp } from '@phosphor-icons/react/dist/ssr/CaretUp'
+import { PencilSimple } from '@phosphor-icons/react/dist/ssr/PencilSimple'
+
+import { CreateAdContext } from '@/contexts/CreateAdContext'
+
 import Divider from '@/components/common/Divider'
-import { motion } from 'framer-motion'
+import ErrorMessage from '@/components/common/ErrorMessage'
+
+import * as S from '@/styles/pages/anuncios/steps/step12'
 
 export default function Step12({
   setCanProceed

@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+
 import apiBackend from '@/services/apiBackend'
-import { getToken } from 'next-auth/jwt'
 import { AxiosError } from 'axios'
+import { getToken } from 'next-auth/jwt'
 
 export default async function handler(
   req: NextApiRequest,

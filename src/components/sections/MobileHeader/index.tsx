@@ -1,7 +1,10 @@
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import * as S from './styles'
+
+import { useRouter } from 'next/router'
+
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
+
+import * as S from './styles'
 
 interface MobileHeaderProps {
   children?: React.ReactNode

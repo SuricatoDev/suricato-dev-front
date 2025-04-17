@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+
 import { device } from '@/styles/breakpoints'
 
 const layoutForCount = (count: number) => {

@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import Link from 'next/link'
-import { signOut, useSession } from 'next-auth/react'
-import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
+
 import UserCircle from '@/assets/icons/user-circle-fill.svg'
 import logo from '@/assets/images/logo.png'
-import * as S from './styles'
+import { signOut, useSession } from 'next-auth/react'
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
+import Link from 'next/link'
+
+import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
+
 import CategoriesBar from '@/components/common/CategoriesBar'
-import { HeaderNavigation } from './navigation'
 import Divider from '@/components/common/Divider'
 import Portal from '@/components/common/Portal'
 
-import Image from 'next/image'
-import dynamic from 'next/dynamic'
+import { HeaderNavigation } from './navigation'
+import * as S from './styles'
 
 const MultiStepForm = dynamic(() => import('@/components/sections/LoginForm'), {
   ssr: false

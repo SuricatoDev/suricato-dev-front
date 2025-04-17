@@ -1,6 +1,7 @@
-import { device } from '@/styles/breakpoints'
 import Link from 'next/link'
 import styled from 'styled-components'
+
+import { device } from '@/styles/breakpoints'
 
 export const FooterWrapper = styled.footer<{ $isScrollingDown: boolean }>`
   position: fixed;

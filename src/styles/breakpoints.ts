@@ -9,13 +9,13 @@ interface Size {
 }
 
 export const size: Size = {
-  xs: '0px', 
+  xs: '0px',
   xxsm: '360px',
   xsm: '520px',
-  sm: '768px', 
-  md: '960px', 
-  lg: '1440px', 
-  xl: '1920px' 
+  sm: '768px',
+  md: '960px',
+  lg: '1440px',
+  xl: '1920px'
 }
 
 export const device = {

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
+
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { Controller, useFormContext } from 'react-hook-form'
-import * as S from '../styles'
+
 import Button from '@/components/common/Button'
 import InputEmail from '@/components/common/InputEmail'
 import InputPassword from '@/components/common/InputPassword'
-import { useRouter } from 'next/router'
-import { signIn } from 'next-auth/react'
+
+import * as S from '../styles'
 
 interface Step1Props {
   onNext: () => void

@@ -1,30 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
+
 import { GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
-import { getSession, useSession } from 'next-auth/react'
 
-import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
-import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
-import { CheckCircle } from '@phosphor-icons/react/dist/ssr/CheckCircle'
-import { ShieldCheck } from '@phosphor-icons/react/dist/ssr/ShieldCheck'
-import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
-import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
-import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
-
-import Header from '@/components/sections/Header'
-import Footer from '@/components/sections/Footer'
-import MultiStepForm from '@/components/sections/LoginForm'
-import Gallery from '@/components/common/Gallery'
-import Divider from '@/components/common/Divider'
-import Button from '@/components/common/Button'
-import Modal from '@/components/common/Modal'
-import Portal from '@/components/common/Portal'
-import GatedContent from '@/components/common/GatedContent'
-import MapEmbed from '@/components/common/MapEmbed'
-import RatingStars from '@/components/common/RatingStars'
-
-import * as S from '@/styles/pages/caravana'
-
+import { categories } from '@/constants/categories'
+import { Caravan, SingleCaravan } from '@/interfaces/caravan'
 import {
   formatDateBR,
   formatExcursionistasSince,
@@ -32,13 +11,34 @@ import {
   formatTimeBR,
   returnInitialsLettersIfNotLogged
 } from '@/utils/formats'
-
-import { categories } from '@/constants/categories'
-import PassengerForm from '@/components/sections/PassengersForm'
-import { toast } from 'react-toastify'
 import axios from 'axios'
+import { getSession, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+
+import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
+import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
+import { CheckCircle } from '@phosphor-icons/react/dist/ssr/CheckCircle'
+import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
+import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
+import { ShieldCheck } from '@phosphor-icons/react/dist/ssr/ShieldCheck'
+import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
+
+import Button from '@/components/common/Button'
+import Divider from '@/components/common/Divider'
+import Gallery from '@/components/common/Gallery'
+import GatedContent from '@/components/common/GatedContent'
+import MapEmbed from '@/components/common/MapEmbed'
+import Modal from '@/components/common/Modal'
+import Portal from '@/components/common/Portal'
+import RatingStars from '@/components/common/RatingStars'
+import Footer from '@/components/sections/Footer'
+import Header from '@/components/sections/Header'
+import MultiStepForm from '@/components/sections/LoginForm'
 import MobileHeader from '@/components/sections/MobileHeader'
-import { Caravan, SingleCaravan } from '@/interfaces/caravan'
+import PassengerForm from '@/components/sections/PassengersForm'
+
+import * as S from '@/styles/pages/caravana'
 
 interface CaravanPageProps {
   caravan: SingleCaravan
@@ -436,19 +436,7 @@ function maskCaravanData(caravan: Caravan): Caravan {
     id: caravan.id,
     titulo: caravan.titulo,
     categoria: caravan.categoria,
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     cidade_origem: caravan.cidade_origem,
     estado_origem: caravan.estado_origem,
     cidade_destino: caravan.cidade_destino,

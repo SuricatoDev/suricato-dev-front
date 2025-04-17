@@ -1,9 +1,13 @@
 import React from 'react'
-import { motion } from 'framer-motion'
-import Button from '@/components/common/Button'
-import * as S from './styles'
+
 import EspereImg from '@/assets/images/espere.png'
+import { motion } from 'framer-motion'
+
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
+
+import Button from '@/components/common/Button'
+
+import * as S from './styles'
 
 interface NotOrganizerMessageProps {
   onClick: () => void

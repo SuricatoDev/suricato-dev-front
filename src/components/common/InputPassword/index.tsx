@@ -1,11 +1,15 @@
-import React, { useState, useEffect, InputHTMLAttributes, useRef } from 'react'
-import Input from '@/components/common/Input'
-import * as S from './styles'
-import { ErrorIcon, ValidIcon } from '../Icons'
+import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react'
+
+import { checkPasswordStrength } from '@/utils/validations'
+
 import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
 import { EyeSlash } from '@phosphor-icons/react/dist/ssr/EyeSlash'
-import { checkPasswordStrength } from '@/utils/validations'
+
+import Input from '@/components/common/Input'
+
 import ErrorMessage from '../ErrorMessage'
+import { ErrorIcon, ValidIcon } from '../Icons'
+import * as S from './styles'
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string
@@ -35,7 +39,6 @@ export default function InputPassword({
   const [hasNumberOrSymbol, setHasNumberOrSymbol] = useState(false)
   const [notContainsUserData, setNotContainsUserData] = useState(true)
 
-  
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {

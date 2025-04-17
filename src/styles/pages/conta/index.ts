@@ -1,6 +1,7 @@
-import styled from 'styled-components'
-import { device } from '@/styles/breakpoints'
 import backgroundProfile from '@/assets/images/background-profile.jpg'
+import styled from 'styled-components'
+
+import { device } from '@/styles/breakpoints'
 
 export const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.background_standard};

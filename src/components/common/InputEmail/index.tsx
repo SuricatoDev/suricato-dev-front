@@ -1,7 +1,9 @@
-import { useState, useRef, useEffect, InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, useEffect, useRef, useState } from 'react'
+
 import Input from '@/components/common/Input'
-import * as S from './styles'
+
 import ErrorMessage from '../ErrorMessage'
+import * as S from './styles'
 
 interface EmailInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {

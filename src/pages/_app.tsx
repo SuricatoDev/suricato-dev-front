@@ -1,17 +1,20 @@
-import { Inter } from 'next/font/google'
-import { AppProps } from 'next/app'
-import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
-import { SessionProvider } from 'next-auth/react'
-import MobileFooter from '@/components/sections/MobileFooter'
-import Layout from '@/containers/Layout'
-import { ToastContainer } from 'react-toastify'
-import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { SessionUpdater } from '@/components/common/SessionUpdater'
-import { GoogleMapsProvider } from '@/contexts/GoogleMapsProvider'
-import { StyleSheetManager } from 'styled-components'
+
+import Layout from '@/containers/Layout'
+import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
 import isPropValid from '@emotion/is-prop-valid'
+import { SessionProvider } from 'next-auth/react'
+import { AppProps } from 'next/app'
+import { Inter } from 'next/font/google'
+import { useRouter } from 'next/router'
+import { ToastContainer } from 'react-toastify'
+import { StyleSheetManager } from 'styled-components'
+
+import { GoogleMapsProvider } from '@/contexts/GoogleMapsProvider'
+
+import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
+import { SessionUpdater } from '@/components/common/SessionUpdater'
+import MobileFooter from '@/components/sections/MobileFooter'
 
 export const inter = Inter({
   weight: ['400', '500', '600', '700'],

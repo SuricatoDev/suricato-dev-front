@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
+
 import { X } from '@phosphor-icons/react/dist/ssr/X'
-import * as S from './styles'
+
 import Portal from '../Portal'
+import * as S from './styles'
 
 export type ModalProps = {
   children: React.ReactNode

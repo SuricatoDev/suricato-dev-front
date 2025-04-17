@@ -1,18 +1,23 @@
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { motion } from 'framer-motion'
-import * as S from '@/styles/pages/anuncios/overview'
-import HeaderNav from '@/components/sections/HeaderNav'
-import Divider from '@/components/common/Divider'
+
+import { GetServerSideProps } from 'next'
+
+import likeIcon from '@/assets/icons/like-3d.png'
 import mapPinIcon from '@/assets/icons/map-pin-3d.png'
 import pictureIcon from '@/assets/icons/picture-3d.png'
-import likeIcon from '@/assets/icons/like-3d.png'
-import Button from '@/components/common/Button'
-import useMediaQuery from '@/hooks/useMediaQuery'
-import Head from 'next/head'
-import { useIsOrganizer } from '@/hooks/useIsOrganizer'
-import { GetServerSideProps } from 'next'
+import { motion } from 'framer-motion'
 import { getSession } from 'next-auth/react'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+
+import { useIsOrganizer } from '@/hooks/useIsOrganizer'
+import useMediaQuery from '@/hooks/useMediaQuery'
+
+import Button from '@/components/common/Button'
+import Divider from '@/components/common/Divider'
+import HeaderNav from '@/components/sections/HeaderNav'
+
+import * as S from '@/styles/pages/anuncios/overview'
 
 export default function Overview() {
   const isMobile = useMediaQuery()

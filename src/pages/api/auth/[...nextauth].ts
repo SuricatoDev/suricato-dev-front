@@ -1,7 +1,7 @@
+import { LoginResponse, UserWithToken } from '@/interfaces/User'
+import axios from 'axios'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import axios from 'axios'
-import { LoginResponse, UserWithToken } from '@/interfaces/User'
 
 const baseUrl = process.env.BACKEND_URL
 

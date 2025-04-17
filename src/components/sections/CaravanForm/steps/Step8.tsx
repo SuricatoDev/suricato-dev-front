@@ -1,29 +1,33 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
-import * as S from '@/styles/pages/anuncios/steps/step8'
-import { CreateAdContext, ImageItem } from '@/contexts/CreateAdContext'
 
 import {
   DndContext,
-  closestCenter,
+  DragOverlay,
   PointerSensor,
+  closestCenter,
   useSensor,
-  useSensors,
-  DragOverlay
+  useSensors
 } from '@dnd-kit/core'
+import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core'
 import {
-  arrayMove,
   SortableContext,
-  useSortable,
-  rectSortingStrategy
+  arrayMove,
+  rectSortingStrategy,
+  useSortable
 } from '@dnd-kit/sortable'
-import type { DragStartEvent, DragEndEvent } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
-import useMediaQuery from '@/hooks/useMediaQuery'
-import { Camera } from '@phosphor-icons/react/dist/ssr/Camera'
-import { DotsThree } from '@phosphor-icons/react/dist/ssr/DotsThree'
-import { CameraPlus } from '@phosphor-icons/react/dist/ssr/CameraPlus'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+
+import { Camera } from '@phosphor-icons/react/dist/ssr/Camera'
+import { CameraPlus } from '@phosphor-icons/react/dist/ssr/CameraPlus'
+import { DotsThree } from '@phosphor-icons/react/dist/ssr/DotsThree'
+
+import useMediaQuery from '@/hooks/useMediaQuery'
+
+import { CreateAdContext, ImageItem } from '@/contexts/CreateAdContext'
+
+import * as S from '@/styles/pages/anuncios/steps/step8'
 
 interface SortableImageProps {
   item: ImageItem

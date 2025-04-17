@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { X } from '@phosphor-icons/react/dist/ssr/X'
-import * as S from './styles'
+
 import Cam3dIcon from '@/assets/icons/cam-3d.png'
+import { useDropzone } from 'react-dropzone'
+
 import { Plus } from '@phosphor-icons/react/dist/ssr/Plus'
+import { X } from '@phosphor-icons/react/dist/ssr/X'
+
+import * as S from './styles'
 
 type ImageDropzoneProps = {
   onFilesChange?: (files: File[]) => void

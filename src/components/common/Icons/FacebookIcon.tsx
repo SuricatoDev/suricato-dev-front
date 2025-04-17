@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 const SVGComponent = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     viewBox="0 0 32 32"

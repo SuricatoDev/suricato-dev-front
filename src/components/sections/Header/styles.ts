@@ -1,7 +1,9 @@
-import { device } from '@/styles/breakpoints'
-import styled, { css } from 'styled-components'
-import { HeaderProps } from '.'
 import Image from 'next/image'
+import styled, { css } from 'styled-components'
+
+import { device } from '@/styles/breakpoints'
+
+import { HeaderProps } from '.'
 
 export interface ScrolledProps {
   $isScrolled: boolean

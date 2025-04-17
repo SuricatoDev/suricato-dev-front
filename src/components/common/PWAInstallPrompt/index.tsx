@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import * as S from './styles'
+
 import { X } from '@phosphor-icons/react/dist/ssr/X'
+
+import * as S from './styles'
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>

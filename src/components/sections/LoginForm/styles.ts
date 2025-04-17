@@ -1,5 +1,7 @@
-import { device } from '@/styles/breakpoints'
 import styled from 'styled-components'
+
+import { device } from '@/styles/breakpoints'
+
 import { MultiStepFormProps } from '.'
 
 type ModalProps = Pick<MultiStepFormProps, '$isModal'>

@@ -1,10 +1,15 @@
 import React, { useContext, useEffect } from 'react'
-import { CreateAdContext } from '@/contexts/CreateAdContext'
-import * as S from '@/styles/pages/anuncios/steps/step5'
+
 import { motion } from 'framer-motion'
+
 import { Minus } from '@phosphor-icons/react/dist/ssr/Minus'
 import { Plus } from '@phosphor-icons/react/dist/ssr/Plus'
+
+import { CreateAdContext } from '@/contexts/CreateAdContext'
+
 import Divider from '@/components/common/Divider'
+
+import * as S from '@/styles/pages/anuncios/steps/step5'
 
 type Step5Props = { setCanProceed: (b: boolean) => void }
 

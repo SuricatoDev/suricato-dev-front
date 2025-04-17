@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
-import * as S from '@/styles/pages/anuncios/steps/step1'
+
 import VanImg from '@/assets/images/parte-2.png'
 import { motion } from 'framer-motion'
+
+import * as S from '@/styles/pages/anuncios/steps/step1'
 
 type Step6Props = {
   setCanProceed: (canProceed: boolean) => void

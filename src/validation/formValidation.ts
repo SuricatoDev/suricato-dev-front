@@ -1,5 +1,6 @@
 import { checkPasswordStrength } from '@/utils/validations'
 import * as Yup from 'yup'
+
 import { validateCPF, validateRG } from './validations'
 
 const phoneRegExp = /^(\([1-9]{2}\) [9]{1}[0-9]{4}-[0-9]{4})$/

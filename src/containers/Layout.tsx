@@ -1,6 +1,7 @@
-import { ThemeProvider } from 'styled-components'
-import { GlobalStyle } from '@/styles/global'
 import { createTheme } from '@/helpers/themeUtils'
+import { ThemeProvider } from 'styled-components'
+
+import { GlobalStyle } from '@/styles/global'
 import { defaultTheme } from '@/styles/themes/default'
 
 interface LayoutProps {

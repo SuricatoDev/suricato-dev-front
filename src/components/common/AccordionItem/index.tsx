@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+
 import * as S from './styles'
 
 interface AccordionItemProps {
