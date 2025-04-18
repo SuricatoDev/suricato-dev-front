@@ -8,11 +8,20 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    const { categoria, origem, destino, titulo } = req.query
+
+    const params: Record<string, string> = {}
+    if (typeof categoria === 'string') params.categoria = categoria
+    if (typeof origem === 'string') params.origem = origem
+    if (typeof destino === 'string') params.destino = destino
+    if (typeof titulo === 'string') params.titulo = titulo
+
     const response = await apiBackend({
-      method: req.method,
-      url: `/caravanas`,
-      data: req.body
+      method: 'GET',
+      url: '/caravanas',
+      params
     })
+
     return res.status(response.status).json(response.data)
   } catch (error: unknown) {
     const axiosError = error as AxiosError

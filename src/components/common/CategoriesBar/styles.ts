@@ -34,14 +34,27 @@ export const Container = styled.div`
 export const CategoryMenu = styled.div<CategoryMenuProps>`
   position: relative;
   overflow: hidden;
-  .swiper-container {
-    padding: 0 1rem;
+  min-width: 100%;
+
+  .swiper,
+  .swiper-wrapper {
+    min-width: 100%;
   }
 
-  @media (${device.md}) {
-    .swiper-container {
-      padding: 0 2rem 0 0;
+  .swiper-wrapper {
+    justify-content: space-between;
+  }
+
+  .swiper-slide:not(:first-child) {
+    margin-left: 24px;
+
+    @media (${device.md}) {
+      margin-left: 48px;
     }
+  }
+
+  .swiper-container {
+    padding: 0 1rem;
   }
 
   .hide {
