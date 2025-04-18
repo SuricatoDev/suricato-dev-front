@@ -1,8 +1,8 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
-import { useJsApiLoader } from '@react-google-maps/api'
+import { Loader } from '@googlemaps/js-api-loader'
 
-const googleMapsLibraries: 'places'[] = ['places']
+const GOOGLE_MAPS_LIBRARIES: 'places'[] = ['places']
 
 type GoogleMapsContextType = {
   isLoaded: boolean
@@ -17,12 +17,48 @@ export const GoogleMapsProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries: googleMapsLibraries,
-    language: 'pt',
-    region: 'BR'
-  })
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [shouldLoad, setShouldLoad] = useState(false)
+
+  useEffect(() => {
+    const triggerLoad = () => {
+      setShouldLoad(true)
+      cleanup()
+    }
+
+    const cleanup = () => {
+      window.removeEventListener('scroll', triggerLoad)
+      window.removeEventListener('click', triggerLoad)
+      window.removeEventListener('touchstart', triggerLoad)
+      clearTimeout(timer)
+    }
+
+    window.addEventListener('scroll', triggerLoad, { once: true })
+    window.addEventListener('click', triggerLoad, { once: true })
+    window.addEventListener('touchstart', triggerLoad, { once: true })
+
+    const timer = window.setTimeout(triggerLoad, 4000)
+
+    return cleanup
+  }, [])
+
+  useEffect(() => {
+    if (!shouldLoad) return
+
+    const loader = new Loader({
+      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+      libraries: GOOGLE_MAPS_LIBRARIES,
+      language: 'pt',
+      region: 'BR'
+    })
+
+    loader
+      .load()
+      .then(() => setIsLoaded(true))
+      .catch((err) => {
+        console.error('Erro ao carregar Google Maps:', err)
+      })
+  }, [shouldLoad])
 
   return (
     <GoogleMapsContext.Provider value={{ isLoaded }}>

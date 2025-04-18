@@ -1,9 +1,16 @@
-import { useEffect, useRef, useState } from 'react'
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
 
 import { GetServerSideProps } from 'next'
 
 import { categories } from '@/constants/categories'
-import { Caravan, SingleCaravan } from '@/interfaces/caravan'
+import { SingleCaravan } from '@/interfaces/caravan'
 import {
   formatDateBR,
   formatExcursionistasSince,
@@ -12,7 +19,8 @@ import {
   returnInitialsLettersIfNotLogged
 } from '@/utils/formats'
 import axios from 'axios'
-import { getSession, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 
@@ -28,17 +36,34 @@ import Button from '@/components/common/Button'
 import Divider from '@/components/common/Divider'
 import Gallery from '@/components/common/Gallery'
 import GatedContent from '@/components/common/GatedContent'
-import MapEmbed from '@/components/common/MapEmbed'
-import Modal from '@/components/common/Modal'
-import Portal from '@/components/common/Portal'
 import RatingStars from '@/components/common/RatingStars'
+import Skeleton from '@/components/common/Skeleton'
 import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
-import MultiStepForm from '@/components/sections/LoginForm'
 import MobileHeader from '@/components/sections/MobileHeader'
-import PassengerForm from '@/components/sections/PassengersForm'
 
 import * as S from '@/styles/pages/caravana'
+
+const MapEmbed = dynamic(() => import('@/components/common/MapEmbed'), {
+  ssr: false,
+  suspense: true
+})
+const MultiStepForm = dynamic(() => import('@/components/sections/LoginForm'), {
+  ssr: false,
+  suspense: true
+})
+const PassengerForm = dynamic(
+  () => import('@/components/sections/PassengersForm'),
+  { ssr: false, suspense: true }
+)
+const Portal = dynamic(() => import('@/components/common/Portal'), {
+  ssr: false,
+  suspense: true
+})
+const Modal = dynamic(() => import('@/components/common/Modal'), {
+  ssr: false,
+  suspense: true
+})
 
 interface CaravanPageProps {
   caravan: SingleCaravan
@@ -60,6 +85,36 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
 
   const descriptionRef = useRef<HTMLParagraphElement>(null)
   const [shouldShowExpandButton, setShouldShowExpandButton] = useState(false)
+
+  const [mapContainer, setMapContainer] = useState<HTMLDivElement | null>(null)
+  const [mapInView, setMapInView] = useState(false)
+
+  useEffect(() => {
+    if (!mapContainer) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMapInView(true)
+          observer.disconnect()
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      }
+    )
+
+    observer.observe(mapContainer)
+    return () => observer.disconnect()
+  }, [mapContainer])
+
+  const [hydrated, setHydrated] = useState(false)
+
+  useEffect(() => {
+    setHydrated(true)
+  }, [])
 
   const handleClosePassengerForm = () => {
     setPassengerFormVisible(false)
@@ -91,7 +146,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
     }
   }
 
-  const handleSubscribe = async () => {
+  const handleSubscribe = useCallback(async () => {
     const missingData =
       !session?.user?.endereco ||
       !session?.user?.passageiroData?.rg ||
@@ -102,7 +157,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
     } else {
       subscribeInCaravan()
     }
-  }
+  }, [session, caravan.id])
 
   const subscribeInCaravan = async () => {
     try {
@@ -125,7 +180,11 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
     }
   }
 
-  const category = categories.find((item) => item.id === caravan.categoria)
+  const category = useMemo(
+    () => categories.find((item) => item.id === caravan.categoria),
+    [caravan.categoria]
+  )
+
   const CategoryIcon = category ? category.icon : null
   const CategoryLabel = category ? category.label : null
 
@@ -248,11 +307,41 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                     </S.EventItem>
                   </S.EventContainer>
                   <Divider $marginY="8px" />
-                  <S.MapContainer>
+                  <S.MapContainer
+                    ref={setMapContainer}
+                    style={{
+                      height: '300px'
+                    }}
+                  >
                     <S.Subtitle>Local do evento</S.Subtitle>
-                    <MapEmbed
-                      location={`${caravan.endereco_destino} - ${caravan.bairro_destino}, ${caravan.cidade_destino} - ${caravan.estado_destino}`}
-                    />
+
+                    {mapInView && hydrated ? (
+                      <Suspense
+                        fallback={
+                          <Skeleton
+                            rows={1}
+                            columns={1}
+                            width="100%"
+                            height="300px"
+                            gap="8px"
+                            radius="4px"
+                          />
+                        }
+                      >
+                        <MapEmbed
+                          location={`${caravan.endereco_destino} - ${caravan.bairro_destino}, ${caravan.cidade_destino} - ${caravan.estado_destino}`}
+                        />
+                      </Suspense>
+                    ) : (
+                      <Skeleton
+                        rows={1}
+                        columns={1}
+                        width="100%"
+                        height="300px"
+                        gap="8px"
+                        radius="4px"
+                      />
+                    )}
                   </S.MapContainer>
                 </S.SpacingMobile>
               </S.Content>
@@ -310,9 +399,12 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                           </S.OrganizerVerified>
 
                           <S.OrganizerName>
-                            {caravan?.organizador?.nome_fantasia ??
-                              caravan?.organizador?.razao_social ??
-                              ''}
+                            {returnInitialsLettersIfNotLogged(
+                              caravan?.organizador?.nome_fantasia ??
+                                caravan?.organizador?.razao_social ??
+                                '',
+                              isLogged
+                            )}
                           </S.OrganizerName>
                           <RatingStars rating={4.5} />
                         </S.OrganizerInfo>
@@ -363,86 +455,86 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
           </S.Container>
         </div>
       </S.Main>
-      <Portal>
-        {isLoginModalOpen && (
-          <MultiStepForm
-            $isModal
-            $isOpen={isLoginModalOpen}
-            onClose={() => setIsLoginModalOpen(false)}
-          />
-        )}
-      </Portal>
-      <Modal $isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <S.ModalContainer>
-          <S.ModalTitle>
-            <ShieldCheck size={32} weight="fill" />
-            <h2>Dicas de segurança</h2>
-          </S.ModalTitle>
-          <S.ModalContent>
-            <ul>
-              <li>
-                Não faça pagamentos antes de verificar se o veículo existe.
-              </li>
-              <li>
-                Antes de fechar negócio, sempre busque pelo histórico do
-                veículo.
-              </li>
-              <li>
-                Fique atento a preços abaixo do mercado e a excessos de
-                facilidades.
-              </li>
-            </ul>
-          </S.ModalContent>
-          <S.ModalButton>
-            <Button onClick={() => setIsModalOpen(false)} fullWidth>
-              OK
-            </Button>
-          </S.ModalButton>
-        </S.ModalContainer>
-      </Modal>
+      {hydrated && (
+        <>
+          <Suspense fallback={null}>
+            <Portal>
+              {isLoginModalOpen && (
+                <MultiStepForm
+                  $isModal
+                  $isOpen={isLoginModalOpen}
+                  onClose={() => setIsLoginModalOpen(false)}
+                />
+              )}
+            </Portal>
+          </Suspense>
+          <Suspense fallback={null}>
+            <Modal $isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+              <S.ModalContainer>
+                <S.ModalTitle>
+                  <ShieldCheck size={32} weight="fill" />
+                  <h2>Dicas de segurança</h2>
+                </S.ModalTitle>
+                <S.ModalContent>
+                  <ul>
+                    <li>
+                      Não faça pagamentos antes de verificar se o veículo
+                      existe.
+                    </li>
+                    <li>
+                      Antes de fechar negócio, sempre busque pelo histórico do
+                      veículo.
+                    </li>
+                    <li>
+                      Fique atento a preços abaixo do mercado e a excessos de
+                      facilidades.
+                    </li>
+                  </ul>
+                </S.ModalContent>
+                <S.ModalButton>
+                  <Button onClick={() => setIsModalOpen(false)} fullWidth>
+                    OK
+                  </Button>
+                </S.ModalButton>
+              </S.ModalContainer>
+            </Modal>
+          </Suspense>
+        </>
+      )}
       <Footer />
-      <PassengerForm
-        visible={passengerFormVisible}
-        onClose={handleClosePassengerForm}
-        caravanaId={caravan.id}
-      />
+      {hydrated && (
+        <Suspense fallback={null}>
+          <PassengerForm
+            visible={passengerFormVisible}
+            onClose={handleClosePassengerForm}
+            caravanaId={caravan.id}
+          />
+        </Suspense>
+      )}
     </S.Wrapper>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params as { id: string }
-  const session = await getSession(context)
 
   try {
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/caravanas/${id}`
-    )
+    const { data } = await axios.get(`
+      ${process.env.NEXT_PUBLIC_API_URL}/caravanas/${id}
+    `)
 
-    const finalCaravan = session ? data.data : maskCaravanData(data.data)
+    if (!data.data) {
+      return {
+        notFound: true
+      }
+    }
 
     return {
-      props: { caravan: finalCaravan }
+      props: { caravan: data?.data }
     }
   } catch (error) {
     return {
       notFound: true
     }
-  }
-}
-function maskCaravanData(caravan: Caravan): Caravan {
-  return {
-    ...caravan,
-    id: caravan.id,
-    titulo: caravan.titulo,
-    categoria: caravan.categoria,
-
-    cidade_origem: caravan.cidade_origem,
-    estado_origem: caravan.estado_origem,
-    cidade_destino: caravan.cidade_destino,
-
-    imagens: caravan.imagens,
-    valor: 0,
-    descricao: caravan.descricao
   }
 }

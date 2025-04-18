@@ -58,6 +58,14 @@ export const GalleryWrapper = styled.div<{ $count: number }>`
   flex-direction: column;
   width: 100%;
 
+  .desktop-images {
+    display: none;
+
+    @media (${device.md}) {
+      display: block;
+    }
+  }
+
   .image-gallery-image {
     aspect-ratio: 16 / 9;
     object-fit: cover;
@@ -69,20 +77,20 @@ export const GalleryWrapper = styled.div<{ $count: number }>`
     gap: 1rem;
     ${({ $count }) => layoutForCount($count <= 5 ? $count : 6)}
 
-    & > :nth-child(1) {
+    & > :nth-child(2) {
       grid-area: main;
     }
-    & > :nth-child(2) {
+    & > :nth-child(3) {
       grid-area: second;
       aspect-ratio: ${({ $count }) =>
         $count === 4 || $count >= 5 ? '1' : $count === 3 ? '2.07' : 'unset'};
     }
-    & > :nth-child(3) {
+    & > :nth-child(4) {
       grid-area: third;
       aspect-ratio: ${({ $count }) =>
         $count === 4 || $count >= 5 ? '1' : $count === 3 ? '2.07' : 'unset'};
     }
-    & > :nth-child(4) {
+    & > :nth-child(5) {
       grid-area: fourth;
       aspect-ratio: ${({ $count }) =>
         $count === 5
@@ -93,10 +101,18 @@ export const GalleryWrapper = styled.div<{ $count: number }>`
               ? '1'
               : 'unset'};
     }
-    & > :nth-child(5) {
+    & > :nth-child(6) {
       grid-area: fifth;
       aspect-ratio: ${({ $count }) => ($count >= 5 ? '1' : 'unset')};
     }
+  }
+`
+
+export const MobileGallery = styled.div`
+  aspect-ratio: 16 / 9;
+
+  @media ${device.md} {
+    display: none;
   }
 `
 
@@ -106,6 +122,7 @@ interface GridItemProps {
 }
 
 export const GridItem = styled.div<GridItemProps>`
+  display: none;
   position: relative;
   width: 100%;
   height: 100%;
@@ -113,6 +130,10 @@ export const GridItem = styled.div<GridItemProps>`
   overflow: hidden;
   cursor: pointer;
   aspect-ratio: 16 / 9;
+
+  @media ${device.md} {
+    display: flex;
+  }
 
   &::after {
     content: '';
@@ -140,6 +161,14 @@ export const GridItem = styled.div<GridItemProps>`
         aspect-ratio: ${$onlyItem ? '16 / 9' : '1'};
       }
     `}
+`
+
+export const DesktopImages = styled.div`
+  display: none;
+
+  @media (${device.md}) {
+    display: block;
+  }
 `
 
 export const Overlay = styled.div`

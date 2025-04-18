@@ -10,7 +10,7 @@ import styled from 'styled-components'
 
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 
-import { CreateAdProvider, useCreateAd } from '@/contexts/CreateAdContext'
+import { useCreateAd } from '@/contexts/CreateAdContext'
 import { useGoogleMaps } from '@/contexts/GoogleMapsProvider'
 
 import FooterNav from '@/components/sections/FooterNav'
@@ -47,7 +47,7 @@ interface CaravanFormProps {
   initialData?: any
 }
 
-export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
+export default function CaravanForm({ mode }: CaravanFormProps) {
   const { isOrganizer, loading } = useIsOrganizer()
   const { isLoaded } = useGoogleMaps()
   const router = useRouter()
@@ -102,15 +102,8 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
           payload.append('ordem_imagens[]', String(image.order))
         })
 
-        let response
-
-        const backendUrl = process.env.BACKEND_URL
-
-        const tokenType = session?.user?.token_type || 'Bearer'
-        const accessToken = session?.user?.access_token
-
         if (mode === 'edit') {
-          response = await axios.put(
+          await axios.put(
             `/api/caravanas/editar/${formData.caravana_id}`,
             payload,
             {
@@ -121,7 +114,7 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
           )
           toast.success('Edição concluída!')
         } else {
-          response = await axios.post('/api/caravanas', payload, {
+          await axios.post('/api/caravanas', payload, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }

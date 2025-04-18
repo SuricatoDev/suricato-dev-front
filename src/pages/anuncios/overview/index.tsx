@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { GetServerSideProps } from 'next'
-
 import likeIcon from '@/assets/icons/like-3d.png'
 import mapPinIcon from '@/assets/icons/map-pin-3d.png'
 import pictureIcon from '@/assets/icons/picture-3d.png'
 import { motion } from 'framer-motion'
-import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
@@ -153,12 +150,4 @@ export default function Overview() {
       </S.Footer>
     </motion.div>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context)
-
-  return {
-    props: { session }
-  }
 }

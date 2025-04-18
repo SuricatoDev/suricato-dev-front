@@ -27,7 +27,7 @@ export type Step4Ref = {
 }
 
 const Step4 = forwardRef<Step4Ref, Step4Props>(({ setCanProceed }, ref) => {
-  const { formData, updateFormData } = useContext(CreateAdContext)!
+  const { updateFormData } = useContext(CreateAdContext)!
 
   const [selectedAddress, setSelectedAddress] = useState('')
   const [location, setLocation] = useState<google.maps.LatLngLiteral | null>(

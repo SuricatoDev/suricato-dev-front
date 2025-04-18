@@ -1,9 +1,6 @@
-import { GetServerSidePropsContext } from 'next'
-
 import { Caravan } from '@/interfaces/caravan'
 import { formatDateRangeBR } from '@/utils/formats'
 import axios from 'axios'
-import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 
 import Footer from '@/components/sections/Footer'
@@ -87,8 +84,7 @@ export default function Home({ caravans }: HomeProps) {
   )
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getSession(context)
+export async function getServerSideProps() {
   const caravans = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`
   )
@@ -96,6 +92,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { data } = caravans
 
   return {
-    props: { session, caravans: data?.data }
+    props: { caravans: data?.data }
   }
 }

@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { GetServerSideProps } from 'next'
-
 import { formatExcursionistasSince, formatPhoneNumber } from '@/utils/formats'
 import { normalizeInput } from '@/utils/normalizer'
 import { validateFullName, validatePhone } from '@/validation/validations'
 import axios from 'axios'
-import { getSession, signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import InputMask from 'react-input-mask'
 import { toast } from 'react-toastify'
@@ -836,12 +834,4 @@ export default function ProfileEditPage() {
       </S.Wrapper>
     </>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context)
-
-  return {
-    props: { session }
-  }
 }

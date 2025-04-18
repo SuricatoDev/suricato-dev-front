@@ -5,7 +5,6 @@ import { Controller, useFormContext } from 'react-hook-form'
 import InputMask from 'react-input-mask'
 
 import Button from '@/components/common/Button'
-import ErrorMessage from '@/components/common/ErrorMessage'
 import Input from '@/components/common/Input'
 
 import * as S from '../styles'

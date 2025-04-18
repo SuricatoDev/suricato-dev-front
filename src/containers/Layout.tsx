@@ -9,7 +9,7 @@ interface LayoutProps {
   theme?: undefined
 }
 
-export default function Layout({ children, theme }: LayoutProps) {
+export default function Layout({ children }: LayoutProps) {
   const selectedTheme = defaultTheme
 
   const finalTheme = createTheme({

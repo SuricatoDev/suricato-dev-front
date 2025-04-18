@@ -295,5 +295,9 @@ export const Logo = styled(Image)`
 `
 
 export const ProfilePic = styled.div`
-  display: flex;
+  display: none;
+
+  @media (${device.md}) {
+    display: flex;
+  }
 `

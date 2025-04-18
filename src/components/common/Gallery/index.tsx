@@ -1,16 +1,23 @@
 import { useEffect, useState } from 'react'
 
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
 import Image from 'next/image'
-import ImageGallery from 'react-image-gallery'
+// ← import dynamic
 import 'react-image-gallery/styles/css/image-gallery.css'
 
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
 import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
-import Portal from '../Portal'
 import Skeleton from '../Skeleton'
 import * as S from './styles'
+
+const Portal = dynamic(() => import('../Portal'), { ssr: false })
+
+const ImageGallery = dynamic(() => import('react-image-gallery'), {
+  ssr: false
+})
 
 interface GalleryProps {
   images: string[]
@@ -20,13 +27,11 @@ export default function Gallery({ images }: GalleryProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const [loadingImages, setLoadingImages] = useState(() =>
     images.map(() => true)
   )
 
   useEffect(() => {
-    setMounted(true)
     const onResize = () => setIsMobile(window.innerWidth <= 960)
     onResize()
     window.addEventListener('resize', onResize)
@@ -60,19 +65,11 @@ export default function Gallery({ images }: GalleryProps) {
 
   return (
     <>
+      <Head>
+        <link rel="preload" as="image" href={mainImage} />
+      </Head>
       <S.GalleryWrapper $count={images.length}>
-        {!mounted ? (
-          <div
-            style={{
-              width: '100%',
-              aspectRatio: '16/9'
-            }}
-          >
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Skeleton key={i} rows={1} columns={1} width="100%" height="0" />
-            ))}
-          </div>
-        ) : isMobile ? (
+        <S.MobileGallery>
           <ImageGallery
             items={galleryItems}
             showIndex
@@ -119,15 +116,46 @@ export default function Gallery({ images }: GalleryProps) {
               )
             }}
           />
-        ) : (
-          <>
+        </S.MobileGallery>
+
+        <S.GridItem
+          onClick={() => openModal(0)}
+          $variant="main"
+          $onlyItem={images.length === 1}
+          className="desktop-images"
+          style={{ position: 'relative', height: '100%' }}
+        >
+          {loadingImages[0] && (
+            <div style={{ position: 'absolute', inset: 0 }}>
+              <Skeleton
+                rows={1}
+                columns={1}
+                width="100%"
+                height="100%"
+                gap="8px"
+                radius="4px"
+              />
+            </div>
+          )}
+          <Image
+            src={mainImage}
+            alt="Imagem principal"
+            fill
+            style={{ objectFit: 'cover' }}
+            quality={90}
+            priority
+            onLoad={handleImageLoad(0)}
+          />
+        </S.GridItem>
+        {extraImages.map((img, idx) => {
+          const actualIndex = idx + 1
+          return (
             <S.GridItem
-              onClick={() => openModal(0)}
-              $variant="main"
-              $onlyItem={images.length === 1}
-              style={{ position: 'relative', height: '100%' }}
+              key={img}
+              onClick={() => openModal(actualIndex)}
+              style={{ position: 'relative' }}
             >
-              {loadingImages[0] && (
+              {loadingImages[actualIndex] && (
                 <div style={{ position: 'absolute', inset: 0 }}>
                   <Skeleton
                     rows={1}
@@ -140,51 +168,19 @@ export default function Gallery({ images }: GalleryProps) {
                 </div>
               )}
               <Image
-                src={mainImage}
-                alt="Imagem principal"
+                src={img}
+                alt={`Imagem ${actualIndex}`}
                 fill
                 style={{ objectFit: 'cover' }}
-                quality={90}
-                priority
-                onLoad={handleImageLoad(0)}
+                quality={80}
+                onLoad={handleImageLoad(actualIndex)}
               />
+              {idx === extraImages.length - 1 && remainingCount > 0 && (
+                <S.Overlay>+{remainingCount}</S.Overlay>
+              )}
             </S.GridItem>
-            {extraImages.map((img, idx) => {
-              const actualIndex = idx + 1
-              return (
-                <S.GridItem
-                  key={img}
-                  onClick={() => openModal(actualIndex)}
-                  style={{ position: 'relative' }}
-                >
-                  {loadingImages[actualIndex] && (
-                    <div style={{ position: 'absolute', inset: 0 }}>
-                      <Skeleton
-                        rows={1}
-                        columns={1}
-                        width="100%"
-                        height="100%"
-                        gap="8px"
-                        radius="4px"
-                      />
-                    </div>
-                  )}
-                  <Image
-                    src={img}
-                    alt={`Imagem ${actualIndex}`}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    quality={80}
-                    onLoad={handleImageLoad(actualIndex)}
-                  />
-                  {idx === extraImages.length - 1 && remainingCount > 0 && (
-                    <S.Overlay>+{remainingCount}</S.Overlay>
-                  )}
-                </S.GridItem>
-              )
-            })}
-          </>
-        )}
+          )
+        })}
       </S.GalleryWrapper>
 
       {isModalOpen && (

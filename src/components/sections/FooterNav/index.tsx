@@ -45,7 +45,7 @@ export default function FooterNav({
         <S.Back hide={step <= 1} onClick={onBack} disabled={step <= 1}>
           Voltar
         </S.Back>
-        <Button onClick={onNext}>
+        <Button onClick={onNext} disabled={!canProceed}>
           {step < totalSteps ? 'Avançar' : 'Concluir'}
         </Button>
       </S.FooterNavContainer>
