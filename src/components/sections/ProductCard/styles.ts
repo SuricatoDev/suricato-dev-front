@@ -11,13 +11,6 @@ export const Wrapper = styled.div`
 `
 
 export const ImageContainer = styled.div`
-  --swiper-pagination-color: ${({ theme }) => theme.colors.base_light};
-  --swiper-pagination-bullet-inactive-color: ${({ theme }) =>
-    theme.colors.base_dark56};
-  --swiper-pagination-bullet-inactive-opacity: 0.8;
-  --swiper-pagination-bullet-width: 6px;
-  --swiper-pagination-bullet-height: 6px;
-
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -41,7 +34,7 @@ export const ImageContainer = styled.div`
       right: 0;
       bottom: 0;
       left: 0;
-      background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));
+      background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.2));
       z-index: 1;
       pointer-events: none;
       opacity: 1;

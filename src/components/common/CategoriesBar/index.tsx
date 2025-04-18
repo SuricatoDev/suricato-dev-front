@@ -13,6 +13,8 @@ export default function CategoriesBar() {
   const [selectedCategory, setSelectedCategory] = useState('destaques')
   const [showLeft, setShowLeft] = useState(false)
   const [showRight, setShowRight] = useState(true)
+  const [inited, setInited] = useState(false)
+
   const updateNavigation = (swiper: SwiperType) => {
     setShowLeft(!swiper.isBeginning)
     setShowRight(!swiper.isEnd)
@@ -23,7 +25,10 @@ export default function CategoriesBar() {
       <div className="container">
         <S.Container>
           <S.CategoryMenu $showLeft={showLeft} $showRight={showRight}>
-            <S.NavPrev className="swiper-button-prev categories-bar-swiper-button-prev"></S.NavPrev>
+            <S.NavPrev
+              style={{ visibility: inited ? 'visible' : 'hidden' }}
+              className="swiper-button-prev categories-bar-swiper-button-prev"
+            ></S.NavPrev>
 
             <Swiper
               modules={[Navigation]}
@@ -33,16 +38,20 @@ export default function CategoriesBar() {
               touchReleaseOnEdges={true}
               breakpoints={{
                 960: {
-                  spaceBetween: 64
+                  spaceBetween: 85
                 }
               }}
               navigation={{
                 prevEl: '.categories-bar-swiper-button-prev',
                 nextEl: '.categories-bar-swiper-button-next'
               }}
-              onSwiper={(swiper) => updateNavigation(swiper)}
+              onSwiper={(swiper) => {
+                updateNavigation(swiper)
+                setInited(true)
+              }}
               onSlideChange={(swiper) => updateNavigation(swiper)}
               className="swiper-container"
+              style={{ visibility: inited ? 'visible' : 'hidden' }}
             >
               {categories.map(({ id, label, icon: Icon }) => {
                 const isSelected = id === selectedCategory
@@ -60,7 +69,10 @@ export default function CategoriesBar() {
               })}
             </Swiper>
 
-            <S.NavNext className="swiper-button-next categories-bar-swiper-button-next"></S.NavNext>
+            <S.NavNext
+              style={{ visibility: inited ? 'visible' : 'hidden' }}
+              className="swiper-button-next categories-bar-swiper-button-next"
+            ></S.NavNext>
           </S.CategoryMenu>
         </S.Container>
       </div>

@@ -154,7 +154,13 @@ export const Location = styled.div`
 
   color: ${({ theme }) => theme.colors.text_medium};
   font-size: ${({ theme }) => theme.common.font.sizes.body.large};
-  font-weight: 500;
+  font-weight: 600;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
 `
 
 export const ImagesWrapper = styled.div`
@@ -229,7 +235,6 @@ export const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding-top: 1rem;
 
   button {
     background: none;

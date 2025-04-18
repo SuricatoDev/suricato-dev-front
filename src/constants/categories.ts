@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Barn } from '@phosphor-icons/react/dist/ssr/Barn'
+import { Briefcase } from '@phosphor-icons/react/dist/ssr/Briefcase'
 import { Buildings } from '@phosphor-icons/react/dist/ssr/Buildings'
-import { Coffee } from '@phosphor-icons/react/dist/ssr/Coffee'
+import { Church } from '@phosphor-icons/react/dist/ssr/Church'
 import { Confetti } from '@phosphor-icons/react/dist/ssr/Confetti'
-import { Farm } from '@phosphor-icons/react/dist/ssr/Farm'
-import { Island } from '@phosphor-icons/react/dist/ssr/Island'
-import { Mountains } from '@phosphor-icons/react/dist/ssr/Mountains'
-import { Park } from '@phosphor-icons/react/dist/ssr/Park'
-import { Path } from '@phosphor-icons/react/dist/ssr/Path'
-import { Smiley } from '@phosphor-icons/react/dist/ssr/Smiley'
+import { DotsThreeCircle } from '@phosphor-icons/react/dist/ssr/DotsThreeCircle'
+import { GraduationCap } from '@phosphor-icons/react/dist/ssr/GraduationCap'
+import { ImageSquare } from '@phosphor-icons/react/dist/ssr/ImageSquare'
+import { MaskHappy } from '@phosphor-icons/react/dist/ssr/MaskHappy'
+import { SoccerBall } from '@phosphor-icons/react/dist/ssr/SoccerBall'
+import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
 
 interface Category {
   id: string
@@ -17,33 +17,14 @@ interface Category {
 }
 
 export const categories: Category[] = [
-  { id: 'show', label: 'Show', icon: Confetti },
-  { id: 'praia', label: 'Praia', icon: Island },
-  { id: 'montanha', label: 'Montanha', icon: Mountains },
-  { id: 'cidade', label: 'Cidade', icon: Buildings },
-  { id: 'trilha', label: 'Trilha', icon: Path },
-  { id: 'chacara', label: 'Chácara', icon: Farm },
-  { id: 'fazenda', label: 'Fazenda', icon: Barn },
-  { id: 'cafe', label: 'Café', icon: Coffee },
-  { id: 'parque-de-diversao', label: 'Parques de diversão', icon: Smiley },
-  { id: 'parque', label: 'Parque', icon: Park }
-]
-
-const eventos = [
-  'Cafés',
-  'Carnaval',
-  'Cidades',
-  'Chácaras',
-  'Fazendas',
-  'Festivais',
-  'Jogos',
-  'Montanhas',
-  'Museus',
-  'Parques Aquáticos',
-  'Parques de Diversão',
-  'Parques Naturais',
-  'Praias',
-  'Resortes',
-  'Shows',
-  'Trilhas'
+  { id: 'feira', label: 'Feira', icon: Buildings },
+  { id: 'festa', label: 'Festa', icon: Confetti },
+  { id: 'shows-e-festivais', label: 'Shows e festivais', icon: Ticket },
+  { id: 'exposicao', label: 'Exposição', icon: ImageSquare },
+  { id: 'religioso', label: 'Religioso', icon: Church },
+  { id: 'academico', label: 'Acadêmico', icon: GraduationCap },
+  { id: 'corporativo', label: 'Corporativo', icon: Briefcase },
+  { id: 'teatro', label: 'Teatro', icon: MaskHappy },
+  { id: 'esportivo', label: 'Esportivo', icon: SoccerBall },
+  { id: 'outros', label: 'Outros', icon: DotsThreeCircle }
 ]

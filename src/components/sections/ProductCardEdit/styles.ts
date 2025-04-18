@@ -143,11 +143,6 @@ export const Description = styled.p`
 `
 
 export const ImageContainer = styled.div`
-  --swiper-pagination-color: ${({ theme }) => theme.colors.text_ultralight};
-  --swiper-pagination-bullet-inactive-color: ${({ theme }) =>
-    theme.colors.base_dark32};
-  --swiper-pagination-bullet-inactive-opacity: 1;
-
   position: relative;
   width: 100%;
   height: 200px;

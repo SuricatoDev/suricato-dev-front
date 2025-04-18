@@ -10,6 +10,14 @@ export const GlobalStyle = createGlobalStyle`
     outline: none;
   }
 
+  :root {
+  --swiper-pagination-color: ${({ theme }) => theme.colors.text_ultralight};
+  --swiper-pagination-bullet-inactive-color: ${({ theme }) =>
+    theme.colors.base_dark32};
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  }
+
+
   html {
     scroll-behavior: smooth;
   }

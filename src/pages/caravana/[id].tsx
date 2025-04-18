@@ -24,11 +24,13 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 
+import { ArrowsLeftRight } from '@phosphor-icons/react/dist/ssr/ArrowsLeftRight'
 import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
 import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
 import { CheckCircle } from '@phosphor-icons/react/dist/ssr/CheckCircle'
 import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
+import { Path } from '@phosphor-icons/react/dist/ssr/Path'
 import { ShieldCheck } from '@phosphor-icons/react/dist/ssr/ShieldCheck'
 import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
 
@@ -211,8 +213,16 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                   <S.TitleContainer>
                     <S.Title>{caravan.titulo}</S.Title>
                     <S.Location>
-                      <MapPin weight="fill" size={18} />
-                      <span>{`${caravan.cidade_origem} - ${caravan.estado_origem}`}</span>
+                      <Path weight="bold" size={18} />
+                      <span>
+                        {`${caravan.cidade_origem}/${caravan.estado_origem}`}
+                        <ArrowsLeftRight
+                          style={{ transform: 'scaleX(-1)' }}
+                          size={14}
+                          weight="bold"
+                        />
+                        {`${caravan.cidade_destino}/${caravan.estado_destino}`}
+                      </span>
                     </S.Location>
                   </S.TitleContainer>
                   <S.DescriptionContainer>
