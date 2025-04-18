@@ -20,15 +20,17 @@ export default function Gallery({ images }: GalleryProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const [loadingImages, setLoadingImages] = useState(() =>
     images.map(() => true)
   )
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 960)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    setMounted(true)
+    const onResize = () => setIsMobile(window.innerWidth <= 960)
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
   }, [])
 
   if (!images || images.length === 0) return null
@@ -44,11 +46,11 @@ export default function Gallery({ images }: GalleryProps) {
   }
   const closeModal = () => setIsModalOpen(false)
 
-  const handleImageLoad = (index: number) => () => {
+  const handleImageLoad = (idx: number) => () => {
     setLoadingImages((prev) => {
-      const newLoading = [...prev]
-      newLoading[index] = false
-      return newLoading
+      const next = [...prev]
+      next[idx] = false
+      return next
     })
   }
 
@@ -59,7 +61,18 @@ export default function Gallery({ images }: GalleryProps) {
   return (
     <>
       <S.GalleryWrapper $count={images.length}>
-        {isMobile ? (
+        {!mounted ? (
+          <div
+            style={{
+              width: '100%',
+              aspectRatio: '16/9'
+            }}
+          >
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} rows={1} columns={1} width="100%" height="0" />
+            ))}
+          </div>
+        ) : isMobile ? (
           <ImageGallery
             items={galleryItems}
             showIndex
@@ -100,6 +113,7 @@ export default function Gallery({ images }: GalleryProps) {
                     style={{ objectFit: 'cover' }}
                     quality={90}
                     onLoad={handleImageLoad(idx)}
+                    priority={idx === 0}
                   />
                 </div>
               )

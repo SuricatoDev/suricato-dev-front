@@ -8,12 +8,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { id } = req.query
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+
+  if (!token) {
+    return res.status(401).json({ message: 'Acesso negado' })
+  }
 
   try {
     const response = await apiBackend({
       method: req.method,
-      url: `/caravanas/${id}`
+      url: `/minhas-caravanas`,
+      headers: {
+        Authorization: `${token.token_type || 'Bearer'} ${token.access_token}`
+      }
     })
 
     return res.status(response.status).json(response.data)

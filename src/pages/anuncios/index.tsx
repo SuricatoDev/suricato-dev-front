@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { GetServerSideProps } from 'next'
-
 import { Caravan } from '@/interfaces/caravan'
-import { getSession } from 'next-auth/react'
+import axios from 'axios'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
@@ -31,129 +29,42 @@ const OrganizerForm = dynamic(
   { ssr: false }
 )
 
-const baseCaravan: Caravan = {
-  id: '1',
-  titulo: 'Orquestra Sinfônica - Alumni',
-  descricao: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Praesent vitae eros eget tellus tristique bibendum. Donec
-    rutrum sed sem quis venenatis. Proin viverra risus a
-    ringilla varius. Nulla facilisi. Curabitur nec lacus
-    elit. Pellentesque convallis nisi ac augue pharetra eu
-    tristique neque consequat. Lorem ipsum dolor sit amet,
-    onsectetur adipiscing elit. Praesent vitae eros eget
-    tellus tristique bibendum.`,
-  categoria: 'Show',
-  data_partida: '2025-06-15',
-  data_retorno: '2025-06-16',
-  endereco_origem: 'Avenida Paulista',
-  numero_origem: '1000',
-  bairro_origem: 'Bela Vista',
-  cep_origem: '01310-100',
-  cidade_origem: 'São Paulo',
-  estado_origem: 'SP',
-  endereco_destino: 'Praia de Copacabana',
-  numero_destino: '200',
-  bairro_destino: 'Copacabana',
-  cep_destino: '22060-001',
-  cidade_destino: 'Rio de Janeiro',
-  estado_destino: 'RJ',
-  numero_vagas: 50,
-  valor: 250,
-  organizador_id: 1,
-  imagens: [
-    { path: 'https://picsum.photos/1920/1081' },
-    { path: 'https://picsum.photos/1920/1082' },
-    { path: 'https://picsum.photos/1920/1083' },
-    { path: 'https://picsum.photos/1920/1084' },
-    { path: 'https://picsum.photos/1920/1085' },
-    { path: 'https://picsum.photos/1920/1086' }
-  ]
-}
-
-function generateMockCaravans(count: number): Caravan[] {
-  const baseNumber = 1080
-  return Array.from({ length: count }, (_, index) => {
-    const id = index + 1
-    return {
-      ...baseCaravan,
-      id: String(id),
-      imagens: [
-        { path: `https://picsum.photos/1920/${baseNumber + id}` },
-        { path: `https://picsum.photos/1921/${baseNumber + id + 1}` },
-        { path: `https://picsum.photos/1922/${baseNumber + id + 2}` },
-        { path: `https://picsum.photos/1923/${baseNumber + id + 3}` },
-        { path: `https://picsum.photos/1924/${baseNumber + id + 4}` },
-        { path: `https://picsum.photos/1925/${baseNumber + id + 5}` }
-      ]
-    }
-  })
-}
-
-let mockedCaravans = generateMockCaravans(20)
-
-function generatePastDateCaravans(count: number): Caravan[] {
-  const baseNumber = 1080
-  const today = new Date()
-  return Array.from({ length: count }, (_, index) => {
-    const pastDate = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - (index + 1) * 5
-    )
-    return {
-      ...baseCaravan,
-      id: String(index + 1),
-      data_partida: pastDate.toISOString().split('T')[0],
-      data_retorno: new Date(pastDate.getTime() + 86400000)
-        .toISOString()
-        .split('T')[0],
-      imagens: [
-        { path: `https://picsum.photos/1927/${baseNumber + index + 1}` },
-        { path: `https://picsum.photos/1928/${baseNumber + index + 2}` },
-        { path: `https://picsum.photos/1929/${baseNumber + index + 3}` },
-        { path: `https://picsum.photos/1930/${baseNumber + index + 4}` },
-        { path: `https://picsum.photos/1931/${baseNumber + index + 5}` },
-        { path: `https://picsum.photos/1932/${baseNumber + index + 6}` }
-      ]
-    }
-  })
-}
-
-const pastCaravans = generatePastDateCaravans(3)
-
-mockedCaravans = [...mockedCaravans, ...pastCaravans]
-
 export default function CaravanasManagementPage() {
   const { isOrganizer, loading } = useIsOrganizer()
   const router = useRouter()
-  const [caravans, setCaravans] = useState<Caravan[]>(mockedCaravans)
+
   const [activeTab, setActiveTab] = useState<TabKey>('upcoming')
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
   const [isOrganizerModalOpen, setIsOrganizerModalOpen] = useState(false)
+
+  const [caravans, setCaravans] = useState<Caravan[] | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false)
+
+  const dummyCaravan = {} as Caravan
 
   const footerVisible = useFooterVisibility('mobile-footer', { threshold: 0.1 })
 
   const today = new Date()
-  const upcomingCaravans = caravans.filter(
-    (caravan) => new Date(caravan.data_partida) >= today
-  )
-  const previousCaravans = caravans.filter(
-    (caravan) => new Date(caravan.data_partida) < today
-  )
+
+  const upcomingCaravans =
+    caravans?.filter((c) => new Date(c.data_partida) >= today) || []
+
+  const previousCaravans =
+    caravans?.filter((c) => new Date(c.data_partida) < today) || []
 
   const caravansToShow =
     activeTab === 'upcoming' ? upcomingCaravans : previousCaravans
 
-  const caravanToDelete = caravans.find((c) => c.id === confirmDelete)
+  const caravanToDelete = caravans?.find((c) => c.id === confirmDelete)
 
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab)
   }
 
   const handleFloatingButtonClick = () => {
-    if (caravans.length === 0) {
+    if (caravans?.length === 0) {
       return router.push('/anuncios/overview/')
     }
     return router.push('/anuncios/novo/')
@@ -174,19 +85,21 @@ export default function CaravanasManagementPage() {
     setConfirmDelete(id)
   }
 
-  const handleConfirmDelete = (id: string) => {
-    toast.success('Caravana excluída com sucesso!')
-    setCaravans((prev) => prev.filter((c) => c.id !== id))
-    setConfirmDelete(null)
-  }
+  const handleConfirmDelete = async (id: string) => {
+    setIsLoadingDelete(true)
+    try {
+      await axios.delete(`/api/caravanas/deletar/${id}`)
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setCaravans(mockedCaravans)
-      setIsLoading(false)
-    }, 2000)
-    return () => clearTimeout(timer)
-  }, [])
+      setCaravans((prev) => (prev ?? []).filter((c) => c.id !== id))
+      toast.success('Caravana excluída com sucesso!')
+    } catch (err) {
+      console.error(err)
+      toast.error('Erro ao excluir a caravana.')
+    } finally {
+      setIsLoadingDelete(false)
+      setConfirmDelete(null)
+    }
+  }
 
   const handleRegisterCompany = () => {
     if (window.innerWidth <= 940) {
@@ -198,6 +111,26 @@ export default function CaravanasManagementPage() {
     }
     return
   }
+
+  useEffect(() => {
+    async function loadCaravans() {
+      try {
+        const { data } = await axios.get(`/api/caravanas/minhas-caravanas`, {
+          withCredentials: true
+        })
+
+        setCaravans(Array.isArray(data?.data) ? data.data : [])
+      } catch (err) {
+        console.error(err)
+
+        setCaravans([])
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadCaravans()
+  }, [])
 
   if (loading) {
     return null
@@ -242,24 +175,38 @@ export default function CaravanasManagementPage() {
             <Tabs
               activeTab={activeTab}
               onChange={handleTabChange}
-              disablePrevious={previousCaravans.length === 0}
+              disablePrevious={previousCaravans?.length === 0}
             />
             <S.SpacingMobile>
-              {caravansToShow.length > 0 ? (
+              {isLoading || (caravansToShow && caravansToShow.length > 0) ? (
                 <S.CaravanGrid>
-                  {caravansToShow.map((caravan, index) => (
-                    <ProductCardEdit
-                      key={caravan.id}
-                      caravan={caravan}
-                      activeTab={activeTab}
-                      isOpenMenu={openMenuId === caravan.id}
-                      onToggleMenu={handleToggleMenu}
-                      onEdit={handleEdit}
-                      onDelete={handleDelete}
-                      priority={index === 0}
-                      isLoading={isLoading}
-                    />
-                  ))}
+                  {isLoading
+                    ? Array.from({ length: 6 }).map((_, i) => (
+                        <ProductCardEdit
+                          key={`skeleton-${i}`}
+                          caravan={dummyCaravan}
+                          activeTab={activeTab}
+                          isOpenMenu={false}
+                          onToggleMenu={() => {}}
+                          onEdit={() => {}}
+                          onDelete={() => {}}
+                          priority={false}
+                          isLoading={true}
+                        />
+                      ))
+                    : caravansToShow.map((caravan, index) => (
+                        <ProductCardEdit
+                          key={caravan.id}
+                          caravan={caravan}
+                          activeTab={activeTab}
+                          isOpenMenu={openMenuId === caravan.id}
+                          onToggleMenu={handleToggleMenu}
+                          onEdit={handleEdit}
+                          onDelete={handleDelete}
+                          priority={index === 0}
+                          isLoading={false}
+                        />
+                      ))}
                 </S.CaravanGrid>
               ) : (
                 <S.Fallback>
@@ -294,6 +241,7 @@ export default function CaravanasManagementPage() {
               <Button
                 variant="outlined"
                 fullWidth
+                disabled={isLoadingDelete}
                 onClick={() => setConfirmDelete(null)}
               >
                 Cancelar
@@ -301,6 +249,8 @@ export default function CaravanasManagementPage() {
               <Button
                 fullWidth
                 variant="danger"
+                loading={isLoadingDelete}
+                disabled={isLoadingDelete}
                 onClick={() => {
                   if (confirmDelete) {
                     handleConfirmDelete(confirmDelete)
@@ -315,12 +265,4 @@ export default function CaravanasManagementPage() {
       </Portal>
     </>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context)
-
-  return {
-    props: { session }
-  }
 }

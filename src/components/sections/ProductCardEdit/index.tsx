@@ -50,7 +50,7 @@ export function ProductCardEdit({
   const [showRight, setShowRight] = useState(false)
 
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(
-    new Array(caravan.imagens.length).fill(false)
+    new Array(caravan?.imagens?.length).fill(false)
   )
 
   const updateNavigation = (swiper: SwiperType) => {
@@ -60,7 +60,7 @@ export function ProductCardEdit({
 
   if (isLoading) {
     return (
-      <S.Card key={caravan.id} as="div">
+      <S.Card key={caravan?.id} as="div">
         <S.CardHeader as="div">
           <Skeleton height="200px" radius="0" />
         </S.CardHeader>
@@ -139,7 +139,7 @@ export function ProductCardEdit({
                     <Skeleton height="100%" width="100%" radius="0" />
                   )}
                   <Image
-                    src={image.path}
+                    src={image.path.replace(/\/{2,}(?=[^/]*$)/, '/')}
                     alt=""
                     fill
                     style={{
@@ -192,7 +192,8 @@ export function ProductCardEdit({
             })}
           </S.SubInfoItem>
           <S.SubInfoItem>
-            <Ticket fill="bold" size={16} /> <b>Reservas:</b> 10 / 50
+            <Ticket fill="bold" size={16} /> <b>Reservas:</b>
+            {caravan.numero_vagas} / 100
           </S.SubInfoItem>
         </S.CardSubInfo>
       </S.CardBody>

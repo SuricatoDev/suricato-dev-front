@@ -90,7 +90,7 @@ export default function Home({ caravans }: HomeProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context)
   const caravans = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/caravanas/todas`
+    `${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`
   )
 
   const { data } = caravans

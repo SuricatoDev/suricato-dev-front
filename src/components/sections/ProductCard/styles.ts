@@ -30,6 +30,24 @@ export const ImageContainer = styled.div`
     width: 100%;
     height: 100%;
   }
+
+  .swiper-slide {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));
+      z-index: 1;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity ${({ theme }) => theme.common.transition.slow};
+    }
+  }
 `
 
 export const TopInfo = styled.div`
