@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 
+import { categories } from '@/constants/categories'
 import { Caravan } from '@/interfaces/caravan'
 import { format } from 'date-fns'
 import Image from 'next/image'
@@ -52,6 +53,8 @@ export function ProductCardEdit({
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(
     new Array(caravan?.imagens?.length).fill(false)
   )
+
+  const category = categories.find((cat) => cat.id === caravan.categoria)
 
   const updateNavigation = (swiper: SwiperType) => {
     setShowLeft(!swiper.isBeginning)
@@ -158,7 +161,7 @@ export function ProductCardEdit({
             ))}
           </Swiper>
         </S.ImageContainer>
-        <S.CardCategory>{caravan.categoria}</S.CardCategory>
+        <S.CardCategory>{category?.label}</S.CardCategory>
       </S.CardHeader>
 
       <S.CardBody>

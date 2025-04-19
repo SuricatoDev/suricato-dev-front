@@ -21,6 +21,7 @@ import {
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 
@@ -195,6 +196,17 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   }
   return (
     <S.Wrapper>
+      <Head>
+        <title>{caravan.titulo} | Excursionistas</title>
+        <meta name="description" content={`${caravan.descricao}`} />
+        <link
+          rel="canonical"
+          href={`https://excursionistas.com.br/caravana/${caravan.id}`}
+        />
+        <meta property="og:title" content={caravan.titulo} />
+        <meta property="og:description" content={`${caravan.descricao}`} />
+        <meta property="og:image" content={caravan.imagens[0]?.path} />
+      </Head>
       <Header $variant="simple" />
       <S.Main>
         <div className="container">

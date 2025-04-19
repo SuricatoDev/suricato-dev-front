@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import dynamic from 'next/dynamic'
-import Head from 'next/head'
 import Image from 'next/image'
 import 'react-image-gallery/styles/css/image-gallery.css'
 
@@ -64,9 +63,6 @@ export default function Gallery({ images }: GalleryProps) {
 
   return (
     <>
-      <Head>
-        <link rel="preload" as="image" href={mainImage} />
-      </Head>
       <S.GalleryWrapper $count={images.length}>
         <S.MobileGallery>
           <ImageGallery
