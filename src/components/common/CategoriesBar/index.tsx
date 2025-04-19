@@ -1,4 +1,4 @@
-// components/common/CategoriesBar.tsx
+
 import { useState } from 'react'
 
 import { categories } from '@/constants/categories'

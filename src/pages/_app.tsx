@@ -1,4 +1,4 @@
-// pages/_app.tsx
+
 import { useEffect } from 'react'
 
 import Layout from '@/containers/Layout'

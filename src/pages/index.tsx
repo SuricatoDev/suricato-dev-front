@@ -24,7 +24,7 @@ export default function Home({ initialCaravans }: HomeProps) {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    // handler recebe a nova URL como string
+    
     const handleRouteChange = (url: string) => {
       const parsed = new URL(url, window.location.origin)
       const categoria = parsed.searchParams.get('categoria') || undefined
