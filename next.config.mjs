@@ -23,6 +23,7 @@ const nextConfig = {
     styledComponents: true
   },
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       { protocol: 'https', hostname: 'storage.googleapis.com' },
       { protocol: 'http', hostname: '127.0.0.1' },

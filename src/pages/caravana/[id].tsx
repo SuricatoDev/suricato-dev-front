@@ -194,10 +194,12 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   if (status === 'loading' && !session) {
     return
   }
+
+  const title = `${caravan.titulo} | Excursionistas`
   return (
     <S.Wrapper>
       <Head>
-        <title>{caravan.titulo} | Excursionistas</title>
+        <title>{title}</title>
         <meta name="description" content={`${caravan.descricao}`} />
         <link
           rel="canonical"

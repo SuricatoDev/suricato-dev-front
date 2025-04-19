@@ -104,6 +104,7 @@ export default function Gallery({ images }: GalleryProps) {
                     fill
                     style={{ objectFit: 'cover' }}
                     quality={90}
+                    sizes="(max-width: 600px) 100vw, (max-width: 1200px) 33vw, 25vw"
                     onLoad={handleImageLoad(idx)}
                     priority={idx === 0}
                   />
@@ -136,6 +137,7 @@ export default function Gallery({ images }: GalleryProps) {
             src={mainImage}
             alt="Imagem principal"
             fill
+            sizes="(max-width: 600px) 100vw, (max-width: 1200px) 33vw, 25vw"
             style={{ objectFit: 'cover' }}
             quality={90}
             priority
@@ -166,6 +168,7 @@ export default function Gallery({ images }: GalleryProps) {
                 src={img}
                 alt={`Imagem ${actualIndex}`}
                 fill
+                sizes="(max-width: 600px) 100vw, (max-width: 1200px) 33vw, 25vw"
                 style={{ objectFit: 'cover' }}
                 quality={80}
                 onLoad={handleImageLoad(actualIndex)}
