@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import { GetServerSidePropsContext } from 'next'
-
 import { Caravan } from '@/interfaces/caravan'
 import { formatDateRangeBR } from '@/utils/formats'
 import axios from 'axios'
@@ -37,12 +35,16 @@ export default function Home({ initialCaravans }: HomeProps) {
       if (destino) params.destino = destino
       if (titulo) params.titulo = titulo
 
+      if (Object.keys(params).length === 0) return
+
       setLoading(true)
       axios
         .get(`${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`, { params })
         .then((res) => setCaravans(res.data.data))
         .finally(() => setLoading(false))
     }
+
+    handleRouteChange(window.location.href)
 
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => {
@@ -136,30 +138,16 @@ export default function Home({ initialCaravans }: HomeProps) {
   )
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { categoria, origem, destino, titulo } = context.query
-
-  const params: Record<string, string> = {}
-  if (typeof categoria === 'string') params.categoria = categoria
-  if (typeof origem === 'string') params.origem = origem
-  if (typeof destino === 'string') params.destino = destino
-  if (typeof titulo === 'string') params.titulo = titulo
-
+export async function getStaticProps() {
   try {
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`,
-      { params }
+      `${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`
     )
-
-    if (res.status !== 200) {
-      return { notFound: true }
-    }
-
     return {
       props: {
-        initialCaravans: res.data.data,
-        initialFilters: params
-      }
+        initialCaravans: res.data.data
+      },
+      revalidate: 60
     }
   } catch {
     return { notFound: true }

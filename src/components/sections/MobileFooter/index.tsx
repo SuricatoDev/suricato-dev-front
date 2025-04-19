@@ -11,7 +11,7 @@ import * as S from './styles'
 export default function MobileFooter() {
   const { data: session } = useSession()
   const isLogged = !!session
-  const { explorar, caravanas, entrar, perfil, anunciar } =
+  const { explorar, caravanas, entrar, perfil, anunciar, favoritos } =
     MobileFooterNavigation
 
   const router = useRouter()
@@ -19,7 +19,7 @@ export default function MobileFooter() {
 
   const navItems = useMemo(() => {
     return isLogged
-      ? [explorar, caravanas, anunciar, perfil]
+      ? [explorar, favoritos, caravanas, anunciar, perfil]
       : [explorar, entrar]
   }, [isLogged])
 
