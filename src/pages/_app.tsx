@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react'
 
 import Layout from '@/containers/Layout'

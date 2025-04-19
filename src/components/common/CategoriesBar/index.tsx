@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 
 import { categories } from '@/constants/categories'

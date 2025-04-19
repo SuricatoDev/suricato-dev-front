@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Image from 'next/image'
-
 import 'react-image-gallery/styles/css/image-gallery.css'
 
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
