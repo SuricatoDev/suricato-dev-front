@@ -14,8 +14,9 @@ import * as S from './styles'
 export default function CategoriesBar() {
   const router = useRouter()
   const { query, pathname } = router
+
   const selectedCategory =
-    typeof query.categoria === 'string' ? query.categoria : 'destaques'
+    typeof query.categoria === 'string' ? query.categoria : ''
 
   const [showLeft, setShowLeft] = useState(false)
   const [showRight, setShowRight] = useState(false)
@@ -27,7 +28,14 @@ export default function CategoriesBar() {
   }
 
   const handleCategoryClick = (id: string) => {
-    const newQuery = id === 'destaques' ? {} : { ...query, categoria: id }
+    const newQuery = { ...query }
+
+    if (selectedCategory === id) {
+      delete newQuery.categoria
+    } else {
+      newQuery.categoria = id
+    }
+
     router.push({ pathname, query: newQuery }, undefined, { shallow: true })
   }
 

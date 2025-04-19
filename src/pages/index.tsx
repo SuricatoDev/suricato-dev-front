@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { GetServerSidePropsContext } from 'next'
 
@@ -16,38 +16,40 @@ import * as S from '@/styles/pages/home'
 
 interface HomeProps {
   initialCaravans: Caravan[]
-  initialCategory: string
 }
 
 export default function Home({ initialCaravans }: HomeProps) {
   const router = useRouter()
-  const { categoria } = router.query
-
-  // Carrego o SSR na inicialização:
-  const [caravans, setCaravans] = useState<Caravan[]>(initialCaravans)
+  const [caravans, setCaravans] = useState(initialCaravans)
   const [loading, setLoading] = useState(false)
 
-  // Vou pular a primeira execução, que já vem com SSR:
-  const firstRender = useRef(true)
-
   useEffect(() => {
-    if (!router.isReady) return
+    // handler recebe a nova URL como string
+    const handleRouteChange = (url: string) => {
+      const parsed = new URL(url, window.location.origin)
+      const categoria = parsed.searchParams.get('categoria') || undefined
+      const origem = parsed.searchParams.get('origem') || undefined
+      const destino = parsed.searchParams.get('destino') || undefined
+      const titulo = parsed.searchParams.get('titulo') || undefined
 
-    if (firstRender.current) {
-      firstRender.current = false
-      return
+      const params: Record<string, string> = {}
+      if (categoria) params.categoria = categoria
+      if (origem) params.origem = origem
+      if (destino) params.destino = destino
+      if (titulo) params.titulo = titulo
+
+      setLoading(true)
+      axios
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`, { params })
+        .then((res) => setCaravans(res.data.data))
+        .finally(() => setLoading(false))
     }
 
-    setLoading(true)
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`, {
-        params: categoria ? { categoria } : {}
-      })
-      .then((res) => {
-        setCaravans(res.data.data)
-      })
-      .finally(() => setLoading(false))
-  }, [categoria, router.isReady])
+    router.events.on('routeChangeComplete', handleRouteChange)
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
 
   return (
     <S.Wrapper>
@@ -92,7 +94,7 @@ export default function Home({ initialCaravans }: HomeProps) {
         <div className="container">
           <S.ProductsContainer>
             {loading || !caravans || caravans.length === 0
-              ? Array.from({ length: 10 }).map((_, i) => (
+              ? Array.from({ length: 16 }).map((_, i) => (
                   <ProductCard
                     key={`skeleton-${i}`}
                     images={[]}
@@ -160,7 +162,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         initialFilters: params
       }
     }
-  } catch (error) {
+  } catch {
     return { notFound: true }
   }
 }
