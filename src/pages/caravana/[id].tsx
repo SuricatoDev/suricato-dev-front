@@ -7,7 +7,7 @@ import {
   useState
 } from 'react'
 
-import { GetServerSideProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 
 import { categories } from '@/constants/categories'
 import { SingleCaravan } from '@/interfaces/caravan'
@@ -15,8 +15,7 @@ import {
   formatDateBR,
   formatExcursionistasSince,
   formatPrice,
-  formatTimeBR,
-  returnInitialsLettersIfNotLogged
+  formatTimeBR
 } from '@/utils/formats'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
@@ -38,7 +37,6 @@ import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
 import Button from '@/components/common/Button'
 import Divider from '@/components/common/Divider'
 import Gallery from '@/components/common/Gallery'
-import GatedContent from '@/components/common/GatedContent'
 import RatingStars from '@/components/common/RatingStars'
 import Skeleton from '@/components/common/Skeleton'
 import Footer from '@/components/sections/Footer'
@@ -138,14 +136,15 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
     setShouldShowExpandButton(isOverflowing)
   }, [caravan.descricao])
 
-  const handleShowInfos = () => {
+  const handleCta = () => {
     if (!isLogged) {
       if (window.innerWidth <= 940) {
         router.push(`/login?callbackUrl=${encodeURIComponent(router.asPath)}`)
       } else {
         setIsLoginModalOpen(true)
       }
-      return
+    } else {
+      handleSubscribe()
     }
   }
 
@@ -371,93 +370,66 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
               </S.Content>
               <S.SpacingMobile>
                 <S.Sidebar>
-                  <GatedContent
-                    isLogged={isLogged}
-                    onClick={() => !isLogged && handleShowInfos()}
-                  >
-                    <S.ContactCard
-                      style={{ filter: !isLogged ? 'blur(4px)' : 'none' }}
-                    >
-                      <S.ContactContainer>
-                        <S.Price
-                          style={{ filter: !isLogged ? 'blur(4px)' : 'none' }}
-                        >
-                          {isLogged ? formatPrice(caravan.valor) : 'R$ XXX,XX'}
-                        </S.Price>
+                  <S.ContactCard>
+                    <S.ContactContainer>
+                      <S.Price>{formatPrice(caravan.valor)}</S.Price>
 
-                        <Button
-                          loading={isSubscribing}
-                          onClick={handleSubscribe}
-                          fullWidth
-                        >
-                          Inscreva-se
-                        </Button>
-                      </S.ContactContainer>
-                      <Divider $marginY="8px" />
-                      <S.ContactInfo>
-                        Ao clicar inscreva-se, seus dados serão compartilhados
-                        pela Excursionistas com o anunciante
-                      </S.ContactInfo>
-                    </S.ContactCard>
-                  </GatedContent>
+                      <Button
+                        loading={isSubscribing}
+                        onClick={handleCta}
+                        fullWidth
+                      >
+                        Inscreva-se
+                      </Button>
+                    </S.ContactContainer>
+                    <Divider $marginY="8px" />
+                    <S.ContactInfo>
+                      Ao clicar inscreva-se, seus dados serão compartilhados
+                      pela Excursionistas com o anunciante
+                    </S.ContactInfo>
+                  </S.ContactCard>
 
-                  <GatedContent
-                    isLogged={isLogged}
-                    onClick={() => !isLogged && handleShowInfos()}
-                  >
-                    <S.OrganizerContainer
-                      style={{ filter: !isLogged ? 'blur(4px)' : 'none' }}
-                    >
-                      <S.Organizer>
-                        <S.OrganizerImage
-                          width={60}
-                          height={60}
-                          alt={''}
-                          src={caravan?.organizador?.user?.foto_perfil ?? ''}
-                          quality={100}
-                        />
-                        <S.OrganizerInfo>
-                          <S.OrganizerVerified>
-                            <p>Organizador verificado</p>
-                            <CheckCircle size={16} weight="fill" />
-                          </S.OrganizerVerified>
+                  <S.OrganizerContainer>
+                    <S.Organizer>
+                      <S.OrganizerImage
+                        width={60}
+                        height={60}
+                        alt={''}
+                        src={caravan?.organizador?.user?.foto_perfil ?? ''}
+                        quality={100}
+                      />
+                      <S.OrganizerInfo>
+                        <S.OrganizerVerified>
+                          <p>Organizador verificado</p>
+                          <CheckCircle size={16} weight="fill" />
+                        </S.OrganizerVerified>
 
-                          <S.OrganizerName>
-                            {returnInitialsLettersIfNotLogged(
-                              caravan?.organizador?.nome_fantasia ??
-                                caravan?.organizador?.razao_social ??
-                                '',
-                              isLogged
-                            )}
-                          </S.OrganizerName>
-                          <RatingStars rating={4.5} />
-                        </S.OrganizerInfo>
-                      </S.Organizer>
-                      <S.OrganizerFooter>
-                        <S.OrganizerFooterItem>
-                          <CalendarBlank size={18} />
-                          <p>
-                            {returnInitialsLettersIfNotLogged(
-                              formatExcursionistasSince(
-                                caravan.organizador.created_at
-                              ),
-                              isLogged
-                            )}
-                          </p>
-                        </S.OrganizerFooterItem>
-                        <S.OrganizerFooterItem>
-                          <MapPin size={18} />
-                          <p>
-                            {returnInitialsLettersIfNotLogged(
-                              `${caravan.organizador.bairro}, ${caravan.organizador.cidade} - ${caravan.organizador.estado}`,
+                        <S.OrganizerName>
+                          {caravan?.organizador?.nome_fantasia ??
+                            caravan?.organizador?.razao_social ??
+                            ''}
+                        </S.OrganizerName>
+                        <RatingStars rating={4.5} />
+                      </S.OrganizerInfo>
+                    </S.Organizer>
+                    <S.OrganizerFooter>
+                      <S.OrganizerFooterItem>
+                        <CalendarBlank size={18} />
+                        <p>
+                          {formatExcursionistasSince(
+                            caravan.organizador.created_at
+                          )}
+                        </p>
+                      </S.OrganizerFooterItem>
+                      <S.OrganizerFooterItem>
+                        <MapPin size={18} />
+                        <p>
+                          {`${caravan.organizador.bairro}, ${caravan.organizador.cidade} - ${caravan.organizador.estado}`}
+                        </p>
+                      </S.OrganizerFooterItem>
+                    </S.OrganizerFooter>
+                  </S.OrganizerContainer>
 
-                              isLogged
-                            )}
-                          </p>
-                        </S.OrganizerFooterItem>
-                      </S.OrganizerFooter>
-                    </S.OrganizerContainer>
-                  </GatedContent>
                   <S.Hint>
                     <h3 className="hint-title">Dicas de segurança</h3>
                     <p className="hint-description">
@@ -539,22 +511,45 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`
+    )
+
+    const paths = data.data.map((caravana: { id: string }) => ({
+      params: { id: String(caravana.id) }
+    }))
+
+    return {
+      paths,
+      fallback: 'blocking'
+    }
+  } catch (error) {
+    return {
+      paths: [],
+      fallback: 'blocking'
+    }
+  }
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params as { id: string }
 
   try {
-    const { data } = await axios.get(`
-      ${process.env.NEXT_PUBLIC_API_URL}/caravanas/${id}
-    `)
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/caravanas/${id}`
+    )
 
     if (!data.data) {
-      return {
-        notFound: true
-      }
+      return { notFound: true }
     }
 
     return {
-      props: { caravan: data?.data }
+      props: {
+        caravan: data.data
+      },
+      revalidate: 600
     }
   } catch (error) {
     return {
