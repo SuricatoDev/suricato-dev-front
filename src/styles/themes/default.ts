@@ -1,7 +1,7 @@
 export const defaultTheme = {
   title: 'default',
   colors: {
-    background_standard: '#FFFFFF',
+    background_standard: '#FcFCFC',
     background_dark: '#4D4D4D',
     text_standard: '#1D1D1D',
     text_medium: '#383838',

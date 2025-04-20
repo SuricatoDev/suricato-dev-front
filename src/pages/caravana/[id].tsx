@@ -516,9 +516,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   try {
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`
-    )
+    const { data } = await axios.get(`${process.env.BACKEND_URL}/caravanas`)
 
     const paths = data.data.map((caravana: { id: string }) => ({
       params: { id: String(caravana.id) }
@@ -541,7 +539,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   try {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/caravanas/${id}`
+      `${process.env.BACKEND_URL}/caravanas/${id}`
     )
 
     if (!data.data) {

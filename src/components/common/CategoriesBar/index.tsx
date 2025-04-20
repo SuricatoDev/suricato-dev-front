@@ -35,7 +35,11 @@ export default function CategoriesBar() {
       newQuery.categoria = id
     }
 
-    router.push({ pathname, query: newQuery }, undefined, { shallow: true })
+    const queryString = Object.entries(newQuery)
+      .map(([key, value]) => `${key}=${encodeURIComponent(value as string)}`)
+      .join('&')
+
+    router.push(`${pathname}?${queryString}`, undefined, { shallow: true })
   }
 
   return (

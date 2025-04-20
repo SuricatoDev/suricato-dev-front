@@ -26,6 +26,8 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
+    background-color: ${(props) => props.theme.colors.background_standard}
+
   }
 
   input, select, button {

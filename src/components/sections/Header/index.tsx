@@ -2,13 +2,13 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import UserCircle from '@/assets/icons/user-circle-fill.svg'
 import logo from '@/assets/images/logo.png'
+import { Caravan } from '@/interfaces/caravan'
 import { signOut, useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
-
+import ResponsiveSearchBar from '@/components/SearchBar'
 import CategoriesBar from '@/components/common/CategoriesBar'
 import Divider from '@/components/common/Divider'
 import Portal from '@/components/common/Portal'
@@ -22,18 +22,21 @@ const MultiStepForm = dynamic(() => import('@/components/sections/LoginForm'), {
 
 export type HeaderProps = {
   $variant?: 'default' | 'simple'
+  caravanas?: Caravan[]
 }
 
 type ProfileItem =
   | (typeof HeaderNavigation)[keyof typeof HeaderNavigation]
   | 'divider'
 
-export default function Header({ $variant = 'default' }: HeaderProps) {
+export default function Header({
+  $variant = 'default',
+  caravanas
+}: HeaderProps) {
   const { data: session } = useSession()
   const isLogged = !!session
 
   const [isScrolled, setIsScrolled] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
@@ -210,18 +213,10 @@ export default function Header({ $variant = 'default' }: HeaderProps) {
 
           {$variant === 'default' && (
             <S.SearchWrapper $isScrolled={isScrolled}>
-              <S.Search $isScrolled={isScrolled}>
-                <S.SearchInput
-                  type="search"
-                  placeholder="Digite o nome da cidade"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <S.SearchButton $isScrolled={isScrolled}>
-                  <MagnifyingGlass size={20} weight="bold" />
-                  <span>Buscar</span>
-                </S.SearchButton>
-              </S.Search>
+              <ResponsiveSearchBar
+                isScrolled={isScrolled}
+                caravanas={caravanas}
+              />
             </S.SearchWrapper>
           )}
         </S.Container>

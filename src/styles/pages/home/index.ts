@@ -43,3 +43,27 @@ export const ProductsContainer = styled.div`
     --breakpoint-grid_columns: 4;
   }
 `
+
+export const EmptyMessage = styled.span`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.text_foggy};
+  padding: 4rem 1rem;
+  width: 100%;
+  min-height: 60vh;
+
+  @media ${device.md} {
+    font-size: 1.5rem;
+    svg {
+      width: 90px;
+      height: 90px;
+    }
+  }
+`

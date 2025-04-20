@@ -19,12 +19,13 @@ interface Category {
 export const categories: Category[] = [
   { id: 'feira', label: 'Feira', icon: Buildings },
   { id: 'festa', label: 'Festa', icon: Confetti },
-  { id: 'shows-e-festivais', label: 'Shows e festivais', icon: Ticket },
+
   { id: 'exposicao', label: 'Exposição', icon: ImageSquare },
   { id: 'religioso', label: 'Religioso', icon: Church },
   { id: 'academico', label: 'Acadêmico', icon: GraduationCap },
   { id: 'corporativo', label: 'Corporativo', icon: Briefcase },
   { id: 'teatro', label: 'Teatro', icon: MaskHappy },
   { id: 'esportivo', label: 'Esportivo', icon: SoccerBall },
+  { id: 'shows-e-festivais', label: 'Shows e festivais', icon: Ticket },
   { id: 'outros', label: 'Outros', icon: DotsThreeCircle }
 ]

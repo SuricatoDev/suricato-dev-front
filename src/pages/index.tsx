@@ -6,6 +6,8 @@ import axios from 'axios'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
+import { SmileyXEyes } from '@phosphor-icons/react/dist/ssr/SmileyXEyes'
+
 import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
 import ProductCard from '@/components/sections/ProductCard'
@@ -42,10 +44,18 @@ export default function Home({ initialCaravans }: HomeProps) {
       }
 
       setLoading(true)
+
       axios
         .get(`${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`, { params })
-        .then((res) => setCaravans(res.data.data))
-        .finally(() => setLoading(false))
+        .then((res) => {
+          setCaravans(res.data.data)
+        })
+        .catch(() => {
+          setCaravans([])
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
 
     handleRouteChange(window.location.href)
@@ -94,47 +104,56 @@ export default function Home({ initialCaravans }: HomeProps) {
           content="https://excursionistas.com.br/og.jpeg"
         />
       </Head>
-      <Header />
+      <Header caravanas={initialCaravans} />
       <S.Main>
         <div className="container">
-          <S.ProductsContainer>
-            {loading || !caravans || caravans.length === 0
-              ? Array.from({ length: 16 }).map((_, i) => (
-                  <ProductCard
-                    key={`skeleton-${i}`}
-                    images={[]}
-                    name=""
-                    origin=""
-                    destination=""
-                    date=""
-                    priority={false}
-                    price={0}
-                    href=""
-                    isLoading={true}
-                  />
-                ))
-              : caravans.map((caravan, index) => (
-                  <ProductCard
-                    key={caravan.id}
-                    images={
-                      caravan.imagens?.map((img) =>
-                        img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
-                      ) || []
-                    }
-                    name={caravan.titulo}
-                    origin={`${caravan.cidade_origem}/${caravan.estado_origem}`}
-                    destination={`${caravan.cidade_destino}/${caravan.estado_destino}`}
-                    date={formatDateRangeBR(
-                      caravan.data_partida,
-                      caravan.data_retorno
-                    )}
-                    priority={index === 0}
-                    price={caravan.valor}
-                    href={`/caravana/${caravan.id}`}
-                    isLoading={loading}
-                  />
-                ))}
-          </S.ProductsContainer>
+          {loading ? (
+            <S.ProductsContainer>
+              {Array.from({ length: 16 }).map((_, i) => (
+                <ProductCard
+                  key={`skeleton-${i}`}
+                  images={[]}
+                  name=""
+                  origin=""
+                  destination=""
+                  date=""
+                  priority={false}
+                  price={0}
+                  href=""
+                  isLoading={true}
+                />
+              ))}
+            </S.ProductsContainer>
+          ) : caravans.length === 0 ? (
+            <S.EmptyMessage>
+              <SmileyXEyes size={64} weight="fill" />
+              Nenhuma caravana encontrada
+            </S.EmptyMessage>
+          ) : (
+            <S.ProductsContainer>
+              {caravans.map((caravan, index) => (
+                <ProductCard
+                  key={caravan.id}
+                  images={
+                    caravan.imagens?.map((img) =>
+                      img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
+                    ) || []
+                  }
+                  name={caravan.titulo}
+                  origin={`${caravan.cidade_origem}/${caravan.estado_origem}`}
+                  destination={`${caravan.cidade_destino}/${caravan.estado_destino}`}
+                  date={formatDateRangeBR(
+                    caravan.data_partida,
+                    caravan.data_retorno
+                  )}
+                  priority={index === 0}
+                  price={caravan.valor}
+                  href={`/caravana/${caravan.id}`}
+                  isLoading={false}
+                />
+              ))}
+            </S.ProductsContainer>
+          )}
         </div>
       </S.Main>
       <Footer />
@@ -144,9 +163,8 @@ export default function Home({ initialCaravans }: HomeProps) {
 
 export async function getStaticProps() {
   try {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`
-    )
+    const res = await axios.get(`${process.env.BACKEND_URL}/caravanas`)
+    console.log(res.data.data)
     return {
       props: {
         initialCaravans: res.data.data
@@ -154,6 +172,11 @@ export async function getStaticProps() {
       revalidate: 300
     }
   } catch {
-    return { notFound: true }
+    return {
+      props: {
+        initialCaravans: []
+      },
+      revalidate: 300
+    }
   }
 }

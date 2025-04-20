@@ -301,3 +301,90 @@ export const ProfilePic = styled.div`
     display: flex;
   }
 `
+
+// Segmentado para três filtros + botão de busca
+export const Segmented = styled.div`
+  display: flex;
+  align-items: center;
+  background: ${({ theme }) => theme.colors.background_standard};
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+  max-width: 720px;
+`
+
+export const SegmentButton = styled.button<{ $active?: boolean }>`
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+
+  small {
+    display: block;
+    font-size: 0.75rem;
+    color: ${({ theme }) => theme.colors.text_medium};
+  }
+  strong {
+    display: block;
+    font-size: 0.9rem;
+    color: ${({ theme }) => theme.colors.text_standard};
+  }
+
+  ${({ $active, theme }) =>
+    $active &&
+    css`
+      background: ${theme.colors.base_light};
+    `}
+`
+
+export const SegmentDivider = styled.div`
+  width: 1px;
+  height: 32px;
+  background: ${({ theme }) => theme.colors.base_dark16};
+`
+
+export const SearchAction = styled.button`
+  background: ${({ theme }) => theme.colors.primary_medium};
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`
+
+export const Dropdown = styled.div`
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 240px;
+  background: ${({ theme }) => theme.colors.background_standard};
+  border: 1px solid ${({ theme }) => theme.colors.base_dark16};
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  z-index: 1000;
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid ${({ theme }) => theme.colors.base_dark16};
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  button {
+    width: 100%;
+    padding: 0.5rem;
+    background: ${({ theme }) => theme.colors.primary_medium};
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+`

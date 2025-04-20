@@ -62,12 +62,12 @@ export default function ProductCard({
         <S.Content>
           <S.TopContent>
             <Skeleton height="1rem" />
-            <S.Info as="div">
-              <Skeleton height="0.965rem" />
-            </S.Info>
           </S.TopContent>
 
           <S.BottomContent>
+            <S.Info as="div">
+              <Skeleton height="0.965rem" width="40%" />
+            </S.Info>
             <S.Info as="div">
               <Skeleton height="0.965rem" width="40%" />
             </S.Info>
