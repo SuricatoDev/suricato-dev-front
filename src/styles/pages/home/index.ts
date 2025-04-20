@@ -30,20 +30,16 @@ export const ProductsContainer = styled.div`
     minmax(min-content, max-content)
   );
 
-  @media (${device.xsm}) {
-    --breakpoint-grid_columns: 2;
-  }
-
   @media (${device.sm}) {
-    --breakpoint-grid_columns: 3;
+    --breakpoint-grid_columns: 2;
   }
 
   @media (${device.md}) {
     padding: 0;
-    --breakpoint-grid_columns: 4;
+    --breakpoint-grid_columns: 3;
   }
 
   @media (${device.lg}) {
-    --breakpoint-grid_columns: 5;
+    --breakpoint-grid_columns: 4;
   }
 `

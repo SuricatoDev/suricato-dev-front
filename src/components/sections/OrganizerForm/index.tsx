@@ -47,6 +47,7 @@ export default function OrganizerForm({
     OrganizerFormDataStep1 | OrganizerFormDataStep2
   >({
     razao_social: '',
+    nome_fantasia: '',
     cnpj: '',
     inscricao_estadual: '',
     inscricao_municipal: '',
@@ -117,6 +118,7 @@ export default function OrganizerForm({
         const values = methods.getValues() as OrganizerFormData
         const payload = {
           razao_social: values.razao_social,
+          nome_fantasia: values.nome_fantasia,
           cnpj: values.cnpj.replace(/\D/g, ''),
           inscricao_estadual: values.inscricao_estadual,
           inscricao_municipal: values.inscricao_municipal,

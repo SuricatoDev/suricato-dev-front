@@ -12,6 +12,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { categories } from '@/constants/categories'
 import { SingleCaravan } from '@/interfaces/caravan'
 import {
+  capitalizeCompanyName,
   formatDateBR,
   formatExcursionistasSince,
   formatPrice,
@@ -405,9 +406,11 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                         </S.OrganizerVerified>
 
                         <S.OrganizerName>
-                          {caravan?.organizador?.nome_fantasia ??
-                            caravan?.organizador?.razao_social ??
-                            ''}
+                          {capitalizeCompanyName(
+                            caravan?.organizador?.nome_fantasia ??
+                              caravan?.organizador?.razao_social ??
+                              ''
+                          )}
                         </S.OrganizerName>
                         <RatingStars rating={4.5} />
                       </S.OrganizerInfo>

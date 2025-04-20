@@ -1,5 +1,6 @@
 export interface OrganizerFormData {
   razao_social: string
+  nome_fantasia: string
   cnpj: string
   inscricao_estadual?: string
   inscricao_municipal?: string
@@ -16,6 +17,7 @@ export interface OrganizerFormData {
 export type OrganizerFormDataStep1 = Pick<
   OrganizerFormData,
   | 'razao_social'
+  | 'nome_fantasia'
   | 'cnpj'
   | 'inscricao_estadual'
   | 'inscricao_municipal'

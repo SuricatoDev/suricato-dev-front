@@ -18,6 +18,8 @@ export default async function handler(
   const tokenType = token.token_type || 'Bearer'
   const accessToken = token.access_token
 
+  console.log('userId', req.body)
+
   try {
     const response = await apiBackend({
       method: req.method,

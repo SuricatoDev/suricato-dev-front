@@ -86,3 +86,7 @@ export function formatDateRangeBR(start: string, end: string): string {
 
   return `${format(startDate)} - ${format(endDate)}`
 }
+
+export function capitalizeCompanyName(name: string): string {
+  return name.toLowerCase().replace(/(^|\s|-)\S/g, (char) => char.toUpperCase())
+}

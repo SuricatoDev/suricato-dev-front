@@ -132,16 +132,38 @@ export default function ProductCard({
           </S.TopContent>
 
           <S.BottomContent>
-            <S.Info>
-              <MapPin size={14} weight="fill" />
-              {origin}
-              <ArrowsLeftRight
-                style={{ transform: 'scaleX(-1)' }}
-                size={14}
-                weight="bold"
-              />
-              {destination}
-            </S.Info>
+            <S.InfoWrapper>
+              <MapPin size={14} weight="fill" style={{ marginRight: 4 }} />
+              <S.Info
+                style={{ flexWrap: 'wrap', columnGap: 4, alignItems: 'center' }}
+              >
+                <span
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {origin}
+                </span>
+
+                <ArrowsLeftRight
+                  style={{ transform: 'scaleX(-1)', margin: '0 4px' }}
+                  size={14}
+                  weight="bold"
+                />
+
+                <span
+                  style={{
+                    whiteSpace: 'nowrap',
+                    minWidth: 0,
+                    flexGrow: 1
+                  }}
+                >
+                  {destination}
+                </span>
+              </S.Info>
+            </S.InfoWrapper>
             <S.Info>
               <CalendarDots size={14} weight="fill" />
               {date}

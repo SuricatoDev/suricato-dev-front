@@ -8,6 +8,9 @@ export const Wrapper = styled.div`
   cursor: pointer;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `
 
 export const ImageContainer = styled.div`
@@ -66,11 +69,22 @@ export const Info = styled.p`
   color: ${({ theme }) => theme.colors.text_standard};
 `
 
+export const InfoWrapper = styled.div`
+  display: flex;
+  align-items: start;
+
+  > svg {
+    flex-shrink: 0;
+    color: ${({ theme }) => theme.colors.text_medium};
+  }
+`
+
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
+  flex-grow: 1;
 `
 
 export const TopContent = styled.div`
@@ -83,7 +97,7 @@ export const TopContent = styled.div`
 export const BottomContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
 `
 
 export const NavDefault = styled.button`
