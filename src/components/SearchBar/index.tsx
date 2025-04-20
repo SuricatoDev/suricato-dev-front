@@ -4,7 +4,9 @@ import { Caravan } from '@/interfaces/caravan'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
+import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
+import { SlidersHorizontal } from '@phosphor-icons/react/dist/ssr/SlidersHorizontal'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
 import Button from '../common/Button'
@@ -143,19 +145,20 @@ export default function ResponsiveSearchBar({
     }
   }, [caravanas, values])
 
-  const handleSearch = () => {
+  const handleSearch = (customValues?: typeof values) => {
+    const currentValues = customValues || values
     const newQuery: Record<string, string> = {}
 
-    if (values.title.trim()) newQuery.titulo = values.title.trim()
-    if (values.origin.trim()) newQuery.origem = values.origin.trim()
-    if (values.dest.trim()) newQuery.destino = values.dest.trim()
+    if (currentValues.title.trim()) newQuery.titulo = currentValues.title.trim()
+    if (currentValues.origin.trim())
+      newQuery.origem = currentValues.origin.trim()
+    if (currentValues.dest.trim()) newQuery.destino = currentValues.dest.trim()
 
     const queryString = Object.entries(newQuery)
-      .map(([key, value]) => `${key}=${encodeURIComponent(value as string)}`)
+      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
       .join('&')
 
     router.push(`${pathname}?${queryString}`, undefined, { shallow: true })
-
     setIsMobileOpen(false)
   }
 
@@ -169,9 +172,7 @@ export default function ResponsiveSearchBar({
     })
   }, [router.query])
 
-  if (!caravanas) {
-    return null
-  }
+  if (!caravanas) return null
 
   return (
     <>
@@ -179,7 +180,6 @@ export default function ResponsiveSearchBar({
         {fields.map(({ key, label, placeholder }, index) => (
           <React.Fragment key={`${key}-desktop`}>
             <S.Segment
-              key={key}
               ref={activeField === key ? activeButtonRef : null}
               $active={activeField === key}
               $isScrolled={isScrolled}
@@ -199,9 +199,9 @@ export default function ResponsiveSearchBar({
                     ref={dropdownRef}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <ul style={{ padding: 0, margin: 0 }}>
+                    <ul>
                       {suggestionsByField[key]
-                        ?.filter((item) => item.value !== values[key])
+                        .filter((item) => item.value !== values[key])
                         .slice(0, 5)
                         .map((item) => (
                           <S.Suggestion
@@ -221,15 +221,48 @@ export default function ResponsiveSearchBar({
             {index < fields.length - 1 && <S.Divider />}
           </React.Fragment>
         ))}
-        <S.SearchButton onClick={handleSearch}>
+        <S.SearchButton onClick={() => handleSearch()}>
           <MagnifyingGlass size={18} weight="bold" />
           Buscar
         </S.SearchButton>
       </S.Wrapper>
 
-      <S.MobileTrigger onClick={() => setIsMobileOpen(true)}>
-        <MagnifyingGlass size={18} weight="bold" /> Inicie sua busca
-      </S.MobileTrigger>
+      <S.MobileWrapper>
+        {(values.title || values.origin || values.dest) && (
+          <S.MobileIconButton
+            onClick={() => {
+              const empty = { title: '', origin: '', dest: '' }
+              setValues(empty)
+              router.push(pathname, undefined, { shallow: true })
+            }}
+          >
+            <ArrowLeft size={20} weight="bold" />
+          </S.MobileIconButton>
+        )}
+
+        <S.MobileTrigger onClick={() => setIsMobileOpen(true)}>
+          <strong>
+            {values.title
+              ? values.title
+              : values.origin || values.dest
+                ? ''
+                : 'Inicie sua busca'}
+          </strong>
+          {(values.origin || values.dest) && (
+            <div>
+              {values.origin && <>De: {values.origin}</>}
+              {values.origin && values.dest && ' · '}
+              {values.dest && <>Para: {values.dest}</>}
+            </div>
+          )}
+        </S.MobileTrigger>
+
+        {(values.title || values.origin || values.dest) && (
+          <S.MobileIconButton onClick={() => setIsMobileOpen(true)}>
+            <SlidersHorizontal size={20} weight="bold" />
+          </S.MobileIconButton>
+        )}
+      </S.MobileWrapper>
 
       <AnimatePresence>
         {isMobileOpen && (
@@ -247,21 +280,16 @@ export default function ResponsiveSearchBar({
             </S.HeaderMobile>
             {fields.map(({ key, label, labelFull, subtitle, placeholder }) => (
               <S.MobileBlockContainer
+                key={key}
                 onClick={() => {
-                  if (activeField === key) {
-                    return
-                  }
-
-                  if (activeField === key) {
-                    setActiveField(null)
-                  } else if (activeField) {
+                  if (activeField === key) return
+                  if (activeField) {
                     setNextField(key)
                     setActiveField(null)
                   } else {
                     setActiveField(key)
                   }
                 }}
-                key={key}
               >
                 <S.MobileBlock>
                   <S.MobileBlockTitle active={activeField === key}>
@@ -293,9 +321,9 @@ export default function ResponsiveSearchBar({
                             Destinos sugeridos
                           </S.MobileSuggestionsTitle>
                         )}
-                        <ul style={{ listStyle: 'none', padding: 0 }}>
+                        <ul>
                           {suggestionsByField[key]
-                            ?.filter((item) => item.value !== values[key])
+                            .filter((item) => item.value !== values[key])
                             .slice(0, 5)
                             .map((item) => (
                               <S.Suggestion
@@ -314,13 +342,17 @@ export default function ResponsiveSearchBar({
             ))}
             <S.FooterBar>
               <S.ClearButton
-                onClick={() => setValues({ title: '', origin: '', dest: '' })}
+                onClick={() => {
+                  const empty = { title: '', origin: '', dest: '' }
+                  setValues(empty)
+                  router.push(pathname, undefined, { shallow: true })
+                }}
               >
                 Limpar tudo
               </S.ClearButton>
               <Button
                 icon={<MagnifyingGlass weight="bold" size={18} />}
-                onClick={handleSearch}
+                onClick={() => handleSearch()}
               >
                 Buscar
               </Button>

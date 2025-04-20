@@ -1,29 +1,31 @@
 import { motion } from 'framer-motion'
 import styled, { css } from 'styled-components'
 
+import { device } from '@/styles/breakpoints'
+
 export const Wrapper = styled.div<{ $isScrolled?: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 999px;
-  padding: 8px;
-  gap: 4px;
-  position: relative;
-  max-width: 700px;
-  margin-inline: auto;
-  transition: all 0.3s ease;
-  background-color: #ffffff;
+  display: none;
 
-  ${({ $isScrolled }) =>
-    $isScrolled &&
-    css`
-      max-width: 600px;
-    `};
+  @media ${device.md} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 999px;
+    padding: 8px;
+    gap: 4px;
+    position: relative;
+    max-width: 700px;
+    margin-inline: auto;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
 
-  @media (max-width: 767px) {
-    display: none;
+    ${({ $isScrolled }) =>
+      $isScrolled &&
+      css`
+        max-width: 600px;
+      `};
   }
 `
 export const Divider = styled.div`
@@ -109,21 +111,42 @@ export const Suggestion = styled.li`
     font-size: 0.875rem;
   }
 `
-export const MobileTrigger = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+export const MobileTrigger = styled.div`
+  min-height: 43px;
   padding: 0.75rem;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 999px;
   width: 100%;
   font-weight: 600;
-  gap: 0.5rem;
   color: ${({ theme }) => theme.colors.text_medium};
   background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
 
-  @media (min-width: 768px) {
+  strong {
+    font-size: 14px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.text_standard};
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  div {
+    font-size: 12px;
+    color: ${({ theme }) => theme.colors.text_medium};
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  @media ${device.md} {
     display: none;
   }
 `
@@ -189,7 +212,7 @@ export const MobileBlockContainer = styled.div`
     0 6px 20px rgb(0 0 0 / 20%);
 `
 
-export const MobileBlock = styled.button`
+export const MobileBlock = styled.div`
   background: none;
   border-radius: 12px;
   border: none;
@@ -241,4 +264,63 @@ export const ClearButton = styled.button`
   background: none;
   border: none;
   color: ${({ theme }) => theme.colors.text_standard};
+`
+
+export const MobileFilterSummary = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: 8px;
+
+  @media ${device.md} {
+    display: none;
+  }
+`
+
+export const MobileFilterBadge = styled.div`
+  background: #eee;
+  border-radius: 999px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  @media ${device.md} {
+    display: none;
+  }
+
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`
+
+export const MobileIconButton = styled.button`
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.text_medium};
+
+  @media ${device.md} {
+    display: none;
+  }
+`
+
+export const MobileWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  gap: 0.5rem;
+  @media ${device.md} {
+    display: none;
+  }
 `
