@@ -4,7 +4,7 @@ import { Caravan } from '@/interfaces/caravan'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 
-import { MagnifyingGlass } from '@phosphor-icons/react'
+import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
 import Button from '../common/Button'
