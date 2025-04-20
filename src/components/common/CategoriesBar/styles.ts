@@ -104,11 +104,13 @@ export const CategoryItem = styled.div<CategoryItemProps>`
     $selected ? theme.colors.text_standard : theme.colors.base_dark56};
   transition: all ${({ theme }) => theme.common.transition.fast};
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.base_dark88};
+  @media ${device.md} {
+    &:hover {
+      color: ${({ theme }) => theme.colors.base_dark88};
 
-    &::after {
-      background: ${({ theme }) => theme.colors.base_dark88};
+      &::after {
+        background: ${({ theme }) => theme.colors.base_dark88};
+      }
     }
   }
 
@@ -161,9 +163,11 @@ export const NavDefault = styled.button`
       color: ${({ theme }) => theme.colors.text_standard};
     }
 
-    &:hover {
-      transform: translateY(calc(-50% - 0.25rem)) scale(1.04);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    @media ${device.md} {
+      &:hover {
+        transform: translateY(calc(-50% - 0.25rem)) scale(1.04);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+      }
     }
   }
   display: none;
