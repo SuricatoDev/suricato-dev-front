@@ -35,7 +35,11 @@ export default function Home({ initialCaravans }: HomeProps) {
       if (destino) params.destino = destino
       if (titulo) params.titulo = titulo
 
-      if (Object.keys(params).length === 0) return
+      if (Object.keys(params).length === 0) {
+        setCaravans(initialCaravans)
+        setLoading(false)
+        return
+      }
 
       setLoading(true)
       axios
@@ -147,7 +151,7 @@ export async function getStaticProps() {
       props: {
         initialCaravans: res.data.data
       },
-      revalidate: 60
+      revalidate: 300
     }
   } catch {
     return { notFound: true }
