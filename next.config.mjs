@@ -1,4 +1,3 @@
-// next.config.js
 import withBundleAnalyzer from '@next/bundle-analyzer'
 import withPWA from 'next-pwa'
 
@@ -14,7 +13,9 @@ const nextConfig = {
     }
     return config
   },
-  generateBuildId: async () => 'excursionistas-v2',
+  generateBuildId: async () => {
+    return process.env.AWS_COMMIT_ID || Date.now().toString()
+  },
   reactStrictMode: true,
   ...(process.env.BASE_PATH && process.env.BASE_PATH !== ''
     ? { basePath: process.env.BASE_PATH, assetPrefix: process.env.BASE_PATH }
@@ -51,6 +52,11 @@ export default withAnalyzer(
         options: { cacheName: 'no-cache-api' }
       }
     ],
-    disable: process.env.NODE_ENV === 'development'
+    disable: process.env.NODE_ENV === 'development',
+
+    register: true,
+    skipWaiting: true,
+    clientsClaim: true,
+    cleanupOutdatedCaches: true
   })(nextConfig)
 )
