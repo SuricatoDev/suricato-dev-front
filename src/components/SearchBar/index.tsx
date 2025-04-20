@@ -192,23 +192,28 @@ export default function ResponsiveSearchBar({
                 placeholder={placeholder}
               />
               {activeField === key &&
-                (suggestionsByField[key]?.length ?? 0) > 0 && (
+                suggestionsByField[key]?.filter(
+                  (item) => item.value !== values[key]
+                ).length > 0 && (
                   <S.Dropdown
                     ref={dropdownRef}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <ul style={{ padding: 0, margin: 0 }}>
-                      {suggestionsByField[key]?.slice(0, 5).map((item) => (
-                        <S.Suggestion
-                          key={item.label}
-                          onClick={() => {
-                            updateValue(key, item.value)
-                            setActiveField(null)
-                          }}
-                        >
-                          <strong>{item.label}</strong>
-                        </S.Suggestion>
-                      ))}
+                      {suggestionsByField[key]
+                        ?.filter((item) => item.value !== values[key])
+                        .slice(0, 5)
+                        .map((item) => (
+                          <S.Suggestion
+                            key={item.label}
+                            onClick={() => {
+                              updateValue(key, item.value)
+                              setActiveField(null)
+                            }}
+                          >
+                            <strong>{item.label}</strong>
+                          </S.Suggestion>
+                        ))}
                     </ul>
                   </S.Dropdown>
                 )}
@@ -261,7 +266,9 @@ export default function ResponsiveSearchBar({
                 <S.MobileBlock>
                   <S.MobileBlockTitle active={activeField === key}>
                     <span>{activeField === key ? labelFull : label}</span>
-                    {activeField !== key && <strong>{subtitle}</strong>}
+                    {activeField !== key && (
+                      <strong>{values[key] || subtitle}</strong>
+                    )}
                   </S.MobileBlockTitle>
                 </S.MobileBlock>
 
@@ -287,14 +294,17 @@ export default function ResponsiveSearchBar({
                           </S.MobileSuggestionsTitle>
                         )}
                         <ul style={{ listStyle: 'none', padding: 0 }}>
-                          {suggestionsByField[key]?.slice(0, 5).map((item) => (
-                            <S.Suggestion
-                              key={item.label}
-                              onClick={() => updateValue(key, item.value)}
-                            >
-                              <strong>{item.label}</strong>
-                            </S.Suggestion>
-                          ))}
+                          {suggestionsByField[key]
+                            ?.filter((item) => item.value !== values[key])
+                            .slice(0, 5)
+                            .map((item) => (
+                              <S.Suggestion
+                                key={item.label}
+                                onClick={() => updateValue(key, item.value)}
+                              >
+                                <strong>{item.label}</strong>
+                              </S.Suggestion>
+                            ))}
                         </ul>
                       </div>
                     </motion.div>
