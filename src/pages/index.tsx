@@ -164,7 +164,7 @@ export default function Home({ initialCaravans }: HomeProps) {
 export async function getStaticProps() {
   try {
     const res = await axios.get(`${process.env.BACKEND_URL}/caravanas`)
-    console.log(res.data.data)
+
     return {
       props: {
         initialCaravans: res.data.data

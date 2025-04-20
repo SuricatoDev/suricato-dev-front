@@ -1,9 +1,4 @@
-import withBundleAnalyzer from '@next/bundle-analyzer'
 import withPWA from 'next-pwa'
-
-const withAnalyzer = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true'
-})
 
 const nextConfig = {
   webpack: (config, { isServer }) => {
@@ -26,14 +21,6 @@ const nextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
-      { protocol: 'https', hostname: 'storage.googleapis.com' },
-      { protocol: 'http', hostname: '127.0.0.1' },
-      { protocol: 'https', hostname: 'a0.muscache.com' },
-      { protocol: 'https', hostname: 'picsum.photos' },
-      {
-        protocol: 'https',
-        hostname: 'teste-suricatos.s3.sa-east-1.amazonaws.com'
-      },
       { protocol: 'https', hostname: 'suricatodev.s3.sa-east-1.amazonaws.com' }
     ],
     deviceSizes: [320, 500, 768, 960, 1024, 1440, 1920],
@@ -42,21 +29,19 @@ const nextConfig = {
   trailingSlash: false
 }
 
-export default withAnalyzer(
-  withPWA({
-    dest: 'public',
-    runtimeCaching: [
-      {
-        urlPattern: /^https:\/\/(.*)\/api\//,
-        handler: 'NetworkOnly',
-        options: { cacheName: 'no-cache-api' }
-      }
-    ],
-    disable: process.env.NODE_ENV === 'development',
+export default withPWA({
+  dest: 'public',
+  runtimeCaching: [
+    {
+      urlPattern: /^https:\/\/(.*)\/api\//,
+      handler: 'NetworkOnly',
+      options: { cacheName: 'no-cache-api' }
+    }
+  ],
+  disable: process.env.NODE_ENV === 'development',
 
-    register: true,
-    skipWaiting: true,
-    clientsClaim: true,
-    cleanupOutdatedCaches: true
-  })(nextConfig)
-)
+  register: true,
+  skipWaiting: true,
+  clientsClaim: true,
+  cleanupOutdatedCaches: true
+})(nextConfig)
