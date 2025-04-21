@@ -18,43 +18,45 @@ export const TabsList = styled.ul`
 
 interface TabItemProps {
   $active: boolean
-  disabled?: boolean
+  $disabled?: boolean
 }
 
 export const TabItem = styled.li<TabItemProps>`
   position: relative;
-  font-weight: ${({ $active }) => ($active ? '900' : '600')};
   flex: 1;
   text-align: center;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   padding-bottom: 0.5rem;
-  color: ${({ $active, disabled, theme }) =>
-    disabled
+
+  font-weight: ${({ $active }) => ($active ? 900 : 600)};
+  color: ${({ theme, $active, $disabled }) =>
+    $disabled
       ? theme.colors.base_dark32
       : $active
         ? theme.colors.primary_medium
         : theme.colors.text_foggy};
 
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
   user-select: none;
 
   &::after {
     content: '';
     position: absolute;
-    left: 0;
     bottom: 0;
+    left: 0;
+    width: 100%;
     height: 4px;
     border-radius: 2px;
-    width: 100%;
     background-color: ${({ theme }) => theme.colors.primary_medium};
-    transform: translateY(50%) scaleX(${({ $active }) => ($active ? 1 : 0)});
+    transform: translateY(60%) scaleX(${({ $active }) => ($active ? 1 : 0)});
     transform-origin: center;
     transition: transform 0.3s ease;
   }
 
   @media (${device.md}) {
     &:hover {
-      color: ${({ disabled, theme }) =>
-        disabled ? theme.colors.base_dark32 : theme.colors.primary_light};
+      color: ${({ theme, $disabled }) =>
+        $disabled ? theme.colors.base_dark32 : theme.colors.primary_light};
     }
   }
 `

@@ -1,23 +1,22 @@
 export function formatPhoneNumber(phone: string): string {
   const cleaned = phone.replace(/\D/g, '')
 
-  if (cleaned.length < 11) return phone
+  if (cleaned.length === 11) {
+    const areaCode = cleaned.slice(0, 2)
+    const firstPart = cleaned.slice(2, 7)
+    const secondPart = cleaned.slice(7)
+    return `(${areaCode}) ${firstPart}-${secondPart}`
+  }
 
-  const areaCode = cleaned.slice(-11, -9)
-  const firstPart = cleaned.slice(-9, -4)
-  const secondPart = cleaned.slice(-4)
+  if (cleaned.length === 10) {
+    const areaCode = cleaned.slice(0, 2)
+    const firstPart = cleaned.slice(2, 6)
+    const secondPart = cleaned.slice(6)
+    return `(${areaCode}) ${firstPart}-${secondPart}`
+  }
 
-  return `(${areaCode}) ${firstPart}-${secondPart}`
+  return phone
 }
-
-export function formatPrice(price: number): string {
-  if (!price) return 'R$ 0,00'
-  return price.toLocaleString('pt-br', {
-    style: 'currency',
-    currency: 'BRL'
-  })
-}
-
 export const returnInitialsLettersIfNotLogged = (
   text: string,
   isLogged: boolean,

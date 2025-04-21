@@ -2,42 +2,36 @@ import React from 'react'
 
 import * as S from './styles'
 
-export type TabKey = 'upcoming' | 'previous'
-
-interface TabsProps {
-  activeTab: TabKey
-  onChange: (tab: TabKey) => void
-  disablePrevious?: boolean
+export interface TabItem<T extends string> {
+  key: T
+  label: React.ReactNode
+  disabled?: boolean
 }
 
-export default function Tabs({
-  activeTab,
-  onChange,
-  disablePrevious
-}: TabsProps) {
-  const handleClick = (tab: TabKey) => {
-    if (tab === 'previous' && disablePrevious) {
-      return
-    }
-    onChange(tab)
-  }
+interface TabsProps<T extends string> {
+  items: TabItem<T>[]
+  activeKey: T
+  onChange: (key: T) => void
+}
 
+export default function Tabs<T extends string>({
+  items,
+  activeKey,
+  onChange
+}: TabsProps<T>) {
   return (
     <S.TabsWrapper>
       <S.TabsList>
-        <S.TabItem
-          $active={activeTab === 'upcoming'}
-          onClick={() => handleClick('upcoming')}
-        >
-          Próximas Caravanas
-        </S.TabItem>
-        <S.TabItem
-          $active={activeTab === 'previous'}
-          disabled={disablePrevious}
-          onClick={() => handleClick('previous')}
-        >
-          Caravanas Anteriores
-        </S.TabItem>
+        {items.map(({ key, label, disabled }) => (
+          <S.TabItem
+            key={key}
+            $active={activeKey === key}
+            $disabled={disabled}
+            onClick={() => !disabled && onChange(key)}
+          >
+            {label}
+          </S.TabItem>
+        ))}
       </S.TabsList>
     </S.TabsWrapper>
   )

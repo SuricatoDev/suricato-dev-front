@@ -18,7 +18,7 @@ import FloatingActionButton from '@/components/common/FloatingButton'
 import Modal from '@/components/common/Modal'
 import NotOrganizerMessage from '@/components/common/NotOrganizerMessage'
 import Portal from '@/components/common/Portal'
-import Tabs, { TabKey } from '@/components/common/Tabs'
+import Tabs, { TabItem } from '@/components/common/Tabs'
 import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
 import MobileHeader from '@/components/sections/MobileHeader'
@@ -31,11 +31,13 @@ const OrganizerForm = dynamic(
   { ssr: false }
 )
 
+type MyTab = 'upcoming' | 'previous'
+
 export default function CaravanasManagementPage() {
   const { isOrganizer, loading: orgLoading } = useIsOrganizer()
   const router = useRouter()
 
-  const [activeTab, setActiveTab] = useState<TabKey>('upcoming')
+  const [activeTab, setActiveTab] = useState<MyTab>('upcoming')
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
   const [isOrganizerModalOpen, setIsOrganizerModalOpen] = useState(false)
@@ -71,7 +73,16 @@ export default function CaravanasManagementPage() {
 
   const caravanToDelete = caravans.find((c) => c.id === confirmDelete)
 
-  const handleTabChange = (tab: TabKey) => {
+  const tabs: TabItem<MyTab>[] = [
+    { key: 'upcoming', label: 'Próximas Caravanas' },
+    {
+      key: 'previous',
+      label: 'Caravanas Anteriores',
+      disabled: previousCaravans.length === 0
+    }
+  ]
+
+  const handleTabChange = (tab: MyTab) => {
     setActiveTab(tab)
     setOpenMenuId(null)
   }
@@ -166,9 +177,9 @@ export default function CaravanasManagementPage() {
           <div className="container">
             <S.Title>Meus anúncios</S.Title>
             <Tabs
-              activeTab={activeTab}
+              items={tabs}
+              activeKey={activeTab}
               onChange={handleTabChange}
-              disablePrevious={previousCaravans.length === 0}
             />
 
             <S.SpacingMobile>
