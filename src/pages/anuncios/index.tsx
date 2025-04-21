@@ -128,10 +128,11 @@ export default function CaravanasManagementPage() {
         setIsLoading(false)
       }
     }
-    if (isOrganizer) {
+
+    if (isOrganizer && !loading) {
       loadCaravans()
     }
-  }, [])
+  }, [isOrganizer])
 
   if (loading) {
     return null
@@ -210,10 +211,10 @@ export default function CaravanasManagementPage() {
                       ))}
                 </S.CaravanGrid>
               ) : (
-                <S.Fallback>
-                  <SmileySad size={48} />
-                  <p>Nenhuma próxima caravana</p>
-                </S.Fallback>
+                <S.EmptyMessage>
+                  <SmileySad size={64} weight="fill" />
+                  Nenhuma próxima caravana
+                </S.EmptyMessage>
               )}
             </S.SpacingMobile>
           </div>

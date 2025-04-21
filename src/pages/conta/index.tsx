@@ -571,8 +571,8 @@ export default function ProfileEditPage() {
                     </AccordionItem>
                   </div>
                   <Divider $marginY="24px" />
-                  {userData?.passageiro && userData?.passageiroData && (
-                    <>
+                  {!!userData?.passageiro && !!userData?.passageiroData && (
+                    <React.Fragment>
                       <div>
                         <S.Row
                           $disabled={
@@ -703,9 +703,8 @@ export default function ProfileEditPage() {
                           </S.Spacing>
                         </AccordionItem>
                       </div>
-
                       <Divider $marginY="24px" />
-                    </>
+                    </React.Fragment>
                   )}
                   <div>
                     <S.Row
