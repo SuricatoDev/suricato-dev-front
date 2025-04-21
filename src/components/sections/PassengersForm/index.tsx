@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { passengerFormStep1Schema } from '@/validation/formValidation'
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { Controller, useForm } from 'react-hook-form'
 import InputMask from 'react-input-mask'
@@ -25,7 +25,7 @@ import * as S from './styles'
 interface PassengerFormProps {
   visible: boolean
   onClose: () => void
-  caravanaId: string | number
+  onComplete: () => void
 }
 
 interface Step1Values {
@@ -37,7 +37,7 @@ interface Step1Values {
 export default function PassengerForm({
   visible,
   onClose,
-  caravanaId
+  onComplete
 }: PassengerFormProps) {
   const { data: session, update } = useSession()
 
@@ -111,27 +111,6 @@ export default function PassengerForm({
       address?.cep !== ''
   )
 
-  const checkExistingReservation = async (
-    caravana: string | number,
-    passageiro: string | number
-  ) => {
-    try {
-      const res = await axios.get(
-        `/api/reservas/${caravana}/reservas/${passageiro}`
-      )
-      if (res.status === 200) {
-        return true
-      }
-      return false
-    } catch (error) {
-      const axiosError = error as AxiosError
-      if (axiosError.response && axiosError.response.status === 404) {
-        return false
-      }
-      throw error
-    }
-  }
-
   const onStep1Submit = (data: Step1Values) => {
     if (sessionAddressExists) {
       onFinalSubmit(data)
@@ -141,20 +120,6 @@ export default function PassengerForm({
   }
 
   const onFinalSubmit = async (data: Step1Values) => {
-    if (localUser?.id) {
-      const alreadyReserved = await checkExistingReservation(
-        caravanaId,
-        localUser.id
-      )
-      if (alreadyReserved) {
-        toast.error(
-          'Você já reservou essa caravana. Não é possível reservar novamente.'
-        )
-        onClose()
-        return
-      }
-    }
-
     const combinedData = { ...data, ...address }
 
     const registrationPayload = {
@@ -177,22 +142,11 @@ export default function PassengerForm({
       const response = await axios.post('/api/passageiro', registrationPayload)
 
       if (response.status === 200) {
-        await update({})
+        await update()
+
+        onComplete()
+
         toast.success('Confirmação de dados realizada com sucesso!')
-
-        const inscriptionPayload = {
-          passengerId: response.data.id
-        }
-
-        const inscriptionResponse = await axios.post(
-          `/api/reservas/${caravanaId}/reservas`,
-          inscriptionPayload
-        )
-
-        if (inscriptionResponse.status === 200) {
-          await update({})
-          toast.success('Inscrição na caravana realizada com sucesso!')
-        }
       }
     } catch (error) {
       toast.error(
