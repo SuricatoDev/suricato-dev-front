@@ -1,60 +1,63 @@
+
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import axios, { AxiosError } from 'axios'
 import { getToken } from 'next-auth/jwt'
 
 export const config = {
-  api: {
-    bodyParser: false
-  }
+  api: { bodyParser: false }
 }
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+  if (req.method !== 'PUT') {
+    res.setHeader('Allow', ['PUT'])
+    return res.status(405).end(`Method ${req.method} Not Allowed`)
+  }
 
-  if (!token || !token.id) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+  if (!token?.id) {
     return res.status(403).json({ message: 'Acesso negado' })
   }
 
-  const tokenType = token.token_type || 'Bearer'
-  const accessToken = token.access_token
-
   const { id } = req.query
-
-  if (!id || typeof id !== 'string') {
+  if (typeof id !== 'string') {
     return res.status(400).json({ message: 'ID da caravana inválido' })
   }
 
-  try {
-    const response = await axios({
-      method: req.method,
-      url: `${process.env.BACKEND_URL}/caravanas/${id}`,
-      headers: {
-        ...req.headers,
-        host: '',
-        Authorization: `${tokenType} ${accessToken}`
-      },
-      data: req.method === 'GET' || req.method === 'DELETE' ? undefined : req,
-      maxContentLength: Infinity,
-      maxBodyLength: Infinity,
-      responseType: 'stream'
-    })
+  const forwardHeaders = { ...req.headers }
+  delete forwardHeaders.host
+  forwardHeaders.Authorization = `${token.token_type ?? 'Bearer'} ${token.access_token}`
 
-    res.status(response.status)
-    response.data.pipe(res)
-  } catch (error) {
-    const axiosError = error as AxiosError
-    console.error(
-      'Erro ao fazer proxy para o backend:',
-      axiosError.response?.data || axiosError
+  try {
+    const axiosRes = await axios.put(
+      `${process.env.BACKEND_URL}/caravanas/${id}`,
+      req,
+      {
+        headers: forwardHeaders,
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity
+      }
     )
-    res
-      .status(axiosError.response?.status || 500)
-      .json(
-        axiosError.response?.data || { message: 'Erro interno no servidor' }
-      )
+
+    return res.status(axiosRes.status).json(axiosRes.data)
+  } catch (err) {
+    const axiosError = err as AxiosError
+
+    console.error(
+      '[API proxy PUT /caravanas/:id] error:',
+      axiosError.response?.status,
+      axiosError.response?.data || axiosError.message
+    )
+
+    const status = axiosError.response?.status ?? 500
+    const payload =
+      axiosError.response?.data && typeof axiosError.response.data === 'object'
+        ? axiosError.response.data
+        : { message: axiosError.message || 'Erro interno no servidor' }
+
+    return res.status(status).json(payload)
   }
 }

@@ -6,6 +6,7 @@ export interface Caravan {
   data_partida: string
   data_retorno: string
   endereco_origem: string
+  complemento_origem?: string
   numero_origem: string
   bairro_origem: string
   cep_origem: string
@@ -14,6 +15,7 @@ export interface Caravan {
   endereco_destino: string
   numero_destino: string
   bairro_destino: string
+  complemento_destino?: string
   cep_destino: string
   cidade_destino: string
   estado_destino: string

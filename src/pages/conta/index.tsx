@@ -437,7 +437,7 @@ export default function ProfileEditPage() {
       toast.success('Dados atualizados com sucesso!')
 
       setEditingField(null)
-      await update({})
+      await update()
     } catch (error) {
       console.error('Erro ao atualizar perfil:', error)
 
@@ -1107,7 +1107,6 @@ export default function ProfileEditPage() {
 
                       <Divider $marginY="24px" />
 
-                      {/* Endereço Comercial */}
                       <div>
                         <S.Row
                           $disabled={

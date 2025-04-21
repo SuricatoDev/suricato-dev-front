@@ -26,7 +26,15 @@ const nextConfig = {
     deviceSizes: [320, 500, 768, 960, 1024, 1440, 1920],
     imageSizes: [320, 500, 600, 800]
   },
-  trailingSlash: false
+  trailingSlash: false,
+  rewrites: async () => {
+    return [
+      {
+        source: '/uploads/:path*',
+        destination: 'https://suricatodev.s3.sa-east-1.amazonaws.com/:path*'
+      }
+    ]
+  }
 }
 
 export default withPWA({

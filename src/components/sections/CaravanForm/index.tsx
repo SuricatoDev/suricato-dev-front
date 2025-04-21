@@ -47,6 +47,7 @@ interface CaravanFormProps {
 }
 
 export default function CaravanForm({ mode }: CaravanFormProps) {
+  const isEditMode = mode === 'edit'
   const { isOrganizer, loading } = useIsOrganizer()
   const router = useRouter()
 
@@ -100,7 +101,7 @@ export default function CaravanForm({ mode }: CaravanFormProps) {
           payload.append('ordem_imagens[]', String(image.order))
         })
 
-        if (mode === 'edit') {
+        if (isEditMode) {
           await axios.put(
             `/api/caravanas/editar/${formData.caravana_id}`,
             payload,
@@ -143,8 +144,18 @@ export default function CaravanForm({ mode }: CaravanFormProps) {
   ) => [
     <Step1 key="step1" />,
     <Step2 key="step2" setCanProceed={setCanProceed} />,
-    <Step3 key="step3" ref={step3Ref} setCanProceed={setCanProceed} />,
-    <Step4 key="step4" ref={step4Ref} setCanProceed={setCanProceed} />,
+    <Step3
+      key="step3"
+      ref={step3Ref}
+      setCanProceed={setCanProceed}
+      editMode={isEditMode}
+    />,
+    <Step4
+      key="step4"
+      ref={step4Ref}
+      setCanProceed={setCanProceed}
+      editMode={isEditMode}
+    />,
     <Step5 key="step5" setCanProceed={setCanProceed} />,
     <Step6 key="step6" setCanProceed={setCanProceed} />,
     <Step7 key="step7" setCanProceed={setCanProceed} />,
