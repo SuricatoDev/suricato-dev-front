@@ -168,3 +168,57 @@ export const ContactInformations = styled.div`
   flex-direction: column;
   gap: 1rem;
 `
+
+export const CheckboxWrapper = styled.div`
+  padding: 0rem 0 1rem;
+`
+
+export const StyledCheckbox = styled.input.attrs({ type: 'checkbox' })`
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 22px;
+  height: 22px;
+  border: 2px solid ${(p) => p.theme.colors.primary_medium};
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all ${({ theme }) => theme.common.transition.default};
+
+  &:checked {
+    background-color: ${(p) => p.theme.colors.primary_medium};
+  }
+
+  &:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0px;
+    width: 6px;
+    height: 12px;
+    border: solid ${(p) => p.theme.colors.background_standard};
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+`
+
+export const StyledCheckboxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: ${(p) => p.theme.common.font.sizes.body.large};
+  color: ${(p) => p.theme.colors.text_medium};
+
+  user-select: none;
+
+  a {
+    color: ${(p) => p.theme.colors.primary_medium};
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color ${({ theme }) => theme.common.transition.default};
+    pointer-events: all;
+    &:hover {
+      color: ${(p) => p.theme.colors.primary_light};
+    }
+  }
+`

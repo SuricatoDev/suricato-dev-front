@@ -12,6 +12,7 @@ export interface OrganizerFormData {
   cidade: string
   estado: string
   telefone_comercial: string
+  cadastur: boolean
 }
 
 export type OrganizerFormDataStep1 = Pick<
@@ -22,6 +23,7 @@ export type OrganizerFormDataStep1 = Pick<
   | 'inscricao_estadual'
   | 'inscricao_municipal'
   | 'telefone_comercial'
+  | 'cadastur'
 >
 
 export type OrganizerFormDataStep2 = Pick<

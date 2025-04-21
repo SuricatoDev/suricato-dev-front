@@ -27,7 +27,7 @@ export function useFavorites() {
     } finally {
       setLoading(false)
     }
-  }, [session])
+  }, [])
 
   const toggleFavorite = useCallback(
     async (caravanId: string, newValue: boolean, caravanName: string) => {
@@ -71,6 +71,7 @@ export function useFavorites() {
   )
 
   useEffect(() => {
+    if (!session?.user?.id) return
     fetchFavorites()
   }, [fetchFavorites])
 

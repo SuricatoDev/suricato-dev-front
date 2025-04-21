@@ -5,6 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import InputMask from 'react-input-mask'
 
 import Button from '@/components/common/Button'
+import ErrorMessage from '@/components/common/ErrorMessage'
 import Input from '@/components/common/Input'
 
 import * as S from '../styles'
@@ -231,7 +232,36 @@ export default function Step1({ onNext }: Step1Props) {
             }}
           />
         </div>
-
+        <S.CheckboxWrapper>
+          <Controller
+            name="cadastur"
+            control={control}
+            defaultValue={false}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <S.StyledCheckboxLabel>
+                  <S.StyledCheckbox
+                    {...field}
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                  <span>
+                    A empresa possui cadastro no{' '}
+                    <a
+                      href="https://cadastur.turismo.gov.br/hotsite/#!/public/sou-prestador/inicio"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Cadastur
+                    </a>
+                    ?
+                  </span>
+                </S.StyledCheckboxLabel>
+                {error && <ErrorMessage $error={error.message} />}
+              </>
+            )}
+          />
+        </S.CheckboxWrapper>
         <Button
           type="button"
           onClick={onNext}

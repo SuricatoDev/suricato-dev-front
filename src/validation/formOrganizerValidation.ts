@@ -16,7 +16,11 @@ export const organizerStep1Schema = Yup.object().shape({
       originalValue ? originalValue.replace(/\D/g, '') : ''
     )
     .required('O telefone comercial é obrigatório')
-    .matches(/^\d{10,11}$/, 'Formato de telefone inválido')
+    .matches(/^\d{10,11}$/, 'Formato de telefone inválido'),
+  cadastur: Yup.boolean().oneOf(
+    [true],
+    'A empresa obrigatóriamente deve possuir cadastro no Cadastur'
+  )
 })
 
 export const organizerStep2Schema = Yup.object().shape({

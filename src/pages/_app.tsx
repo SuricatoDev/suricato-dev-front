@@ -38,7 +38,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
   const hideMobileFooter =
     router.pathname.startsWith('/anuncios/novo') ||
-    router.pathname.startsWith('/anuncios/overview')
+    router.pathname.startsWith('/anuncios/overview') ||
+    router.pathname.startsWith('/cadastrar-empresa')
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
@@ -58,7 +59,16 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
               <div className={inter.className} id="modal-root">
                 <Component {...pageProps} />
                 <PWAInstallPrompt />
-                <ToastContainer position="bottom-center" autoClose={5000} />
+                <ToastContainer
+                  draggable={true}
+                  draggablePercent={50}
+                  limit={3}
+                  draggableDirection="x"
+                  pauseOnHover={false}
+                  newestOnTop={false}
+                  position="bottom-center"
+                  autoClose={3000}
+                />
                 {!hideMobileFooter && <MobileFooter />}
               </div>
             </StyleSheetManager>

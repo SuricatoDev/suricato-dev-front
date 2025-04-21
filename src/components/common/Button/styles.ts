@@ -135,6 +135,7 @@ const ButtonDanger = css<ButtonProps>`
 export const Button = styled.a<ButtonProps & { $loading?: boolean }>`
   position: relative;
   font-family: inherit;
+  user-select: none;
   ${baseStyles}
   ${({ $variant }) => {
     switch ($variant) {

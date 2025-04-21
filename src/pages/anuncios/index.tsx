@@ -128,8 +128,9 @@ export default function CaravanasManagementPage() {
         setIsLoading(false)
       }
     }
-
-    loadCaravans()
+    if (isOrganizer) {
+      loadCaravans()
+    }
   }, [])
 
   if (loading) {

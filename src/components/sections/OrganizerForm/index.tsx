@@ -58,7 +58,8 @@ export default function OrganizerForm({
     cep: '',
     cidade: '',
     estado: '',
-    telefone_comercial: ''
+    telefone_comercial: '',
+    cadastur: false
   })
 
   const methods = useForm<OrganizerFormDataStep1 | OrganizerFormDataStep2>({
@@ -99,7 +100,8 @@ export default function OrganizerForm({
         'razao_social',
         'cnpj',
         'inscricao_estadual',
-        'inscricao_municipal'
+        'inscricao_municipal',
+        'cadastur'
       ])
       if (isValid) {
         setStep(2)

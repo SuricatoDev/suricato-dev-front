@@ -93,7 +93,7 @@ export default function ProfileEditPage() {
   const [profilePic, setProfilePic] = useState<string | null>(
     userData?.foto_perfil || null
   )
-  const [profilePicLoad, setProfilePicLoad] = useState(true)
+
   const [profilePicUpdateLoading, setProfilePicUpdateLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -111,15 +111,14 @@ export default function ProfileEditPage() {
       setPhoneNumber(session?.user?.telefone || '')
       setEmergencyPhone(session?.user?.passageiroData?.contato_emergencia || '')
       setAddress({
-        cep: session?.user?.cep || '',
-        street: session?.user?.endereco || '',
-        neighborhood: session?.user?.bairro || '',
-        city: session?.user?.cidade || '',
-        state: session?.user?.estado || '',
-        complement: session?.user?.complemento || '',
-        number: session?.user?.numero || ''
+        cep: session?.user?.passageiroData?.cep || '',
+        street: session?.user?.passageiroData?.endereco || '',
+        neighborhood: session?.user?.passageiroData?.bairro || '',
+        city: session?.user?.passageiroData?.cidade || '',
+        state: session?.user?.passageiroData?.estado || '',
+        complement: session?.user?.passageiroData?.complemento || '',
+        number: session?.user?.passageiroData?.numero || ''
       })
-      setProfilePic(session?.user?.foto_perfil || null)
     }
   }, [session])
 
@@ -198,13 +197,15 @@ export default function ProfileEditPage() {
       case 'address': {
         const addr = value as AddressPayload
         payload = {
-          endereco: addr.street,
-          numero: addr.number,
-          ...(addr.complement && { complemento: addr.complement }),
-          bairro: addr.neighborhood,
-          cep: normalizeInput(addr.cep),
-          cidade: addr.city,
-          estado: addr.state
+          passageiro: {
+            endereco: addr.street,
+            numero: addr.number,
+            ...(addr.complement && { complemento: addr.complement }),
+            bairro: addr.neighborhood,
+            cep: normalizeInput(addr.cep),
+            cidade: addr.city,
+            estado: addr.state
+          }
         }
         break
       }
@@ -215,7 +216,11 @@ export default function ProfileEditPage() {
         payload = { password: value }
         break
       case 'emergencyPhone':
-        payload = { contato_emergencia: normalizeInput(value as string) }
+        payload = {
+          passageiro: {
+            contato_emergencia: normalizeInput(value as string)
+          }
+        }
         break
       case 'profilePic':
         payload = { foto_perfil: value }
@@ -249,26 +254,34 @@ export default function ProfileEditPage() {
       case 'address':
         newUserData = {
           ...newUserData,
-          endereco: address.street,
-          numero: address.number,
-          complemento: address.complement,
-          bairro: address.neighborhood,
-          cep: normalizeInput(address.cep),
-          cidade: address.city,
-          estado: address.state
+          passageiroData: {
+            endereco: address.street,
+            numero: address.number,
+            complemento: address.complement,
+            bairro: address.neighborhood,
+            cep: normalizeInput(address.cep),
+            cidade: address.city,
+            estado: address.state
+          }
         }
         break
+
       case 'name':
         newUserData.nome = fullName
         break
+
       case 'phone':
         newUserData.telefone = normalizeInput(phoneNumber)
         break
+
       case 'emergencyPhone':
-        newUserData.contato_emergencia = normalizeInput(emergencyPhone)
+        newUserData.passageiroData.contato_emergencia =
+          normalizeInput(emergencyPhone)
         break
+
       case 'password':
         break
+
       default:
         return
     }
@@ -280,18 +293,22 @@ export default function ProfileEditPage() {
         case 'address':
           await saveField(field, address)
           break
+
         case 'name':
           await validateFullName(fullName)
           await saveField(field, fullName)
           break
+
         case 'phone':
           await validatePhone(phoneNumber)
           await saveField(field, phoneNumber)
           break
+
         case 'emergencyPhone':
           await validatePhone(emergencyPhone)
           await saveField(field, emergencyPhone)
           break
+
         case 'password':
           if (
             !newPassword ||
@@ -305,15 +322,20 @@ export default function ProfileEditPage() {
           setNewPassword('')
           setConfirmPassword('')
           break
+
         default:
           return
       }
+
       toast.success('Dados atualizados com sucesso!')
+
       setEditingField(null)
       await update({})
     } catch (error) {
       console.error('Erro ao atualizar perfil:', error)
+
       setUserData(previousData)
+
       toast.error('Erro ao atualizar. Tente novamente.')
     }
   }
@@ -321,11 +343,15 @@ export default function ProfileEditPage() {
   const handleDeleteAccount = async () => {
     try {
       setIsLoading(true)
+
       await axios.delete('/api/usuarios/users')
+
       toast.success('Conta excluída com sucesso!')
+
       signOut({ callbackUrl: '/' })
     } catch (error) {
       console.error('Erro ao excluir conta:', error)
+
       toast.error('Erro ao excluir a conta.')
     } finally {
       setIsLoading(false)
@@ -355,14 +381,13 @@ export default function ProfileEditPage() {
             <S.ProfileHeader>
               <S.ProfilePicWrapper onClick={handleFileClick}>
                 <S.ProfilePicContainer>
-                  {profilePic && profilePicLoad ? (
+                  {profilePic ? (
                     <S.ProfilePic>
                       <Image
                         src={profilePic}
                         alt="Foto de perfil"
                         fill
                         style={{ objectFit: 'cover' }}
-                        onError={() => setProfilePicLoad(false)}
                       />
                     </S.ProfilePic>
                   ) : (
@@ -385,14 +410,18 @@ export default function ProfileEditPage() {
                     </>
                   )}
                 </S.ProfileInfoItem>
-                {userData?.bairro && userData?.cidade && userData?.estado && (
-                  <S.ProfileInfoItem>
-                    <MapPin size={18} weight="bold" />
-                    <p>
-                      {userData.bairro}, {userData.cidade} - {userData.estado}
-                    </p>
-                  </S.ProfileInfoItem>
-                )}
+                {userData?.passageiroData?.bairro &&
+                  userData?.passageiroData?.cidade &&
+                  userData?.passageiroData?.estado && (
+                    <S.ProfileInfoItem>
+                      <MapPin size={18} weight="bold" />
+                      <p>
+                        {userData.passageiroData.bairro},{' '}
+                        {userData.passageiroData.cidade}/
+                        {userData.passageiroData.estado}
+                      </p>
+                    </S.ProfileInfoItem>
+                  )}
               </S.ProfileInfo>
               <input
                 type="file"
@@ -541,135 +570,143 @@ export default function ProfileEditPage() {
                       </S.Spacing>
                     </AccordionItem>
                   </div>
-
                   <Divider $marginY="24px" />
-
-                  <div>
-                    <S.Row
-                      $disabled={
-                        (editingField && editingField !== 'address') || false
-                      }
-                    >
+                  {userData?.passageiro && userData?.passageiroData && (
+                    <>
                       <div>
-                        <span className="label">Endereço</span>
-                        {editingField === 'address' ? (
-                          <span className="value">Use um endereço válido</span>
-                        ) : (
-                          <span className="value">
-                            {userData?.endereco &&
-                            userData?.bairro &&
-                            userData?.cidade &&
-                            userData?.estado &&
-                            userData?.numero
-                              ? `${userData.endereco}, ${userData.numero}. ${userData.bairro}, ${userData.cidade} - ${userData.estado}`
-                              : 'Não fornecido'}
-                          </span>
-                        )}
-                      </div>
-                      <S.EditLink onClick={() => toggleEditing('address')}>
-                        {editingField === 'address'
-                          ? 'Cancelar'
-                          : address.cep
-                            ? 'Editar'
-                            : 'Adicionar'}
-                      </S.EditLink>
-                    </S.Row>
-                    <AccordionItem isOpen={editingField === 'address'}>
-                      <S.Spacing>
-                        <div style={{ width: '100%' }}>
-                          <EditableAddress
-                            address={address}
-                            setAddress={setAddress}
-                            activeSearch={editingField === 'address'}
-                            onSave={() => handleSave('address')}
-                            isLoading={isLoading}
-                          />
-                        </div>
-                      </S.Spacing>
-                    </AccordionItem>
-                  </div>
-
-                  <Divider $marginY="24px" />
-
-                  <div>
-                    <S.Row
-                      $disabled={
-                        (editingField && editingField !== 'emergencyPhone') ||
-                        false
-                      }
-                    >
-                      <div>
-                        <span className="label">Contato de Emergência</span>
-                        {editingField === 'emergencyPhone' ? (
-                          <span className="value">
-                            Informe um telefone válido
-                          </span>
-                        ) : (
-                          <span className="value">
-                            {userData?.passageiroData?.contato_emergencia
-                              ? formatPhoneNumber(
-                                  userData.passageiroData.contato_emergencia
-                                )
-                              : 'Não fornecido'}
-                          </span>
-                        )}
-                      </div>
-                      <S.EditLink
-                        onClick={() => toggleEditing('emergencyPhone')}
-                      >
-                        {editingField === 'emergencyPhone'
-                          ? 'Cancelar'
-                          : emergencyPhone
-                            ? 'Editar'
-                            : 'Adicionar'}
-                      </S.EditLink>
-                    </S.Row>
-
-                    <AccordionItem isOpen={editingField === 'emergencyPhone'}>
-                      <S.Spacing>
-                        <div style={{ width: '100%' }}>
-                          <InputMask
-                            maskChar={null}
-                            mask="(99) 99999-9999"
-                            value={emergencyPhone}
-                            onChange={async (e) => {
-                              const value = e.target.value
-                              setEmergencyPhone(value)
-                              try {
-                                await validatePhone(value)
-                                setEmergencyPhoneError(undefined)
-                              } catch (err) {
-                                if (err instanceof ValidationError) {
-                                  setEmergencyPhoneError(err.message)
-                                }
-                              }
-                            }}
-                            onBlur={(e) => setEmergencyPhone(e.target.value)}
-                          >
-                            {() => (
-                              <Input
-                                placeholder="Telefone de Emergência"
-                                label="Telefone de Emergência"
-                                $error={emergencyPhoneError || undefined}
-                                $showErrorMessage
-                              />
-                            )}
-                          </InputMask>
-                        </div>
-                        <Button
-                          fullWidth={isMobile}
-                          disabled={!!emergencyPhoneError}
-                          onClick={() => handleSave('emergencyPhone')}
-                          loading={isLoading}
+                        <S.Row
+                          $disabled={
+                            (editingField && editingField !== 'address') ||
+                            false
+                          }
                         >
-                          Salvar
-                        </Button>
-                      </S.Spacing>
-                    </AccordionItem>
-                  </div>
+                          <div>
+                            <span className="label">Endereço</span>
+                            {editingField === 'address' ? (
+                              <span className="value">
+                                Use um endereço válido
+                              </span>
+                            ) : (
+                              <span className="value">
+                                {userData?.passageiroData?.endereco &&
+                                userData?.passageiroData?.bairro &&
+                                userData?.passageiroData?.cidade &&
+                                userData?.passageiroData?.estado &&
+                                userData?.passageiroData?.numero
+                                  ? `${userData.passageiroData.endereco}, ${userData.passageiroData.numero}. ${userData.passageiroData.bairro}, ${userData.passageiroData.cidade} - ${userData.passageiroData.estado}`
+                                  : 'Não fornecido'}
+                              </span>
+                            )}
+                          </div>
+                          <S.EditLink onClick={() => toggleEditing('address')}>
+                            {editingField === 'address'
+                              ? 'Cancelar'
+                              : address.cep
+                                ? 'Editar'
+                                : 'Adicionar'}
+                          </S.EditLink>
+                        </S.Row>
+                        <AccordionItem isOpen={editingField === 'address'}>
+                          <S.Spacing>
+                            <div style={{ width: '100%' }}>
+                              <EditableAddress
+                                address={address}
+                                setAddress={setAddress}
+                                activeSearch={editingField === 'address'}
+                                onSave={() => handleSave('address')}
+                                isLoading={isLoading}
+                              />
+                            </div>
+                          </S.Spacing>
+                        </AccordionItem>
+                      </div>
+                      <Divider $marginY="24px" />
 
-                  <Divider $marginY="24px" />
+                      <div>
+                        <S.Row
+                          $disabled={
+                            (editingField &&
+                              editingField !== 'emergencyPhone') ||
+                            false
+                          }
+                        >
+                          <div>
+                            <span className="label">Contato de Emergência</span>
+                            {editingField === 'emergencyPhone' ? (
+                              <span className="value">
+                                Informe um telefone válido
+                              </span>
+                            ) : (
+                              <span className="value">
+                                {userData?.passageiroData?.contato_emergencia
+                                  ? formatPhoneNumber(
+                                      userData.passageiroData.contato_emergencia
+                                    )
+                                  : 'Não fornecido'}
+                              </span>
+                            )}
+                          </div>
+                          <S.EditLink
+                            onClick={() => toggleEditing('emergencyPhone')}
+                          >
+                            {editingField === 'emergencyPhone'
+                              ? 'Cancelar'
+                              : emergencyPhone
+                                ? 'Editar'
+                                : 'Adicionar'}
+                          </S.EditLink>
+                        </S.Row>
 
+                        <AccordionItem
+                          isOpen={editingField === 'emergencyPhone'}
+                        >
+                          <S.Spacing>
+                            <div style={{ width: '100%' }}>
+                              <InputMask
+                                maskChar={null}
+                                mask="(99) 99999-9999"
+                                value={emergencyPhone}
+                                onChange={async (e) => {
+                                  const value = e.target.value
+                                  setEmergencyPhone(value)
+                                  try {
+                                    await validatePhone(value)
+                                    setEmergencyPhoneError(undefined)
+                                  } catch (err) {
+                                    if (err instanceof ValidationError) {
+                                      setEmergencyPhoneError(err.message)
+                                    }
+                                  }
+                                }}
+                                onBlur={(e) =>
+                                  setEmergencyPhone(e.target.value)
+                                }
+                              >
+                                {() => (
+                                  <Input
+                                    placeholder="Telefone de Emergência"
+                                    label="Telefone de Emergência"
+                                    $error={emergencyPhoneError || undefined}
+                                    $showErrorMessage
+                                  />
+                                )}
+                              </InputMask>
+                            </div>
+                            <Button
+                              fullWidth={isMobile}
+                              disabled={!!emergencyPhoneError}
+                              onClick={() => handleSave('emergencyPhone')}
+                              loading={isLoading}
+                            >
+                              Salvar
+                            </Button>
+                          </S.Spacing>
+                        </AccordionItem>
+                      </div>
+
+                      <Divider $marginY="24px" />
+                    </>
+                  )}
                   <div>
                     <S.Row
                       $disabled={
