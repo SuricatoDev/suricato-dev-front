@@ -4,7 +4,7 @@ import { Caravan } from '@/interfaces/caravan'
 import { filterFutureCaravans } from '@/utils/caravans'
 import { formatDateRangeBR } from '@/utils/formats'
 import axios from 'axios'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
@@ -24,56 +24,56 @@ interface HomeProps {
 
 export default function Home({ initialCaravans }: HomeProps) {
   const router = useRouter()
-  const [caravans, setCaravans] = useState(initialCaravans)
+  const [caravans, setCaravans] = useState(() =>
+    filterFutureCaravans(initialCaravans)
+  )
   const [loading, setLoading] = useState(false)
   const { isFavorited, toggleFavorite } = useFavorites()
   const [filterTag, setFilterTag] = useState(0)
 
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      const parsed = new URL(url, window.location.origin)
-      const categoria = parsed.searchParams.get('categoria') || undefined
-      const origem = parsed.searchParams.get('origem') || undefined
-      const destino = parsed.searchParams.get('destino') || undefined
-      const titulo = parsed.searchParams.get('titulo') || undefined
+  const handleRouteChange = (url: string) => {
+    const parsed = new URL(url, window.location.origin)
+    const categoria = parsed.searchParams.get('categoria') || undefined
+    const origem = parsed.searchParams.get('origem') || undefined
+    const destino = parsed.searchParams.get('destino') || undefined
+    const titulo = parsed.searchParams.get('titulo') || undefined
 
-      const params: Record<string, string> = {}
-      if (categoria) params.categoria = categoria
-      if (origem) params.origem = origem
-      if (destino) params.destino = destino
-      if (titulo) params.titulo = titulo
+    const params: Record<string, string> = {}
+    if (categoria) params.categoria = categoria
+    if (origem) params.origem = origem
+    if (destino) params.destino = destino
+    if (titulo) params.titulo = titulo
 
-      if (Object.keys(params).length === 0) {
-        setCaravans(filterFutureCaravans(initialCaravans))
-        setFilterTag((prev) => prev + 1)
-        setLoading(false)
-        return
-      }
-
-      setLoading(true)
-
-      axios
-        .get(`${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`, { params })
-        .then((res) => {
-          setCaravans(filterFutureCaravans(res.data.data))
-          setFilterTag((prev) => prev + 1)
-        })
-        .catch(() => {
-          setCaravans([])
-          setFilterTag((prev) => prev + 1)
-        })
-        .finally(() => {
-          setLoading(false)
-        })
+    if (Object.keys(params).length === 0) {
+      setCaravans(filterFutureCaravans(initialCaravans))
+      setFilterTag((tag) => tag + 1)
+      setLoading(false)
+      return
     }
 
-    handleRouteChange(window.location.href)
+    setLoading(true)
 
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`, { params })
+      .then((res) => {
+        setCaravans(filterFutureCaravans(res.data.data))
+        setFilterTag((tag) => tag + 1)
+      })
+      .catch(() => {
+        setCaravans([])
+        setFilterTag((tag) => tag + 1)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  useEffect(() => {
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
-  }, [router.events])
+  }, [router.events, initialCaravans])
 
   return (
     <S.Wrapper>
@@ -113,7 +113,9 @@ export default function Home({ initialCaravans }: HomeProps) {
           content="https://excursionistas.com.br/og.jpeg"
         />
       </Head>
+
       <Header caravanas={caravans} />
+
       <S.Main>
         <div className="container">
           {loading ? (
@@ -129,7 +131,7 @@ export default function Home({ initialCaravans }: HomeProps) {
                   priority={false}
                   price={0}
                   href=""
-                  isLoading={true}
+                  isLoading
                   isFavorited={false}
                   onToggleFavorite={() => {}}
                 />
@@ -141,50 +143,55 @@ export default function Home({ initialCaravans }: HomeProps) {
               Nenhuma caravana encontrada
             </S.EmptyMessage>
           ) : (
-            <S.ProductsContainer>
-              {caravans.map((caravan, index) => (
-                <motion.div
-                  key={`${caravan.id}-${filterTag}`}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.3,
-                    ease: 'easeOut',
-                    delay: index * 0.07
-                  }}
-                >
-                  <ProductCard
-                    images={
-                      caravan.imagens?.map((img) =>
-                        img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
-                      ) || []
-                    }
-                    name={caravan.titulo}
-                    origin={`${caravan.cidade_origem}/${caravan.estado_origem}`}
-                    destination={`${caravan.cidade_destino}/${caravan.estado_destino}`}
-                    date={formatDateRangeBR(
-                      caravan.data_partida,
-                      caravan.data_retorno
-                    )}
-                    priority={index === 0}
-                    price={caravan.valor}
-                    href={`/caravana/${caravan.id}`}
-                    isLoading={false}
-                    isFavorited={isFavorited(String(caravan.id))}
-                    onToggleFavorite={() =>
-                      toggleFavorite(
-                        String(caravan.id),
-                        !isFavorited(String(caravan.id)),
-                        caravan.titulo
-                      )
-                    }
-                  />
-                </motion.div>
-              ))}
-            </S.ProductsContainer>
+            <AnimatePresence>
+              <motion.div key={`list-${filterTag}`}>
+                <S.ProductsContainer>
+                  {caravans.map((caravan, index) => (
+                    <motion.div
+                      key={caravan.id}
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.3,
+                        ease: 'easeOut',
+                        delay: index * 0.07
+                      }}
+                    >
+                      <ProductCard
+                        images={
+                          caravan.imagens?.map((img) =>
+                            img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
+                          ) || []
+                        }
+                        name={caravan.titulo}
+                        origin={`${caravan.cidade_origem}/${caravan.estado_origem}`}
+                        destination={`${caravan.cidade_destino}/${caravan.estado_destino}`}
+                        date={formatDateRangeBR(
+                          caravan.data_partida,
+                          caravan.data_retorno
+                        )}
+                        priority={index === 0}
+                        price={caravan.valor}
+                        href={`/caravana/${caravan.id}`}
+                        isLoading={false}
+                        isFavorited={isFavorited(String(caravan.id))}
+                        onToggleFavorite={() =>
+                          toggleFavorite(
+                            String(caravan.id),
+                            !isFavorited(String(caravan.id)),
+                            caravan.titulo
+                          )
+                        }
+                      />
+                    </motion.div>
+                  ))}
+                </S.ProductsContainer>
+              </motion.div>
+            </AnimatePresence>
           )}
         </div>
       </S.Main>
+
       <Footer />
     </S.Wrapper>
   )
@@ -193,18 +200,13 @@ export default function Home({ initialCaravans }: HomeProps) {
 export async function getStaticProps() {
   try {
     const res = await axios.get(`${process.env.BACKEND_URL}/caravanas`)
-
     return {
-      props: {
-        initialCaravans: res.data.data
-      },
+      props: { initialCaravans: res.data.data },
       revalidate: 300
     }
   } catch {
     return {
-      props: {
-        initialCaravans: []
-      },
+      props: { initialCaravans: [] },
       revalidate: 300
     }
   }
