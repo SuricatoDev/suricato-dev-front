@@ -109,7 +109,7 @@ export default function Home({ initialCaravans }: HomeProps) {
           content="https://excursionistas.com.br/og.jpeg"
         />
       </Head>
-      <Header caravanas={initialCaravans} />
+      <Header caravanas={caravans} />
       <S.Main>
         <div className="container">
           {loading ? (
