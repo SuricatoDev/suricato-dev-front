@@ -89,7 +89,9 @@ export default function Header({
   }
 
   const navItems = useMemo(() => {
-    return [explorar, favoritos, anunciar, sobre, faq]
+    return isLogged
+      ? [explorar, favoritos, anunciar, sobre, faq]
+      : [explorar, anunciar, sobre, faq]
   }, [isLogged])
 
   const profileItems: ProfileItem[] = useMemo(() => {

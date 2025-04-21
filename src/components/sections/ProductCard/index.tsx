@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 
 import { motion } from 'framer-motion'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Swiper as SwiperType } from 'swiper'
@@ -54,6 +55,9 @@ export default function ProductCard({
   const [showLeft, setShowLeft] = useState(false)
   const [showRight, setShowRight] = useState(false)
 
+  const { data: session } = useSession()
+  const isLogged = !!session
+
   const updateNavigation = (swiper: SwiperType) => {
     setShowLeft(!swiper.isBeginning)
     setShowRight(!swiper.isEnd)
@@ -103,22 +107,24 @@ export default function ProductCard({
             className={`swiper-button-next product-card-swiper-button-next ${showRight && isHovered ? '' : 'hide'}`}
           />
 
-          <S.FavoriteButton
-            $favorited={isFavorited}
-            onClick={(e) => {
-              e.preventDefault()
-              onToggleFavorite()
-            }}
-          >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+          {isLogged && (
+            <S.FavoriteButton
+              $favorited={isFavorited}
+              onClick={(e) => {
+                e.preventDefault()
+                onToggleFavorite()
+              }}
             >
-              <Heart size={30} weight="duotone" />
-            </motion.div>
-          </S.FavoriteButton>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                <Heart size={30} weight="duotone" />
+              </motion.div>
+            </S.FavoriteButton>
+          )}
 
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y]}
