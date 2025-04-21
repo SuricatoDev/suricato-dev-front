@@ -35,5 +35,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/anuncios/:path*', '/conta/:path*', '/favoritos', '/viagens']
+  matcher: [
+    '/anuncios/:path*',
+    '/conta/:path*',
+    '/favoritos',
+    '/viagens',
+    '/cadastrar-empresa'
+  ]
 }
