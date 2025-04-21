@@ -27,6 +27,7 @@ export default function Home({ initialCaravans }: HomeProps) {
   const [caravans, setCaravans] = useState(initialCaravans)
   const [loading, setLoading] = useState(false)
   const { isFavorited, toggleFavorite } = useFavorites()
+  const [filterTag, setFilterTag] = useState(0)
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
@@ -44,6 +45,7 @@ export default function Home({ initialCaravans }: HomeProps) {
 
       if (Object.keys(params).length === 0) {
         setCaravans(filterFutureCaravans(initialCaravans))
+        setFilterTag((prev) => prev + 1)
         setLoading(false)
         return
       }
@@ -54,9 +56,11 @@ export default function Home({ initialCaravans }: HomeProps) {
         .get(`${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`, { params })
         .then((res) => {
           setCaravans(filterFutureCaravans(res.data.data))
+          setFilterTag((prev) => prev + 1)
         })
         .catch(() => {
           setCaravans([])
+          setFilterTag((prev) => prev + 1)
         })
         .finally(() => {
           setLoading(false)
@@ -140,7 +144,7 @@ export default function Home({ initialCaravans }: HomeProps) {
             <S.ProductsContainer>
               {caravans.map((caravan, index) => (
                 <motion.div
-                  key={caravan.id}
+                  key={`${caravan.id}-${filterTag}`}
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{

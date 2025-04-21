@@ -86,8 +86,10 @@ export const EditLink = styled.button`
   border: none;
   background: none;
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.text_medium};
+  @media ${device.md} {
+    &:hover {
+      color: ${({ theme }) => theme.colors.text_medium};
+    }
   }
 `
 
@@ -167,8 +169,10 @@ export const Label = styled.label`
 
   cursor: pointer;
 
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.primary_light};
+  @media ${device.md} {
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.primary_light};
+    }
   }
 `
 
@@ -219,8 +223,11 @@ export const ProfilePicWrapper = styled.div`
   height: 100px;
   cursor: pointer;
   transition: filter ${({ theme }) => theme.common.transition.default};
-  &:hover {
-    filter: brightness(0.8);
+
+  @media ${device.md} {
+    &:hover {
+      filter: brightness(0.8);
+    }
   }
 `
 
@@ -263,10 +270,12 @@ export const EditIcon = styled.div`
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
   border: 1px solid transparent;
 
-  ${ProfilePicWrapper}:hover & {
-    filter: brightness(0.8);
-    pointer-events: auto;
-    border: 1px solid #ddd;
+  @media ${device.md} {
+    ${ProfilePicWrapper}:hover & {
+      filter: brightness(0.8);
+      pointer-events: auto;
+      border: 1px solid #ddd;
+    }
   }
 `
 
