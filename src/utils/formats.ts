@@ -17,6 +17,15 @@ export function formatPhoneNumber(phone: string): string {
 
   return phone
 }
+
+export function formatPrice(price: number): string {
+  if (!price) return 'R$ 0,00'
+  return price.toLocaleString('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  })
+}
+
 export const returnInitialsLettersIfNotLogged = (
   text: string,
   isLogged: boolean,

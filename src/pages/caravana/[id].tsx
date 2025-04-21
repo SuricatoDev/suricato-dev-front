@@ -18,7 +18,7 @@ import {
   formatPrice,
   formatTimeBR
 } from '@/utils/formats'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -74,7 +74,7 @@ interface CaravanPageProps {
 export default function CaravanPage({ caravan }: CaravanPageProps) {
   const router = useRouter()
 
-  const { data: session } = useSession()
+  const { data: session, update } = useSession()
   const isLogged = !!session
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
@@ -119,6 +119,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   }, [])
 
   const handleClosePassengerForm = () => {
+    update()
     setPassengerFormVisible(false)
   }
 
@@ -151,7 +152,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
 
   const handleSubscribe = useCallback(async () => {
     const missingData =
-      !session?.user?.endereco ||
+      !session?.user?.passageiroData?.endereco ||
       !session?.user?.passageiroData?.rg ||
       !session?.user?.passageiroData?.cpf
 
@@ -165,19 +166,17 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const subscribeInCaravan = async () => {
     try {
       setIsSubscribing(true)
-      const response = await axios.post(
-        `/api/reservas/${caravan.id}/reservas`,
-        {
-          passageiro_id: session?.user?.id
-        }
-      )
+      await axios.post(`/api/reservas/${caravan.id}/reservas`, {
+        passageiro_id: session?.user?.id
+      })
 
-      if (response.status === 200) {
-        toast.success('Inscrição realizada com sucesso!')
-      }
-    } catch (error) {
-      toast.error('Erro ao se inscrever na caravana')
-      console.error('Erro ao se inscrever na caravana', error)
+      toast.success('Inscrição realizada com sucesso!')
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message: string }>
+
+      toast.error(
+        error?.response?.data?.message || 'Erro ao se inscrever na caravana'
+      )
     } finally {
       setIsSubscribing(false)
     }
@@ -502,7 +501,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
           <PassengerForm
             visible={passengerFormVisible}
             onClose={handleClosePassengerForm}
-            caravanaId={caravan.id}
+            onComplete={subscribeInCaravan}
           />
         </Suspense>
       )}
