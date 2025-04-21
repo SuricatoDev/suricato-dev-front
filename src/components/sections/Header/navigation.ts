@@ -68,7 +68,7 @@ export const HeaderNavigation = {
   sobre: {
     value: 'sobre',
     label: 'Sobre Nós',
-    href: '/',
+    href: '/sobre-nos',
     isBold: false
   }
 }

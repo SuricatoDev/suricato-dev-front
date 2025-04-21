@@ -7,6 +7,7 @@ import { signOut, useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import ResponsiveSearchBar from '@/components/SearchBar'
 import CategoriesBar from '@/components/common/CategoriesBar'
@@ -34,6 +35,7 @@ export default function Header({
   caravanas
 }: HeaderProps) {
   const { data: session } = useSession()
+  const router = useRouter()
   const isLogged = !!session
 
   const [isScrolled, setIsScrolled] = useState(false)
@@ -87,7 +89,7 @@ export default function Header({
   }
 
   const navItems = useMemo(() => {
-    return [explorar, anunciar, sobre, faq]
+    return [explorar, favoritos, anunciar, sobre, faq]
   }, [isLogged])
 
   const profileItems: ProfileItem[] = useMemo(() => {
@@ -133,7 +135,9 @@ export default function Header({
             <S.Menu $isScrolled={isScrolled && $variant === 'default'}>
               {navItems.map(({ label, href }, index) => (
                 <Link key={`${href}-${label}-${index}`} href={href} passHref>
-                  {label}
+                  <S.MenuLink $active={router.pathname === href}>
+                    {label}
+                  </S.MenuLink>
                 </Link>
               ))}
             </S.Menu>

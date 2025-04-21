@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react'
 export function useIsOrganizer() {
   const { data: session, status } = useSession()
 
-  const loading = status === 'loading'
+  const loading = status === 'loading' || status === 'unauthenticated'
 
   const isOrganizer =
     !!session?.user?.organizador &&

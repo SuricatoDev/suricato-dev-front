@@ -388,3 +388,32 @@ export const Dropdown = styled.div`
     cursor: pointer;
   }
 `
+
+export const MenuLink = styled.span<{ $active?: boolean }>`
+  position: relative;
+  color: ${({ theme, $active }) =>
+    $active ? theme.colors.text_standard : theme.colors.text_foggy};
+  font-weight: ${({ $active }) => ($active ? 700 : 400)};
+  transition: color 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -2px;
+    transform: translateX(-50%) scaleX(${({ $active }) => ($active ? 1 : 0)});
+    transform-origin: center;
+    width: 100%;
+    height: 2px;
+    background-color: ${({ theme }) => theme.colors.text_standard};
+    transition: transform ${({ theme }) => theme.common.transition.default};
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text_standard};
+
+    &::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+  }
+`

@@ -142,3 +142,31 @@ export const NavNext = styled(NavDefault)`
   transition: opacity ${({ theme }) => theme.common.transition.default};
   right: 0.5rem;
 `
+
+interface FavoriteButtonProps {
+  $favorited: boolean
+}
+
+export const FavoriteButton = styled.button<FavoriteButtonProps>`
+  all: unset;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  cursor: pointer;
+
+  svg {
+    transition: all 0.2s ease;
+    color: ${({ $favorited, theme }) =>
+      $favorited ? theme.colors.primary_dark : '#fff'};
+
+    > path:first-of-type {
+      opacity: ${({ $favorited }) => ($favorited ? 1 : 0.5)};
+      fill: ${({ $favorited }) => ($favorited ? 'currentColor' : '#000')};
+    }
+
+    > path:nth-of-type(2) {
+      fill: #fff;
+    }
+  }
+`

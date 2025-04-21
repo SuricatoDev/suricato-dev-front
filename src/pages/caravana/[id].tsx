@@ -74,7 +74,7 @@ interface CaravanPageProps {
 export default function CaravanPage({ caravan }: CaravanPageProps) {
   const router = useRouter()
 
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const isLogged = !!session
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
@@ -190,10 +190,6 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
 
   const CategoryIcon = category ? category.icon : null
   const CategoryLabel = category ? category.label : null
-
-  if (status === 'loading' && !session) {
-    return
-  }
 
   const title = `${caravan.titulo} | Excursionistas`
   return (

@@ -3,10 +3,13 @@ import { useEffect, useState } from 'react'
 import { Caravan } from '@/interfaces/caravan'
 import { formatDateRangeBR } from '@/utils/formats'
 import axios from 'axios'
+import { motion } from 'framer-motion'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import { SmileyXEyes } from '@phosphor-icons/react/dist/ssr/SmileyXEyes'
+
+import { useFavorites } from '@/hooks/useFavorites'
 
 import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
@@ -22,6 +25,7 @@ export default function Home({ initialCaravans }: HomeProps) {
   const router = useRouter()
   const [caravans, setCaravans] = useState(initialCaravans)
   const [loading, setLoading] = useState(false)
+  const { isFavorited, toggleFavorite } = useFavorites()
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
@@ -121,6 +125,8 @@ export default function Home({ initialCaravans }: HomeProps) {
                   price={0}
                   href=""
                   isLoading={true}
+                  isFavorited={false}
+                  onToggleFavorite={() => {}}
                 />
               ))}
             </S.ProductsContainer>
@@ -132,25 +138,43 @@ export default function Home({ initialCaravans }: HomeProps) {
           ) : (
             <S.ProductsContainer>
               {caravans.map((caravan, index) => (
-                <ProductCard
+                <motion.div
                   key={caravan.id}
-                  images={
-                    caravan.imagens?.map((img) =>
-                      img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
-                    ) || []
-                  }
-                  name={caravan.titulo}
-                  origin={`${caravan.cidade_origem}/${caravan.estado_origem}`}
-                  destination={`${caravan.cidade_destino}/${caravan.estado_destino}`}
-                  date={formatDateRangeBR(
-                    caravan.data_partida,
-                    caravan.data_retorno
-                  )}
-                  priority={index === 0}
-                  price={caravan.valor}
-                  href={`/caravana/${caravan.id}`}
-                  isLoading={false}
-                />
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.3,
+                    ease: 'easeOut',
+                    delay: index * 0.07
+                  }}
+                >
+                  <ProductCard
+                    images={
+                      caravan.imagens?.map((img) =>
+                        img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
+                      ) || []
+                    }
+                    name={caravan.titulo}
+                    origin={`${caravan.cidade_origem}/${caravan.estado_origem}`}
+                    destination={`${caravan.cidade_destino}/${caravan.estado_destino}`}
+                    date={formatDateRangeBR(
+                      caravan.data_partida,
+                      caravan.data_retorno
+                    )}
+                    priority={index === 0}
+                    price={caravan.valor}
+                    href={`/caravana/${caravan.id}`}
+                    isLoading={false}
+                    isFavorited={isFavorited(String(caravan.id))}
+                    onToggleFavorite={() =>
+                      toggleFavorite(
+                        String(caravan.id),
+                        !isFavorited(String(caravan.id)),
+                        caravan.titulo
+                      )
+                    }
+                  />
+                </motion.div>
               ))}
             </S.ProductsContainer>
           )}

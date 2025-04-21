@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Swiper as SwiperType } from 'swiper'
@@ -12,6 +13,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { ArrowsLeftRight } from '@phosphor-icons/react/dist/ssr/ArrowsLeftRight'
 import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
+import { Heart } from '@phosphor-icons/react/dist/ssr/Heart'
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
 import { MoneyWavy } from '@phosphor-icons/react/dist/ssr/MoneyWavy'
 
@@ -29,6 +31,8 @@ export type ProductCardProps = {
   priority?: boolean
   isLoading?: boolean
   href: string
+  isFavorited?: boolean
+  onToggleFavorite: () => void
 }
 
 export default function ProductCard({
@@ -40,7 +44,9 @@ export default function ProductCard({
   price,
   priority,
   isLoading = false,
-  href
+  isFavorited = false,
+  href,
+  onToggleFavorite
 }: ProductCardProps) {
   const prevRef = useRef<HTMLButtonElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
@@ -96,6 +102,23 @@ export default function ProductCard({
             ref={nextRef}
             className={`swiper-button-next product-card-swiper-button-next ${showRight && isHovered ? '' : 'hide'}`}
           />
+
+          <S.FavoriteButton
+            $favorited={isFavorited}
+            onClick={(e) => {
+              e.preventDefault()
+              onToggleFavorite()
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <Heart size={30} weight="duotone" />
+            </motion.div>
+          </S.FavoriteButton>
 
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y]}

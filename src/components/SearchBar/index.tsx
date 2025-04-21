@@ -52,7 +52,7 @@ export default function ResponsiveSearchBar({
 }: ResponsiveSearchBarProps) {
   const [activeField, setActiveField] = useState<
     null | 'title' | 'origin' | 'dest'
-  >('title')
+  >(null)
   const [nextField, setNextField] = useState<
     null | 'title' | 'origin' | 'dest'
   >(null)
@@ -70,6 +70,12 @@ export default function ResponsiveSearchBar({
       document.body.style.overflow = 'auto'
     }
   }, [isMobileOpen])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 960) {
+      setActiveField('title')
+    }
+  }, [])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
