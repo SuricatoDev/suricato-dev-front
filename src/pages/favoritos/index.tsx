@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
+import { filterFutureCaravans } from '@/utils/caravans'
 import { formatDateRangeBR } from '@/utils/formats'
 import { motion } from 'framer-motion'
 import Head from 'next/head'
@@ -22,6 +23,8 @@ export default function Favoritos() {
     useFavorites()
 
   const [isMounted, setIsMounted] = useState(false)
+
+  const favoriteCaravansFiltered = filterFutureCaravans(favoriteCaravans)
 
   useEffect(() => {
     const timeout = setTimeout(() => setIsMounted(true), 50)
@@ -56,14 +59,14 @@ export default function Favoritos() {
                 />
               ))}
             </S.ProductsContainer>
-          ) : favoriteCaravans.length === 0 ? (
+          ) : favoriteCaravansFiltered.length === 0 ? (
             <S.EmptyMessage>
               <SmileyXEyes size={64} weight="fill" />
               Nenhuma caravana favoritada
             </S.EmptyMessage>
           ) : (
             <S.ProductsContainer>
-              {favoriteCaravans.map((caravan, index) => (
+              {favoriteCaravansFiltered.map((caravan, index) => (
                 <motion.div
                   key={caravan.id}
                   initial={{ opacity: 0, y: 40 }}
