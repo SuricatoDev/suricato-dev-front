@@ -1,5 +1,7 @@
 import styled, { keyframes } from 'styled-components'
 
+import { device } from '@/styles/breakpoints'
+
 export const bounce = keyframes`
   from { transform: translateY(0); }
   to   { transform: translateY(-12px); }
@@ -37,4 +39,8 @@ export const Overlay = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 99999;
+
+  @media ${device.md} {
+    height: 100vh;
+  }
 `
