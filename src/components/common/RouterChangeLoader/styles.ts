@@ -41,6 +41,6 @@ export const Overlay = styled.div`
   z-index: 99999;
 
   @media ${device.md} {
-    height: 100vh;
+    display: none;
   }
 `
