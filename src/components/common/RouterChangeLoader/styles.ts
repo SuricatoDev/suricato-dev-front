@@ -1,0 +1,40 @@
+import styled, { keyframes } from 'styled-components'
+
+export const bounce = keyframes`
+  from { transform: translateY(0); }
+  to   { transform: translateY(-12px); }
+`
+
+export const Dot = styled.div`
+  width: 12px;
+  height: 12px;
+  margin: 0 6px;
+  background: ${({ theme }) => theme.colors.primary_medium};
+  border-radius: 50%;
+  animation: ${bounce} 0.3s ease-in-out infinite alternate;
+
+  &:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+`
+
+export const Dots = styled.div`
+  display: flex;
+  align-items: flex-end;
+`
+
+export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+`

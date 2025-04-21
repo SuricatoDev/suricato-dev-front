@@ -144,11 +144,15 @@ export default function ProductCard({
                   src={imageUrl}
                   alt=""
                   fill
-                  style={{
-                    objectFit: 'cover'
-                  }}
+                  style={{ objectFit: 'cover' }}
                   priority={index === 0 && priority ? true : undefined}
                   fetchPriority={index === 0 && priority ? 'high' : 'low'}
+                  sizes="
+                    (max-width: 768px) 100vw,
+                    (max-width: 960px) 50vw,
+                    (max-width: 1440px) 33vw,
+                    25vw
+                  "
                 />
               </SwiperSlide>
             ))}

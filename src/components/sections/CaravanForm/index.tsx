@@ -11,7 +11,6 @@ import styled from 'styled-components'
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 
 import { useCreateAd } from '@/contexts/CreateAdContext'
-import { useGoogleMaps } from '@/contexts/GoogleMapsProvider'
 
 import FooterNav from '@/components/sections/FooterNav'
 import HeaderNav from '@/components/sections/HeaderNav'
@@ -49,7 +48,6 @@ interface CaravanFormProps {
 
 export default function CaravanForm({ mode }: CaravanFormProps) {
   const { isOrganizer, loading } = useIsOrganizer()
-  const { isLoaded } = useGoogleMaps()
   const router = useRouter()
 
   const { formData } = useCreateAd()
@@ -80,7 +78,7 @@ export default function CaravanForm({ mode }: CaravanFormProps) {
     }
   }, [])
 
-  if (!isLoaded || !isOrganizer) {
+  if (!isOrganizer) {
     return null
   }
 

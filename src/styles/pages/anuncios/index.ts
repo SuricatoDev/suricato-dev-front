@@ -65,18 +65,6 @@ export const CaravanGrid = styled.div`
     grid-template-columns: repeat(3, 1fr);
   }
 `
-export const Fallback = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  text-align: center;
-  gap: 0.5rem;
-  color: ${({ theme }) => theme.colors.text_medium};
-  font-weight: 500;
-  font-size: ${({ theme }) => theme.common.font.sizes.body.large};
-`
 
 export const ModalOverlay = styled.div`
   position: fixed;

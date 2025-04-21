@@ -11,7 +11,7 @@ export const FooterWrapper = styled.footer<{ $isScrollingDown: boolean }>`
   height: 64px;
   background-color: ${({ theme }) => theme.colors.background_standard};
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
-  z-index: 999;
+  z-index: 99999;
   display: flex;
   justify-content: center;
   @media (${device.md}) {

@@ -13,6 +13,7 @@ import { StyleSheetManager } from 'styled-components'
 import { GoogleMapsProvider } from '@/contexts/GoogleMapsProvider'
 
 import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
+import RouteChangeLoader from '@/components/common/RouterChangeLoader'
 import { SessionUpdater } from '@/components/common/SessionUpdater'
 import MobileFooter from '@/components/sections/MobileFooter'
 
@@ -56,6 +57,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <GoogleMapsProvider>
           <Layout>
             <StyleSheetManager shouldForwardProp={(prop) => isPropValid(prop)}>
+              <RouteChangeLoader />
               <div className={inter.className} id="modal-root">
                 <Component {...pageProps} />
                 <PWAInstallPrompt />

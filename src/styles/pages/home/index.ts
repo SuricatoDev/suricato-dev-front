@@ -30,7 +30,7 @@ export const ProductsContainer = styled.div`
     minmax(min-content, max-content)
   );
 
-  @media (${device.sm}) {
+  @media (${device.xsm}) {
     --breakpoint-grid_columns: 2;
   }
 

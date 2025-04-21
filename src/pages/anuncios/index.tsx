@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Caravan } from '@/interfaces/caravan'
+import { fetcher } from '@/utils/fetcher'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
+import useSWR, { mutate } from 'swr'
 
 import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
 
@@ -30,44 +32,56 @@ const OrganizerForm = dynamic(
 )
 
 export default function CaravanasManagementPage() {
-  const { isOrganizer, loading } = useIsOrganizer()
+  const { isOrganizer, loading: orgLoading } = useIsOrganizer()
   const router = useRouter()
 
   const [activeTab, setActiveTab] = useState<TabKey>('upcoming')
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
   const [isOrganizerModalOpen, setIsOrganizerModalOpen] = useState(false)
-
-  const [caravans, setCaravans] = useState<Caravan[] | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
   const [isLoadingDelete, setIsLoadingDelete] = useState(false)
-
-  const dummyCaravan = {} as Caravan
 
   const footerVisible = useFooterVisibility('mobile-footer', { threshold: 0.1 })
 
+  const {
+    data: caravans = [],
+    error,
+    isValidating
+  } = useSWR<Caravan[]>(
+    !orgLoading && isOrganizer ? '/api/caravanas/minhas-caravanas' : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      shouldRetryOnError: false
+    }
+  )
+
+  const isLoading = orgLoading || isValidating
+
   const today = new Date()
-
-  const upcomingCaravans =
-    caravans?.filter((c) => new Date(c.data_partida) >= today) || []
-
-  const previousCaravans =
-    caravans?.filter((c) => new Date(c.data_partida) < today) || []
-
+  const upcomingCaravans = caravans.filter(
+    (c) => new Date(c.data_partida) >= today
+  )
+  const previousCaravans = caravans.filter(
+    (c) => new Date(c.data_partida) < today
+  )
   const caravansToShow =
     activeTab === 'upcoming' ? upcomingCaravans : previousCaravans
 
-  const caravanToDelete = caravans?.find((c) => c.id === confirmDelete)
+  const caravanToDelete = caravans.find((c) => c.id === confirmDelete)
 
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab)
+    setOpenMenuId(null)
   }
 
   const handleFloatingButtonClick = () => {
-    if (caravans?.length === 0) {
-      return router.push('/anuncios/overview/')
+    if (caravans.length === 0) {
+      router.push('/anuncios/overview/')
+    } else {
+      router.push('/anuncios/novo/')
     }
-    return router.push('/anuncios/novo/')
   }
 
   const handleToggleMenu = (id: string) => {
@@ -76,7 +90,6 @@ export default function CaravanasManagementPage() {
 
   const handleEdit = (id: string) => {
     setOpenMenuId(null)
-
     router.push(`/anuncios/editar/${id}`)
   }
 
@@ -90,8 +103,13 @@ export default function CaravanasManagementPage() {
     try {
       await axios.delete(`/api/caravanas/deletar/${id}`)
 
-      setCaravans((prev) => (prev ?? []).filter((c) => c.id !== id))
       toast.success('Caravana excluída com sucesso!')
+
+      mutate(
+        '/api/caravanas/minhas-caravanas',
+        caravans.filter((c) => c.id !== id),
+        false
+      )
     } catch (err) {
       console.error(err)
       toast.error('Erro ao excluir a caravana.')
@@ -109,36 +127,11 @@ export default function CaravanasManagementPage() {
     } else {
       setIsOrganizerModalOpen(true)
     }
-    return
   }
 
-  useEffect(() => {
-    async function loadCaravans() {
-      try {
-        const { data } = await axios.get(`/api/caravanas/minhas-caravanas`, {
-          withCredentials: true
-        })
+  if (orgLoading) return null
 
-        setCaravans(Array.isArray(data?.data) ? data.data : [])
-      } catch (err) {
-        console.error(err)
-
-        setCaravans([])
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    if (isOrganizer && !loading) {
-      loadCaravans()
-    }
-  }, [isOrganizer])
-
-  if (loading) {
-    return null
-  }
-
-  if (!isOrganizer && !loading) {
+  if (!isOrganizer) {
     return (
       <>
         <S.Wrapper>
@@ -153,10 +146,8 @@ export default function CaravanasManagementPage() {
         </S.Wrapper>
         <OrganizerForm
           $isModal
-          onClose={() => {
-            setIsOrganizerModalOpen(false)
-          }}
           $isOpen={isOrganizerModalOpen}
+          onClose={() => setIsOrganizerModalOpen(false)}
         />
       </>
     )
@@ -177,43 +168,54 @@ export default function CaravanasManagementPage() {
             <Tabs
               activeTab={activeTab}
               onChange={handleTabChange}
-              disablePrevious={previousCaravans?.length === 0}
+              disablePrevious={previousCaravans.length === 0}
             />
+
             <S.SpacingMobile>
-              {isLoading || (caravansToShow && caravansToShow.length > 0) ? (
+              {isLoading ? (
                 <S.CaravanGrid>
-                  {isLoading
-                    ? Array.from({ length: 6 }).map((_, i) => (
-                        <ProductCardEdit
-                          key={`skeleton-${i}`}
-                          caravan={dummyCaravan}
-                          activeTab={activeTab}
-                          isOpenMenu={false}
-                          onToggleMenu={() => {}}
-                          onEdit={() => {}}
-                          onDelete={() => {}}
-                          priority={false}
-                          isLoading={true}
-                        />
-                      ))
-                    : caravansToShow.map((caravan, index) => (
-                        <ProductCardEdit
-                          key={caravan.id}
-                          caravan={caravan}
-                          activeTab={activeTab}
-                          isOpenMenu={openMenuId === caravan.id}
-                          onToggleMenu={handleToggleMenu}
-                          onEdit={handleEdit}
-                          onDelete={handleDelete}
-                          priority={index === 0}
-                          isLoading={false}
-                        />
-                      ))}
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <ProductCardEdit
+                      key={`skeleton-${i}`}
+                      caravan={{} as Caravan}
+                      activeTab={activeTab}
+                      isOpenMenu={false}
+                      onToggleMenu={() => {}}
+                      onEdit={() => {}}
+                      onDelete={() => {}}
+                      priority={false}
+                      isLoading
+                    />
+                  ))}
+                </S.CaravanGrid>
+              ) : error ? (
+                <S.EmptyMessage>
+                  <SmileySad size={64} weight="fill" />
+                  Nenhuma próxima caravana
+                </S.EmptyMessage>
+              ) : caravansToShow.length > 0 ? (
+                <S.CaravanGrid>
+                  {caravansToShow.map((caravan, idx) => (
+                    <ProductCardEdit
+                      key={caravan.id}
+                      caravan={caravan}
+                      activeTab={activeTab}
+                      isOpenMenu={openMenuId === caravan.id}
+                      onToggleMenu={handleToggleMenu}
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                      priority={idx === 0}
+                      isLoading={false}
+                    />
+                  ))}
                 </S.CaravanGrid>
               ) : (
                 <S.EmptyMessage>
                   <SmileySad size={64} weight="fill" />
-                  Nenhuma próxima caravana
+                  Nenhuma {activeTab === 'upcoming'
+                    ? 'próxima'
+                    : 'anterior'}{' '}
+                  caravana
                 </S.EmptyMessage>
               )}
             </S.SpacingMobile>
@@ -221,6 +223,7 @@ export default function CaravanasManagementPage() {
         </S.Main>
         <Footer />
       </S.Wrapper>
+
       <Portal>
         <Modal
           $isOpen={!!confirmDelete}
@@ -229,16 +232,14 @@ export default function CaravanasManagementPage() {
         >
           <S.ModalContent>
             <h3>Confirmação</h3>
-
             <p>
               Deseja realmente excluir a caravana
               {caravanToDelete?.titulo ? (
-                <b> {caravanToDelete.titulo + '?'}</b>
+                <b> {caravanToDelete.titulo}?</b>
               ) : (
                 '?'
               )}
             </p>
-
             <S.ModalButtons>
               <Button
                 variant="outlined"
@@ -253,11 +254,9 @@ export default function CaravanasManagementPage() {
                 variant="danger"
                 loading={isLoadingDelete}
                 disabled={isLoadingDelete}
-                onClick={() => {
-                  if (confirmDelete) {
-                    handleConfirmDelete(confirmDelete)
-                  }
-                }}
+                onClick={() =>
+                  confirmDelete && handleConfirmDelete(confirmDelete)
+                }
               >
                 Confirmar
               </Button>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Caravan } from '@/interfaces/caravan'
+import { filterFutureCaravans } from '@/utils/caravans'
 import { formatDateRangeBR } from '@/utils/formats'
 import axios from 'axios'
 import { motion } from 'framer-motion'
@@ -42,7 +43,7 @@ export default function Home({ initialCaravans }: HomeProps) {
       if (titulo) params.titulo = titulo
 
       if (Object.keys(params).length === 0) {
-        setCaravans(initialCaravans)
+        setCaravans(filterFutureCaravans(initialCaravans))
         setLoading(false)
         return
       }
@@ -52,7 +53,7 @@ export default function Home({ initialCaravans }: HomeProps) {
       axios
         .get(`${process.env.NEXT_PUBLIC_API_URL}/caravanas/listar`, { params })
         .then((res) => {
-          setCaravans(res.data.data)
+          setCaravans(filterFutureCaravans(res.data.data))
         })
         .catch(() => {
           setCaravans([])
