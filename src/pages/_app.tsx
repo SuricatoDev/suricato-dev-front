@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import Layout from '@/containers/Layout'
 import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
 import isPropValid from '@emotion/is-prop-valid'
