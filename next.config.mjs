@@ -34,22 +34,40 @@ const nextConfig = {
         destination: 'https://suricatodev.s3.sa-east-1.amazonaws.com/:path*'
       }
     ]
+  },
+  headers: async () => {
+    return [
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript; charset=utf-8'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self'"
+          }
+        ]
+      }
+    ]
   }
 }
 
 export default withPWA({
   dest: 'public',
-  runtimeCaching: [
-    {
-      urlPattern: /^https:\/\/(.*)\/api\//,
-      handler: 'NetworkOnly',
-      options: { cacheName: 'no-cache-api' }
-    }
-  ],
-  disable: process.env.NODE_ENV === 'development',
-
   register: true,
   skipWaiting: true,
   clientsClaim: true,
-  cleanupOutdatedCaches: true
+  publicExcludes: ['!**/*'],
+  cacheStartUrl: false,
+  dynamicStartUrl: false,
+  cacheOnFrontEndNav: false,
+  cleanupOutdatedCaches: true,
+  runtimeCaching: [],
+  disable: process.env.NODE_ENV === 'development'
 })(nextConfig)
