@@ -9,6 +9,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+import { useAuthStatus } from '@/contexts/AuthStatusProvider'
+
 import ResponsiveSearchBar from '@/components/SearchBar'
 import CategoriesBar from '@/components/common/CategoriesBar'
 import Divider from '@/components/common/Divider'
@@ -36,7 +38,7 @@ export default function Header({
 }: HeaderProps) {
   const { data: session } = useSession()
   const router = useRouter()
-  const isLogged = !!session
+  const { isLogged } = useAuthStatus()
 
   const [isScrolled, setIsScrolled] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)

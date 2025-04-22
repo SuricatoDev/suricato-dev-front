@@ -1,16 +1,17 @@
 import React, { useMemo } from 'react'
 
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 import { useScrollDown } from '@/hooks/useScrollDown'
+
+import { useAuthStatus } from '@/contexts/AuthStatusProvider'
 
 import { MobileFooterNavigation } from './navigation'
 import * as S from './styles'
 
 export default function MobileFooter() {
-  const { data: session } = useSession()
-  const isLogged = !!session
+  const { isLogged } = useAuthStatus()
+
   const { explorar, caravanas, entrar, perfil, anunciar, favoritos } =
     MobileFooterNavigation
 

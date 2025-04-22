@@ -3,13 +3,14 @@ import { useEffect } from 'react'
 import Layout from '@/containers/Layout'
 import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
 import isPropValid from '@emotion/is-prop-valid'
-import { SessionProvider, getSession } from 'next-auth/react'
-import App, { AppContext, AppProps } from 'next/app'
+import { SessionProvider } from 'next-auth/react'
+import { AppProps } from 'next/app'
 import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
 import { ToastContainer } from 'react-toastify'
 import { StyleSheetManager } from 'styled-components'
 
+import { AuthStatusProvider } from '@/contexts/AuthStatusProvider'
 import { GoogleMapsProvider } from '@/contexts/GoogleMapsProvider'
 
 import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
@@ -42,55 +43,39 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     router.pathname.startsWith('/anuncios/overview') ||
     router.pathname.startsWith('/cadastrar-empresa')
 
-  useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then((registrations) => {
-        registrations.forEach((registration) => registration.unregister())
-      })
-    }
-  }, [])
-
   return (
     <AccessibilityContextProvider>
       <SessionProvider session={session}>
-        <SessionUpdater />
-        <GoogleMapsProvider>
-          <Layout>
-            <StyleSheetManager shouldForwardProp={(prop) => isPropValid(prop)}>
-              <RouteChangeLoader />
-              <div className={inter.className} id="modal-root">
-                <Component {...pageProps} />
-                <PWAInstallPrompt />
-                <ToastContainer
-                  draggable={true}
-                  draggablePercent={50}
-                  limit={3}
-                  draggableDirection="x"
-                  pauseOnHover={false}
-                  newestOnTop={false}
-                  position="bottom-center"
-                  autoClose={3000}
-                />
-                {!hideMobileFooter && <MobileFooter />}
-              </div>
-            </StyleSheetManager>
-          </Layout>
-        </GoogleMapsProvider>
+        <AuthStatusProvider>
+          <SessionUpdater />
+          <GoogleMapsProvider>
+            <Layout>
+              <StyleSheetManager
+                shouldForwardProp={(prop) => isPropValid(prop)}
+              >
+                <RouteChangeLoader />
+                <div className={inter.className} id="modal-root">
+                  <Component {...pageProps} />
+                  <PWAInstallPrompt />
+                  <ToastContainer
+                    draggable={true}
+                    draggablePercent={50}
+                    limit={3}
+                    draggableDirection="x"
+                    pauseOnHover={false}
+                    newestOnTop={false}
+                    position="bottom-center"
+                    autoClose={3000}
+                  />
+                  {!hideMobileFooter && <MobileFooter />}
+                </div>
+              </StyleSheetManager>
+            </Layout>
+          </GoogleMapsProvider>
+        </AuthStatusProvider>
       </SessionProvider>
     </AccessibilityContextProvider>
   )
-}
-
-MyApp.getInitialProps = async (appContext: AppContext) => {
-  const appProps = await App.getInitialProps(appContext)
-  const session = await getSession(appContext.ctx)
-  return {
-    ...appProps,
-    pageProps: {
-      ...appProps.pageProps,
-      session
-    }
-  }
 }
 
 export default MyApp

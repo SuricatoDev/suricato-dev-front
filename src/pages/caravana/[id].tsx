@@ -35,6 +35,8 @@ import { Path } from '@phosphor-icons/react/dist/ssr/Path'
 import { ShieldCheck } from '@phosphor-icons/react/dist/ssr/ShieldCheck'
 import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
 
+import { useAuthStatus } from '@/contexts/AuthStatusProvider'
+
 import Button from '@/components/common/Button'
 import Divider from '@/components/common/Divider'
 import Gallery from '@/components/common/Gallery'
@@ -75,7 +77,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   const router = useRouter()
 
   const { data: session, update } = useSession()
-  const isLogged = !!session
+  const { isLogged } = useAuthStatus()
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)

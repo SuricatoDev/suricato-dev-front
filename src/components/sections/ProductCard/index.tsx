@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 
 import { motion } from 'framer-motion'
-import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Swiper as SwiperType } from 'swiper'
@@ -17,6 +16,8 @@ import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
 import { Heart } from '@phosphor-icons/react/dist/ssr/Heart'
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
 import { MoneyWavy } from '@phosphor-icons/react/dist/ssr/MoneyWavy'
+
+import { useAuthStatus } from '@/contexts/AuthStatusProvider'
 
 import Skeleton from '@/components/common/Skeleton'
 
@@ -55,8 +56,7 @@ export default function ProductCard({
   const [showLeft, setShowLeft] = useState(false)
   const [showRight, setShowRight] = useState(false)
 
-  const { data: session } = useSession()
-  const isLogged = !!session
+  const { isLogged } = useAuthStatus()
 
   const updateNavigation = (swiper: SwiperType) => {
     setShowLeft(!swiper.isBeginning)
