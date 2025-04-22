@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import Button from '@/components/common/Button'
@@ -26,7 +25,6 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
     setError,
     clearErrors
   } = useFormContext()
-  const router = useRouter()
   const emailValue = watch('email')
   const passwordValue = watch('password')
   const isButtonDisabled =
@@ -81,11 +79,11 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
         message: 'Senha incorreta para o e-mail informado'
       })
     } else {
-      if (isModal) {
-        onClose()
+      if (!isModal) {
+        return
       }
-      const callbackUrl = (router.query.callbackUrl as string) || '/'
-      router.push(callbackUrl)
+
+      onClose()
     }
   }
 

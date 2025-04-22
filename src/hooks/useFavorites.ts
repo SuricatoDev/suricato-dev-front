@@ -2,17 +2,18 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { Caravan } from '@/interfaces/caravan'
 import axios, { AxiosError } from 'axios'
-import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 
+import { useAuthStatus } from '@/contexts/AuthStatusProvider'
+
 export function useFavorites() {
-  const { data: session } = useSession()
+  const { isLogged } = useAuthStatus()
   const [favoritesIds, setFavoritesIds] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
   const [favoriteCaravans, setFavoriteCaravans] = useState<Caravan[]>([])
 
   const fetchFavorites = useCallback(async () => {
-    if (!session?.user?.id) return
+    if (!isLogged) return
 
     try {
       setLoading(true)
@@ -27,7 +28,7 @@ export function useFavorites() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [isLogged])
 
   const toggleFavorite = useCallback(
     async (caravanId: string, newValue: boolean, caravanName: string) => {
@@ -71,7 +72,7 @@ export function useFavorites() {
   )
 
   useEffect(() => {
-    if (!session?.user?.id) return
+    if (!isLogged) return
     fetchFavorites()
   }, [fetchFavorites])
 

@@ -7,25 +7,20 @@ export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request })
 
   const protectedPaths = [
+    '/anuncios',
     '/conta',
-    '/cadastrar-empresa',
     '/favoritos',
     '/viagens',
-    '/anuncios'
+    '/cadastrar-empresa'
   ]
 
   if (protectedPaths.some((p) => pathname.startsWith(p))) {
     if (!token) {
       const loginUrl = new URL('/login', origin)
+
       loginUrl.searchParams.set('callbackUrl', `${pathname}${search}`)
+
       return NextResponse.redirect(loginUrl)
-    }
-    if (
-      pathname !== '/anuncios' &&
-      pathname.startsWith('/anuncios') &&
-      !token
-    ) {
-      return NextResponse.redirect(new URL('/unauthorized', origin))
     }
 
     return NextResponse.next()

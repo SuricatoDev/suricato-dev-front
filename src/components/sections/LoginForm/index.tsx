@@ -9,6 +9,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
+import { useAuthStatus } from '@/contexts/AuthStatusProvider'
+
 import { LoginFormData, SignupFormData } from './formTypes'
 import Step1 from './steps/Step1'
 import Step2 from './steps/Step2'
@@ -27,6 +29,7 @@ export default function MultiStepForm({
 }: MultiStepFormProps) {
   const router = useRouter()
   const [step, setStep] = useState<number>(1)
+  const { isLogged } = useAuthStatus()
 
   const [isOpen, setIsOpen] = useState<boolean>(externalIsOpen ?? false)
 
@@ -60,6 +63,14 @@ export default function MultiStepForm({
     setIsOpen(false)
     if (onClose) onClose()
   }, [onClose])
+
+  useEffect(() => {
+    if (isLogged) {
+      const callbackUrl = (router.query.callbackUrl as string) || '/'
+
+      router.replace(callbackUrl + '?r=' + Date.now())
+    }
+  }, [isLogged])
 
   useEffect(() => {
     if (!$isModal || !isOpen) return
@@ -123,9 +134,6 @@ export default function MultiStepForm({
         }
 
         handleClose()
-
-        const callbackUrl = (router.query.callbackUrl as string) || '/'
-        router.push(callbackUrl)
       }
     }
   }

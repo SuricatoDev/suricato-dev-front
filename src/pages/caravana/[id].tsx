@@ -120,8 +120,8 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
     setHydrated(true)
   }, [])
 
-  const handleClosePassengerForm = () => {
-    update()
+  const handleClosePassengerForm = async () => {
+    await update()
     setPassengerFormVisible(false)
   }
 
