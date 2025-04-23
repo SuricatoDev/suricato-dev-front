@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react'
 
 import VanImg from '@/assets/images/parte-2.png'
@@ -9,50 +10,48 @@ type Step6Props = {
   setCanProceed: (canProceed: boolean) => void
 }
 
+const container = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      staggerChildren: 0.2
+    }
+  }
+}
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8 }
+  }
+}
+
+const MotionStepImg = motion(S.StepImg)
+const MotionStepInfo = motion(S.StepInfo)
+
 export default function Step6({ setCanProceed }: Step6Props) {
   useEffect(() => {
     setCanProceed(true)
-  }, [])
-
-  const container = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1,
-        staggerChildren: 0.2
-      }
-    }
-  }
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8 }
-    }
-  }
+  }, [setCanProceed])
 
   return (
     <S.Container>
-      <S.StepImg
-        as={motion.img}
+      <MotionStepImg
         src={VanImg.src}
         width={720}
         height={720}
-        alt=""
+        alt="Parte 2 da van"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       />
-      <S.StepInfo
-        as={motion.div}
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
+
+      <MotionStepInfo variants={container} initial="hidden" animate="show">
         <motion.div variants={item}>
           <S.StepNumber>Etapa 2</S.StepNumber>
         </motion.div>
@@ -66,7 +65,7 @@ export default function Step6({ setCanProceed }: Step6Props) {
             descrição.
           </S.Instructions>
         </motion.div>
-      </S.StepInfo>
+      </MotionStepInfo>
     </S.Container>
   )
 }

@@ -11,12 +11,15 @@ type Step2Props = {
   setCanProceed: (canProceed: boolean) => void
 }
 
+const MotionTitle = motion(S.Title)
+const MotionOption = motion(S.Option)
+
 export default function Step2({ setCanProceed }: Step2Props) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
 
   useEffect(() => {
     setCanProceed(!!formData.categoria)
-  }, [formData.categoria])
+  }, [formData.categoria, setCanProceed])
 
   const handleCategorySelect = (categoryId: string) => {
     updateFormData('categoria', categoryId)
@@ -25,22 +28,20 @@ export default function Step2({ setCanProceed }: Step2Props) {
   return (
     <S.Container>
       <S.Wrapper>
-        <S.Title
-          as={motion.h2}
+        <MotionTitle
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
           Qual das seguintes opções descreve melhor a sua caravana?
-        </S.Title>
+        </MotionTitle>
 
         <S.OptionsContainer>
           {categories.map((category, index) => {
             const isSelected = formData.categoria === category.id
 
             return (
-              <S.Option
-                as={motion.div}
+              <MotionOption
                 key={category.id}
                 onClick={() => handleCategorySelect(category.id)}
                 data-selected={isSelected}
@@ -54,7 +55,7 @@ export default function Step2({ setCanProceed }: Step2Props) {
               >
                 <category.icon size={40} />
                 <S.OptionLabel>{category.label}</S.OptionLabel>
-              </S.Option>
+              </MotionOption>
             )
           })}
         </S.OptionsContainer>

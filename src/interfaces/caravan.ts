@@ -20,6 +20,7 @@ export interface Caravan {
   cidade_destino: string
   estado_destino: string
   numero_vagas: number
+  vagas_disponiveis?: number
   valor: number
   organizador_id: number
   imagens: {

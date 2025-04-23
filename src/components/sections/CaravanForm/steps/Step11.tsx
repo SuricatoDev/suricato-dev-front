@@ -9,36 +9,39 @@ type Step7Props = {
   setCanProceed: (canProceed: boolean) => void
 }
 
+const container = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: 'easeOut',
+      staggerChildren: 0.3
+    }
+  }
+}
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: 'easeOut' }
+  }
+}
+
+const MotionStepImg = motion(S.StepImg)
+const MotionStepInfo = motion(S.StepInfo)
+
 export default function Step11({ setCanProceed }: Step7Props) {
   useEffect(() => {
     setCanProceed(true)
   }, [])
-  const container = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: 'easeOut',
-        staggerChildren: 0.3
-      }
-    }
-  }
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: 'easeOut' }
-    }
-  }
 
   return (
     <S.Container>
-      <S.StepImg
-        as={motion.img}
+      <MotionStepImg
         src={Part3.src}
         width={720}
         height={720}
@@ -47,12 +50,7 @@ export default function Step11({ setCanProceed }: Step7Props) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       />
-      <S.StepInfo
-        as={motion.div}
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
+      <MotionStepInfo variants={container} initial="hidden" animate="show">
         <motion.div variants={item}>
           <S.StepNumber>Etapa 3</S.StepNumber>
         </motion.div>
@@ -64,7 +62,7 @@ export default function Step11({ setCanProceed }: Step7Props) {
             Por fim, você poderá configurar os preços e publicar seu anúncio.
           </S.Instructions>
         </motion.div>
-      </S.StepInfo>
+      </MotionStepInfo>
     </S.Container>
   )
 }

@@ -10,6 +10,7 @@ type FooterNavProps = {
   onBack: () => void
   onNext: () => void
   canProceed?: boolean
+  isLoading?: boolean
 }
 
 export default function FooterNav({
@@ -17,7 +18,8 @@ export default function FooterNav({
   totalSteps,
   onBack,
   onNext,
-  canProceed = true
+  canProceed = true,
+  isLoading = false
 }: FooterNavProps) {
   const getPartInfo = (step: number) => {
     if (step <= 1) return { part: 0, min: 2, max: 6, base: 0 }
@@ -45,7 +47,11 @@ export default function FooterNav({
         <S.Back hide={step <= 1} onClick={onBack} disabled={step <= 1}>
           Voltar
         </S.Back>
-        <Button onClick={onNext} disabled={!canProceed}>
+        <Button
+          loading={isLoading}
+          onClick={onNext}
+          disabled={!canProceed || isLoading}
+        >
           {step < totalSteps ? 'Avançar' : 'Concluir'}
         </Button>
       </S.FooterNavContainer>

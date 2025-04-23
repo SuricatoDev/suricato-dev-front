@@ -29,19 +29,19 @@ export default function Step9({
   return (
     <S.Container>
       <S.Wrapper>
-        <S.Heading
-          as={motion.div}
+        <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <S.Title>Agora, vamos dar um título à sua caravana</S.Title>
-          <S.Description>
-            Títulos curtos funcionam melhor. Não se preocupe, você poderá fazer
-            alterações depois.
-          </S.Description>
-        </S.Heading>
-
+          <S.Heading>
+            <S.Title>Agora, vamos dar um título à sua caravana</S.Title>
+            <S.Description>
+              Títulos curtos funcionam melhor. Não se preocupe, você poderá
+              fazer alterações depois.
+            </S.Description>
+          </S.Heading>
+        </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}

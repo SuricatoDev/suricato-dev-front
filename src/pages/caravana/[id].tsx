@@ -264,7 +264,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                       <S.EventSubItem>
                         <p className="event-subitem-title">Vagas restantes</p>
                         <p className="event-subitem-subtitle">
-                          {caravan.numero_vagas}
+                          {caravan?.vagas_disponiveis ?? 0}
                         </p>
                       </S.EventSubItem>
                     </S.EventItem>

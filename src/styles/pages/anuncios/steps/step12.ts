@@ -76,6 +76,9 @@ export const PriceInput = styled.input`
   width: 100%;
   letter-spacing: 0.4px;
   font-size: 4rem;
+  background-color: ${({ theme }) => theme.colors.background_standard};
+  color: ${({ theme }) => theme.colors.text_standard};
+
   @media (${device.md}) {
     font-size: 5rem;
   }

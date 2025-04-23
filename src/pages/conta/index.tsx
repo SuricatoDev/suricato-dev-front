@@ -1197,7 +1197,7 @@ export default function ProfileEditPage() {
 
         <ChangeProfilePicModal
           $isOpen={showModal}
-          imageSrc={selectedImage || ''}
+          imageSrc={selectedImage || profilePic || ''}
           onClose={handleCancel}
           onSave={handleSaveProfilePic}
           isLoading={profilePicUpdateLoading}

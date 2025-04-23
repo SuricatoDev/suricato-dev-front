@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import styled from 'styled-components'
 
@@ -61,7 +62,7 @@ export const Instructions = styled.p`
 export const StepImg = styled(Image)`
   margin: 0 auto;
   width: calc(100% - 4rem);
-  max-width: 650px;
+  max-width: 500px;
   height: auto;
   filter: drop-shadow(8px 12px 6px rgba(0, 0, 0, 0.3));
 
@@ -72,7 +73,7 @@ export const StepImg = styled(Image)`
   }
 `
 
-export const StepInfo = styled.div`
+export const StepInfo = styled(motion.div)`
   @media (${device.md}) {
     flex: 2;
     width: calc(50vw - 48px);

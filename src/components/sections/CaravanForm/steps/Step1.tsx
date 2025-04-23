@@ -5,47 +5,44 @@ import { motion } from 'framer-motion'
 
 import * as S from '@/styles/pages/anuncios/steps/step1'
 
+const container = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: 'easeOut',
+      staggerChildren: 0.3
+    }
+  }
+}
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: 'easeOut' }
+  }
+}
+
+const MotionStepInfo = motion(S.StepInfo)
+const MotionStepImg = motion(S.StepImg)
+
 export default function Step1() {
-  const container = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: 'easeOut',
-        staggerChildren: 0.3
-      }
-    }
-  }
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: 'easeOut' }
-    }
-  }
-
   return (
     <S.Container>
-      <S.StepImg
-        as={motion.img}
+      <MotionStepImg
         src={VanImg.src}
-        width={720}
-        height={720}
-        alt=""
+        width={520}
+        height={520}
+        alt="Van ilustrativa"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       />
-      <S.StepInfo
-        as={motion.div}
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
+      <MotionStepInfo variants={container} initial="hidden" animate="show">
         <motion.div variants={item}>
           <S.StepNumber>Etapa 1</S.StepNumber>
         </motion.div>
@@ -59,7 +56,7 @@ export default function Step1() {
             informações como data, horário e número de vagas.
           </S.Instructions>
         </motion.div>
-      </S.StepInfo>
+      </MotionStepInfo>
     </S.Container>
   )
 }

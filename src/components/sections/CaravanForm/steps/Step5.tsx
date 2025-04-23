@@ -13,6 +13,10 @@ import * as S from '@/styles/pages/anuncios/steps/step5'
 
 type Step5Props = { setCanProceed: (b: boolean) => void }
 
+const MotionContainer = motion(S.Container)
+const MotionTitle = motion(S.Title)
+const MotionInputsContainer = motion(S.InputsContainer)
+
 export default function Step5({ setCanProceed }: Step5Props) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
   const { numero_vagas, data_partida, data_retorno } = formData
@@ -21,7 +25,7 @@ export default function Step5({ setCanProceed }: Step5Props) {
     setCanProceed(
       Number(numero_vagas) > 0 && Boolean(data_partida) && Boolean(data_retorno)
     )
-  }, [numero_vagas, data_partida, data_retorno])
+  }, [numero_vagas, data_partida, data_retorno, setCanProceed])
 
   const adjustSeats = (delta: number) =>
     updateFormData(
@@ -33,24 +37,21 @@ export default function Step5({ setCanProceed }: Step5Props) {
     updateFormData(e.target.name as keyof typeof formData, e.target.value)
 
   return (
-    <S.Container
-      as={motion.div}
+    <MotionContainer
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
       <S.Wrapper>
-        <S.Title
-          as={motion.h2}
+        <MotionTitle
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
           Compartilhe algumas informações básicas sobre sua caravana
-        </S.Title>
+        </MotionTitle>
 
-        <S.InputsContainer
-          as={motion.div}
+        <MotionInputsContainer
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
@@ -103,8 +104,8 @@ export default function Step5({ setCanProceed }: Step5Props) {
               required
             />
           </S.Row>
-        </S.InputsContainer>
+        </MotionInputsContainer>
       </S.Wrapper>
-    </S.Container>
+    </MotionContainer>
   )
 }

@@ -56,6 +56,7 @@ export default function CaravanForm({ mode }: CaravanFormProps) {
   const [step, setStep] = useState(1)
   const totalSteps = 12
   const [canProceed, setCanProceed] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const step3Ref = useRef<Step3Ref>(null)
   const step4Ref = useRef<Step4Ref>(null)
 
@@ -91,6 +92,8 @@ export default function CaravanForm({ mode }: CaravanFormProps) {
       setStep((prev) => prev + 1)
     } else {
       try {
+        setIsLoading(true)
+
         const payload = new FormData()
         const { imagens, ...dados } = formData
 
@@ -126,6 +129,8 @@ export default function CaravanForm({ mode }: CaravanFormProps) {
       } catch (error) {
         console.error('Erro ao criar o anúncio:', error)
         toast.error('Ocorreu um erro ao criar o anúncio, tente novamente.')
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -188,6 +193,7 @@ export default function CaravanForm({ mode }: CaravanFormProps) {
         totalSteps={totalSteps}
         onBack={handleBack}
         onNext={handleNext}
+        isLoading={isLoading}
         canProceed={canProceed}
       />
     </>

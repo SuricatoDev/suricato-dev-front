@@ -29,6 +29,9 @@ import { CreateAdContext, ImageItem } from '@/contexts/CreateAdContext'
 
 import * as S from '@/styles/pages/anuncios/steps/step8'
 
+const MotionHeading = motion(S.Heading)
+const MotionGrid = motion(S.Grid)
+
 interface SortableImageProps {
   item: ImageItem
   index: number
@@ -197,8 +200,7 @@ export default function Step8({
 
   const renderImages = () => (
     <S.Container>
-      <S.Heading
-        as={motion.div}
+      <MotionHeading
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -208,9 +210,8 @@ export default function Step8({
           Você pode arrastar as imagens para reordenar, escolher a foto de capa
           e excluir as que quiser.
         </S.Description>
-      </S.Heading>
-      <S.Grid
-        as={motion.div}
+      </MotionHeading>
+      <MotionGrid
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2 }}
@@ -286,7 +287,7 @@ export default function Step8({
           style={{ display: 'none' }}
           onChange={handleAddImage}
         />
-      </S.Grid>
+      </MotionGrid>
     </S.Container>
   )
 

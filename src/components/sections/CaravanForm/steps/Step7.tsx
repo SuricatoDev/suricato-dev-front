@@ -12,6 +12,8 @@ type Step7Props = {
   setCanProceed: (canProceed: boolean) => void
 }
 
+const MotionHeading = motion(S.Heading)
+
 export default function Step7({ setCanProceed }: Step7Props) {
   const { formData, updateFormData } = useContext(CreateAdContext)!
 
@@ -28,11 +30,11 @@ export default function Step7({ setCanProceed }: Step7Props) {
     }))
     updateFormData('imagens', items)
   }
+
   return (
     <S.Container>
       <S.Wrapper>
-        <S.Heading
-          as={motion.div}
+        <MotionHeading
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
@@ -42,7 +44,7 @@ export default function Step7({ setCanProceed }: Step7Props) {
             Você precisará de cinco fotos para começar. Você pode adicionar
             outras imagens ou fazer alterações mais tarde.
           </S.Description>
-        </S.Heading>
+        </MotionHeading>
 
         <motion.div
           initial={{ opacity: 0, y: 10 }}

@@ -2,16 +2,19 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { motion } from 'framer-motion'
 
-import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
-import { CaretUp } from '@phosphor-icons/react/dist/ssr/CaretUp'
+
+
 import { PencilSimple } from '@phosphor-icons/react/dist/ssr/PencilSimple'
 
 import { CreateAdContext } from '@/contexts/CreateAdContext'
 
-import Divider from '@/components/common/Divider'
+
 import ErrorMessage from '@/components/common/ErrorMessage'
 
 import * as S from '@/styles/pages/anuncios/steps/step12'
+
+const MotionCenter = motion(S.Center)
+const MotionHeading = motion(S.Heading)
 
 export default function Step12({
   setCanProceed
@@ -21,15 +24,15 @@ export default function Step12({
   const { formData, updateFormData } = useContext(CreateAdContext)!
   const [price, setPrice] = useState(formData.valor || 20)
   const [editing, setEditing] = useState(false)
-  const [showDetails, setShowDetails] = useState(false)
-  const [activeInner, setActiveInner] = useState<'guest' | 'host'>('guest')
+  
+  
 
   const min = 20
   const max = 9999
 
-  const serviceFee = Math.round(price * 0.14)
-  const totalGuestPays = price + serviceFee
-  const hostReceives = price - Math.round(price * 0.03)
+  
+  
+  
 
   const isValid = price >= min && price <= max
 
@@ -45,18 +48,16 @@ export default function Step12({
 
   return (
     <S.Container>
-      <S.Heading
-        as={motion.div}
+      <MotionHeading
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
         <S.Title>Agora, determine seu preço</S.Title>
         <S.Description>Você pode alterá-lo quando quiser.</S.Description>
-      </S.Heading>
+      </MotionHeading>
 
-      <S.Center
-        as={motion.div}
+      <MotionCenter
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -88,70 +89,8 @@ export default function Step12({
             />
           )}
         </S.PriceContainer>
-        {!showDetails && (
-          <S.GuestPriceSummary onClick={() => setShowDetails(true)}>
-            Preço para o passageiro: R$
-            {totalGuestPays.toLocaleString('pt-BR')} <CaretDown size={14} />
-          </S.GuestPriceSummary>
-        )}
-
-        {showDetails && (
-          <>
-            <S.DetailsCard
-              active={activeInner === 'guest'}
-              onClick={() => setActiveInner('guest')}
-            >
-              {activeInner === 'guest' && (
-                <>
-                  <S.DetailsRow>
-                    <span>Preço básico</span>
-                    <span>R${price.toLocaleString('pt-BR')}</span>
-                  </S.DetailsRow>
-                  <S.DetailsRow>
-                    <span>Taxa de serviço do passageiro</span>
-                    <span>R${serviceFee.toLocaleString('pt-BR')}</span>
-                  </S.DetailsRow>
-                  <Divider $marginY="8px" />
-                </>
-              )}
-
-              <S.DetailsRow bold>
-                <span>Preço para o passageiro</span>
-                <span>R${totalGuestPays.toLocaleString('pt-BR')}</span>
-              </S.DetailsRow>
-            </S.DetailsCard>
-
-            <S.DetailsCard
-              active={activeInner === 'host'}
-              onClick={() => setActiveInner('host')}
-            >
-              {activeInner === 'host' && (
-                <>
-                  <S.DetailsRow>
-                    <span>Preço básico</span>
-                    <span>R${price.toLocaleString('pt-BR')}</span>
-                  </S.DetailsRow>
-                  <S.DetailsRow>
-                    <span>Taxa de serviço do motorista</span>
-                    <span>
-                      -R${(price - hostReceives).toLocaleString('pt-BR')}
-                    </span>
-                  </S.DetailsRow>
-                  <Divider $marginY="8px" />
-                </>
-              )}
-              <S.DetailsRow bold>
-                <span>Você recebe</span>
-                <span>R${hostReceives.toLocaleString('pt-BR')} </span>
-              </S.DetailsRow>
-            </S.DetailsCard>
-
-            <S.ToggleDetails onClick={() => setShowDetails(false)}>
-              Mostrar menos <CaretUp size={14} />
-            </S.ToggleDetails>
-          </>
-        )}
-      </S.Center>
+        {}
+      </MotionCenter>
     </S.Container>
   )
 }

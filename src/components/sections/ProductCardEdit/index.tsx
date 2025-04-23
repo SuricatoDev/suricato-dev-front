@@ -196,7 +196,7 @@ export function ProductCardEdit({
           </S.SubInfoItem>
           <S.SubInfoItem>
             <Ticket fill="bold" size={16} /> <b>Reservas:</b>
-            {caravan.numero_vagas} / 100
+            {caravan?.vagas_disponiveis ?? 0} / {caravan.numero_vagas}
           </S.SubInfoItem>
         </S.CardSubInfo>
       </S.CardBody>
