@@ -9,6 +9,7 @@ import {
 
 import { GetStaticPaths, GetStaticProps } from 'next'
 
+import UserCircle from '@/assets/icons/user-circle-fill.svg'
 import { categories } from '@/constants/categories'
 import { SingleCaravan } from '@/interfaces/caravan'
 import {
@@ -392,8 +393,11 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                       <S.OrganizerImage
                         width={60}
                         height={60}
-                        alt={''}
-                        src={caravan?.organizador?.user?.foto_perfil ?? ''}
+                        alt="Foto do organizador"
+                        src={
+                          caravan?.organizador?.user?.foto_perfil ??
+                          UserCircle.src
+                        }
                         quality={100}
                       />
                       <S.OrganizerInfo>
