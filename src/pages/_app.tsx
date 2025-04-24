@@ -39,7 +39,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const hideMobileFooter =
     router.pathname.startsWith('/anuncios/novo') ||
     router.pathname.startsWith('/anuncios/overview') ||
-    router.pathname.startsWith('/cadastrar-empresa')
+    router.pathname.startsWith('/cadastrar-empresa') ||
+    router.pathname.startsWith('/confirmar-email')
 
   return (
     <AccessibilityContextProvider>
