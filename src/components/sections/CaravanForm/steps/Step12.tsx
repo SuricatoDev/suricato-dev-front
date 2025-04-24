@@ -24,15 +24,15 @@ export default function Step12({
   const { formData, updateFormData } = useContext(CreateAdContext)!
   const [price, setPrice] = useState(formData.valor || 20)
   const [editing, setEditing] = useState(false)
-  
-  
+
+
 
   const min = 20
   const max = 9999
 
-  
-  
-  
+
+
+
 
   const isValid = price >= min && price <= max
 
@@ -85,7 +85,7 @@ export default function Step12({
           {!isValid && (
             <ErrorMessage
               withIcon
-              $error="Insira um valor entre R$ 10 e R$ 9.999"
+              $error="Insira um valor entre R$ 20 e R$ 9.999"
             />
           )}
         </S.PriceContainer>

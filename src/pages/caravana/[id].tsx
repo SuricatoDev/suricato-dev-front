@@ -31,9 +31,9 @@ import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
 import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
 import { CheckCircle } from '@phosphor-icons/react/dist/ssr/CheckCircle'
 import { Clock } from '@phosphor-icons/react/dist/ssr/Clock'
+import { Lightbulb } from '@phosphor-icons/react/dist/ssr/Lightbulb'
 import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
 import { Path } from '@phosphor-icons/react/dist/ssr/Path'
-import { ShieldCheck } from '@phosphor-icons/react/dist/ssr/ShieldCheck'
 import { Ticket } from '@phosphor-icons/react/dist/ssr/Ticket'
 
 import { useAuthStatus } from '@/contexts/AuthStatusProvider'
@@ -435,10 +435,10 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                   </S.OrganizerContainer>
 
                   <S.Hint>
-                    <h3 className="hint-title">Dicas de segurança</h3>
+                    <h3 className="hint-title">Dica do especialista</h3>
                     <p className="hint-description">
-                      Não faça pagamentos antes de verificar se o veículo
-                      existe.
+                      Não deixe para a última hora. Reserve e garanta sua
+                      experiência!
                     </p>
                     <button
                       onClick={() => {
@@ -472,19 +472,13 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
             <Modal $isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
               <S.ModalContainer>
                 <S.ModalTitle>
-                  <ShieldCheck size={32} weight="fill" />
-                  <h2>Dicas de segurança</h2>
+                  <Lightbulb size={32} weight="fill" />
+                  <h2>Dica do especialista</h2>
                 </S.ModalTitle>
                 <S.ModalContent>
                   <ul>
-                    <li>
-                      Não faça pagamentos antes de verificar se o veículo
-                      existe.
-                    </li>
-                    <li>
-                      Antes de fechar negócio, sempre busque pelo histórico do
-                      veículo.
-                    </li>
+                    <li>Não deixe para a última hora.</li>
+                    <li>Reserve e garanta sua experiência.</li>
                     <li>
                       Fique atento a preços abaixo do mercado e a excessos de
                       facilidades.
