@@ -540,7 +540,7 @@ export default function ProfileEditPage() {
                   )}
                   {activeTab === 'personal' && (
                     <>
-                      <S.Header isSingle={!userData?.organizadorData}>
+                      <S.Header>
                         <h1>Informações Pessoais</h1>
                       </S.Header>
                       <div>
@@ -935,7 +935,7 @@ export default function ProfileEditPage() {
                   )}
                   {activeTab === 'professional' && (
                     <>
-                      <S.Header isSingle={!userData?.organizadorData}>
+                      <S.Header>
                         <h1>Informações Profissionais</h1>
                       </S.Header>
 

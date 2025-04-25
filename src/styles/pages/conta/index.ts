@@ -14,8 +14,7 @@ export const Main = styled.main`
   }
 `
 
-export const Header = styled.div<{ isSingle?: boolean }>`
-  display: ${({ isSingle }) => (isSingle ? 'flex' : 'none')};
+export const Header = styled.div`
   margin-bottom: 2rem;
 
   h1 {
