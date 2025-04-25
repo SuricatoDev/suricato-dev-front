@@ -18,16 +18,14 @@ export const Header = styled.div`
   margin-bottom: 2rem;
 
   h1 {
-    font-size: ${({ theme }) => theme.common.font.sizes.heading.xsmall};
+    font-size: ${({ theme }) => theme.common.font.sizes.heading.xxsmall};
     color: ${({ theme }) => theme.colors.text_standard};
     font-weight: bold;
   }
 
-  @media ${device.md} {
-    display: flex;
-
+  @media (${device.md}) {
     h1 {
-      font-size: ${({ theme }) => theme.common.font.sizes.heading.large};
+      font-size: ${({ theme }) => theme.common.font.sizes.heading.xsmall};
     }
   }
 `
