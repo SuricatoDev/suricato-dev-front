@@ -29,7 +29,7 @@ import {
   EditableAddress
 } from '@/components/common/EditableAddress'
 import Input from '@/components/common/Input'
-import InputPassword from '@/components/common/InputPassword'
+import PasswordConfirmation from '@/components/common/PasswordConfirmation'
 import ChangeProfilePicModal from '@/components/common/ProfilePictureUploader'
 import Tabs, { TabItem } from '@/components/common/Tabs'
 import Header from '@/components/sections/Header'
@@ -85,7 +85,6 @@ export default function ProfileEditPage() {
   )
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [passwordError, setPasswordError] = useState<string | undefined>()
   const [nameError, setNameError] = useState<string | undefined>()
   const [phoneError, setPhoneError] = useState<string | undefined>()
   const [emergencyPhoneError, setEmergencyPhoneError] = useState<
@@ -114,6 +113,9 @@ export default function ProfileEditPage() {
   const [businessTradeName, setBusinessTradeName] = useState(
     session?.user?.organizadorData?.nome_fantasia || ''
   )
+
+  const userName = session?.user?.nome ?? ''
+  const userEmail = session?.user?.email ?? ''
 
   const [businessPhoneError, setBusinessPhoneError] = useState<string>()
   const [businessAddress, setBusinessAddress] = useState<AddressData>({
@@ -404,14 +406,6 @@ export default function ProfileEditPage() {
           break
 
         case 'password':
-          if (
-            !newPassword ||
-            !confirmPassword ||
-            newPassword !== confirmPassword
-          ) {
-            setPasswordError('As senhas devem coincidir.')
-            return
-          }
           await saveField(field, newPassword)
           setNewPassword('')
           setConfirmPassword('')
@@ -464,16 +458,6 @@ export default function ProfileEditPage() {
       setIsLoading(false)
     }
   }
-
-  useEffect(() => {
-    if (newPassword && confirmPassword) {
-      if (newPassword !== confirmPassword) {
-        setPasswordError('As senhas não coincidem.')
-      } else {
-        setPasswordError(undefined)
-      }
-    }
-  }, [newPassword, confirmPassword])
 
   const handleTabChange = (key: ProfileTab) => {
     setActiveTab(key)
@@ -556,7 +540,7 @@ export default function ProfileEditPage() {
                   )}
                   {activeTab === 'personal' && (
                     <>
-                      <S.Header>
+                      <S.Header isSingle={!userData?.organizadorData}>
                         <h1>Informações Pessoais</h1>
                       </S.Header>
                       <div>
@@ -862,37 +846,24 @@ export default function ProfileEditPage() {
 
                         <AccordionItem isOpen={editingField === 'password'}>
                           <S.Spacing>
-                            <div style={{ width: '100%' }}>
-                              <InputPassword
-                                type="password"
-                                placeholder="Nova senha"
-                                label="Nova senha"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                $error={passwordError}
-                                $showErrorMessage
-                              />
-                            </div>
-                            <div style={{ width: '100%' }}>
-                              <InputPassword
-                                type="password"
-                                placeholder="Confirme a nova senha"
-                                label="Confirmação de senha"
-                                value={confirmPassword}
-                                onChange={(e) =>
-                                  setConfirmPassword(e.target.value)
-                                }
-                                $error={passwordError}
-                                $showStrengthMeter={false}
-                                $showErrorMessage
-                              />
-                            </div>
+                            <PasswordConfirmation
+                              newPassword={newPassword}
+                              confirmPassword={confirmPassword}
+                              onNewPasswordChange={(e) =>
+                                setNewPassword(e.target.value)
+                              }
+                              onConfirmPasswordChange={(e) =>
+                                setConfirmPassword(e.target.value)
+                              }
+                              userName={userName}
+                              userEmail={userEmail}
+                            />
                             <Button
                               fullWidth={isMobile}
                               disabled={
                                 !newPassword ||
                                 !confirmPassword ||
-                                passwordError !== undefined
+                                newPassword !== confirmPassword
                               }
                               onClick={() => handleSave('password')}
                               loading={isLoading}
@@ -964,7 +935,7 @@ export default function ProfileEditPage() {
                   )}
                   {activeTab === 'professional' && (
                     <>
-                      <S.Header>
+                      <S.Header isSingle={!userData?.organizadorData}>
                         <h1>Informações Profissionais</h1>
                       </S.Header>
 

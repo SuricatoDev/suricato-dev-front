@@ -40,7 +40,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     router.pathname.startsWith('/anuncios/novo') ||
     router.pathname.startsWith('/anuncios/overview') ||
     router.pathname.startsWith('/cadastrar-empresa') ||
-    router.pathname.startsWith('/confirmar-email')
+    router.pathname.startsWith('/confirmar-email') ||
+    router.pathname.startsWith('/anuncios/editar')
 
   return (
     <AccessibilityContextProvider>

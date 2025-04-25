@@ -7,7 +7,6 @@ import { EyeSlash } from '@phosphor-icons/react/dist/ssr/EyeSlash'
 
 import Input from '@/components/common/Input'
 
-import ErrorMessage from '../ErrorMessage'
 import { ErrorIcon, ValidIcon } from '../Icons'
 import * as S from './styles'
 
@@ -20,6 +19,8 @@ interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   $showErrorMessage?: boolean
   $showStrengthMeter?: boolean
   label?: string
+  showPassword?: boolean
+  onToggleShow?: () => void
 }
 
 export default function InputPassword({
@@ -31,9 +32,13 @@ export default function InputPassword({
   $error,
   $showErrorMessage = false,
   $showStrengthMeter = true,
+  showPassword: controlledShow,
+  onToggleShow,
   ...rest
 }: PasswordInputProps) {
-  const [showPassword, setShowPassword] = useState(false)
+  const [internalShow, setInternalShow] = useState(false)
+  const showPassword = controlledShow ?? internalShow
+
   const [strength, setStrength] = useState(false)
   const [hasMinLength, setHasMinLength] = useState(false)
   const [hasNumberOrSymbol, setHasNumberOrSymbol] = useState(false)
@@ -46,91 +51,80 @@ export default function InputPassword({
 
     const result = checkPasswordStrength(value, userName, userEmail)
     setStrength(result)
-
     setHasMinLength(value.length >= 8)
     setHasNumberOrSymbol(/\d|[!@#$%^&*(),.?":{}|<>]/.test(value))
 
-    let containsUserData = false
+    let contains = false
     if (userName && value.toLowerCase().includes(userName.toLowerCase())) {
-      containsUserData = true
+      contains = true
     }
     if (userEmail) {
       const emailPart = userEmail.split('@')[0]
       if (value.toLowerCase().includes(emailPart.toLowerCase())) {
-        containsUserData = true
+        contains = true
       }
     }
-    setNotContainsUserData(!containsUserData)
+    setNotContainsUserData(!contains)
   }, [value, userName, userEmail, $showStrengthMeter])
 
   const toggleShowPassword = () => {
-    if (inputRef.current) {
-      const selectionStart = inputRef.current.selectionStart
-      const selectionEnd = inputRef.current.selectionEnd
-
-      setShowPassword((prev) => !prev)
-
-      setTimeout(() => {
-        if (
-          inputRef.current &&
-          selectionStart !== null &&
-          selectionEnd !== null
-        ) {
-          inputRef.current.setSelectionRange(selectionStart, selectionEnd)
-        }
-      }, 0)
+    if (onToggleShow) {
+      onToggleShow()
     } else {
-      setShowPassword((prev) => !prev)
+      setInternalShow((prev) => !prev)
+    }
+
+    if (inputRef.current) {
+      const { selectionStart, selectionEnd } = inputRef.current
+      setTimeout(() => {
+        inputRef.current?.setSelectionRange(selectionStart!, selectionEnd!)
+      }, 0)
     }
   }
 
   return (
     <>
-      <div>
-        <S.Wrapper>
-          <Input
-            {...rest}
-            ref={inputRef}
-            type={showPassword ? 'text' : 'password'}
-            value={value}
-            onChange={(e) => onChange?.(e)}
-            $error={$error}
-            $showErrorMessage={$showErrorMessage}
-            label={label ?? 'Senha'}
-            $largePaddingRight
-          />
-          <S.ToggleButton
-            type="button"
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={toggleShowPassword}
-          >
-            {showPassword ? <Eye size={28} /> : <EyeSlash size={28} />}
-          </S.ToggleButton>
-        </S.Wrapper>
-        {$showErrorMessage && $showStrengthMeter && $error && (
-          <ErrorMessage $error={$error} />
-        )}
-      </div>
+      <S.Wrapper>
+        <Input
+          {...rest}
+          ref={inputRef}
+          type={showPassword ? 'text' : 'password'}
+          value={value}
+          onChange={onChange}
+          $error={$error}
+          $showErrorMessage={$showErrorMessage}
+          label={label ?? 'Senha'}
+          $largePaddingRight
+        />
+        <S.ToggleButton
+          type="button"
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={toggleShowPassword}
+        >
+          {showPassword ? <Eye size={28} /> : <EyeSlash size={28} />}
+        </S.ToggleButton>
+      </S.Wrapper>
+
       {$showStrengthMeter && value && (
         <S.Requirements>
           <S.Validation $isValid={strength}>
             {strength ? <ValidIcon /> : <ErrorIcon />}
-            {`Força da senha: ${strength ? 'boa' : 'fraca'}`}
+            Força da senha: {strength ? 'boa' : 'fraca'}
           </S.Validation>
 
           {!strength && (
             <>
               <S.Validation $isValid={hasMinLength}>
-                {!hasMinLength ? <ErrorIcon /> : <ValidIcon />}
-                <p>Pelo menos 8 caracteres</p>
+                {hasMinLength ? <ValidIcon /> : <ErrorIcon />}
+                Pelo menos 8 caracteres
               </S.Validation>
               <S.Validation $isValid={hasNumberOrSymbol}>
-                {!hasNumberOrSymbol ? <ErrorIcon /> : <ValidIcon />}
+                {hasNumberOrSymbol ? <ValidIcon /> : <ErrorIcon />}
                 Contém um número ou símbolo
               </S.Validation>
               <S.Validation $isValid={notContainsUserData}>
-                {!notContainsUserData ? <ErrorIcon /> : <ValidIcon />}
-                Não pode conter seu nome nem seu endereço de email
+                {notContainsUserData ? <ValidIcon /> : <ErrorIcon />}
+                Não pode conter seu nome nem seu email
               </S.Validation>
             </>
           )}

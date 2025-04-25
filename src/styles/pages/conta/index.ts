@@ -14,13 +14,22 @@ export const Main = styled.main`
   }
 `
 
-export const Header = styled.div`
+export const Header = styled.div<{ isSingle?: boolean }>`
+  display: ${({ isSingle }) => (isSingle ? 'flex' : 'none')};
   margin-bottom: 2rem;
 
   h1 {
-    font-size: ${({ theme }) => theme.common.font.sizes.heading.medium};
+    font-size: ${({ theme }) => theme.common.font.sizes.heading.xsmall};
     color: ${({ theme }) => theme.colors.text_standard};
     font-weight: bold;
+  }
+
+  @media ${device.md} {
+    display: flex;
+
+    h1 {
+      font-size: ${({ theme }) => theme.common.font.sizes.heading.large};
+    }
   }
 `
 

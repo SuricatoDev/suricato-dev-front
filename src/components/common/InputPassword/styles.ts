@@ -18,7 +18,6 @@ export const ToggleButton = styled.button`
   align-items: center;
   padding: 0 1rem;
   margin-right: calc(-1rem + 3px);
-  background-color: ${(props) => props.theme.colors.background_standard};
   border-radius: 0 8px 8px 0;
   height: 52px;
 `

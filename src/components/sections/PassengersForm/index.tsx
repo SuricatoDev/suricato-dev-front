@@ -141,7 +141,7 @@ export default function PassengerForm({
 
       const response = await axios.post('/api/passageiro', registrationPayload)
 
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status < 300) {
         await update()
 
         onComplete()
