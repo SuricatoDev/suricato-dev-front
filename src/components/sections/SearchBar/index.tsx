@@ -9,7 +9,8 @@ import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
 import { SlidersHorizontal } from '@phosphor-icons/react/dist/ssr/SlidersHorizontal'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
-import Button from '../common/Button'
+import Button from '@/components/common/Button'
+
 import * as S from './styles'
 
 interface SuggestionItem {

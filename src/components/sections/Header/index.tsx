@@ -11,11 +11,11 @@ import { useRouter } from 'next/router'
 
 import { useAuthStatus } from '@/contexts/AuthStatusProvider'
 
-import ResponsiveSearchBar from '@/components/SearchBar'
 import CategoriesBar from '@/components/common/CategoriesBar'
 import Divider from '@/components/common/Divider'
 import Portal from '@/components/common/Portal'
 
+import ResponsiveSearchBar from '../SearchBar'
 import { HeaderNavigation } from './navigation'
 import * as S from './styles'
 

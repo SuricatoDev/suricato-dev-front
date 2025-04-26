@@ -101,6 +101,10 @@ export default function ProfileEditPage() {
   const [showModal, setShowModal] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
+  useEffect(() => {
+    setProfilePic(userData?.foto_perfil || '')
+  }, [userData?.foto_perfil])
+
   const excursionistasSince = userData?.created_at
     ? formatExcursionistasSince(userData.created_at)
     : null
