@@ -1,12 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 
-import { CaretDoubleLeft } from '@phosphor-icons/react/dist/ssr/CaretDoubleLeft'
-import { CaretDoubleRight } from '@phosphor-icons/react/dist/ssr/CaretDoubleRight'
-import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
-import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
-import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
-import { CaretUp } from '@phosphor-icons/react/dist/ssr/CaretUp'
-import { X } from '@phosphor-icons/react/dist/ssr/X'
+import {
+  CaretDoubleLeft,
+  CaretDoubleRight,
+  CaretDown,
+  CaretLeft,
+  CaretRight,
+  CaretUp,
+  X
+} from '@phosphor-icons/react'
 
 import Input from '../Input'
 import * as S from './styles'
@@ -21,10 +23,17 @@ export type ListModalProps<T> = {
   itemsPerPageOptions?: number
   withPagination?: boolean
   closeButton?: boolean
+  disableStatusSort?: boolean
+  disableRatingSort?: boolean
 }
 
 export default function ListModal<
-  T extends { id: string; userName?: string; status?: 'pending' | 'approved' }
+  T extends {
+    id: string
+    userName?: string
+    status?: 'pending' | 'approved'
+    rating?: number
+  }
 >({
   $isOpen,
   onClose,
@@ -34,25 +43,26 @@ export default function ListModal<
   renderItem,
   itemsPerPageOptions = 6,
   withPagination = true,
-  closeButton = true
+  closeButton = true,
+  disableStatusSort = false,
+  disableRatingSort = true
 }: ListModalProps<T>) {
   const [searchTerm, setSearchTerm] = useState('')
-
   const [statusSort, setStatusSort] = useState<'none' | 'asc' | 'desc'>('none')
   const [nameSort, setNameSort] = useState<'none' | 'asc' | 'desc'>('none')
-
+  const [ratingSort, setRatingSort] = useState<'none' | 'asc' | 'desc'>('none')
   const [currentPage, setCurrentPage] = useState(1)
   const [canScrollDown, setCanScrollDown] = useState(false)
   const bodyRef = useRef<HTMLDivElement>(null)
 
   const itemsPerPage = itemsPerPageOptions
 
-  const cycleStatusSort = () => {
+  const cycleStatusSort = () =>
     setStatusSort((s) => (s === 'none' ? 'asc' : s === 'asc' ? 'desc' : 'none'))
-  }
-  const cycleNameSort = () => {
+  const cycleNameSort = () =>
     setNameSort((s) => (s === 'none' ? 'asc' : s === 'asc' ? 'desc' : 'none'))
-  }
+  const cycleRatingSort = () =>
+    setRatingSort((s) => (s === 'none' ? 'asc' : s === 'asc' ? 'desc' : 'none'))
 
   const filtered = useMemo(() => {
     const term = searchTerm.trim().toLowerCase()
@@ -65,7 +75,14 @@ export default function ListModal<
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
-      if (statusSort !== 'none') {
+      if (!disableRatingSort && ratingSort !== 'none') {
+        const aRt = a.rating ?? 0
+        const bRt = b.rating ?? 0
+        const diff = ratingSort === 'asc' ? aRt - bRt : bRt - aRt
+        if (diff !== 0) return diff
+      }
+
+      if (!disableStatusSort && statusSort !== 'none') {
         const aSt = a.status === 'pending' ? 0 : 1
         const bSt = b.status === 'pending' ? 0 : 1
         const diff = statusSort === 'asc' ? aSt - bSt : bSt - aSt
@@ -79,15 +96,32 @@ export default function ListModal<
           ? aNm.localeCompare(bNm)
           : bNm.localeCompare(aNm)
       }
+
       return 0
     })
-  }, [filtered, statusSort, nameSort])
+  }, [
+    filtered,
+    statusSort,
+    nameSort,
+    ratingSort,
+    disableStatusSort,
+    disableRatingSort
+  ])
 
   const totalPages = Math.max(1, Math.ceil(sorted.length / itemsPerPage))
 
   useEffect(
     () => setCurrentPage(1),
-    [searchTerm, statusSort, nameSort, itemsPerPage, items]
+    [
+      searchTerm,
+      statusSort,
+      nameSort,
+      ratingSort,
+      itemsPerPage,
+      items,
+      disableStatusSort,
+      disableRatingSort
+    ]
   )
 
   useEffect(() => {
@@ -163,18 +197,32 @@ export default function ListModal<
           />
 
           <S.SortContainer>
-            <S.SortButton
-              active={statusSort !== 'none'}
-              onClick={cycleStatusSort}
-            >
-              Status{' '}
-              {statusSort === 'asc' && <CaretUp size={16} weight="bold" />}
-              {statusSort === 'desc' && <CaretDown size={16} weight="bold" />}
-            </S.SortButton>
+            {!disableStatusSort && (
+              <S.SortButton
+                active={statusSort !== 'none'}
+                onClick={cycleStatusSort}
+              >
+                Status{' '}
+                {statusSort === 'asc' && <CaretUp size={16} weight="bold" />}
+                {statusSort === 'desc' && <CaretDown size={16} weight="bold" />}
+              </S.SortButton>
+            )}
+
             <S.SortButton active={nameSort !== 'none'} onClick={cycleNameSort}>
               Nome {nameSort === 'asc' && <CaretUp size={16} weight="bold" />}
               {nameSort === 'desc' && <CaretDown size={16} weight="bold" />}
             </S.SortButton>
+
+            {!disableRatingSort && (
+              <S.SortButton
+                active={ratingSort !== 'none'}
+                onClick={cycleRatingSort}
+              >
+                Nota{' '}
+                {ratingSort === 'asc' && <CaretUp size={16} weight="bold" />}
+                {ratingSort === 'desc' && <CaretDown size={16} weight="bold" />}
+              </S.SortButton>
+            )}
           </S.SortContainer>
 
           <S.List>

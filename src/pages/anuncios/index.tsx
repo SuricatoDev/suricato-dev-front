@@ -25,6 +25,7 @@ import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
 import MobileHeader from '@/components/sections/MobileHeader'
 import ProductCardEdit from '@/components/sections/ProductCardEdit'
+import RatePassengerModal from '@/components/sections/RatePassengerModal'
 
 import * as S from '@/styles/pages/anuncios'
 
@@ -292,14 +293,22 @@ export default function CaravanasManagementPage() {
             </S.ModalButtons>
           </S.ModalContent>
         </Modal>
-        {selectedCaravan && (
-          <ReservationConfirmationModal
-            caravanId={selectedCaravan.id}
-            caravanTitle={selectedCaravan.titulo}
-            isOpen={!!selectedCaravan}
-            onClose={() => setSelectedCaravan(null)}
-          />
-        )}
+        {selectedCaravan &&
+          (activeTab === 'upcoming' ? (
+            <ReservationConfirmationModal
+              caravanId={selectedCaravan.id}
+              caravanTitle={selectedCaravan.titulo}
+              isOpen={!!selectedCaravan}
+              onClose={() => setSelectedCaravan(null)}
+            />
+          ) : (
+            <RatePassengerModal
+              caravanId={selectedCaravan.id}
+              caravanTitle={selectedCaravan.titulo}
+              isOpen={!!selectedCaravan}
+              onClose={() => setSelectedCaravan(null)}
+            />
+          ))}
       </Portal>
     </>
   )
