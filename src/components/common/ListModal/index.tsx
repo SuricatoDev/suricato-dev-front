@@ -1,8 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
-import { CaretDoubleLeft, CaretRight, X } from '@phosphor-icons/react'
-import { CaretDoubleRight, CaretLeft } from '@phosphor-icons/react/dist/ssr'
+import { CaretDoubleLeft } from '@phosphor-icons/react/dist/ssr/CaretDoubleLeft'
+import { CaretDoubleRight } from '@phosphor-icons/react/dist/ssr/CaretDoubleRight'
+import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
+import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
+import { CaretUp } from '@phosphor-icons/react/dist/ssr/CaretUp'
+import { X } from '@phosphor-icons/react/dist/ssr/X'
 
+import Input from '../Input'
 import * as S from './styles'
 
 export type ListModalProps<T> = {
@@ -17,7 +23,9 @@ export type ListModalProps<T> = {
   closeButton?: boolean
 }
 
-export default function ListModal<T>({
+export default function ListModal<
+  T extends { id: string; userName?: string; status?: 'pending' | 'approved' }
+>({
   $isOpen,
   onClose,
   title,
@@ -28,46 +36,113 @@ export default function ListModal<T>({
   withPagination = true,
   closeButton = true
 }: ListModalProps<T>) {
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const [statusSort, setStatusSort] = useState<'none' | 'asc' | 'desc'>('none')
+  const [nameSort, setNameSort] = useState<'none' | 'asc' | 'desc'>('none')
+
   const [currentPage, setCurrentPage] = useState(1)
+  const [canScrollDown, setCanScrollDown] = useState(false)
+  const bodyRef = useRef<HTMLDivElement>(null)
+
   const itemsPerPage = itemsPerPageOptions
-  const totalPages = Math.max(1, Math.ceil(items.length / itemsPerPage))
+
+  const cycleStatusSort = () => {
+    setStatusSort((s) => (s === 'none' ? 'asc' : s === 'asc' ? 'desc' : 'none'))
+  }
+  const cycleNameSort = () => {
+    setNameSort((s) => (s === 'none' ? 'asc' : s === 'asc' ? 'desc' : 'none'))
+  }
+
+  const filtered = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase()
+    if (!term) return items
+    if (/^\d+$/.test(term)) {
+      return items.filter((item) => item.id === term)
+    }
+    return items.filter((item) => item.userName?.toLowerCase().includes(term))
+  }, [items, searchTerm])
+
+  const sorted = useMemo(() => {
+    return [...filtered].sort((a, b) => {
+      if (statusSort !== 'none') {
+        const aSt = a.status === 'pending' ? 0 : 1
+        const bSt = b.status === 'pending' ? 0 : 1
+        const diff = statusSort === 'asc' ? aSt - bSt : bSt - aSt
+        if (diff !== 0) return diff
+      }
+
+      if (nameSort !== 'none') {
+        const aNm = a.userName ?? ''
+        const bNm = b.userName ?? ''
+        return nameSort === 'asc'
+          ? aNm.localeCompare(bNm)
+          : bNm.localeCompare(aNm)
+      }
+      return 0
+    })
+  }, [filtered, statusSort, nameSort])
+
+  const totalPages = Math.max(1, Math.ceil(sorted.length / itemsPerPage))
+
+  useEffect(
+    () => setCurrentPage(1),
+    [searchTerm, statusSort, nameSort, itemsPerPage, items]
+  )
 
   useEffect(() => {
-    setCurrentPage(1)
-  }, [items, itemsPerPage])
+    document.body.style.overflow = $isOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [$isOpen])
 
-  const paginationRange = useMemo<number[]>(() => {
-    const windowSize = 3
+  useEffect(() => {
+    const el = bodyRef.current
+    if (!el) return
+    const check = () => {
+      const overflow = el.scrollHeight > el.clientHeight
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight
+      setCanScrollDown(overflow && !atBottom)
+    }
+    check()
+    el.addEventListener('scroll', check)
+    window.addEventListener('resize', check)
+    return () => {
+      el.removeEventListener('scroll', check)
+      window.removeEventListener('resize', check)
+    }
+  }, [sorted, withPagination])
+
+  const paginationRange = useMemo(() => {
+    const win = 3
     let start = currentPage - 1
     let end = currentPage + 1
-
     if (start < 1) {
       start = 1
-      end = Math.min(windowSize, totalPages)
+      end = Math.min(win, totalPages)
     }
-
     if (end > totalPages) {
       end = totalPages
-      start = Math.max(1, totalPages - (windowSize - 1))
+      start = Math.max(1, totalPages - (win - 1))
     }
-
-    const pages: number[] = []
-    for (let p = start; p <= end; p++) {
-      pages.push(p)
-    }
-    return pages
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i)
   }, [currentPage, totalPages])
 
   if (!$isOpen) return null
 
   const startIdx = (currentPage - 1) * itemsPerPage
   const pageItems = withPagination
-    ? items.slice(startIdx, startIdx + itemsPerPage)
-    : items
+    ? sorted.slice(startIdx, startIdx + itemsPerPage)
+    : sorted
 
   return (
     <S.Shadow onClick={onClose}>
-      <S.Container onClick={(e) => e.stopPropagation()}>
+      <S.Container
+        onClick={(e) => e.stopPropagation()}
+        withPagination={withPagination}
+        showGradient={canScrollDown}
+      >
         {closeButton && (
           <S.Header>
             <S.CloseButton onClick={onClose}>
@@ -77,13 +152,34 @@ export default function ListModal<T>({
           </S.Header>
         )}
 
-        <S.Body>
+        <S.Body ref={bodyRef} withPagination={withPagination}>
           {subtitle && <S.Subtitle>{subtitle}</S.Subtitle>}
+
+          <Input
+            label="Buscar"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Buscar por nome ou ID…"
+          />
+
+          <S.SortContainer>
+            <S.SortButton
+              active={statusSort !== 'none'}
+              onClick={cycleStatusSort}
+            >
+              Status{' '}
+              {statusSort === 'asc' && <CaretUp size={16} weight="bold" />}
+              {statusSort === 'desc' && <CaretDown size={16} weight="bold" />}
+            </S.SortButton>
+            <S.SortButton active={nameSort !== 'none'} onClick={cycleNameSort}>
+              Nome {nameSort === 'asc' && <CaretUp size={16} weight="bold" />}
+              {nameSort === 'desc' && <CaretDown size={16} weight="bold" />}
+            </S.SortButton>
+          </S.SortContainer>
+
           <S.List>
             {pageItems.map((item, idx) => (
-              <>
-                <S.ListItem key={idx}>{renderItem(item, idx)}</S.ListItem>
-              </>
+              <S.ListItem key={idx}>{renderItem(item, idx)}</S.ListItem>
             ))}
           </S.List>
         </S.Body>
@@ -91,14 +187,12 @@ export default function ListModal<T>({
         {withPagination && totalPages > 1 && (
           <S.Footer>
             <S.ArrowButton
-              className="first"
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(1)}
             >
               <CaretDoubleLeft size={18} weight="bold" />
             </S.ArrowButton>
             <S.ArrowButton
-              className="prev"
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
             >
@@ -118,14 +212,12 @@ export default function ListModal<T>({
             </S.PagesWrapper>
 
             <S.ArrowButton
-              className="next"
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}
             >
               <CaretRight size={18} weight="bold" />
             </S.ArrowButton>
             <S.ArrowButton
-              className="last"
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage(totalPages)}
             >

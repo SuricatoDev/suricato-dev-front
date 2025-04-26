@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
+import axios from 'axios'
+import { toast } from 'react-toastify'
+
 import Button from '@/components/common/Button'
 import ListModal from '@/components/common/ListModal'
+import Modal from '@/components/common/Modal'
 
 import * as S from './styles'
 
@@ -18,6 +22,8 @@ interface ReservationConfirmationModalProps {
   onClose: () => void
 }
 
+const ITEMS_PER_PAGE = 10
+
 export default function ReservationConfirmationModal({
   caravanId,
   caravanTitle,
@@ -25,6 +31,8 @@ export default function ReservationConfirmationModal({
   onClose
 }: ReservationConfirmationModalProps) {
   const [reservations, setReservations] = useState<Reservation[]>([])
+  const [confirmingId, setConfirmingId] = useState<string | null>(null)
+  const [isApproving, setIsApproving] = useState(false)
 
   useEffect(() => {
     if (!isOpen) return
@@ -52,54 +60,92 @@ export default function ReservationConfirmationModal({
       'Ricardo Dias'
     ]
 
-    const mockApiResponse = names.map((passageiro_nome, i) => ({
-      id: i,
-      caravana_id: 0,
-      passageiro_id: i,
-      status: i < 10 ? 'pendente' : 'aprovado',
-      passageiro_nome
+    const mock: Reservation[] = names.map((userName, i) => ({
+      id: String(i),
+      userName,
+      status: Math.round(Math.random()) === 0 ? 'pending' : 'approved'
     }))
 
-    const mapped: Reservation[] = mockApiResponse.map<Reservation>((item) => ({
-      id: String(item.id),
-      userName: item.passageiro_nome,
-      status: item.status === 'pendente' ? 'pending' : 'approved'
-    }))
-
-    setReservations(mapped)
+    setReservations(mock)
   }, [isOpen, caravanId])
 
-  const handleApprove = (id: string) => {
-    setReservations((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, status: 'approved' } : r))
-    )
+  const handleApprove = async (id: string) => {
+    setIsApproving(true)
+    try {
+      await axios.put(`/api/caravanas/${caravanId}/reservas/${id}/aprovar`)
+      setReservations((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, status: 'approved' } : r))
+      )
+      toast.success('Reserva aprovada com sucesso!')
+      setConfirmingId(null)
+    } catch {
+      toast.error('Falha ao aprovar reserva. Tente novamente.')
+    } finally {
+      setIsApproving(false)
+    }
   }
 
   return (
-    <ListModal<Reservation>
-      $isOpen={isOpen}
-      onClose={onClose}
-      closeButton
-      title={`${caravanTitle} – Reservas`}
-      subtitle="Confira a lista de passageiros aguardando aprovação:"
-      items={reservations}
-      withPagination={true}
-      itemsPerPageOptions={10}
-      renderItem={(r) => (
-        <>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <S.Dot status={r.status} />
-            <S.Name>{r.userName}</S.Name>
-          </div>
-          <Button
-            size="sm"
-            disabled={r.status === 'approved'}
-            onClick={() => handleApprove(r.id)}
-          >
-            Aprovar
-          </Button>
-        </>
-      )}
-    />
+    <>
+      <ListModal<Reservation>
+        $isOpen={isOpen}
+        onClose={onClose}
+        closeButton
+        title={caravanTitle}
+        subtitle="Confira a lista de passageiros aguardando aprovação:"
+        items={reservations}
+        withPagination
+        itemsPerPageOptions={ITEMS_PER_PAGE}
+        renderItem={(r) => (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <S.Dot status={r.status} />
+              <S.Name>{r.userName}</S.Name>
+            </div>
+            <Button
+              size="sm"
+              disabled={r.status === 'approved'}
+              onClick={() => r.status === 'pending' && setConfirmingId(r.id)}
+            >
+              Aprovar
+            </Button>
+          </>
+        )}
+      />
+
+      <Modal
+        $isOpen={confirmingId !== null}
+        onClose={() => setConfirmingId(null)}
+        closeButton={false}
+      >
+        <S.ModalContent>
+          <h3>Confirmar aprovação</h3>
+          <p>
+            Essa ação é irreversível. Deseja realmente aprovar o(a)
+            passageiro(a):
+            <strong>
+              <u>{reservations.find((r) => r.id === confirmingId)?.userName}</u>
+              <span>?</span>
+            </strong>
+          </p>
+          <S.ModalButtons>
+            <Button
+              variant="outlined"
+              onClick={() => setConfirmingId(null)}
+              disabled={isApproving}
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={() => confirmingId && handleApprove(confirmingId)}
+              loading={isApproving}
+              disabled={isApproving}
+            >
+              Aprovar
+            </Button>
+          </S.ModalButtons>
+        </S.ModalContent>
+      </Modal>
+    </>
   )
 }

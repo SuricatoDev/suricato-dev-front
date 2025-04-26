@@ -302,7 +302,6 @@ export const ProfilePic = styled.div`
   }
 `
 
-// Segmentado para três filtros + botão de busca
 export const Segmented = styled.div`
   display: flex;
   align-items: center;

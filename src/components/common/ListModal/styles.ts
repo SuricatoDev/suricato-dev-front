@@ -9,10 +9,14 @@ export const Shadow = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
+  z-index: 9999;
 `
 
-export const Container = styled.div`
+export const Container = styled.div<{
+  withPagination?: boolean
+  showGradient?: boolean
+}>`
+  position: relative;
   background: ${({ theme }) => theme.colors.background_standard};
   border-radius: 8px;
   width: calc(100% - 2rem);
@@ -21,6 +25,23 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
+  &::after {
+    content: '';
+    opacity: ${({ showGradient }) => (showGradient ? '1' : '0')};
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: ${({ withPagination }) => (withPagination ? '72px' : '0')};
+    height: 3rem;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      ${({ theme }) => theme.colors.background_standard} 100%
+    );
+    transition: opacity ${({ theme }) => theme.common.transition.default};
+  }
 `
 
 export const Header = styled.div`
@@ -55,13 +76,16 @@ export const Title = styled.h1`
 `
 export const Subtitle = styled.p`
   font-size: 1rem;
-  color: ${({ theme }) => theme.colors.text_medium};
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text_standard};
 `
 
-export const Body = styled.div`
+export const Body = styled.div<{ withPagination?: boolean }>`
+  position: relative;
   flex: 1;
   overflow-y: auto;
-  padding: 1.5rem;
+  padding: ${({ withPagination }) =>
+    withPagination ? '1.5rem 1.5rem 0' : '1.5rem'};
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -73,13 +97,14 @@ export const List = styled.ul`
   gap: 0.75rem;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding-bottom: 1.5rem;
 `
 
 export const ListItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: ${({ theme }) => theme.colors.text_medium};
 `
 
 export const PerPageSelect = styled.select`
@@ -101,7 +126,7 @@ export const PageButton = styled.button<{ active?: boolean }>`
   border: none;
   border-radius: 4px;
   background: ${({ active, theme }) =>
-    active ? theme.colors.primary_medium : 'rgba(0, 0, 0, 0.1)'};
+    active ? theme.colors.primary_medium : '#ddd'};
   color: ${({ active, theme }) => (active ? '#fff' : theme.colors.text_foggy)};
   cursor: pointer;
   &:disabled {
@@ -148,7 +173,7 @@ export const Footer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 1.5rem 1.5rem;
+  padding: 1.5rem;
 
   .next,
   .last {
@@ -159,4 +184,38 @@ export const Footer = styled.div`
   .first {
     margin-right: 0.5rem;
   }
+`
+export const SortContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  padding-bottom: 0.5rem;
+`
+
+export const SortButton = styled.button<{ active?: boolean }>`
+  display: flex;
+  gap: 0.25rem;
+  background: ${({ active, theme }) =>
+    active ? theme.colors.primary_medium : 'transparent'};
+  color: ${({ active, theme }) => (active ? '#fff' : theme.colors.text_medium)};
+  border: 2px solid ${({ theme }) => theme.colors.primary_medium};
+  border-radius: 16px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+
+  transition:
+    background-color ${({ theme }) => theme.common.transition.default},
+    color ${({ theme }) => theme.common.transition.default};
+`
+
+export const SearchContainer = styled.div`
+  position: sticky;
+  top: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: ${({ theme }) => theme.colors.background_standard};
+  z-index: 1;
 `

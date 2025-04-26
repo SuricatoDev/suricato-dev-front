@@ -205,7 +205,7 @@ export function ProductCardEdit({
         </S.CardSubInfo>
       </S.CardBody>
 
-      {activeTab === 'upcoming' && (
+      {activeTab === 'upcoming' ? (
         <>
           <S.MenuWrapper>
             <S.MenuToggle onClick={() => onToggleMenu(caravan.id)}>
@@ -234,6 +234,17 @@ export function ProductCardEdit({
             </Button>
           </S.CardFooter>
         </>
+      ) : (
+        <S.CardFooter>
+          <Button
+            fullWidth
+            onClick={() => {
+              onViewReservations && onViewReservations(caravan)
+            }}
+          >
+            Avaliar Passageiros
+          </Button>
+        </S.CardFooter>
       )}
     </S.Card>
   )

@@ -33,7 +33,6 @@ const Step4 = forwardRef<Step4Ref, Step4Props>(
   ({ setCanProceed, editMode = false }, ref) => {
     const { formData, updateFormData } = useContext(CreateAdContext)!
 
-    
     const initialAddress =
       formData.endereco_destino &&
       formData.bairro_destino &&
@@ -43,7 +42,6 @@ const Step4 = forwardRef<Step4Ref, Step4Props>(
         ? `${formData.endereco_destino}, ${formData.bairro_destino}, ${formData.cidade_destino} - ${formData.estado_destino}`
         : ''
 
-    // só pula direto se estiver em modo edição e já tiver endereço
     const canSkip = editMode && initialAddress.length > 0
 
     const [selectedAddress, setSelectedAddress] = useState(initialAddress)
@@ -62,7 +60,6 @@ const Step4 = forwardRef<Step4Ref, Step4Props>(
       number: ''
     })
 
-    // geocode do destino inicial ao montar, apenas em editMode
     useEffect(() => {
       if (canSkip && window.google?.maps) {
         const geocoder = new window.google.maps.Geocoder()
@@ -90,7 +87,6 @@ const Step4 = forwardRef<Step4Ref, Step4Props>(
       }
     }, [])
 
-    // controla habilitar/desabilitar botão "Próximo"
     useEffect(() => {
       if (subStep === 2 && (!canSkip || editMode)) {
         const { street, neighborhood, city, state, number } = address

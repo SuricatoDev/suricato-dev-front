@@ -105,3 +105,43 @@ export const Ellipsis = styled.span`
 
 export const NextArrow = styled(ArrowButton)``
 export const LastArrow = styled(ArrowButton)``
+
+export const ModalContent = styled.div`
+  background: ${({ theme }) => theme.colors.background_standard};
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+
+  h3 {
+    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    color: ${({ theme }) => theme.colors.text_standard};
+  }
+
+  p {
+    font-size: 1rem;
+    color: ${({ theme }) => theme.colors.text_medium};
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  strong {
+    width: 100%;
+    display: inline-block;
+    padding: 1rem 0 0.5rem;
+    font-size: ${({ theme }) => theme.common.font.sizes.heading.xxsmall};
+  }
+`
+
+export const ModalButtons = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+
+  & > button {
+    flex: 1 1;
+    white-space: nowrap;
+  }
+`

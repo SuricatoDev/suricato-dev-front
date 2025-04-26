@@ -155,7 +155,8 @@ export const Button = styled.a<ButtonProps & { $loading?: boolean }>`
     }
   }}
 
-  border-radius: ${({ $rounded }) => ($rounded ? '24px' : '8px')};
+  border-radius: ${({ $rounded, size }) =>
+    $rounded ? '24px' : size === 'sm' ? '4px' : '8px'};
 
   .content {
     display: flex;

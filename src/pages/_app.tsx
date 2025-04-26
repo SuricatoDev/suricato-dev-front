@@ -66,6 +66,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
                     newestOnTop={false}
                     position="bottom-center"
                     autoClose={3000}
+                    style={{
+                      zIndex: 99999
+                    }}
                   />
                   {!hideMobileFooter && <MobileFooter />}
                 </div>

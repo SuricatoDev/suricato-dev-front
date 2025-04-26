@@ -98,7 +98,6 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
           Boolean(number.trim())
         setCanProceed(isValid)
       } else {
-        // se pulamos direto ou estamos no passo 1
         setCanProceed(subStep === 2 && canSkip)
       }
     }, [subStep, address, canSkip])
