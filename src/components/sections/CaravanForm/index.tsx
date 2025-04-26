@@ -43,10 +43,15 @@ const Container = styled.div`
 
 interface CaravanFormProps {
   mode: 'create' | 'edit'
+  caravanId?: string
   initialData?: { imagens: ImageItem[] }
 }
 
-export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
+export default function CaravanForm({
+  mode,
+  initialData,
+  caravanId
+}: CaravanFormProps) {
   const isEditMode = mode === 'edit'
   const { data: session } = useSession()
   const { isOrganizer, loading } = useIsOrganizer()
@@ -110,12 +115,7 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
 
       const { imagens, ...rest } = formData
 
-      const dataToSend = {
-        ...rest,
-        evento_id: formData.caravana_id
-      }
-
-      payload.append('dados', JSON.stringify(dataToSend))
+      payload.append('dados', JSON.stringify(rest))
 
       imagens.forEach((img, index) => {
         if (img.file) {
@@ -128,11 +128,9 @@ export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
       if (isEditMode) {
         payload.append('_method', 'PUT')
 
-        await axios.post(
-          `/api/caravanas/editar/${formData.caravana_id}`,
-          payload,
-          { headers: { 'Content-Type': 'multipart/form-data' } }
-        )
+        await axios.post(`/api/caravanas/editar/${caravanId}`, payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
 
         toast.success('Edição concluída!')
         setTimeout(() => router.push('/anuncios'), 1000)

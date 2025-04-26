@@ -10,6 +10,7 @@ type ButtonOrLinkProps<T extends React.ElementType> = {
   icon?: React.ReactNode
   loading?: boolean
   rounded?: boolean
+  size?: 'sm' | 'md'
 } & React.ComponentPropsWithoutRef<T> & {
     href?: string
   }
@@ -23,6 +24,7 @@ export default function Button<T extends React.ElementType = 'button'>({
   icon,
   loading = false,
   rounded = false,
+  size = 'md',
   ...rest
 }: ButtonOrLinkProps<T>) {
   const Component = as || (href ? 'a' : 'button')
@@ -36,11 +38,12 @@ export default function Button<T extends React.ElementType = 'button'>({
       $loading={loading}
       $rounded={rounded}
       disabled={loading}
+      size={size}
       {...rest}
     >
       <span className="content">
         {icon && icon}
-        <S.Content>{children}</S.Content>
+        <S.Content size={size}>{children}</S.Content>
       </span>
       {loading && <S.Spinner className="spinner" />}
     </S.Button>

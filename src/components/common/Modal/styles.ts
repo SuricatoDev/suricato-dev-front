@@ -27,7 +27,7 @@ export const Modal = styled.div<Pick<ModalProps, '$withMaxSizes'>>`
 
   height: auto;
   width: ${({ $withMaxSizes }) =>
-    $withMaxSizes ? 'calc(100% - 2rem);' : 'unset'};
+    $withMaxSizes ? 'calc(100% - 2rem);' : '100%'};
   max-width: ${({ $withMaxSizes }) =>
     $withMaxSizes ? '400px' : 'calc(100% - 2rem);'};
   max-height: calc(100% - 2rem);

@@ -9,6 +9,7 @@ export interface ButtonProps {
   $variant: ButtonVariantType
   $loading?: boolean
   $rounded?: boolean
+  size?: 'sm' | 'md'
 }
 
 const rotate = keyframes`
@@ -34,13 +35,16 @@ const baseStyles = css<ButtonProps>`
   display: inline-flex;
   width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
   justify-content: center;
-  font-size: ${({ theme }) => theme.common.font.sizes.body.large};
+  font-size: ${({ theme, size }) => {
+    return size === 'sm' ? '0.875rem' : theme.common.font.sizes.body.large
+  }};
+  padding: ${({ size }) => (size === 'sm' ? '0 12px' : '0 24px')};
+
   line-height: 1.5;
   font-weight: 600;
   align-items: center;
   border-radius: 8px;
-  padding-left: 24px;
-  padding-right: 24px;
+
   text-decoration: none;
   cursor: pointer;
   opacity: ${({ $loading }) => ($loading ? 0.6 : 1)};
@@ -61,9 +65,9 @@ const baseStyles = css<ButtonProps>`
   }
 `
 
-export const Content = styled.span`
-  padding-top: 12px;
-  padding-bottom: 12px;
+export const Content = styled.span<{ size?: 'sm' | 'md' }>`
+  padding: ${({ size }) => (size === 'sm' ? '6px 0' : '12px 0')};
+
   margin: 1px 0;
   flex: 1;
   text-align: center;

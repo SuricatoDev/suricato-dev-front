@@ -1,4 +1,4 @@
-// pages/editar-caravana/[id].tsx
+
 import React, { useEffect, useState } from 'react'
 
 import { GetServerSideProps } from 'next'
@@ -30,10 +30,12 @@ const CaravanForm = dynamic(() => import('@/components/sections/CaravanForm'), {
 
 type EditarCaravanaPageProps = {
   initialServerData: ServerCaravan
+  caravanId: string
 }
 
 export default function EditarCaravanaPage({
-  initialServerData
+  initialServerData,
+  caravanId
 }: EditarCaravanaPageProps) {
   const [formData, setFormData] = useState<CaravanFormProps | null>(null)
 
@@ -88,7 +90,7 @@ export default function EditarCaravanaPage({
         />
         <meta name="robots" content="noindex, nofollow" />
       </Head>
-      <CaravanForm mode="edit" initialData={formData} />
+      <CaravanForm caravanId={caravanId} mode="edit" initialData={formData} />
     </CreateAdProvider>
   )
 }
@@ -97,10 +99,14 @@ export const getServerSideProps: GetServerSideProps<
   EditarCaravanaPageProps
 > = async (ctx) => {
   const { id } = ctx.query
+  if (typeof id !== 'string') {
+    throw new Error('Invalid id parameter')
+  }
   const { data } = await axios.get(`${process.env.BACKEND_URL}/caravanas/${id}`)
   return {
     props: {
-      initialServerData: data.data as ServerCaravan
+      initialServerData: data.data as ServerCaravan,
+      caravanId: id
     }
   }
 }

@@ -70,8 +70,6 @@ function SortableImage({
   }
   const isActive = activeId === item.id
 
-  console.log(url)
-
   return (
     <S.ImageWrapper
       ref={setNodeRef}

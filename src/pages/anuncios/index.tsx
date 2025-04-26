@@ -20,6 +20,7 @@ import Modal from '@/components/common/Modal'
 import NotOrganizerMessage from '@/components/common/NotOrganizerMessage'
 import Portal from '@/components/common/Portal'
 import Tabs, { TabItem } from '@/components/common/Tabs'
+import ReservationConfirmationModal from '@/components/sections/ConfirmReservationModal'
 import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
 import MobileHeader from '@/components/sections/MobileHeader'
@@ -43,6 +44,7 @@ export default function CaravanasManagementPage() {
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
   const [isOrganizerModalOpen, setIsOrganizerModalOpen] = useState(false)
   const [isLoadingDelete, setIsLoadingDelete] = useState(false)
+  const [selectedCaravan, setSelectedCaravan] = useState<Caravan | null>(null)
 
   const footerVisible = useFooterVisibility('mobile-footer', { threshold: 0.1 })
 
@@ -73,6 +75,10 @@ export default function CaravanasManagementPage() {
     activeTab === 'upcoming' ? upcomingCaravans : previousCaravans
 
   const caravanToDelete = caravans.find((c) => c.id === confirmDelete)
+
+  const handleViewReservations = (caravan: Caravan) => {
+    setSelectedCaravan(caravan)
+  }
 
   const tabs: TabItem<MyTab>[] = [
     { key: 'upcoming', label: 'Próximas Caravanas' },
@@ -226,6 +232,9 @@ export default function CaravanasManagementPage() {
                       onDelete={handleDelete}
                       priority={idx === 0}
                       isLoading={false}
+                      onViewReservations={() => {
+                        handleViewReservations(caravan)
+                      }}
                     />
                   ))}
                 </S.CaravanGrid>
@@ -283,6 +292,14 @@ export default function CaravanasManagementPage() {
             </S.ModalButtons>
           </S.ModalContent>
         </Modal>
+        {selectedCaravan && (
+          <ReservationConfirmationModal
+            caravanId={selectedCaravan.id}
+            caravanTitle={selectedCaravan.titulo}
+            isOpen={!!selectedCaravan}
+            onClose={() => setSelectedCaravan(null)}
+          />
+        )}
       </Portal>
     </>
   )

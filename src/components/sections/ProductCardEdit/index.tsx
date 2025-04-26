@@ -32,6 +32,7 @@ interface ProductCardEditProps {
   onToggleMenu: (id: string) => void
   onEdit: (id: string) => void
   onDelete: (id: string) => void
+  onViewReservations?: (caravan: Caravan) => void
 }
 
 export function ProductCardEdit({
@@ -42,7 +43,8 @@ export function ProductCardEdit({
   onEdit,
   onDelete,
   priority,
-  isLoading
+  isLoading,
+  onViewReservations
 }: ProductCardEditProps) {
   const prevRef = useRef<HTMLButtonElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
@@ -222,7 +224,14 @@ export function ProductCardEdit({
           </S.MenuWrapper>
 
           <S.CardFooter>
-            <Button fullWidth>Ver reservas</Button>
+            <Button
+              fullWidth
+              onClick={() => {
+                onViewReservations && onViewReservations(caravan)
+              }}
+            >
+              Ver reservas
+            </Button>
           </S.CardFooter>
         </>
       )}
