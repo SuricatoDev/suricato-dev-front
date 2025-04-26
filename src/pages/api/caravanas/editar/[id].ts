@@ -1,4 +1,3 @@
-
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import axios, { AxiosError } from 'axios'
@@ -12,8 +11,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== 'PUT') {
-    res.setHeader('Allow', ['PUT'])
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', ['POST'])
     return res.status(405).end(`Method ${req.method} Not Allowed`)
   }
 
@@ -32,7 +31,7 @@ export default async function handler(
   forwardHeaders.Authorization = `${token.token_type ?? 'Bearer'} ${token.access_token}`
 
   try {
-    const axiosRes = await axios.put(
+    const axiosRes = await axios.post(
       `${process.env.BACKEND_URL}/caravanas/${id}`,
       req,
       {
@@ -47,7 +46,6 @@ export default async function handler(
     const axiosError = err as AxiosError
 
     console.error(
-      '[API proxy PUT /caravanas/:id] error:',
       axiosError.response?.status,
       axiosError.response?.data || axiosError.message
     )

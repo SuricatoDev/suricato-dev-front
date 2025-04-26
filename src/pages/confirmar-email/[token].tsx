@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext } from 'next'
 
 import axios from 'axios'
+import Head from 'next/head'
 import Image from 'next/image'
 
 import * as S from '@/styles/pages/confirmar-email'
@@ -12,6 +13,14 @@ interface ConfirmarEmailProps {
 export default function ConfirmarEmail({ isValidToken }: ConfirmarEmailProps) {
   return (
     <>
+      <Head>
+        <title>Confirme seu email - Excursionistas</title>
+        <meta
+          name="description"
+          content="Confirme seu e-mail para ativar sua conta no Excursionistas."
+        />
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <S.Container>
         <S.Header>
           <Image

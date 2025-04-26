@@ -216,9 +216,12 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
               <S.Content>
                 <Gallery
                   images={
-                    caravan.imagens?.map((img) =>
-                      img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
-                    ) || []
+                    caravan.imagens
+                      ?.slice()
+                      .sort((a, b) => a.ordem - b.ordem)
+                      .map((img) =>
+                        img.path.replace(/\/{2,}(?=[^/]*$)/, '/')
+                      ) || []
                   }
                 />
                 <S.SpacingMobile>

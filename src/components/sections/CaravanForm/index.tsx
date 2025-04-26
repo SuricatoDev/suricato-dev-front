@@ -10,7 +10,7 @@ import styled from 'styled-components'
 
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 
-import { useCreateAd } from '@/contexts/CreateAdContext'
+import { ImageItem, useCreateAd } from '@/contexts/CreateAdContext'
 
 import FooterNav from '@/components/sections/FooterNav'
 import HeaderNav from '@/components/sections/HeaderNav'
@@ -43,15 +43,16 @@ const Container = styled.div`
 
 interface CaravanFormProps {
   mode: 'create' | 'edit'
-  initialData?: any
+  initialData?: { imagens: ImageItem[] }
 }
 
-export default function CaravanForm({ mode }: CaravanFormProps) {
+export default function CaravanForm({ mode, initialData }: CaravanFormProps) {
   const isEditMode = mode === 'edit'
+  const { data: session } = useSession()
   const { isOrganizer, loading } = useIsOrganizer()
   const router = useRouter()
 
-  const { formData } = useCreateAd()
+  const { formData, updateFormData } = useCreateAd()
 
   const [step, setStep] = useState(1)
   const totalSteps = 12
@@ -60,8 +61,15 @@ export default function CaravanForm({ mode }: CaravanFormProps) {
   const step3Ref = useRef<Step3Ref>(null)
   const step4Ref = useRef<Step4Ref>(null)
 
-  const { data: session } = useSession()
-  const { updateFormData } = useCreateAd()
+  const initialImageIdsRef = useRef<string[]>([])
+
+  useEffect(() => {
+    if (isEditMode && initialData?.imagens) {
+      initialImageIdsRef.current = initialData.imagens
+        .filter((img) => img.id != null)
+        .map((img) => String(img.id))
+    }
+  }, [isEditMode, initialData])
 
   useEffect(() => {
     const autoProceedSteps = [1, 2, 5]
@@ -75,69 +83,82 @@ export default function CaravanForm({ mode }: CaravanFormProps) {
   }, [loading, isOrganizer, router])
 
   useEffect(() => {
-    if (session && session.user) {
+    if (session?.user) {
       updateFormData('organizador_id', session.user.id)
     }
   }, [])
 
-  if (!isOrganizer) {
-    return null
-  }
+  if (!isOrganizer) return null
 
   const handleNext = async () => {
-    if (step === 3 && !step3Ref.current?.handleNext()) return
-    if (step === 4 && !step4Ref.current?.handleNext()) return
+    if (
+      (step === 3 && !step3Ref.current?.handleNext()) ||
+      (step === 4 && !step4Ref.current?.handleNext())
+    ) {
+      return
+    }
 
     if (step < totalSteps) {
       setStep((prev) => prev + 1)
-    } else {
-      try {
-        setIsLoading(true)
+      return
+    }
 
-        const payload = new FormData()
-        const { imagens, ...dados } = formData
+    try {
+      setIsLoading(true)
 
-        payload.append('dados', JSON.stringify(dados))
+      const payload = new FormData()
 
-        imagens.forEach((image) => {
-          payload.append('imagens[]', image.file)
-          payload.append('ordem_imagens[]', String(image.order))
+      const { imagens, ...rest } = formData
+
+      const dataToSend = {
+        ...rest,
+        evento_id: formData.caravana_id
+      }
+
+      payload.append('dados', JSON.stringify(dataToSend))
+
+      imagens.forEach((img, index) => {
+        if (img.file) {
+          payload.append(`imagens[${index}]`, img.file)
+        } else if (img.id) {
+          payload.append(`imagens[${index}]`, img.id.toString())
+        }
+      })
+
+      if (isEditMode) {
+        payload.append('_method', 'PUT')
+
+        await axios.post(
+          `/api/caravanas/editar/${formData.caravana_id}`,
+          payload,
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        )
+
+        toast.success('Edição concluída!')
+        setTimeout(() => router.push('/anuncios'), 1000)
+      } else {
+        await axios.post('/api/caravanas', payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
         })
 
-        if (isEditMode) {
-          await axios.put(
-            `/api/caravanas/editar/${formData.caravana_id}`,
-            payload,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            }
-          )
-          toast.success('Edição concluída!')
-        } else {
-          await axios.post('/api/caravanas', payload, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          })
-          toast.success('Caravana criada com sucesso!')
-          setTimeout(() => {
-            router.push(`/anuncios`)
-          }, 1000)
-        }
-      } catch (error) {
-        console.error('Erro ao criar o anúncio:', error)
-        toast.error('Ocorreu um erro ao criar o anúncio, tente novamente.')
-      } finally {
-        setIsLoading(false)
+        toast.success('Caravana criada com sucesso!')
+        setTimeout(() => router.push('/anuncios'), 1000)
       }
+    } catch (error) {
+      console.error(error)
+      toast.error('Ocorreu um erro ao salvar, tente novamente.')
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const handleBack = () => {
-    if (step === 3 && !step3Ref.current?.handleBack()) return
-    if (step === 4 && !step4Ref.current?.handleBack()) return
+    if (
+      (step === 3 && !step3Ref.current?.handleBack()) ||
+      (step === 4 && !step4Ref.current?.handleBack())
+    ) {
+      return
+    }
 
     if (step > 1) {
       setStep((prev) => prev - 1)

@@ -2,7 +2,7 @@ import React, { ReactNode, createContext, useContext, useState } from 'react'
 
 export type ImageItem = {
   id: string
-  file: File
+  file?: File
   previewUrl: string
   order: number
 }
@@ -91,10 +91,7 @@ export const CreateAdProvider = ({
     key: keyof CaravanFormProps,
     value: string | number | ImageItem[]
   ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [key]: value
-    }))
+    setFormData((prev) => ({ ...prev, [key]: value }))
   }
 
   return (
@@ -106,8 +103,7 @@ export const CreateAdProvider = ({
 
 export const useCreateAd = () => {
   const context = useContext(CreateAdContext)
-  if (!context) {
-    throw new Error('useCreateAd must be used within a CreateAdProvider')
-  }
+  if (!context)
+    throw new Error('useCreateAd must be used within CreateAdProvider')
   return context
 }

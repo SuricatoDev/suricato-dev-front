@@ -5,6 +5,7 @@ import { normalizeInput } from '@/utils/normalizer'
 import { validateFullName, validatePhone } from '@/validation/validations'
 import axios from 'axios'
 import { signOut, useSession } from 'next-auth/react'
+import Head from 'next/head'
 import Image from 'next/image'
 import InputMask from 'react-input-mask'
 import { toast } from 'react-toastify'
@@ -468,12 +469,19 @@ export default function ProfileEditPage() {
 
   return (
     <>
+      <Head>
+        <title>Minha Conta - Excursionistas</title>
+        <meta
+          name="description"
+          content="Gerencie suas informações pessoais e profissionais."
+        />
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <S.Wrapper>
         <Header $variant="simple" />
         <S.Main>
           <div className="container">
             <MobileHeader>Meu perfil</MobileHeader>
-
             <S.ProfileHeader>
               <S.ProfilePicWrapper onClick={handleFileClick}>
                 <S.ProfilePicContainer>

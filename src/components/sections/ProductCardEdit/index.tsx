@@ -129,36 +129,38 @@ export function ProductCardEdit({
             onSwiper={updateNavigation}
             onSlideChange={updateNavigation}
           >
-            {caravan.imagens.map((image, index) => (
-              <SwiperSlide key={`slide-${index}`}>
-                <div
-                  style={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '100%'
-                  }}
-                >
-                  {!imagesLoaded[index] && (
-                    <Skeleton height="100%" width="100%" radius="0" />
-                  )}
-                  <Image
-                    src={image.path.replace(/\/{2,}(?=[^/]*$)/, '/')}
-                    alt=""
-                    fill
+            {[...caravan.imagens]
+              .sort((a, b) => a.ordem - b.ordem)
+              .map((image, index) => (
+                <SwiperSlide key={`slide-${index}`}>
+                  <div
                     style={{
-                      objectFit: 'cover'
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%'
                     }}
-                    priority={index === 0 && priority ? true : undefined}
-                    fetchPriority={index === 0 && priority ? 'high' : 'low'}
-                    onLoad={() => {
-                      const newImagesLoaded = [...imagesLoaded]
-                      newImagesLoaded[index] = true
-                      setImagesLoaded(newImagesLoaded)
-                    }}
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
+                  >
+                    {!imagesLoaded[index] && (
+                      <Skeleton height="100%" width="100%" radius="0" />
+                    )}
+                    <Image
+                      src={image.path.replace(/\/{2,}(?=[^/]*$)/, '/')}
+                      alt=""
+                      fill
+                      style={{
+                        objectFit: 'cover'
+                      }}
+                      priority={index === 0 && priority ? true : undefined}
+                      fetchPriority={index === 0 && priority ? 'high' : 'low'}
+                      onLoad={() => {
+                        const newImagesLoaded = [...imagesLoaded]
+                        newImagesLoaded[index] = true
+                        setImagesLoaded(newImagesLoaded)
+                      }}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
           </Swiper>
         </S.ImageContainer>
         <S.CardCategory>{category?.label}</S.CardCategory>

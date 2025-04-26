@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react'
+// pages/anuncios/steps/Step7.tsx
+import React, { useEffect } from 'react'
 
 import { motion } from 'framer-motion'
 
-import { CreateAdContext } from '@/contexts/CreateAdContext'
+import { ImageItem, useCreateAd } from '@/contexts/CreateAdContext'
 
 import { ImageDropzone } from '@/components/common/ImageDropzone'
 
@@ -15,19 +16,13 @@ type Step7Props = {
 const MotionHeading = motion(S.Heading)
 
 export default function Step7({ setCanProceed }: Step7Props) {
-  const { formData, updateFormData } = useContext(CreateAdContext)!
+  const { formData, updateFormData } = useCreateAd()
 
   useEffect(() => {
     setCanProceed(formData.imagens.length >= 5)
   }, [formData.imagens, setCanProceed])
 
-  const handleFilesChange = (files: File[]) => {
-    const items = files.map((file, index) => ({
-      id: crypto.randomUUID(),
-      file,
-      previewUrl: URL.createObjectURL(file),
-      order: index
-    }))
+  const handleFilesChange = (items: ImageItem[]) => {
     updateFormData('imagens', items)
   }
 

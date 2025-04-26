@@ -58,9 +58,10 @@ export const CaravanGrid = styled.div`
   grid-template-columns: 1fr;
   gap: 1rem;
 
-  @media (${device.md}) {
+  @media (${device.xsm}) {
     grid-template-columns: repeat(2, 1fr);
   }
+
   @media (${device.lg}) {
     grid-template-columns: repeat(3, 1fr);
   }

@@ -4,6 +4,7 @@ import { Caravan } from '@/interfaces/caravan'
 import { fetcher } from '@/utils/fetcher'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import useSWR, { mutate } from 'swr'
@@ -166,6 +167,14 @@ export default function CaravanasManagementPage() {
 
   return (
     <>
+      <Head>
+        <title>Meus anúncios - Excursionistas</title>
+        <meta
+          name="description"
+          content="Gerencie seus anúncios de caravana e venda suas experiências."
+        />
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <S.Wrapper>
         <Header $variant="simple" />
         <MobileHeader>Meus anúncios</MobileHeader>

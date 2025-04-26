@@ -25,6 +25,7 @@ export interface Caravan {
   organizador_id: number
   imagens: {
     path: string
+    ordem: number
   }[]
 }
 interface Organizer {

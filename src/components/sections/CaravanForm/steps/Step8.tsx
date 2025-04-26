@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import {
   DndContext,
@@ -25,7 +25,7 @@ import { DotsThree } from '@phosphor-icons/react/dist/ssr/DotsThree'
 
 import useMediaQuery from '@/hooks/useMediaQuery'
 
-import { CreateAdContext, ImageItem } from '@/contexts/CreateAdContext'
+import { ImageItem, useCreateAd } from '@/contexts/CreateAdContext'
 
 import * as S from '@/styles/pages/anuncios/steps/step8'
 
@@ -43,7 +43,7 @@ interface SortableImageProps {
   isCover: boolean
 }
 
-const SortableImage = ({
+function SortableImage({
   item,
   index,
   isMobile,
@@ -52,7 +52,7 @@ const SortableImage = ({
   url,
   showMenu,
   isCover
-}: SortableImageProps) => {
+}: SortableImageProps) {
   const {
     attributes,
     listeners,
@@ -68,8 +68,9 @@ const SortableImage = ({
     cursor: 'grab',
     borderColor: isDragging ? '#888' : 'transparent'
   }
-
   const isActive = activeId === item.id
+
+  console.log(url)
 
   return (
     <S.ImageWrapper
@@ -78,7 +79,7 @@ const SortableImage = ({
       isCover={isCover}
       {...(!isMobile ? { ...attributes, ...listeners } : {})}
     >
-      {!isActive && url && (
+      {!isActive && (
         <Image
           src={url}
           alt={`Foto ${index + 1}`}
@@ -102,43 +103,37 @@ export default function Step8({
 }: {
   setCanProceed: (ok: boolean) => void
 }) {
-  const { formData, updateFormData } = useContext(CreateAdContext)!
+  const { formData, updateFormData } = useCreateAd()
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [activeId, setActiveId] = useState<string | null>(null)
-  const [imageUrls, setImageUrls] = useState<{ [id: string]: string }>({})
+  const [imageUrls, setImageUrls] = useState<Record<string, string>>({})
   const isMobile = useMediaQuery()
   const sensors = useSensors(useSensor(PointerSensor))
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isDraggingFile, setIsDraggingFile] = useState(false)
 
-  const handleDragEnter = () => setIsDraggingFile(true)
-  const handleDragLeave = () => setIsDraggingFile(false)
-
-  const activeImage =
-    formData.imagens.find((img) => img.id === activeId) || null
+  useEffect(() => {
+    setCanProceed(formData.imagens.length >= 5)
+  }, [formData.imagens, setCanProceed])
 
   useEffect(() => {
-    setCanProceed(formData.imagens.length > 0)
-  }, [formData.imagens])
-
-  useEffect(() => {
-    const urls: { [id: string]: string } = {}
+    const urls: Record<string, string> = {}
+    const toRevoke: string[] = []
     formData.imagens.forEach((img) => {
-      urls[img.id] = URL.createObjectURL(img.file)
+      if (img.file) {
+        const blobUrl = URL.createObjectURL(img.file)
+        urls[img.id] = blobUrl
+        toRevoke.push(blobUrl)
+      } else {
+        urls[img.id] = img.previewUrl
+      }
     })
     setImageUrls(urls)
-
-    return () => {
-      Object.values(urls).forEach((url) => URL.revokeObjectURL(url))
-    }
+    return () => toRevoke.forEach(URL.revokeObjectURL)
   }, [formData.imagens])
 
-  const updateImageOrders = (images: ImageItem[]): ImageItem[] => {
-    return images.map((image, index) => ({
-      ...image,
-      order: index
-    }))
-  }
+  const updateImageOrders = (imgs: ImageItem[]) =>
+    imgs.map((image, idx) => ({ ...image, order: idx }))
 
   const reorder = (from: number, to: number) => {
     let reordered = arrayMove(formData.imagens, from, to)
@@ -161,7 +156,6 @@ export default function Step8({
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
     setActiveId(null)
     if (!over || active.id === over.id) return
-
     const oldIndex = formData.imagens.findIndex((i) => i.id === active.id)
     const newIndex = formData.imagens.findIndex((i) => i.id === over.id)
     reorder(oldIndex, newIndex)
@@ -169,36 +163,36 @@ export default function Step8({
 
   const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      const newImage = {
-        id: crypto.randomUUID(),
-        file,
-        previewUrl: URL.createObjectURL(file),
-        order: formData.imagens.length
-      }
-      updateFormData('imagens', [...formData.imagens, newImage])
+    if (!file) return
+    const newItem: ImageItem = {
+      id: crypto.randomUUID(),
+      file,
+      previewUrl: '',
+      order: formData.imagens.length
     }
+    updateFormData('imagens', [...formData.imagens, newItem])
   }
 
   const handleDropFile = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     const file = e.dataTransfer.files?.[0]
-    if (file && file.type.startsWith('image/')) {
-      const newImage = {
+    if (file?.type.startsWith('image/')) {
+      const newItem: ImageItem = {
         id: crypto.randomUUID(),
         file,
-        previewUrl: URL.createObjectURL(file),
+        previewUrl: '',
         order: formData.imagens.length
       }
-      updateFormData('imagens', [...formData.imagens, newImage])
+      updateFormData('imagens', [...formData.imagens, newItem])
     }
   }
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragEnter = () => setIsDraggingFile(true)
+  const handleDragLeave = () => setIsDraggingFile(false)
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) =>
     e.preventDefault()
-  }
 
-  const renderImages = () => (
+  const renderGrid = () => (
     <S.Container>
       <MotionHeading
         initial={{ opacity: 0, y: -20 }}
@@ -207,35 +201,31 @@ export default function Step8({
       >
         <S.Title>Organize as fotos do seu anúncio</S.Title>
         <S.Description>
-          Você pode arrastar as imagens para reordenar, escolher a foto de capa
-          e excluir as que quiser.
+          Arraste para reordenar, escolha a capa ou exclua imagens.
         </S.Description>
       </MotionHeading>
+
       <MotionGrid
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2 }}
       >
         {formData.imagens.map((img, idx) => (
-          <div
-            key={img.id}
-            style={{
-              position: 'relative'
-            }}
-          >
+          <div key={img.id} style={{ position: 'relative' }}>
             <SortableImage
               item={img}
               index={idx}
-              isCover={idx === 0}
               isMobile={isMobile}
               activeId={activeId}
               onMenu={() =>
                 setOpenMenuId(openMenuId === img.id ? null : img.id)
               }
               url={imageUrls[img.id]}
-              showMenu={true}
+              showMenu
+              isCover={idx === 0}
             />
             {idx === 0 && <S.CoverTag>Foto de capa</S.CoverTag>}
+
             {isMobile && openMenuId === img.id && (
               <S.MenuList>
                 {idx > 0 && (
@@ -292,7 +282,7 @@ export default function Step8({
   )
 
   return isMobile ? (
-    renderImages()
+    renderGrid()
   ) : (
     <DndContext
       sensors={sensors}
@@ -300,22 +290,25 @@ export default function Step8({
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={formData.imagens} strategy={rectSortingStrategy}>
-        {renderImages()}
+      <SortableContext
+        items={formData.imagens.map((img) => img.id)}
+        strategy={rectSortingStrategy}
+      >
+        {renderGrid()}
       </SortableContext>
 
       <DragOverlay>
-        {activeImage && imageUrls[activeImage.id] ? (
+        {activeId && imageUrls[activeId] && (
           <S.OverlayImage>
             <Image
-              src={imageUrls[activeImage.id]}
+              src={imageUrls[activeId]}
               alt="Preview"
               fill
               unoptimized
               style={{ objectFit: 'contain' }}
             />
           </S.OverlayImage>
-        ) : null}
+        )}
       </DragOverlay>
     </DndContext>
   )

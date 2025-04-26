@@ -6,46 +6,42 @@ import { useDropzone } from 'react-dropzone'
 import { Plus } from '@phosphor-icons/react/dist/ssr/Plus'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
+import { ImageItem } from '@/contexts/CreateAdContext'
+
 import * as S from './styles'
 
 type ImageDropzoneProps = {
-  onFilesChange?: (files: File[]) => void
-  initialFiles?: { file: File; previewUrl: string }[]
+  onFilesChange?: (items: ImageItem[]) => void
+  initialFiles?: ImageItem[]
 }
 
 export function ImageDropzone({
   onFilesChange,
-  initialFiles
+  initialFiles = []
 }: ImageDropzoneProps) {
-  const [images, setImages] = useState<{ file: File; previewUrl: string }[]>([])
+  const [images, setImages] = useState<ImageItem[]>(initialFiles)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [inputKey, setInputKey] = useState(0)
 
   useEffect(() => {
-    if (initialFiles && initialFiles.length > 0) {
-      setImages(initialFiles)
-    }
+    setImages(initialFiles)
   }, [initialFiles])
-
-  const [inputKey, setInputKey] = useState(0)
-  const inputRef = useRef<HTMLInputElement>(null)
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const newFiles = acceptedFiles.map((file) => ({
+      const startIndex = images.length
+      const newItems = acceptedFiles.map((file, i) => ({
+        id: crypto.randomUUID(),
         file,
-        previewUrl: URL.createObjectURL(file)
+        previewUrl: URL.createObjectURL(file),
+        order: startIndex + i
       }))
-
-      setImages((prev) => {
-        const merged = [...prev, ...newFiles]
-        if (onFilesChange) {
-          onFilesChange(merged.map(({ file }) => file))
-        }
-        return merged
-      })
-
-      setInputKey((prev) => prev + 1)
+      const updated = [...images, ...newItems]
+      setImages(updated)
+      onFilesChange?.(updated)
+      setInputKey((k) => k + 1)
     },
-    [onFilesChange]
+    [images, onFilesChange]
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -54,14 +50,11 @@ export function ImageDropzone({
     multiple: true
   })
 
-  const removeImage = (index: number) => {
-    const updatedImages = images.filter((_, i) => i !== index)
-    setImages(updatedImages)
-    if (onFilesChange) {
-      onFilesChange(updatedImages.map(({ file }) => file))
-    }
-
-    setInputKey((prev) => prev + 1)
+  const removeImage = (idx: number) => {
+    const updated = images.filter((_, i) => i !== idx)
+    setImages(updated)
+    onFilesChange?.(updated)
+    setInputKey((k) => k + 1)
   }
 
   return (
@@ -74,7 +67,6 @@ export function ImageDropzone({
           e.stopPropagation()
           return
         }
-
         inputRef.current?.click()
       }}
       style={{ cursor: images.length > 0 ? 'auto' : 'pointer' }}
@@ -100,15 +92,12 @@ export function ImageDropzone({
           <Plus weight="bold" size={20} color="#fff" />
         </S.AddMoreButton>
       )}
+
       {images.length > 0 && (
-        <S.PreviewsGrid
-          onClick={(e) => {
-            e.stopPropagation()
-          }}
-        >
-          {images.map(({ previewUrl }, index) => (
-            <S.PreviewWrapper key={index}>
-              <S.PreviewImage src={previewUrl} alt={`preview-${index}`} />
+        <S.PreviewsGrid onClick={(e) => e.stopPropagation()}>
+          {images.map((img, index) => (
+            <S.PreviewWrapper key={img.id}>
+              <S.PreviewImage src={img.previewUrl} alt={`preview-${index}`} />
               <S.RemoveButton
                 onClick={(e) => {
                   e.stopPropagation()
