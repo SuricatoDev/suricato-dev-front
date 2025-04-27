@@ -134,7 +134,7 @@ export default function Reservas({ history, userId }: ReservasPageProps) {
               <HistoryCard
                 key={item.id}
                 caravan={item}
-                enableActionsButtons={activeTab !== 'upcoming'}
+                enableActionsButtons={activeTab === 'upcoming'}
                 onCancel={handleCancel}
                 isCancelling={cancellingId === Number(item.id)}
                 onRate={(rating) => handleRate(Number(item.id), rating)}
