@@ -54,7 +54,7 @@ export default function Header({
     oferecer,
     faq,
     conta,
-    viagens,
+    reservas,
     favoritos,
     sair,
     editar,
@@ -92,14 +92,14 @@ export default function Header({
 
   const navItems = useMemo(() => {
     return isLogged
-      ? [explorar, favoritos, anunciar, sobre, faq]
+      ? [explorar, favoritos, reservas, anunciar, sobre, faq]
       : [explorar, anunciar, sobre, faq]
   }, [isLogged])
 
   const profileItems: ProfileItem[] = useMemo(() => {
     return isLogged
       ? [
-          viagens,
+          reservas,
           favoritos,
           'divider',
           editar,
@@ -132,8 +132,8 @@ export default function Header({
       <S.Wrapper $variant={$variant} $isScrolled={isScrolled}>
         <S.Container>
           <S.TopHeader>
-            <Link href="/" passHref>
-              <S.Logo src={logo} alt="Logo" width={50} height={50} />
+            <Link href="/" passHref style={{ display: 'flex', width: '85px' }}>
+              <S.Logo src={logo} alt="Logo" width={60} height={60} />
             </Link>
 
             <S.Menu $isScrolled={isScrolled && $variant === 'default'}>

@@ -37,6 +37,7 @@ export const SpacingMobile = styled.div`
     padding: 0;
   }
 `
+
 export const Title = styled.h1`
   display: none;
   font-size: 1.5rem;

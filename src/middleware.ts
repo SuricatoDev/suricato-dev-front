@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
     '/anuncios',
     '/conta',
     '/favoritos',
-    '/viagens',
+    '/reservas',
     '/cadastrar-empresa'
   ]
 
@@ -34,7 +34,7 @@ export const config = {
     '/anuncios/:path*',
     '/conta/:path*',
     '/favoritos',
-    '/viagens',
+    '/reservas',
     '/cadastrar-empresa'
   ]
 }

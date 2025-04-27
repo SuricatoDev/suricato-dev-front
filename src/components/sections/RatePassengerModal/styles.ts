@@ -2,6 +2,8 @@ import styled from 'styled-components'
 
 import Button from '@/components/common/Button'
 
+import { device } from '@/styles/breakpoints'
+
 export const Wrapper = styled.div`
   width: 100%;
   max-width: 600px;
@@ -207,4 +209,27 @@ export const ContainerLoading = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+`
+
+export const EmptyMessage = styled.span`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.text_foggy};
+  padding: 4rem 1rem;
+  height: 300px;
+
+  @media ${device.md} {
+    font-size: 1.25rem;
+    svg {
+      width: 90px;
+      height: 90px;
+    }
+  }
 `

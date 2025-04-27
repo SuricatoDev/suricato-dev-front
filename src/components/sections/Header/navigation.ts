@@ -20,7 +20,7 @@ export const HeaderNavigation = {
   faq: {
     value: 'faq',
     label: 'Central de Ajuda',
-    href: '/viagens',
+    href: '/faq',
     isBold: false
   },
   conta: {
@@ -29,10 +29,10 @@ export const HeaderNavigation = {
     href: '/conta',
     isBold: false
   },
-  viagens: {
-    value: 'viagens',
-    label: 'Viagens',
-    href: '/viagens',
+  reservas: {
+    value: 'reservas',
+    label: 'Reservas',
+    href: '/reservas',
     isBold: true
   },
   favoritos: {

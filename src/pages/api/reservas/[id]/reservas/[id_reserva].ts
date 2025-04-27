@@ -33,7 +33,7 @@ export default async function handler(
       case 'PUT': {
         const response = await apiBackend({
           method: 'PUT',
-          url: `/caravanas/${id}/reservas/${id_reserva}`,
+          url: `/caravana/${id}/reserva/${id_reserva}`,
           headers: {
             Authorization: `${tokenType} ${accessToken}`
           },
@@ -45,7 +45,7 @@ export default async function handler(
       case 'DELETE': {
         const response = await apiBackend({
           method: 'DELETE',
-          url: `/caravanas/${id}/reservas/${id_reserva}`,
+          url: `/caravana/${id}/reserva/${id_reserva}`,
           headers: {
             Authorization: `${tokenType} ${accessToken}`
           }

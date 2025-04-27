@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 
+import { SmileySad } from '@phosphor-icons/react/dist/ssr'
 import { Star } from '@phosphor-icons/react/dist/ssr/Star'
 
 import Button from '@/components/common/Button'
@@ -116,7 +117,7 @@ export default function RatePassengerModal({
 
   return (
     <>
-      {isOpen && loadingPassengers ? (
+      {isOpen && loadingPassengers && (
         <Modal
           style={{ maxWidth: '600px' }}
           $withMaxSizes={false}
@@ -128,7 +129,24 @@ export default function RatePassengerModal({
             <S.Loader />
           </S.LoaderWrapper>
         </Modal>
-      ) : (
+      )}
+
+      {isOpen && !loadingPassengers && passengers.length === 0 && (
+        <Modal
+          style={{ maxWidth: '600px', width: 'calc(100% - 2rem)' }}
+          $withMaxSizes={false}
+          $isOpen
+          onClose={onClose}
+          closeButton={false}
+        >
+          <S.EmptyMessage>
+            <SmileySad size={64} weight="fill" />
+            Nenhuma passagiero para avaliar
+          </S.EmptyMessage>
+        </Modal>
+      )}
+
+      {isOpen && !loadingPassengers && passengers.length > 0 && (
         <ListModal<Passenger>
           $isOpen={isOpen}
           onClose={onClose}

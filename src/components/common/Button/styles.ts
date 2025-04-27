@@ -15,6 +15,7 @@ export interface ButtonProps {
   $variant: ButtonVariantType
   $loading?: boolean
   $rounded?: boolean
+  disabled?: boolean
   size?: 'sm' | 'md'
 }
 
@@ -43,11 +44,14 @@ const baseStyles = css<ButtonProps>`
   line-height: 1.5;
   font-weight: 600;
   align-items: center;
-  border-radius: 8px;
+  border-radius: ${({ $rounded, size }) =>
+    $rounded ? '24px' : size === 'sm' ? '4px' : '8px'};
   text-decoration: none;
-  cursor: pointer;
-  opacity: ${({ $loading }) => ($loading ? 0.6 : 1)};
-  pointer-events: ${({ $loading }) => ($loading ? 'none' : 'auto')};
+  user-select: none;
+  transition: all ${({ theme }) => theme.common.transition.default};
+  cursor: ${({ disabled, $loading }) =>
+    disabled || $loading ? 'not-allowed' : 'pointer'};
+  opacity: ${({ disabled, $loading }) => (disabled || $loading ? 0.6 : 1)};
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.text_standard};
@@ -56,11 +60,6 @@ const baseStyles = css<ButtonProps>`
   &:active {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
     outline: none;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
   }
 `
 

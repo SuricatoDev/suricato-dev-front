@@ -45,6 +45,12 @@ export const Segment = styled.div<{ $active?: boolean; $isScrolled?: boolean }>`
   position: relative;
   transition: all 0.2s;
 
+  @media ${device.md} {
+    &:hover {
+      background: #f7f7f7;
+    }
+  }
+
   small {
     font-size: 0.75rem;
     color: #${({ theme }) => theme.colors.text_standard};
@@ -81,6 +87,14 @@ export const SearchButton = styled.button`
   cursor: pointer;
   overflow: hidden;
   white-space: nowrap;
+
+  transition: background-color ${({ theme }) => theme.common.transition.default};
+
+  @media ${device.md} {
+    &:hover {
+      background: ${({ theme }) => theme.colors.primary_light};
+    }
+  }
 `
 export const Dropdown = styled.div`
   position: absolute;

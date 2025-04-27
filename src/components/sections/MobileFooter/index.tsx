@@ -12,7 +12,7 @@ import * as S from './styles'
 export default function MobileFooter() {
   const { isLogged } = useAuthStatus()
 
-  const { explorar, caravanas, entrar, perfil, anunciar, favoritos } =
+  const { explorar, reservas, entrar, perfil, anunciar, favoritos } =
     MobileFooterNavigation
 
   const router = useRouter()
@@ -20,7 +20,7 @@ export default function MobileFooter() {
 
   const navItems = useMemo(() => {
     return isLogged
-      ? [explorar, favoritos, caravanas, anunciar, perfil]
+      ? [explorar, favoritos, reservas, anunciar, perfil]
       : [explorar, entrar]
   }, [isLogged])
 

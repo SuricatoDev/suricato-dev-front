@@ -294,7 +294,7 @@ export default function CaravanasManagementPage() {
           </S.ModalContent>
         </Modal>
         {selectedCaravan &&
-          (activeTab === 'upcoming' ? (
+          (activeTab !== 'upcoming' ? (
             <ReservationConfirmationModal
               caravanId={selectedCaravan.id}
               caravanTitle={selectedCaravan.titulo}

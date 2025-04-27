@@ -162,8 +162,8 @@ export default function ReservationConfirmationModal({
                   )?.nome
                 }
               </u>
+              ?
             </strong>
-            ?
           </p>
           <S.ModalButtons>
             <Button

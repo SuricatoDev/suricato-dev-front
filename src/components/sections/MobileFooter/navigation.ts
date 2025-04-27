@@ -11,11 +11,11 @@ export const MobileFooterNavigation = {
     icon: MagnifyingGlass,
     href: '/'
   },
-  caravanas: {
-    id: 'caravanas',
-    label: 'Caravanas',
+  reservas: {
+    id: 'reservas',
+    label: 'Reservas',
     icon: Van,
-    href: '/caravanas'
+    href: '/reservas'
   },
   perfil: { id: 'perfil', label: 'Perfil', icon: UserCircle, href: '/conta' },
   entrar: { id: 'entrar', label: 'Entrar', icon: UserCircle, href: '/login' },
