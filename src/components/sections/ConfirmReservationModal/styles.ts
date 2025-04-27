@@ -2,6 +2,8 @@ import styled from 'styled-components'
 
 import Button from '@/components/common/Button'
 
+import { device } from '@/styles/breakpoints'
+
 export const Wrapper = styled.div`
   width: 100%;
   max-width: 600px;
@@ -49,7 +51,7 @@ export const Dot = styled.span<{ status: string }>`
   height: 8px;
   border-radius: 50%;
   background: ${({ status, theme }) =>
-    status === 'approved'
+    status === 'Confirmado'
       ? theme.colors.alert_success
       : theme.colors.alert_warning};
 `
@@ -143,5 +145,64 @@ export const ModalButtons = styled.div`
   & > button {
     flex: 1 1;
     white-space: nowrap;
+  }
+`
+
+export const LoaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+`
+
+export const Loader = styled.div`
+  position: absolute;
+  top: calc(50% - 35px);
+  left: calc(50% - 35px);
+  border: 6px solid ${({ theme }) => theme.colors.text_ultrafoggy};
+  border-top-color: ${({ theme }) => theme.colors.primary_medium};
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  animation: spin 0.8s linear infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`
+
+export const ContainerLoading = styled.div`
+  position: relative;
+  background: ${({ theme }) => theme.colors.background_standard};
+  border-radius: 8px;
+  width: calc(100% - 2rem);
+  max-height: calc(100% - 2rem);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`
+
+export const EmptyMessage = styled.span`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.text_foggy};
+  padding: 4rem 1rem;
+  height: 300px;
+
+  @media ${device.md} {
+    font-size: 1.25rem;
+    svg {
+      width: 90px;
+      height: 90px;
+    }
   }
 `

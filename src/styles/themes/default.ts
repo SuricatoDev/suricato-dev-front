@@ -7,6 +7,7 @@ export const defaultTheme = {
     text_medium: '#383838',
     text_light: '#8C8C8C',
     text_foggy: '#6A6A6A',
+    text_ultrafoggy: '#EDEDED',
     text_ultralight: '#FFFFFF',
     text_neutralLight: '#FEFEFE',
     base_standard: '#1D1D1D',

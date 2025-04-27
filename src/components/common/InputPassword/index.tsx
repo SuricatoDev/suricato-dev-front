@@ -97,6 +97,7 @@ export default function InputPassword({
           $largePaddingRight
         />
         <S.ToggleButton
+          tabIndex={-1}
           type="button"
           onMouseDown={(e) => e.preventDefault()}
           onClick={toggleShowPassword}

@@ -1,14 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 
-import {
-  CaretDoubleLeft,
-  CaretDoubleRight,
-  CaretDown,
-  CaretLeft,
-  CaretRight,
-  CaretUp,
-  X
-} from '@phosphor-icons/react'
+import { Passenger } from '@/interfaces/passenger'
+import { Reservation } from '@/interfaces/reservation'
+
+import { CaretDoubleLeft } from '@phosphor-icons/react/dist/ssr/CaretDoubleLeft'
+import { CaretDoubleRight } from '@phosphor-icons/react/dist/ssr/CaretDoubleRight'
+import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
+import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
+import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
+import { CaretUp } from '@phosphor-icons/react/dist/ssr/CaretUp'
+import { X } from '@phosphor-icons/react/dist/ssr/X'
 
 import Input from '../Input'
 import * as S from './styles'
@@ -27,14 +28,7 @@ export type ListModalProps<T> = {
   disableRatingSort?: boolean
 }
 
-export default function ListModal<
-  T extends {
-    id: string
-    userName?: string
-    status?: 'pending' | 'approved'
-    rating?: number
-  }
->({
+export default function ListModal<T extends Reservation | Passenger>({
   $isOpen,
   onClose,
   title,
@@ -68,30 +62,40 @@ export default function ListModal<
     const term = searchTerm.trim().toLowerCase()
     if (!term) return items
     if (/^\d+$/.test(term)) {
-      return items.filter((item) => item.id === term)
+      return items.filter((item) => String(item.passageiro_id) === term)
     }
-    return items.filter((item) => item.userName?.toLowerCase().includes(term))
+    return items.filter((item) => item.nome?.toLowerCase().includes(term))
   }, [items, searchTerm])
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
-      if (!disableRatingSort && ratingSort !== 'none') {
-        const aRt = a.rating ?? 0
-        const bRt = b.rating ?? 0
+      if (
+        !disableRatingSort &&
+        ratingSort !== 'none' &&
+        'nota' in a &&
+        'nota' in b
+      ) {
+        const aRt = Number(a.nota) || 0
+        const bRt = Number(b.nota) || 0
         const diff = ratingSort === 'asc' ? aRt - bRt : bRt - aRt
-        if (diff !== 0) return diff
+        if (diff !== 0) {
+          return diff
+        }
       }
 
       if (!disableStatusSort && statusSort !== 'none') {
-        const aSt = a.status === 'pending' ? 0 : 1
-        const bSt = b.status === 'pending' ? 0 : 1
+        const aSt = 'status' in a && a.status === 'Pendente' ? 0 : 1
+        const bSt = 'status' in b && b.status === 'Pendente' ? 0 : 1
         const diff = statusSort === 'asc' ? aSt - bSt : bSt - aSt
-        if (diff !== 0) return diff
+
+        if (diff !== 0) {
+          return diff
+        }
       }
 
       if (nameSort !== 'none') {
-        const aNm = a.userName ?? ''
-        const bNm = b.userName ?? ''
+        const aNm = a.nome ?? ''
+        const bNm = b.nome ?? ''
         return nameSort === 'asc'
           ? aNm.localeCompare(bNm)
           : bNm.localeCompare(aNm)

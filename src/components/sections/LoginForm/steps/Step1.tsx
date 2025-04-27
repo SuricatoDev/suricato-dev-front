@@ -11,11 +11,17 @@ import * as S from '../styles'
 
 interface Step1Props {
   onNext: () => void
+  onRecover: () => void
   onClose: () => void
   isModal: boolean
 }
 
-export default function Step1({ onNext, isModal, onClose }: Step1Props) {
+export default function Step1({
+  onNext,
+  onRecover,
+  isModal,
+  onClose
+}: Step1Props) {
   const [isLoading, setIsLoading] = useState(false)
   const [showPasswordField, setShowPasswordField] = useState(false)
   const {
@@ -25,14 +31,15 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
     setError,
     clearErrors
   } = useFormContext()
+
   const emailValue = watch('email')
   const passwordValue = watch('password')
   const isButtonDisabled =
     !emailValue ||
     !!errors.email ||
     (showPasswordField && (!passwordValue || !!errors.password))
-  const [validatedEmail, setValidatedEmail] = useState<string | null>(null)
 
+  const [validatedEmail, setValidatedEmail] = useState<string | null>(null)
   useEffect(() => {
     if (validatedEmail && emailValue !== validatedEmail) {
       setShowPasswordField(false)
@@ -40,22 +47,21 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
   }, [emailValue, validatedEmail])
 
   const handleNext = async () => {
+    setIsLoading(true)
     try {
-      setIsLoading(true)
-      const response = await fetch('/api/autenticacao/verificar-email', {
+      const res = await fetch('/api/autenticacao/verificar-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailValue })
       })
-
-      if (response.status === 200) {
+      if (res.status === 200) {
         setShowPasswordField(true)
         setValidatedEmail(emailValue)
       } else {
         onNext()
       }
-    } catch (error) {
-      console.error('Erro na requisição de verificar email:', error)
+    } catch (err) {
+      console.error(err)
     } finally {
       setIsLoading(false)
     }
@@ -64,13 +70,11 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
   const handleLogin = async () => {
     setIsLoading(true)
     clearErrors('password')
-
     const result = await signIn('credentials', {
       redirect: false,
       email: emailValue,
       password: passwordValue
     })
-
     setIsLoading(false)
 
     if (result?.error) {
@@ -78,11 +82,7 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
         type: 'manual',
         message: 'Senha incorreta para o e-mail informado'
       })
-    } else {
-      if (!isModal) {
-        return
-      }
-
+    } else if (isModal) {
       onClose()
     }
   }
@@ -107,58 +107,65 @@ export default function Step1({ onNext, isModal, onClose }: Step1Props) {
               value={field.value}
               onChange={field.onChange}
               onBlur={field.onBlur}
-              $error={error ? error.message : undefined}
-              showDropdown={!isModal}
+              $error={error?.message}
               placeholder="Digite seu e-mail"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault()
-                  handleNext()
-                }
-              }}
+              showDropdown={!isModal}
+              onKeyDown={(e) =>
+                e.key === 'Enter' && (e.preventDefault(), handleNext())
+              }
             />
           )}
         />
 
         {showPasswordField && (
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            rules={{
-              required: 'A senha é obrigatória'
-            }}
-            render={({ field, fieldState: { error } }) => (
-              <InputPassword
-                value={field.value}
-                onChange={(e) => {
-                  field.onChange(e)
-                  clearErrors('password')
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault()
-                    handleLogin()
+          <>
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              rules={{ required: 'A senha é obrigatória' }}
+              render={({ field, fieldState: { error } }) => (
+                <InputPassword
+                  value={field.value}
+                  onChange={(e) => {
+                    field.onChange(e)
+                    clearErrors('password')
+                  }}
+                  onBlur={field.onBlur}
+                  placeholder="Digite sua senha"
+                  $error={error?.message}
+                  $showStrengthMeter={false}
+                  $showErrorMessage={true}
+                  onKeyDown={(e) =>
+                    e.key === 'Enter' && (e.preventDefault(), handleLogin())
                   }
-                }}
-                onBlur={field.onBlur}
-                placeholder="Digite sua senha"
-                $error={error ? error.message : undefined}
-                $showStrengthMeter={false}
-                $showErrorMessage={true}
-              />
-            )}
-          />
+                />
+              )}
+            />
+            <Button variant="ghost" onClick={onRecover} type="button">
+              Esqueci minha senha
+            </Button>
+            <Button
+              loading={isLoading}
+              disabled={isButtonDisabled}
+              onClick={handleLogin}
+              type="button"
+            >
+              Entrar
+            </Button>
+          </>
         )}
 
-        <Button
-          loading={isLoading}
-          disabled={isButtonDisabled}
-          onClick={showPasswordField ? handleLogin : handleNext}
-          type="button"
-        >
-          {showPasswordField ? 'Entrar' : 'Continuar'}
-        </Button>
+        {!showPasswordField && (
+          <Button
+            loading={isLoading}
+            disabled={isButtonDisabled}
+            onClick={handleNext}
+            type="button"
+          >
+            Continuar
+          </Button>
+        )}
       </S.MainContent>
     </>
   )

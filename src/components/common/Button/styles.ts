@@ -1,8 +1,14 @@
+// src/components/common/Button.tsx
 import styled, { css, keyframes } from 'styled-components'
 
 import { device } from '@/styles/breakpoints'
 
-export type ButtonVariantType = 'ghost' | 'outlined' | 'contained' | 'danger'
+export type ButtonVariantType =
+  | 'ghost'
+  | 'outlined'
+  | 'contained'
+  | 'danger'
+  | 'text'
 
 export interface ButtonProps {
   $fullWidth: boolean
@@ -13,12 +19,8 @@ export interface ButtonProps {
 }
 
 const rotate = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 `
 
 export const Spinner = styled.div`
@@ -35,16 +37,13 @@ const baseStyles = css<ButtonProps>`
   display: inline-flex;
   width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
   justify-content: center;
-  font-size: ${({ theme, size }) => {
-    return size === 'sm' ? '0.875rem' : theme.common.font.sizes.body.large
-  }};
+  font-size: ${({ theme, size }) =>
+    size === 'sm' ? '0.875rem' : theme.common.font.sizes.body.large};
   padding: ${({ size }) => (size === 'sm' ? '0 12px' : '0 24px')};
-
   line-height: 1.5;
   font-weight: 600;
   align-items: center;
   border-radius: 8px;
-
   text-decoration: none;
   cursor: pointer;
   opacity: ${({ $loading }) => ($loading ? 0.6 : 1)};
@@ -67,7 +66,6 @@ const baseStyles = css<ButtonProps>`
 
 export const Content = styled.span<{ size?: 'sm' | 'md' }>`
   padding: ${({ size }) => (size === 'sm' ? '6px 0' : '12px 0')};
-
   margin: 1px 0;
   flex: 1;
   text-align: center;
@@ -88,11 +86,12 @@ export const Content = styled.span<{ size?: 'sm' | 'md' }>`
 const ButtonGhost = css<ButtonProps>`
   background-color: transparent;
   color: ${({ theme }) => theme.colors.text_medium};
-  border: 1px solid transparent;
+  border: 1px solid ${({ theme }) => theme.colors.text_ultrafoggy};
+
   transition: background-color ${({ theme }) => theme.common.transition.default};
   @media (${device.md}) {
     &:hover:not(:disabled) {
-      background-color: ${({ theme }) => theme.colors.text_light};
+      background-color: ${({ theme }) => theme.colors.text_ultrafoggy};
     }
   }
 `
@@ -136,7 +135,20 @@ const ButtonDanger = css<ButtonProps>`
   }
 `
 
-export const Button = styled.a<ButtonProps & { $loading?: boolean }>`
+const ButtonText = css<ButtonProps>`
+  background-color: transparent;
+  color: ${({ theme }) => theme.colors.primary_medium};
+  border: 1px solid transparent;
+  text-decoration: underline;
+  transition: opacity ${({ theme }) => theme.common.transition.default};
+  @media (${device.md}) {
+    &:hover:not(:disabled) {
+      opacity: 0.8;
+    }
+  }
+`
+
+export const Button = styled.button<ButtonProps>`
   position: relative;
   font-family: inherit;
   user-select: none;
@@ -149,12 +161,13 @@ export const Button = styled.a<ButtonProps & { $loading?: boolean }>`
         return ButtonOutlined
       case 'danger':
         return ButtonDanger
+      case 'text':
+        return ButtonText
       case 'contained':
       default:
         return ButtonContained
     }
   }}
-
   border-radius: ${({ $rounded, size }) =>
     $rounded ? '24px' : size === 'sm' ? '4px' : '8px'};
 

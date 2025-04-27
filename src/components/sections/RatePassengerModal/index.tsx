@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react'
 
+import { Passenger } from '@/interfaces/passenger'
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 
-import { Star } from '@phosphor-icons/react'
+import { Star } from '@phosphor-icons/react/dist/ssr/Star'
 
 import Button from '@/components/common/Button'
 import ListModal from '@/components/common/ListModal'
 import Modal from '@/components/common/Modal'
 
 import * as S from './styles'
-
-export interface Passenger {
-  id: string
-  userName: string
-}
 
 interface RatePassengerModalProps {
   caravanId: string
@@ -31,7 +28,11 @@ export default function RatePassengerModal({
   isOpen,
   onClose
 }: RatePassengerModalProps) {
+  const { data } = useSession()
+  const userId = data?.user?.id
+
   const [passengers, setPassengers] = useState<Passenger[]>([])
+  const [loadingPassengers, setLoadingPassengers] = useState(true)
   const [ratings, setRatings] = useState<Record<string, number>>({})
   const [confirmedRatings, setConfirmedRatings] = useState<
     Record<string, number>
@@ -47,52 +48,51 @@ export default function RatePassengerModal({
 
   useEffect(() => {
     if (!isOpen) return
-    const names = [
-      'Gabriel Galoneto',
-      'Paulo Silva',
-      'Maria Souza',
-      'José Oliveira',
-      'Ana Pereira',
-      'Lucas Almeida',
-      'Mariana Costa',
-      'Rafael Santos',
-      'Beatriz Rocha',
-      'Pedro Lima',
-      'Camila Mendes',
-      'Thiago Gomes',
-      'Fernanda Ribeiro',
-      'Bruno Fernandes',
-      'Juliana Alves',
-      'Gustavo Carvalho',
-      'Patrícia Barbosa',
-      'Leandro Ferreira',
-      'Isabela Martins',
-      'Ricardo Dias'
-    ]
-    setPassengers(names.map((userName, i) => ({ id: String(i), userName })))
-    setRatings({})
-    setConfirmedRatings({})
-    setConfirming(null)
-  }, [isOpen])
 
-  const cycleConfirm = (id: string, value: number) => {
-    setRatings((r) => ({ ...r, [id]: value }))
-    setConfirming({ id, score: value })
+    const getPassengers = async () => {
+      setLoadingPassengers(true)
+      try {
+        const { data } = await axios.get(
+          `/api/caravana/${caravanId}/listar-passageiros`
+        )
+        setPassengers(data.data)
+      } catch (error) {
+        console.error('Falha ao buscar passageiros. Tente novamente.')
+      } finally {
+        setLoadingPassengers(false)
+      }
+    }
+
+    getPassengers()
+  }, [isOpen, caravanId])
+
+  const startRating = (passengerId: string, value: number) => {
+    setRatings((prev) => ({ ...prev, [passengerId]: value }))
+    setConfirming({ id: passengerId, score: value })
   }
 
   const handleSubmitRating = async (id: string, score: number) => {
     setLoadingId(id)
     try {
-      await axios.post(`/api/caravanas/${caravanId}/reservas/${id}/avaliar`, {
-        rating: score
+      await axios.post(`/api/avaliacoes/registrar`, {
+        passageiro_id: id,
+        organizador_id: userId,
+        nota: score
       })
+
       toast.success(`Passageiro avaliado com ${score} estrela(s)!`)
-      setConfirmedRatings((cr) => ({ ...cr, [id]: score }))
+
+      setPassengers((prev) =>
+        prev.map((p) =>
+          p.passageiro_id.toString() === id ? { ...p, nota: score } : p
+        )
+      )
+
+      setConfirmedRatings((prev) => ({ ...prev, [id]: score }))
     } catch {
       toast.error('Falha ao enviar avaliação. Tente novamente.')
-
-      setRatings((r) => {
-        const copy = { ...r }
+      setRatings((prev) => {
+        const copy = { ...prev }
         delete copy[id]
         return copy
       })
@@ -104,8 +104,8 @@ export default function RatePassengerModal({
 
   const handleCancelConfirm = () => {
     if (confirming) {
-      setRatings((r) => {
-        const copy = { ...r }
+      setRatings((prev) => {
+        const copy = { ...prev }
         delete copy[confirming.id]
         return copy
       })
@@ -116,51 +116,66 @@ export default function RatePassengerModal({
 
   return (
     <>
-      <ListModal<Passenger & { rating: number }>
-        $isOpen={isOpen}
-        onClose={onClose}
-        closeButton
-        title={caravanTitle}
-        subtitle="Avalie cada passageiro (1 a 5 estrelas):"
-        items={passengers.map((p) => ({
-          ...p,
-          rating: confirmedRatings[p.id] ?? ratings[p.id] ?? 0
-        }))}
-        withPagination
-        itemsPerPageOptions={ITEMS_PER_PAGE}
-        disableStatusSort
-        disableRatingSort={false}
-        renderItem={(p) => {
-          const confirmed = confirmedRatings[p.id]
-          const baseScore = confirmed ?? ratings[p.id] ?? 0
-          const hoverScore = hovered?.id === p.id ? hovered.value : 0
-          const disabled = !!confirmed || loadingId === p.id
+      {isOpen && loadingPassengers ? (
+        <Modal
+          style={{ maxWidth: '600px' }}
+          $withMaxSizes={false}
+          $isOpen
+          onClose={onClose}
+          closeButton={false}
+        >
+          <S.LoaderWrapper>
+            <S.Loader />
+          </S.LoaderWrapper>
+        </Modal>
+      ) : (
+        <ListModal<Passenger>
+          $isOpen={isOpen}
+          onClose={onClose}
+          closeButton
+          title={caravanTitle}
+          subtitle="Avalie cada passageiro (1 a 5 estrelas):"
+          items={passengers}
+          withPagination
+          itemsPerPageOptions={ITEMS_PER_PAGE}
+          disableStatusSort
+          disableRatingSort={false}
+          renderItem={(p) => {
+            const id = p.passageiro_id.toString()
+            const initialScore = p.nota ? Math.round(Number(p.nota)) : 0
+            const hasInitialRating = p.nota != null
+            const confirmed = confirmedRatings[id]
+            const baseScore = confirmed ?? ratings[id] ?? initialScore
+            const hoverScore = hovered?.id === id ? hovered.value : 0
+            const disabled =
+              hasInitialRating || confirmed !== undefined || loadingId === id
 
-          return (
-            <S.PassengerRow>
-              <S.Name>{p.userName}</S.Name>
-              <S.Stars>
-                {[1, 2, 3, 4, 5].map((i) => {
-                  const filled = i <= (hoverScore || baseScore)
-                  return (
-                    <S.StarButton
-                      key={i}
-                      disabled={disabled}
-                      onMouseEnter={() =>
-                        !disabled && setHovered({ id: p.id, value: i })
-                      }
-                      onMouseLeave={() => !disabled && setHovered(null)}
-                      onClick={() => !disabled && cycleConfirm(p.id, i)}
-                    >
-                      <Star size={20} weight={filled ? 'fill' : 'regular'} />
-                    </S.StarButton>
-                  )
-                })}
-              </S.Stars>
-            </S.PassengerRow>
-          )
-        }}
-      />
+            return (
+              <S.PassengerRow key={id}>
+                <S.Name>{p.nome}</S.Name>
+                <S.Stars>
+                  {[1, 2, 3, 4, 5].map((i) => {
+                    const filled = i <= (hoverScore || baseScore)
+                    return (
+                      <S.StarButton
+                        key={i}
+                        disabled={disabled}
+                        onMouseEnter={() =>
+                          !disabled && setHovered({ id, value: i })
+                        }
+                        onMouseLeave={() => !disabled && setHovered(null)}
+                        onClick={() => !disabled && startRating(id, i)}
+                      >
+                        <Star size={20} weight={filled ? 'fill' : 'regular'} />
+                      </S.StarButton>
+                    )
+                  })}
+                </S.Stars>
+              </S.PassengerRow>
+            )
+          }}
+        />
+      )}
 
       <Modal
         $isOpen={!!confirming}
@@ -172,7 +187,11 @@ export default function RatePassengerModal({
           <p>
             Essa ação é irreversível. Deseja realmente avaliar{' '}
             <strong>
-              {passengers.find((x) => x.id === confirming?.id)?.userName}
+              {
+                passengers.find(
+                  (x) => x.passageiro_id.toString() === confirming?.id
+                )?.nome
+              }
             </strong>{' '}
             com <b>{confirming?.score}</b> estrela(s)?
           </p>

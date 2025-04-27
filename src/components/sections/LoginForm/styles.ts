@@ -150,7 +150,7 @@ export const ModalOverlay = styled.div<ModalProps>`
   z-index: 9999;
 `
 
-export const CloseButton = styled.button<ModalProps>`
+export const CloseButton = styled.div<ModalProps>`
   display: flex;
   position: absolute;
   top: 50%;
@@ -167,4 +167,28 @@ export const ContactInformations = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+`
+
+export const OtpContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+`
+
+export const OtpField = styled.input<{ error?: boolean }>`
+  background-color: ${(props) => props.theme.colors.background_standard};
+  ${({ error, theme }) =>
+    error
+      ? `border: 1px solid ${theme.colors.alert_error};`
+      : `border: 1px solid ${theme.colors.base_dark32};`}
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  &:focus {
+    border-color: var(--color-primary);
+    outline: none;
+  }
 `

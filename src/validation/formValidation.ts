@@ -84,10 +84,6 @@ export const loginValidationSchema = Yup.object().shape({
   password: Yup.string().required('A senha é obrigatória')
 })
 
-export const getValidationSchema = (step: number) => {
-  return step === 1 ? loginValidationSchema : signupValidationSchema
-}
-
 export const passengerFormStep1Schema = Yup.object().shape({
   cpf: Yup.string()
     .transform((_, originalValue) => removeMask(originalValue))
@@ -106,3 +102,49 @@ export const passengerFormStep1Schema = Yup.object().shape({
     .required('Telefone é obrigatório')
     .matches(/^\d{11}$/, 'O telefone não é válido')
 })
+
+export const recoverEmailSchema = Yup.object({
+  email: Yup.string()
+    .required('O e-mail é obrigatório')
+    .matches(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, 'Formato de e-mail inválido')
+})
+
+export const tokenSchema = Yup.object({
+  token: Yup.string()
+    .required('Código obrigatório')
+    .matches(/^\d{6}$/, 'Digite os 6 dígitos do código')
+})
+
+export const newPasswordSchema = Yup.object({
+  newPassword: Yup.string()
+    .required('A nova senha é obrigatória')
+    .min(8, 'A senha deve ter no mínimo 8 caracteres')
+    .test(
+      'password-strength',
+      'A senha é fraca ou contém informações pessoais',
+      function (value) {
+        const { firstName, email } = this.parent
+        return checkPasswordStrength(value || '', firstName, email)
+      }
+    ),
+  confirmPassword: Yup.string()
+    .required('A confirmação é obrigatória')
+    .oneOf([Yup.ref('newPassword')], 'As senhas não coincidem')
+})
+
+export function getValidationSchema(step: number) {
+  switch (step) {
+    case 1:
+      return passengerFormStep1Schema
+    case 2:
+      return signupValidationSchema
+    case 3:
+      return recoverEmailSchema
+    case 4:
+      return tokenSchema
+    case 5:
+      return newPasswordSchema
+    default:
+      return Yup.object()
+  }
+}

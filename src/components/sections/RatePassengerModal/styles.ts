@@ -172,3 +172,39 @@ export const StarButton = styled.button`
     opacity: 0.5;
   }
 `
+
+export const LoaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+`
+
+export const Loader = styled.div`
+  position: absolute;
+  top: calc(50% - 35px);
+  left: calc(50% - 35px);
+  border: 6px solid ${({ theme }) => theme.colors.text_ultrafoggy};
+  border-top-color: ${({ theme }) => theme.colors.primary_medium};
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  animation: spin 0.8s linear infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`
+
+export const ContainerLoading = styled.div`
+  position: relative;
+  background: ${({ theme }) => theme.colors.background_standard};
+  border-radius: 8px;
+  width: calc(100% - 2rem);
+  max-height: calc(100% - 2rem);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`

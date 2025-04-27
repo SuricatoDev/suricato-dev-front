@@ -11,6 +11,7 @@ export type ModalProps = {
   onClose: () => void
   $withMaxSizes?: boolean
   closeButton?: boolean
+  style?: React.CSSProperties
 }
 
 export default function Modal({
@@ -18,7 +19,8 @@ export default function Modal({
   $isOpen,
   $withMaxSizes = true,
   onClose,
-  closeButton = true
+  closeButton = true,
+  style
 }: ModalProps) {
   useEffect(() => {
     if ($isOpen) {
@@ -36,6 +38,7 @@ export default function Modal({
         <S.Modal
           $withMaxSizes={$withMaxSizes}
           onClick={(e) => e.stopPropagation()}
+          style={style}
         >
           {closeButton && (
             <S.ModalHeader>
