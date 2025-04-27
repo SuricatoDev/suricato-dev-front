@@ -2,7 +2,9 @@ import heroRoad from '@/assets/images/hero-road.jpg'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Head from 'next/head'
 
-import { Bus, MapTrifold, UsersThree } from '@phosphor-icons/react'
+import { Bus } from '@phosphor-icons/react/dist/ssr/Bus'
+import { MapTrifold } from '@phosphor-icons/react/dist/ssr/MapTrifold'
+import { UsersThree } from '@phosphor-icons/react/dist/ssr/UsersThree'
 
 import useIsMobile from '@/hooks/useIsMobile'
 

@@ -11,7 +11,7 @@ import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import { toast } from 'react-toastify'
 
-import { CaretDown } from '@phosphor-icons/react'
+import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
 
 import useIsMobile from '@/hooks/useIsMobile'
 
