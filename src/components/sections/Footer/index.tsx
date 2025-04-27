@@ -16,6 +16,11 @@ export default function Footer() {
             <Link href="/privacy">Política de Privacidade</Link>
             <S.PointerDivider />
             <Link href="/terms">Termos de Uso</Link>
+
+            <S.PointerDivider />
+            <Link href="/central-de-ajuda">Central de Ajuda</Link>
+            <S.PointerDivider />
+            <Link href="/sobre-nos">Sobre nós</Link>
           </S.Items>
         </S.Content>
       </div>

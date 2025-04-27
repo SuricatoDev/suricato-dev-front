@@ -33,6 +33,7 @@ import Input from '@/components/common/Input'
 import PasswordConfirmation from '@/components/common/PasswordConfirmation'
 import ChangeProfilePicModal from '@/components/common/ProfilePictureUploader'
 import Tabs, { TabItem } from '@/components/common/Tabs'
+import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
 import MobileHeader from '@/components/sections/MobileHeader'
 
@@ -1176,6 +1177,7 @@ export default function ProfileEditPage() {
               </S.ContentWrapper>
             </S.SpacingMobile>
           </div>
+          <Footer />{' '}
         </S.Main>
 
         <ChangeProfilePicModal

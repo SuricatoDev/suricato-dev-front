@@ -259,7 +259,6 @@ export default function HistoryCard({
         </AnimatePresence>
       </S.CardContainer>
 
-      {/* confirmação de cancelamento */}
       <Modal
         $isOpen={confirmingCancel}
         onClose={() => setConfirmingCancel(false)}

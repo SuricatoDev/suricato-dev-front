@@ -18,9 +18,15 @@ export default function MobileHeader({ children }: MobileHeaderProps) {
     setCanGoBack(window.history.length > 2)
   }, [])
 
-  const handleBack = () => {
+  const handleBack = async () => {
     if (canGoBack) {
-      router.back()
+      const previousPath = document.referrer
+
+      if (!previousPath || previousPath.includes(window.location.origin)) {
+        router.push('/')
+      } else {
+        router.back()
+      }
     } else {
       router.push('/')
     }

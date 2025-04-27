@@ -18,7 +18,7 @@ export default function HeaderNav({ showDoubtsButton = true }: HeaderNavProps) {
   }
 
   const handleHelp = () => {
-    router.push('/faq')
+    router.push('/central-de-ajuda')
   }
 
   return (

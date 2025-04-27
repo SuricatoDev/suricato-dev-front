@@ -7,7 +7,6 @@ export const Wrapper = styled.div`
 `
 
 export const Main = styled.main`
-  padding-bottom: calc(64px + 1rem);
   padding-top: 2rem;
   @media (${device.md}) {
     padding: 100px 0 calc(53px + 2rem) 0;
@@ -15,7 +14,6 @@ export const Main = styled.main`
 `
 
 export const MainCenter = styled.main`
-  padding-bottom: calc(64px + 1rem);
   padding: 2rem 0;
   min-height: 100vh;
 

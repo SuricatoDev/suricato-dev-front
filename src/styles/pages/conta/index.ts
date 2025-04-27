@@ -8,7 +8,6 @@ export const Wrapper = styled.div`
 `
 
 export const Main = styled.main`
-  padding-bottom: calc(64px + 1rem);
   @media (${device.md}) {
     padding: calc(100px + 2rem) 0 calc(53px + 2rem) 0;
   }
@@ -183,7 +182,7 @@ export const Label = styled.label`
 `
 
 export const SpacingMobile = styled.div`
-  padding: 0 1rem;
+  padding: 0 1rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;

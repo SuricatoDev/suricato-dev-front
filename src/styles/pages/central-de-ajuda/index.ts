@@ -54,23 +54,64 @@ export const HeroContent = styled.div`
 `
 
 export const Main = styled.main`
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 1rem 2rem;
+  @media (${device.md}) {
+    padding: 0 0 52px 0;
+  }
+`
+
+export const SpacingMobile = styled.div`
+  padding: 0 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  @media (${device.md}) {
+    padding: 0;
+  }
+`
+
+export const Heading = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 0;
+  gap: 0.5rem;
+`
+
+export const Title = styled.h1`
+  font-size: 1.75rem;
+  color: ${({ theme }) => theme.colors.text_standard};
+  text-align: center;
+
+  @media (${device.md}) {
+    font-size: 2rem;
+  }
+`
+
+export const Subtitle = styled.h2`
+  font-size: ${({ theme }) => theme.common.font.sizes.heading.xxxsmall};
+  color: ${({ theme }) => theme.colors.text_standard};
+  font-weight: 500;
+  text-align: center;
+
+  @media (${device.md}) {
+    font-size: 1.125rem;
+  }
+
+  a {
+    color: ${({ theme }) => theme.colors.primary_medium};
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color ${({ theme }) => theme.common.transition};
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary_light};
+    }
   }
 `
 
 export const SectionsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-top: 2rem;
-
-  @media ${device.md} {
-    gap: 4rem;
-    margin-top: 4rem;
-  }
 `
 
 interface SectionProps {
@@ -167,4 +208,65 @@ export const BackgroundImage = styled.div`
   background-size: cover;
   background-position: center;
   z-index: 0;
+`
+export const AccordionItem = styled.div`
+  border-bottom: 1px solid ${({ theme }) => theme.colors.text_ultrafoggy};
+  padding: 0.5rem 0;
+  cursor: pointer;
+`
+
+export const QuestionButton = styled.button`
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1rem 0;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.text_medium};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+`
+
+export const Answer = styled.div`
+  padding-top: 0.5rem;
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.text_foggy};
+  line-height: 1.6;
+`
+export const ContactSection = styled.div`
+  text-align: center;
+  margin: 1rem 0;
+`
+
+export const ContactTitle = styled.h2`
+  font-size: 1.5rem;
+  color: ${({ theme }) => theme.colors.text_standard};
+  margin-bottom: 1rem;
+`
+
+export const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+export const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+`
+
+export const ModalTitle = styled.h2`
+  font-size: ${({ theme }) => theme.common.font.sizes.heading.xsmall};
+  text-align: center;
+  color: ${({ theme }) => theme.colors.text_medium};
+  margin: 0;
+  padding-bottom: 0.5rem;
 `

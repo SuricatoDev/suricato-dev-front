@@ -18,9 +18,9 @@ export const HeaderNavigation = {
     isBold: false
   },
   faq: {
-    value: 'faq',
+    value: 'central-de-ajuda',
     label: 'Central de Ajuda',
-    href: '/faq',
+    href: '/central-de-ajuda',
     isBold: false
   },
   conta: {
