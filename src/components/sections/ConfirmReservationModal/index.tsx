@@ -47,7 +47,10 @@ export default function ReservationConfirmationModal({
       setLoadingReservations(true)
       try {
         const { data } = await axios.get(`/api/caravana/${caravanId}`)
-        setReservations(data.data)
+        const dataFiltered = data.data.filter(
+          (r: Reservation) => r.status !== 'Cancelado'
+        )
+        setReservations(dataFiltered)
       } catch {
         console.error('Falha ao buscar reservas. Tente novamente.')
       } finally {

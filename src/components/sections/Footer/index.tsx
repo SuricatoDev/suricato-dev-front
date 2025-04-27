@@ -17,9 +17,6 @@ export default function Footer() {
             <S.PointerDivider />
             <Link href="/terms">Termos de Uso</Link>
           </S.Items>
-          <S.Items>
-            <Link href="/terms">Atendimento e recursos</Link>
-          </S.Items>
         </S.Content>
       </div>
     </S.Wrapper>

@@ -1,4 +1,3 @@
-// src/components/common/Button.tsx
 import styled, { css, keyframes } from 'styled-components'
 
 import { device } from '@/styles/breakpoints'

@@ -149,6 +149,11 @@ export function ProductCardEdit({
                       src={image.path.replace(/\/{2,}(?=[^/]*$)/, '/')}
                       alt=""
                       fill
+                      sizes="
+                        (max-width: 639px) 100vw,
+                        (max-width: 1440px) 50vw,
+                        33vw
+                      "
                       style={{
                         objectFit: 'cover'
                       }}

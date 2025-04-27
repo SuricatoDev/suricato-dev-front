@@ -1,19 +1,16 @@
-// components/common/HistoryCard.tsx
 import React, { useState } from 'react'
 
-import { Caravan } from '@/interfaces/caravan'
+import { Reserva } from '@/pages/reservas'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTheme } from 'styled-components'
 
-import {
-  ArrowsLeftRight,
-  CalendarDots,
-  CaretDown,
-  CaretUp,
-  MapPin,
-  Star
-} from '@phosphor-icons/react'
-import { Circle } from '@phosphor-icons/react/dist/ssr'
+import { ArrowsLeftRight } from '@phosphor-icons/react/dist/ssr/ArrowsLeftRight'
+import { CalendarDots } from '@phosphor-icons/react/dist/ssr/CalendarDots'
+import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
+import { CaretUp } from '@phosphor-icons/react/dist/ssr/CaretUp'
+import { Circle } from '@phosphor-icons/react/dist/ssr/Circle'
+import { MapPin } from '@phosphor-icons/react/dist/ssr/MapPin'
+import { Star } from '@phosphor-icons/react/dist/ssr/Star'
 
 import Button from '@/components/common/Button'
 import Divider from '@/components/common/Divider'
@@ -22,7 +19,7 @@ import Modal from '@/components/common/Modal'
 import * as S from './styles'
 
 export type HistoryCardProps = {
-  caravan: Caravan & { status: 'Pendente' | 'Confirmado' | 'Cancelado' }
+  caravan: Reserva
   enableActionsButtons?: boolean
   onCancel?: (id: number) => Promise<void>
   isCancelling?: boolean
@@ -62,7 +59,8 @@ export default function HistoryCard({
     bairro_destino,
     cidade_destino,
     estado_destino,
-    status
+    status,
+    nota
   } = caravan
 
   const dtPartida = new Date(data_partida)
@@ -245,7 +243,11 @@ export default function HistoryCard({
                         </Button>
                       </>
                     ) : (
-                      <Button fullWidth onClick={() => setRatingModal(true)}>
+                      <Button
+                        disabled={!!nota}
+                        fullWidth
+                        onClick={() => setRatingModal(true)}
+                      >
                         Avaliar organizador
                       </Button>
                     )}

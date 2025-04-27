@@ -39,7 +39,7 @@ export const Wrapper = styled.footer`
 
 export const Content = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
 `

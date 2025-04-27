@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 import { Passenger } from '@/interfaces/passenger'
 import axios from 'axios'
-import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 
-import { SmileySad } from '@phosphor-icons/react/dist/ssr'
+import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
 import { Star } from '@phosphor-icons/react/dist/ssr/Star'
 
 import Button from '@/components/common/Button'
@@ -29,9 +28,6 @@ export default function RatePassengerModal({
   isOpen,
   onClose
 }: RatePassengerModalProps) {
-  const { data } = useSession()
-  const userId = data?.user?.id
-
   const [passengers, setPassengers] = useState<Passenger[]>([])
   const [loadingPassengers, setLoadingPassengers] = useState(true)
   const [ratings, setRatings] = useState<Record<string, number>>({})
@@ -77,7 +73,7 @@ export default function RatePassengerModal({
     try {
       await axios.post(`/api/avaliacoes/registrar`, {
         passageiro_id: id,
-        organizador_id: userId,
+        caravana_id: caravanId,
         nota: score
       })
 
@@ -121,7 +117,7 @@ export default function RatePassengerModal({
         <Modal
           style={{ maxWidth: '600px' }}
           $withMaxSizes={false}
-          $isOpen
+          $isOpen={isOpen}
           onClose={onClose}
           closeButton={false}
         >
@@ -135,13 +131,13 @@ export default function RatePassengerModal({
         <Modal
           style={{ maxWidth: '600px', width: 'calc(100% - 2rem)' }}
           $withMaxSizes={false}
-          $isOpen
+          $isOpen={isOpen}
           onClose={onClose}
           closeButton={false}
         >
           <S.EmptyMessage>
             <SmileySad size={64} weight="fill" />
-            Nenhuma passagiero para avaliar
+            Nenhum passageiro para avaliar
           </S.EmptyMessage>
         </Modal>
       )}

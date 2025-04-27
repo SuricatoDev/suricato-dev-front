@@ -1,4 +1,3 @@
-// pages/reservas.tsx
 import { useMemo, useState } from 'react'
 
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
@@ -17,7 +16,7 @@ import MobileHeader from '@/components/sections/MobileHeader'
 
 import * as S from '@/styles/pages/reservas'
 
-type Reserva = Caravan & {
+export type Reserva = Caravan & {
   reserva_id: number
   status: 'Pendente' | 'Confirmado' | 'Cancelado'
   nota: number | null
@@ -97,7 +96,7 @@ export default function Reservas({ history, userId }: ReservasPageProps) {
       }
 
       await axios.post(`/api/avaliacoes/registrar`, {
-        passageiro_id: userId,
+        caravana_id: reserva.id,
         organizador_id: String(reserva.organizador.id),
         nota: rating
       })
