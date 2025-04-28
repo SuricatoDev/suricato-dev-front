@@ -19,7 +19,6 @@ import { CSS } from '@dnd-kit/utilities'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-import { Camera } from '@phosphor-icons/react/dist/ssr/Camera'
 import { CameraPlus } from '@phosphor-icons/react/dist/ssr/CameraPlus'
 import { DotsThree } from '@phosphor-icons/react/dist/ssr/DotsThree'
 
@@ -77,7 +76,7 @@ function SortableImage({
       isCover={isCover}
       {...(!isMobile ? { ...attributes, ...listeners } : {})}
     >
-      {!isActive && (
+      {!isActive && url && (
         <Image
           src={url}
           alt={`Foto ${index + 1}`}
@@ -91,7 +90,6 @@ function SortableImage({
           <DotsThree weight="bold" size={24} />
         </S.MenuButton>
       )}
-      <Camera size={32} />
     </S.ImageWrapper>
   )
 }

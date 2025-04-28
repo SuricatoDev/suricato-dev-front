@@ -51,9 +51,12 @@ export const MenuButton = styled.button`
   background-clip: padding-box;
   top: 8px;
   right: 8px;
-  background: rgba(255, 255, 255, 0.9);
+  background: ${({ theme }) => theme.colors.background_dark};
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-  border: none;
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+  color: ${({ theme }) => theme.colors.text_standard};
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -66,7 +69,7 @@ export const MenuList = styled.ul`
   top: 40px;
   right: 8px;
   background: ${({ theme }) => theme.colors.background_standard};
-  border: 1px solid #ccc;
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   border-radius: 6px;
   padding: 4px 0;
   list-style: none;
@@ -77,9 +80,7 @@ export const MenuList = styled.ul`
 export const MenuItem = styled.li`
   padding: 8px 12px;
   cursor: pointer;
-  &:hover {
-    background: #f5f5f5;
-  }
+  color: ${({ theme }) => theme.colors.text_standard};
 `
 
 export const OverlayImage = styled(ImageWrapper)`
@@ -109,6 +110,9 @@ export const CoverTag = styled.div`
   display: flex;
   align-items: center;
   line-height: 1;
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
 `
 
 export const Heading = styled.div`

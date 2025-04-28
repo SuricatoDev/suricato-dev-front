@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react'
 
 import VanImg from '@/assets/images/parte-2.png'
@@ -49,6 +48,7 @@ export default function Step6({ setCanProceed }: Step6Props) {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
+        priority
       />
 
       <MotionStepInfo variants={container} initial="hidden" animate="show">

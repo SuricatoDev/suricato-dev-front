@@ -110,9 +110,16 @@ export default function Step1({
               $error={error?.message}
               placeholder="Digite seu e-mail"
               showDropdown={!isModal}
-              onKeyDown={(e) =>
-                e.key === 'Enter' && (e.preventDefault(), handleNext())
-              }
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  if (showPasswordField) {
+                    handleLogin()
+                  } else {
+                    handleNext()
+                  }
+                }
+              }}
             />
           )}
         />

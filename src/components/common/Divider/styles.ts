@@ -6,7 +6,7 @@ export const Divider = styled.div<DividerProps>`
   display: flex;
   align-items: center;
   text-align: center;
-  color: ${({ theme }) => theme.colors.base_dark16};
+  color: ${({ theme }) => theme.colors.base_dark32};
   font-size: 0.75rem;
   margin-top: ${({ $marginY }) => $marginY || '0'};
   margin-bottom: ${({ $marginY }) => $marginY || '0'};
@@ -24,6 +24,6 @@ export const Divider = styled.div<DividerProps>`
   &::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.base_dark16};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.base_dark32};
   }
 `

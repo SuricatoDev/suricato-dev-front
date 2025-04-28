@@ -96,15 +96,19 @@ export const MenuWrapper = styled.div`
   position: absolute;
   top: 8px;
   right: 8px;
-  background-color: #fff;
-  border-radius: 50%;
+
   z-index: 2;
 `
 
 export const MenuToggle = styled.button`
   background: none;
   border: none;
-  color: #666;
+  color: ${({ theme }) => theme.colors.text_standard};
+  background-color: ${({ theme }) => theme.colors.background_standard};
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -120,7 +124,7 @@ export const MenuList = styled.ul`
   top: 110%;
   right: 8px;
   background: ${({ theme }) => theme.colors.background_standard};
-  border: 1px solid #ccc;
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   border-radius: 6px;
   padding: 4px 0;
   list-style: none;

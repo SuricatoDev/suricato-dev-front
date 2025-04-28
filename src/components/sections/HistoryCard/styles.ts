@@ -104,6 +104,10 @@ export const CardTitle = styled.div`
   color: ${({ theme }) => theme.colors.text_standard};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   user-select: none;
+
+  border-bottom: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
 `
 
 export const ToggleIcon = styled.div`

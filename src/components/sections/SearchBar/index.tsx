@@ -2,11 +2,16 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Caravan } from '@/interfaces/caravan'
 import { AnimatePresence, motion } from 'framer-motion'
+import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
+import { SignIn } from '@phosphor-icons/react'
 import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
+import { SignOut } from '@phosphor-icons/react/dist/ssr/SignOut'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
+
+import { useAuthStatus } from '@/contexts/AuthStatusProvider'
 
 import Button from '@/components/common/Button'
 import ThemeToggle from '@/components/common/ThemeToggle'
@@ -61,6 +66,7 @@ export default function ResponsiveSearchBar({
   const [values, setValues] = useState({ title: '', origin: '', dest: '' })
   const dropdownRef = useRef<HTMLDivElement>(null)
   const activeButtonRef = useRef<HTMLDivElement>(null)
+  const { isLogged } = useAuthStatus()
 
   const router = useRouter()
   const { pathname } = router
@@ -235,6 +241,24 @@ export default function ResponsiveSearchBar({
       </S.Wrapper>
 
       <S.MobileWrapper>
+        {isLogged ? (
+          <SignOut
+            className="mobile-sign-button"
+            size={24}
+            weight="bold"
+            style={{ transform: 'scaleX(-1)' }}
+            onClick={() => {
+              signOut({ callbackUrl: '/' })
+            }}
+          />
+        ) : (
+          <SignIn
+            onClick={() => router.push('/login')}
+            className="mobile-sign-button"
+            size={24}
+            weight="bold"
+          />
+        )}
         {(values.title || values.origin || values.dest) && (
           <S.MobileIconButton
             onClick={() => {
@@ -248,13 +272,17 @@ export default function ResponsiveSearchBar({
         )}
 
         <S.MobileTrigger onClick={() => setIsMobileOpen(true)}>
-          <strong>
-            {values.title
-              ? values.title
-              : values.origin || values.dest
-                ? ''
-                : 'Inicie sua busca'}
-          </strong>
+          {values.title ? (
+            values.title
+          ) : values.origin || values.dest ? (
+            ''
+          ) : (
+            <S.StartSearch>
+              Inicie sua busca
+              <MagnifyingGlass weight="bold" size={16} />
+            </S.StartSearch>
+          )}
+
           {(values.origin || values.dest) && (
             <div>
               {values.origin && <>De: {values.origin}</>}

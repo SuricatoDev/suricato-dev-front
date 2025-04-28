@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react'
 
 import axios from 'axios'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -15,22 +15,21 @@ import { ImageItem, useCreateAd } from '@/contexts/CreateAdContext'
 import FooterNav from '@/components/sections/FooterNav'
 import HeaderNav from '@/components/sections/HeaderNav'
 
-import {
-  Step1,
-  Step2,
-  Step3,
-  Step3Ref,
-  Step4,
-  Step4Ref,
-  Step5,
-  Step6,
-  Step7,
-  Step8,
-  Step9,
-  Step10,
-  Step11,
-  Step12
-} from './steps'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Lazy loading dos steps
+const Step1 = lazy(() => import('./steps/Step1'))
+const Step2 = lazy(() => import('./steps/Step2'))
+const Step3 = lazy(() => import('./steps/Step3'))
+const Step4 = lazy(() => import('./steps/Step4'))
+const Step5 = lazy(() => import('./steps/Step5'))
+const Step6 = lazy(() => import('./steps/Step6'))
+const Step7 = lazy(() => import('./steps/Step7'))
+const Step8 = lazy(() => import('./steps/Step8'))
+const Step9 = lazy(() => import('./steps/Step9'))
+const Step10 = lazy(() => import('./steps/Step10'))
+const Step11 = lazy(() => import('./steps/Step11'))
+const Step12 = lazy(() => import('./steps/Step12'))
 
 const Container = styled.div`
   padding: calc(64px + 1rem) 0 87px;
@@ -63,9 +62,9 @@ export default function CaravanForm({
   const totalSteps = 12
   const [canProceed, setCanProceed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const step3Ref = useRef<Step3Ref>(null)
-  const step4Ref = useRef<Step4Ref>(null)
 
+  const step3Ref = useRef<any>(null)
+  const step4Ref = useRef<any>(null)
   const initialImageIdsRef = useRef<string[]>([])
 
   useEffect(() => {
@@ -93,6 +92,13 @@ export default function CaravanForm({
     }
   }, [])
 
+  // PRELOAD do próximo Step
+  useEffect(() => {
+    if (step < totalSteps) {
+      import(`./steps/Step${step + 1}`)
+    }
+  }, [step])
+
   if (!isOrganizer) return null
 
   const handleNext = async () => {
@@ -112,7 +118,6 @@ export default function CaravanForm({
       setIsLoading(true)
 
       const payload = new FormData()
-
       const { imagens, ...rest } = formData
 
       payload.append('dados', JSON.stringify(rest))
@@ -127,7 +132,6 @@ export default function CaravanForm({
 
       if (isEditMode) {
         payload.append('_method', 'PUT')
-
         await axios.post(`/api/caravanas/editar/${caravanId}`, payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
@@ -203,7 +207,9 @@ export default function CaravanForm({
             transition={{ duration: 0.4 }}
             style={{ height: 'auto' }}
           >
-            {steps(setCanProceed)[step - 1]}
+            <Suspense fallback={null}>
+              {steps(setCanProceed)[step - 1]}
+            </Suspense>
           </motion.span>
         </AnimatePresence>
       </Container>

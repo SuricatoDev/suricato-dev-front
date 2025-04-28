@@ -20,7 +20,7 @@ export default function ThemeToggle() {
     >
       {themeDarkMode ? (
         <S.IconSun>
-          <Sun size={24} />{' '}
+          <Sun weight="fill" size={24} />
         </S.IconSun>
       ) : (
         <S.IconMoon>

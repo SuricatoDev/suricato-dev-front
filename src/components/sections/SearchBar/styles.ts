@@ -324,9 +324,24 @@ export const MobileWrapper = styled.div`
   justify-content: space-between;
 
   width: 100%;
-
   gap: 0.5rem;
+
+  .mobile-sign-button {
+    color: ${({ theme }) =>
+      theme.title === 'dark'
+        ? theme.colors.text_standard
+        : theme.colors.text_foggy};
+  }
+
   @media ${device.md} {
     display: none;
   }
+`
+
+export const StartSearch = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 0.5em;
 `

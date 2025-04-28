@@ -19,7 +19,6 @@ interface Category {
 export const categories: Category[] = [
   { id: 'feira', label: 'Feira', icon: Buildings },
   { id: 'festa', label: 'Festa', icon: Confetti },
-
   { id: 'exposicao', label: 'Exposição', icon: ImageSquare },
   { id: 'religioso', label: 'Religioso', icon: Church },
   { id: 'academico', label: 'Acadêmico', icon: GraduationCap },

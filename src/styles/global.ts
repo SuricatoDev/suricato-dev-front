@@ -18,13 +18,15 @@ export const GlobalStyle = createGlobalStyle`
   :root {
   --swiper-pagination-color: ${({ theme }) => theme.colors.text_ultralight};
   --swiper-pagination-bullet-inactive-color: ${({ theme }) =>
-    theme.colors.base_dark32};
+    theme.colors.base_dark56};
   --swiper-pagination-bullet-inactive-opacity: 1;
-
+  --swiper-pagination-bullet-size: 11px;
   --toastify-toast-padding: 16px 24px 16px 16px;
+
+    @media ${device.md} {
+        --swiper-pagination-bullet-size: 9px;
+    }
   }
-
-
 
   html {
     scroll-behavior: smooth;
