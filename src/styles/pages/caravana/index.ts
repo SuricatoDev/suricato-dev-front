@@ -399,7 +399,7 @@ export const EventItem = styled.div`
     align-items: center;
     border: 1px solid
       ${({ theme }) =>
-        theme.title === 'dark' ? theme.colors.base_dark32 : 'none'};
+        theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
   }
 `
 

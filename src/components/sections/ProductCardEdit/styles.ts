@@ -11,6 +11,9 @@ export const Card = styled.div`
   flex-direction: column;
   transition: box-shadow 0.2s ease-in-out;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
 
   &:hover {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
