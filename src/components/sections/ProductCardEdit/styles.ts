@@ -4,7 +4,7 @@ import { device } from '@/styles/breakpoints'
 
 export const Card = styled.div`
   position: relative;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.background_light};
   border-radius: 8px;
   overflow: hidden;
   display: flex;
@@ -73,6 +73,11 @@ export const SubInfoItem = styled.div`
   align-items: center;
   gap: 0.25rem;
   flex-wrap: wrap;
+  color: ${({ theme }) => theme.colors.text_medium};
+
+  svg {
+    fill: ${({ theme }) => theme.colors.text_medium};
+  }
 `
 
 export const CardFooter = styled.div`
@@ -123,8 +128,9 @@ export const MenuList = styled.ul`
 export const MenuItem = styled.li`
   padding: 8px 12px;
   cursor: pointer;
+  color: ${({ theme }) => theme.colors.text_standard};
   &:hover {
-    background: #f5f5f5;
+    background: ${({ theme }) => theme.colors.background_light};
   }
 `
 

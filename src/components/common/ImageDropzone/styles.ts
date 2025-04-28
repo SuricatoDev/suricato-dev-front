@@ -17,22 +17,6 @@ export const DropzoneContainer = styled.div<{ isDragActive: boolean }>`
   `}
 `
 
-export const UploadButton = styled.button`
-  border: 1px solid ${({ theme }) => theme.colors.text_standard};
-  padding: 10px 17px;
-  background: ${({ theme }) => theme.colors.background_standard};
-  color: ${({ theme }) => theme.colors.text_standard};
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #f7f7f7;
-  }
-`
-
 export const PreviewsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -59,7 +43,7 @@ export const RemoveButton = styled.button`
   position: absolute;
   top: -8px;
   right: -8px;
-  background: red;
+  background: ${({ theme }) => theme.colors.alert_error};
   color: white;
   border: none;
   border-radius: 50%;

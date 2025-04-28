@@ -14,16 +14,23 @@ export const Wrapper = styled.header<ScrolledProps & HeaderProps>`
   top: 0;
   width: 100%;
   z-index: 9999;
-  background-color: ${(props) => props.theme.colors.background_standard};
+  background-color: ${(props) => props.theme.colors.background_light};
   transition: background-color
     ${(props) => props.theme.common.transition.default};
-  box-shadow: rgb(0 0 0 / 16%) 0 0 6px;
+  box-shadow: ${({ theme }) =>
+    theme.title === 'dark'
+      ? '0 1px 0px rgba(255, 255, 255, 0.2)'
+      : 'rgb(0 0 0 / 16%) 0 0 6px'};
 
   display: ${({ $variant }) => ($variant === 'simple' ? 'none' : 'block')};
 
   @media (${device.md}) {
-    box-shadow: ${({ $isScrolled }) =>
-      $isScrolled ? 'rgb(0 0 0 / 16%) 0 0 6px' : 'none'};
+    box-shadow: ${({ $isScrolled, theme }) =>
+      $isScrolled
+        ? theme.title === 'dark'
+          ? '0 1px 0px rgba(255, 255, 255, 0.2)'
+          : 'rgb(0 0 0 / 16%) 0 0 6px'
+        : 'none'};
     display: block;
   }
 `
@@ -68,7 +75,7 @@ export const ProfileContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  width: 85px;
+  gap: 0.5rem;
 
   svg {
     fill: ${({ theme }) => theme.colors.text_medium};
@@ -79,15 +86,22 @@ export const ProfileButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.colors.base_dark16};
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   border-radius: 99px;
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  background-color: ${({ theme }) => theme.colors.background_light};
   padding: 0.3rem 0.6rem;
   cursor: pointer;
   transition: box-shadow ${(props) => props.theme.common.transition.default};
 
   &:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  img {
+    filter: ${(props) =>
+      props.theme.title === 'dark'
+        ? 'saturate(0) brightness(0.9) invert(1)'
+        : 'none'};
   }
 `
 
@@ -161,7 +175,7 @@ export const MenuItem = styled.span<{ $isBold?: boolean }>`
     ${(props) => props.theme.common.transition.default};
 
   &:hover {
-    background-color: #f7f7f7;
+    background-color: ${({ theme }) => theme.colors.background_light};
   }
 `
 
@@ -290,6 +304,12 @@ export const SearchButton = styled.button<ScrolledProps>`
 
 export const Logo = styled(Image)`
   transition: opacity ${(props) => props.theme.common.transition.fast};
+
+  filter: ${(props) =>
+    props.theme.title === 'dark'
+      ? 'saturate(0) brightness(0) invert(1)'
+      : 'none'};
+
   &:hover {
     opacity: 0.8;
   }

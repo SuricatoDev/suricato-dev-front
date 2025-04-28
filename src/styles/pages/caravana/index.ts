@@ -141,8 +141,8 @@ export const OrganizerContainer = styled.div`
   gap: 1rem;
   padding: 2rem;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.background_standard};
-  border: 1px solid #dddddd;
+  background-color: ${({ theme }) => theme.colors.background_light};
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   color: ${({ theme }) => theme.colors.text_standard};
 `
 
@@ -193,11 +193,11 @@ export const MoreImages = styled.div`
 `
 
 export const ContactCard = styled.div`
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.background_light};
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
-  border: 1px solid #dddddd;
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -275,8 +275,8 @@ export const Hint = styled.div`
   gap: 1rem;
   padding: 2rem;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.background_standard};
-  border: 1px solid #dddddd;
+  background-color: ${({ theme }) => theme.colors.background_light};
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   color: ${({ theme }) => theme.colors.text_medium};
 
   .hint {
@@ -349,7 +349,7 @@ export const ModalButton = styled.div`
   position: sticky;
   bottom: 0;
   padding: 1rem 1rem 0;
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  background-color: ${({ theme }) => theme.colors.background_light};
   width: 100%;
   padding-bottom: 1rem;
 `
@@ -385,7 +385,7 @@ export const EventContainer = styled.div`
 
 export const EventItem = styled.div`
   border-radius: 8px;
-  border: 1px solid #dddddd;
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   padding: 1rem;
   display: flex;
   flex-direction: column;

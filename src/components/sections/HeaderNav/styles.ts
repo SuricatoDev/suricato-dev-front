@@ -45,6 +45,11 @@ export const Button = styled.button`
 
 export const Logo = styled(Image)`
   transition: opacity ${(props) => props.theme.common.transition.fast};
+  filter: ${(props) =>
+    props.theme.title === 'dark'
+      ? 'saturate(0) brightness(0) invert(1)'
+      : 'none'};
+
   &:hover {
     opacity: 0.8;
   }

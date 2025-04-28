@@ -71,6 +71,8 @@ export const CounterInput = styled.input`
   border: none;
   border-bottom: 1px solid #ddd;
   color: ${({ theme }) => theme.colors.text_medium};
+  background-color: transparent;
+  text-align: center;
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.text_standard};

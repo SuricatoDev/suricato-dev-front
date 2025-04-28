@@ -32,7 +32,7 @@ interface SkeletonItemProps {
 }
 
 export const SkeletonItem = styled.div<SkeletonItemProps>`
-  background-color: #e0e0e0;
+  background-color: ${(props) => props.theme.colors.base_dark32};
   animation: ${pulse} 1.5s infinite ease-in-out;
   width: ${(props) => props.width};
   height: ${(props) => props.height};

@@ -17,8 +17,11 @@ export const Grid = styled.div`
 export const ImageWrapper = styled.div<{ isCover?: boolean }>`
   position: relative;
   width: 100%;
-  border: 2px dashed transparent;
-  background-color: #f8f8f8;
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+  background-color: ${({ theme }) => theme.colors.background_light};
+
   overflow: hidden;
   transition:
     border 0.2s ease,
@@ -83,6 +86,7 @@ export const OverlayImage = styled(ImageWrapper)`
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
   pointer-events: none;
   z-index: 9999;
+  background-color: ${({ theme }) => theme.colors.background_light};
 `
 export const CoverTag = styled.div`
   position: absolute;

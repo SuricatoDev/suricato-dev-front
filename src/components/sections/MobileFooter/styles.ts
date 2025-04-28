@@ -9,8 +9,12 @@ export const FooterWrapper = styled.footer<{ $isScrollingDown: boolean }>`
   transition: ${({ theme }) => theme.common.transition.fast};
   width: 100%;
   height: 64px;
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  background-color: ${({ theme }) => theme.colors.background_light};
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+
   z-index: 999;
   display: flex;
   justify-content: center;

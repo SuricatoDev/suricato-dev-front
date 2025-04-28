@@ -11,7 +11,7 @@ export const Wrapper = styled.div<{ $isScrolled?: boolean }>`
     align-items: center;
     justify-content: center;
     width: 100%;
-    border: 1px solid #ddd;
+    border: 1px solid ${({ theme }) => theme.colors.text_foggy};
     border-radius: 999px;
     padding: 8px;
     gap: 4px;
@@ -19,7 +19,7 @@ export const Wrapper = styled.div<{ $isScrolled?: boolean }>`
     max-width: 700px;
     margin-inline: auto;
     transition: all 0.3s ease;
-    background-color: #ffffff;
+    background-color: ${({ theme }) => theme.colors.background_light};
 
     ${({ $isScrolled }) =>
       $isScrolled &&
@@ -31,14 +31,15 @@ export const Wrapper = styled.div<{ $isScrolled?: boolean }>`
 export const Divider = styled.div`
   width: 1px;
   height: 24px;
-  background-color: #ddd;
+  background-color: ${({ theme }) => theme.colors.text_ultrafoggy};
 `
 
 export const Segment = styled.div<{ $active?: boolean; $isScrolled?: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 0.5rem 1rem;
-  background: ${({ $active }) => ($active ? '#f7f7f7' : 'transparent')};
+  background: ${({ $active, theme }) =>
+    $active ? theme.colors.base_dark16 : 'transparent'};
   border-radius: 999px;
   flex: 1;
   text-align: left;
@@ -47,13 +48,13 @@ export const Segment = styled.div<{ $active?: boolean; $isScrolled?: boolean }>`
 
   @media ${device.md} {
     &:hover {
-      background: #f7f7f7;
+      background: ${({ theme }) => theme.colors.base_dark16};
     }
   }
 
   small {
     font-size: 0.75rem;
-    color: #${({ theme }) => theme.colors.text_standard};
+    color: ${({ theme }) => theme.colors.text_standard};
     font-weight: 500;
     display: ${({ $isScrolled }) => ($isScrolled ? 'none' : 'block')};
   }
@@ -101,7 +102,7 @@ export const Dropdown = styled.div`
   top: calc(100% + 8px);
   left: 0;
 
-  background: #fff;
+  background: ${({ theme }) => theme.colors.background_standard};
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   width: max-content;
@@ -117,7 +118,7 @@ export const Suggestion = styled.li`
   cursor: pointer;
 
   &:not(:last-child) {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.base_dark16};
   }
 
   strong {
@@ -128,13 +129,12 @@ export const Suggestion = styled.li`
 export const MobileTrigger = styled.div`
   min-height: 43px;
   padding: 0.75rem;
-  background: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   border-radius: 999px;
   width: 100%;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text_medium};
-  background-color: #ffffff;
+  background: ${({ theme }) => theme.colors.background_standard};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -168,7 +168,7 @@ export const MobileTrigger = styled.div`
 export const Modal = styled(motion.div)`
   position: fixed;
   inset: 0;
-  background: #f6f6f6;
+  background: ${({ theme }) => theme.colors.background_light};
   z-index: 999;
   padding: 1rem;
   display: flex;
@@ -217,7 +217,7 @@ export const MobileCloseButton = styled.button`
 export const MobileBlockContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.background_standard};
   gap: 1rem;
   padding: 1.5rem;
   border-radius: 1.5rem;
@@ -262,6 +262,8 @@ export const MobileInput = styled.input`
   border: 1px solid #ccc;
   width: 100%;
   margin-bottom: 1rem;
+  background-color: ${({ theme }) => theme.colors.background_standard};
+  color: ${({ theme }) => theme.colors.text_standard};
 `
 
 export const FooterBar = styled.div`
@@ -288,28 +290,6 @@ export const MobileFilterSummary = styled.div`
 
   @media ${device.md} {
     display: none;
-  }
-`
-
-export const MobileFilterBadge = styled.div`
-  background: #eee;
-  border-radius: 999px;
-  padding: 4px 8px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  @media ${device.md} {
-    display: none;
-  }
-
-  button {
-    background: none;
-    border: none;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 `
 

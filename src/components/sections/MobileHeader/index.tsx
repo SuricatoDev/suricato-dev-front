@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr/CaretLeft'
 
+import ThemeToggle from '@/components/common/ThemeToggle'
+
 import * as S from './styles'
 
 interface MobileHeaderProps {
@@ -38,6 +40,7 @@ export default function MobileHeader({ children }: MobileHeaderProps) {
         <CaretLeft size={32} />
       </S.BackButton>
       {children}
+      <ThemeToggle />
     </S.Wrapper>
   )
 }

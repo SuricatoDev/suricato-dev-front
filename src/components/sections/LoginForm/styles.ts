@@ -38,8 +38,8 @@ export const Header = styled.div<ModalProps>`
   position: ${(props) => (props.$isModal ? 'sticky' : 'relative')};
   top: ${(props) => (props.$isModal ? '0' : 'unset')};
   padding: 1.5rem;
-  border-bottom: 1px solid #ebebeb;
-  background-color: ${(props) => props.theme.colors.background_standard};
+  border-bottom: 1px solid ${(props) => props.theme.colors.base_dark32};
+  background-color: ${(props) => props.theme.colors.background_light};
   z-index: 9;
   border-radius: 8px 8px 0 0;
 `

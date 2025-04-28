@@ -99,7 +99,7 @@ export const EditLink = styled.button`
 `
 
 export const SideBlock = styled.div`
-  background: ${({ theme }) => theme.colors.background_standard};
+  background: ${({ theme }) => theme.colors.background_light};
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 1rem;

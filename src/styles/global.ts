@@ -8,6 +8,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     outline: none;
+    transition: background-color ${(props) => props.theme.common.transition.default};
   }
 
   :root {
@@ -15,7 +16,10 @@ export const GlobalStyle = createGlobalStyle`
   --swiper-pagination-bullet-inactive-color: ${({ theme }) =>
     theme.colors.base_dark32};
   --swiper-pagination-bullet-inactive-opacity: 1;
+
+  --toastify-toast-padding: 16px 24px 16px 16px;
   }
+
 
 
   html {
@@ -26,8 +30,10 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
-    background-color: ${(props) => props.theme.colors.background_standard}
+    background-color: ${(props) => props.theme.colors.background_standard};
+    transition: background-color ${(props) => props.theme.common.transition.slow};
 
+    min-height: 100vh;
   }
 
   input, select, button {

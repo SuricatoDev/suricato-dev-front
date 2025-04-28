@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { device } from '@/styles/breakpoints'
 
 export const TabsWrapper = styled.div`
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.base_dark32};
+  background-color: ${({ theme }) => theme.colors.background_standard};
   margin-bottom: 2rem;
 `
 
@@ -36,7 +37,7 @@ export const TabItem = styled.li<TabItemProps>`
         : theme.colors.text_foggy};
 
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
+
   user-select: none;
 
   &::after {

@@ -43,6 +43,25 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content="#333" />
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
           <meta name="robots" content="noindex, nofollow" />
+
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              (function() {
+                try {
+                  const stored = localStorage.getItem('theme');
+                  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  const isDark = stored ? stored === 'dark' : systemPrefersDark;
+                  if (isDark) {
+                    document.documentElement.style.backgroundColor = '#212121';
+                  } else {
+                    document.documentElement.style.backgroundColor = '#fcfcfc';
+                  }
+                } catch (e) {}
+              })();
+            `
+            }}
+          />
         </Head>
         <body>
           <Main />

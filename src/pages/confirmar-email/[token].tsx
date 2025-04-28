@@ -4,6 +4,8 @@ import axios from 'axios'
 import Head from 'next/head'
 import Image from 'next/image'
 
+import Button from '@/components/common/Button'
+
 import * as S from '@/styles/pages/confirmar-email'
 
 interface ConfirmarEmailProps {
@@ -32,14 +34,16 @@ export default function ConfirmarEmail({ isValidToken }: ConfirmarEmailProps) {
         </S.Header>
         <S.Content>
           {isValidToken ? (
-            <>
+            <S.Wrapper>
               <S.Title>Bem-vindo ao Excursionistas!</S.Title>
               <S.Text>
                 Obrigado por confirmar seu e-mail. Agora você pode aproveitar
                 tudo o que o Excursionistas tem a oferecer!
               </S.Text>
-              <S.Button href="/">Voltar para o site</S.Button>
-            </>
+              <Button fullWidth href="/">
+                Voltar para o site
+              </Button>
+            </S.Wrapper>
           ) : (
             <S.ErrorText>
               Ocorreu um erro ao confirmar seu e-mail. Verifique se o link está

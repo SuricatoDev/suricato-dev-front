@@ -15,13 +15,16 @@ export const Wrapper = styled.div`
   position: sticky;
   top: 90px;
   width: 100%;
-  background: ${({ theme }) => theme.colors.background_standard};
+  background: ${({ theme }) => theme.colors.background_light};
   padding: 0;
   z-index: 100;
 
   @media (${device.md}) {
     padding: 0.75rem 0 0;
-    box-shadow: 0 -1px 0px rgba(0, 0, 0, 0.1);
+    ${({ theme }) =>
+      theme.title === 'dark'
+        ? 'box-shadow: 0 -1px 0px rgba(255, 255, 255, 0.2)'
+        : 'box-shadow: 0 -1px 0px rgba(0, 0, 0, 0.1)'}
   }
 `
 

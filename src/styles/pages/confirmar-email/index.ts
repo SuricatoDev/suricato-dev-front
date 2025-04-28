@@ -1,12 +1,10 @@
-import Link from 'next/link'
 import styled from 'styled-components'
-
 
 export const Container = styled.div`
   max-width: 600px;
   width: calc(100% - 1.5rem);
   max-height: calc(100% - 1.5rem);
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.background_light};
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -19,7 +17,7 @@ export const Container = styled.div`
 `
 
 export const Header = styled.div`
-  background-color: #ff6d3c;
+  background-color: ${({ theme }) => theme.colors.primary_medium};
   padding: 20px;
   text-align: center;
 `
@@ -34,36 +32,32 @@ export const Content = styled.div`
 `
 
 export const Title = styled.h1`
-  color: #ff6d3c;
+  color: ${({ theme }) => theme.colors.primary_medium};
 `
 
 export const Text = styled.p`
-  font-size: 16px;
-  color: #555;
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.text_standard};
+  margin-bottom: 1.5rem;
 `
-
-export const Button = styled(Link)`
-  display: inline-block;
-  margin-top: 20px;
-  background-color: #ffaa8e;
-  color: #fff;
-  padding: 12px 24px;
-  text-decoration: none;
-  border-radius: 4px;
-  font-weight: bold;
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 `
 
 export const ErrorText = styled.p`
-  font-size: 16px;
-  color: red;
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.alert_error};
 `
 
 export const Footer = styled.div`
-  background-color: #eaeaea;
+  background-color: ${({ theme }) => theme.colors.background_light};
   padding: 15px;
   text-align: center;
-  font-size: 12px;
-  color: #777;
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.colors.text_foggy};
   position: fixed;
   bottom: 0;
   width: 100%;

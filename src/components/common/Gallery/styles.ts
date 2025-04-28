@@ -187,20 +187,6 @@ export const Overlay = styled.div`
   border-radius: 8px;
 `
 
-export const FullscreenHeader = styled.div`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  font-size: 16px;
-  z-index: 1100;
-`
-
 export const FullscreenThumbnailWrapper = styled.div`
   display: flex;
   justify-content: center;

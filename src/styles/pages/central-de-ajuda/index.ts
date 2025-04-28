@@ -37,6 +37,7 @@ export const HeroContent = styled.div`
     font-size: 2.5rem;
     text-align: center;
     margin-bottom: 1rem;
+    color: ${({ theme }) => theme.colors.text_ultralight};
   }
 
   p {
@@ -259,7 +260,7 @@ export const FormWrapper = styled.form`
   flex-direction: column;
   gap: 1rem;
   padding: 0 1rem 1rem;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.background_light};
   border-radius: 8px;
 `
 

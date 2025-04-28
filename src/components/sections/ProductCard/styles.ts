@@ -6,8 +6,11 @@ export const Wrapper = styled.div`
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  background: #fff;
+  background: ${({ theme }) => theme.colors.background_light};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -57,7 +60,7 @@ export const Name = styled.h2`
   font-size: 14px;
   font-weight: 600;
   margin: 0;
-  color: ${({ theme }) => theme.colors.text_medium};
+  color: ${({ theme }) => theme.colors.text_standard};
 `
 
 export const Info = styled.p`
@@ -66,7 +69,7 @@ export const Info = styled.p`
   align-items: center;
   font-size: ${({ theme }) => theme.common.font.sizes.body.xsmall};
   font-weight: inherit;
-  color: ${({ theme }) => theme.colors.text_standard};
+  color: ${({ theme }) => theme.colors.text_medium};
 `
 
 export const InfoWrapper = styled.div`

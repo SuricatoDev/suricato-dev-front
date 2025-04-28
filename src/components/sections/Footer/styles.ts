@@ -10,12 +10,12 @@ export const Wrapper = styled.footer`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: ${(props) => props.theme.colors.background_standard};
+  background-color: ${(props) => props.theme.colors.background_light};
   transition: background-color
     ${(props) => props.theme.common.transition.default};
   flex-wrap: wrap;
   padding: 1rem;
-  border-top: 1px solid #dddddd;
+  border-top: 1px solid ${(props) => props.theme.colors.base_dark32};
 
   p,
   a {

@@ -8,6 +8,7 @@ import { X } from '@phosphor-icons/react/dist/ssr/X'
 
 import { ImageItem } from '@/contexts/CreateAdContext'
 
+import Button from '../Button'
 import * as S from './styles'
 
 type ImageDropzoneProps = {
@@ -80,7 +81,9 @@ export function ImageDropzone({
             width={120}
             height={120}
           />
-          <S.UploadButton type="button">Adicionar fotos</S.UploadButton>
+          <Button size="sm" variant="outlined" type="button">
+            Adicionar fotos
+          </Button>
         </S.LogoContainer>
       ) : (
         <S.AddMoreButton

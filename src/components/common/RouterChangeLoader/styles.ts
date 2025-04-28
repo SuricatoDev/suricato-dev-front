@@ -34,7 +34,8 @@ export const Overlay = styled.div`
   left: 0;
   width: 100vw;
   height: calc(100vh - 64px);
-  background: rgba(255, 255, 255, 0.9);
+  background: ${({ theme }) => theme.colors.background_standard};
+  opacity: 0.9;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -7,12 +7,15 @@ export const Wrapper = styled.header`
   top: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 1rem;
   width: 100%;
   z-index: 999;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  border-bottom: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+  background-color: ${({ theme }) => theme.colors.background_light};
   color: ${({ theme }) => theme.colors.text_standard};
   min-height: 64px;
 
@@ -25,8 +28,6 @@ export const Wrapper = styled.header`
 `
 
 export const BackButton = styled.button`
-  position: absolute;
-  left: 1rem;
   background: none;
   border: none;
   color: ${({ theme }) => theme.colors.text_standard};

@@ -17,7 +17,7 @@ export const ModalOverlay = styled.div`
 
 export const ModalContent = styled.div`
   position: relative;
-  background: #fff;
+  background: ${({ theme }) => theme.colors.background_standard};
 
   border-radius: 8px;
   width: calc(100% - 2rem);
@@ -82,7 +82,8 @@ export const ActionButtons = styled.div`
   justify-content: space-between;
   gap: 1rem;
   flex-direction: column;
+
   @media (${device.md}) {
-    flex-direction: row;
+    flex-direction: row-reverse;
   }
 `

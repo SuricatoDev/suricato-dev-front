@@ -1,6 +1,6 @@
 import { DefaultTheme } from 'styled-components'
 
-import { defaultTheme } from '@/styles/themes/default'
+import { defaultTheme } from '@/styles/themes'
 
 export const createTheme = (dynamicTheme: {
   [key: string]: unknown

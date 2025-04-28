@@ -21,6 +21,8 @@ export const Input = styled.input`
   border-radius: 16px;
   font-size: 1rem;
   height: 56px;
+  background: ${({ theme }) => theme.colors.background_light};
+  color: ${({ theme }) => theme.colors.text_standard};
 
   &:focus,
   &:active {
@@ -53,16 +55,19 @@ export const Item = styled.li`
   font-size: 0.95rem;
 
   &:hover {
-    background: #f7f7f7;
+    background: ${({ theme }) => theme.colors.background_light};
   }
 `
 
 export const Icon = styled.div`
   display: flex;
   padding: 12px;
-  background-color: rgb(247, 247, 247);
+  background-color: ${({ theme }) => theme.colors.background_light};
   border-radius: 50%;
   color: ${({ theme }) => theme.colors.text_foggy};
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
 `
 export const Wrapper = styled.div`
   position: relative;

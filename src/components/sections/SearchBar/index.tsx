@@ -6,10 +6,10 @@ import { useRouter } from 'next/router'
 
 import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
-import { SlidersHorizontal } from '@phosphor-icons/react/dist/ssr/SlidersHorizontal'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
 import Button from '@/components/common/Button'
+import ThemeToggle from '@/components/common/ThemeToggle'
 
 import * as S from './styles'
 
@@ -264,11 +264,7 @@ export default function ResponsiveSearchBar({
           )}
         </S.MobileTrigger>
 
-        {(values.title || values.origin || values.dest) && (
-          <S.MobileIconButton onClick={() => setIsMobileOpen(true)}>
-            <SlidersHorizontal size={20} weight="bold" />
-          </S.MobileIconButton>
-        )}
+        <ThemeToggle />
       </S.MobileWrapper>
 
       <AnimatePresence>

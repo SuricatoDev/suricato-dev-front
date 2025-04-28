@@ -221,7 +221,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
       <Header $variant="simple" />
       <S.Main>
         <div className="container">
-          <MobileHeader />
+          <MobileHeader>Detalhes da Caravana</MobileHeader>
           <S.Container>
             <S.ContentWrapper>
               <S.Content>

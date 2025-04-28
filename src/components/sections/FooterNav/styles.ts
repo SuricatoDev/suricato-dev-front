@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
 `
 
 export const FooterNavContainer = styled.div`
-  background: #fff;
+  background: ${({ theme }) => theme.colors.background_light};
   padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
@@ -40,7 +40,7 @@ export const Back = styled.button<{ hide: boolean }>`
   @media (${device.md}) {
     &:hover {
       color: ${({ theme }) => theme.colors.text_medium};
-      background-color: #f7f7f7;
+      background-color: ${({ theme }) => theme.colors.background_standard};
     }
   }
 `

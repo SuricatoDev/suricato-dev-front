@@ -95,6 +95,7 @@ export const EditButton = styled.button`
   justify-content: center;
   width: 32px;
   height: 32px;
+  color: ${({ theme }) => theme.colors.text_standard};
 `
 
 export const GuestPriceSummary = styled.button`

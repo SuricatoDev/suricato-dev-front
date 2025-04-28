@@ -16,7 +16,7 @@ export default function Step9({
   const { formData, updateFormData } = useContext(CreateAdContext)!
   const [title, setTitle] = useState(formData.titulo)
 
-  const maxLength = 32
+  const maxLength = 64
   const isTooLong = title.length > maxLength
   const isEmpty = title.trim().length === 0
   const showError = isTooLong

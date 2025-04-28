@@ -37,6 +37,7 @@ export const HeroContent = styled.div`
     font-size: 2.5rem;
     text-align: center;
     margin-bottom: 1rem;
+    color: ${({ theme }) => theme.colors.text_ultralight};
   }
 
   p {
@@ -58,6 +59,9 @@ export const Main = styled.main`
     max-width: 960px;
     margin: 0 auto;
     padding: 0 1rem 2rem;
+    @media ${device.md} {
+      padding: 0 1rem calc(52px + 4rem);
+    }
   }
 `
 
@@ -79,7 +83,12 @@ interface SectionProps {
 
 export const Section = styled.section<SectionProps>`
   background: ${({ $alternate, theme }) =>
-    $alternate ? theme.colors.text_ultrafoggy : 'transparent'};
+    $alternate
+      ? theme.title === 'dark'
+        ? theme.colors.base_dark8
+        : theme.colors.text_ultrafoggy
+      : 'transparent'};
+
   padding: 1rem;
   border-radius: 1rem;
   display: flex;
@@ -88,7 +97,11 @@ export const Section = styled.section<SectionProps>`
 
   border: 1px solid
     ${({ $alternate, theme }) =>
-      $alternate ? 'transparent' : theme.colors.text_ultrafoggy};
+      $alternate
+        ? theme.title === 'dark'
+          ? theme.colors.text_ultrafoggy
+          : 'transparent'
+        : theme.colors.text_ultrafoggy};
   svg {
     color: ${({ theme }) => theme.colors.primary_medium};
     min-width: 48px;
@@ -128,13 +141,19 @@ export const ClosingBlock = styled.div`
 
   h2 {
     font-size: 2rem;
-    color: ${({ theme }) => theme.colors.text_ultralight};
+    color: ${({ theme }) =>
+      theme.title === 'dark'
+        ? theme.colors.base_dark8
+        : theme.colors.text_ultralight};
   }
 
   p {
     margin-top: 1rem;
     font-size: 1.2rem;
-    color: ${({ theme }) => theme.colors.text_ultrafoggy};
+    color: ${({ theme }) =>
+      theme.title === 'dark'
+        ? theme.colors.base_dark16
+        : theme.colors.text_ultrafoggy};
   }
 
   @media ${device.md} {

@@ -23,7 +23,7 @@ export const Modal = styled.div<Pick<ModalProps, '$withMaxSizes'>>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  background-color: ${({ theme }) => theme.colors.background_light};
 
   height: auto;
   width: ${({ $withMaxSizes }) =>

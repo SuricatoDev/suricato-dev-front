@@ -56,6 +56,8 @@ export const Textarea = styled.textarea<{ hasError?: boolean }>`
   resize: vertical;
   font-family: inherit;
   box-sizing: border-box;
+  background-color: ${({ theme }) => theme.colors.background_light};
+  color: ${({ theme }) => theme.colors.text_standard};
 
   &:focus {
     border-color: ${({ theme, hasError }) =>

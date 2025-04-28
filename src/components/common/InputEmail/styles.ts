@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
   width: 100%;
   overflow: visible;
   z-index: 2;
+  background-color: ${(props) => props.theme.colors.background_standard};
 `
 
 export const InputContainer = styled.div`
@@ -28,7 +29,8 @@ export const GhostText = styled.span`
   top: calc(50% + 5px);
   transform: translateY(-50%);
   white-space: nowrap;
-  color: rgba(0, 0, 0, 0.4);
+  color: ${(props) => props.theme.colors.text_standard};
+  opacity: 0.4;
   pointer-events: none;
   z-index: 1;
   font-size: ${(props) => props.theme.common.font.sizes.body.large};
@@ -47,7 +49,8 @@ export const SuggestionsList = styled.ul`
   margin: 2px 0 0;
   padding: 0;
   border: 1px solid ${(props) => props.theme.colors.base_dark16};
-  background: ${(props) => props.theme.colors.background_standard};
+  background: ${(props) => props.theme.colors.background_light};
+  color: ${(props) => props.theme.colors.text_standard};
   width: 100%;
   position: absolute;
   z-index: 3;
@@ -68,6 +71,6 @@ export const SuggestionItem = styled.li<SuggestionItemProps>`
   display: block;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.base_dark8};
+    background-color: ${({ theme }) => theme.colors.base_dark32};
   }
 `

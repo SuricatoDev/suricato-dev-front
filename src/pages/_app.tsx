@@ -1,11 +1,9 @@
-import Layout from '@/containers/Layout'
 import { AccessibilityContextProvider } from '@/providers/AccessibilityContextProvider'
 import isPropValid from '@emotion/is-prop-valid'
 import { SessionProvider } from 'next-auth/react'
 import { AppProps } from 'next/app'
 import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
-import { ToastContainer } from 'react-toastify'
 import { StyleSheetManager } from 'styled-components'
 
 import { AuthStatusProvider } from '@/contexts/AuthStatusProvider'
@@ -14,6 +12,7 @@ import { GoogleMapsProvider } from '@/contexts/GoogleMapsProvider'
 import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
 import RouteChangeLoader from '@/components/common/RouterChangeLoader'
 import { SessionUpdater } from '@/components/common/SessionUpdater'
+import ToastProvider from '@/components/common/ToastProvider'
 import EmailConfirmationToast from '@/components/sections/EmailConfirmationToast'
 import MobileFooter from '@/components/sections/MobileFooter'
 
@@ -50,32 +49,16 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <AuthStatusProvider>
           <SessionUpdater />
           <GoogleMapsProvider>
-            <Layout>
-              <StyleSheetManager
-                shouldForwardProp={(prop) => isPropValid(prop)}
-              >
-                <RouteChangeLoader />
-                <div className={inter.className} id="modal-root">
-                  <EmailConfirmationToast />
-                  <Component {...pageProps} />
-                  <PWAInstallPrompt />
-                  <ToastContainer
-                    draggable={true}
-                    draggablePercent={50}
-                    limit={3}
-                    draggableDirection="x"
-                    pauseOnHover={false}
-                    newestOnTop={false}
-                    position="bottom-center"
-                    autoClose={3000}
-                    style={{
-                      zIndex: 99999
-                    }}
-                  />
-                  {!hideMobileFooter && <MobileFooter />}
-                </div>
-              </StyleSheetManager>
-            </Layout>
+            <StyleSheetManager shouldForwardProp={(prop) => isPropValid(prop)}>
+              <RouteChangeLoader />
+              <div className={inter.className} id="modal-root">
+                <EmailConfirmationToast />
+                <Component {...pageProps} />
+                <PWAInstallPrompt />
+                <ToastProvider />
+                {!hideMobileFooter && <MobileFooter />}
+              </div>
+            </StyleSheetManager>
           </GoogleMapsProvider>
         </AuthStatusProvider>
       </SessionProvider>

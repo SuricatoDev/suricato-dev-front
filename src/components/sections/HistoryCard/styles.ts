@@ -4,7 +4,7 @@ import { device } from '@/styles/breakpoints'
 
 export const CardContainer = styled.div`
   border-radius: 8px;
-  background: ${({ theme }) => theme.colors.background_standard};
+  background: ${({ theme }) => theme.colors.background_light};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-bottom: 1rem;
   overflow: hidden;
@@ -19,6 +19,7 @@ export const CardHeader = styled.div`
   cursor: pointer;
 
   .icon {
+    color: ${({ theme }) => theme.colors.text_standard};
     display: none;
   }
 

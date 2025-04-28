@@ -80,7 +80,7 @@ export const ModalOverlay = styled.div`
 `
 
 export const ModalContent = styled.div`
-  background: #fff;
+  background: ${({ theme }) => theme.colors.background_light};
   padding: 2rem;
   border-radius: 8px;
   text-align: center;

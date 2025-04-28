@@ -8,7 +8,7 @@ export const Container = styled.div`
   width: 100%;
   height: 56px;
   height: 100%;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.background_standard};
 `
 
 export const SelectWrapper = styled.div`
@@ -25,7 +25,7 @@ export const SelectWrapper = styled.div`
     top: 8px;
     left: 12px;
     font-size: 12px;
-    color: #999;
+    color: ${({ theme }) => theme.colors.text_foggy};
     pointer-events: none;
   }
 
@@ -47,13 +47,16 @@ export const SelectWrapper = styled.div`
   #ano {
     border-radius: 0 8px 8px 0;
   }
+
+  svg {
+    color: ${({ theme }) => theme.colors.text_medium};
+  }
 `
 
 export const Select = styled.select<{ value: string }>`
   width: 100%;
   height: 100%;
   border: none;
-  background: transparent;
   padding: ${({ value }) => (value ? '26px 36px 10px 12px' : '0 12px')};
   font-size: 16px;
   cursor: pointer;
@@ -63,10 +66,10 @@ export const Select = styled.select<{ value: string }>`
   -webkit-appearance: none;
   -moz-appearance: none;
   padding-right: 2rem;
+  background-color: ${({ theme }) => theme.colors.background_standard};
 
   &:focus {
     border: none;
-
     outline: 2px solid ${(props) => props.theme.colors.text_standard};
   }
 `

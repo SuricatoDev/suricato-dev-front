@@ -73,7 +73,7 @@ export default function AddressAutocomplete({
                   onClick={() => handleSelect(s.placeId, s.description)}
                 >
                   <S.Icon>
-                    <MapPin size={16} weight="regular" />
+                    <MapPin size={18} weight="regular" />
                   </S.Icon>
                   <div>
                     <S.PlaceName>{place}</S.PlaceName>
