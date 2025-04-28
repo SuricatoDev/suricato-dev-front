@@ -11,7 +11,7 @@ import { ImageItem } from '@/contexts/CreateAdContext'
 import Button from '../Button'
 import * as S from './styles'
 
-type ImageDropzoneProps = {
+export type ImageDropzoneProps = {
   onFilesChange?: (items: ImageItem[]) => void
   initialFiles?: ImageItem[]
 }

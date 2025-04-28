@@ -30,7 +30,7 @@ export interface AddressData {
   number: string
 }
 
-interface EditableAddressProps {
+export interface EditableAddressProps {
   address: AddressData
   activeSearch?: boolean
   setAddress: (addr: AddressData) => void

@@ -98,13 +98,13 @@ export default function StepRecoverToken({ onNext }: StepRecoverTokenProps) {
                 const input = (e.target as HTMLInputElement).value.replace(
                   /\D/g,
                   ''
-                ) // apenas números
+                )
 
                 if (!input) return
 
                 const arr = value.split('').slice(0, 6)
 
-                arr[idx] = input[input.length - 1] // Sempre sobrescreve, até se for igual
+                arr[idx] = input[input.length - 1]
 
                 onChange(arr.join(''))
 
@@ -120,7 +120,7 @@ export default function StepRecoverToken({ onNext }: StepRecoverTokenProps) {
                 const arr = value.split('').slice(0, 6)
 
                 if (e.key === 'Backspace') {
-                  e.preventDefault() // impede comportamento padrão
+                  e.preventDefault()
 
                   if (value[idx]) {
                     arr[idx] = ''

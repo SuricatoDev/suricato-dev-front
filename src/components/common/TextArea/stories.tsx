@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import Input from '.'
+import TextArea from '.'
 
 export default {
-  title: 'Input',
-  component: Input
+  title: 'Components/TextArea',
+  component: TextArea
 } as Meta
 
 export const Default: StoryObj = {}

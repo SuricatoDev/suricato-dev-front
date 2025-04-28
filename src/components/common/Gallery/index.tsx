@@ -17,7 +17,7 @@ const ImageGallery = dynamic(() => import('react-image-gallery'), {
   ssr: false
 })
 
-interface GalleryProps {
+export interface GalleryProps {
   images: string[]
 }
 

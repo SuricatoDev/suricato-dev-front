@@ -4,11 +4,13 @@ import { device } from '@/styles/breakpoints'
 
 export const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.background_standard};
+  min-height: 100vh;
 `
 
 export const Main = styled.main`
   background-color: ${({ theme }) => theme.colors.background_standard};
   padding-top: calc(138px + 1rem);
+  min-height: 100vh;
 
   @media (${device.md}) {
     padding: 300px 0 150px 0;

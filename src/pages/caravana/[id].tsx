@@ -75,7 +75,6 @@ interface CaravanPageProps {
 }
 
 export default function CaravanPage({ caravan }: CaravanPageProps) {
-  console.log(caravan)
   const router = useRouter()
 
   const { data: session, update } = useSession()

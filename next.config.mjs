@@ -27,11 +27,12 @@ const nextConfig = {
     imageSizes: [320, 500, 600, 800]
   },
   trailingSlash: false,
-  rewrites: async () => {
+  redirects: async () => {
     return [
       {
-        source: '/uploads/:path*',
-        destination: 'https://suricatodev.s3.sa-east-1.amazonaws.com/:path*'
+        source: '/storybook',
+        destination: '/storybook/index.html',
+        permanent: true
       }
     ]
   },

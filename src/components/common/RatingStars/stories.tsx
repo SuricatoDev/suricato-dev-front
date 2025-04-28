@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import Label from '.'
+import RatingStars from '.'
 
 export default {
-  title: 'Label',
-  component: Label
+  title: 'Components/RatingStars',
+  component: RatingStars
 } as Meta
 
 export const Default: StoryObj = {}

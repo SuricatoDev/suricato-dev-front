@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { Meta, StoryObj } from '@storybook/react'
 
 import Button from '.'
@@ -5,63 +7,84 @@ import { GoogleIcon } from '../Icons'
 
 export default {
   title: 'Components/Button',
-  component: Button,
-  args: {
-    children: 'Continuar'
-  },
-  argTypes: {
-    variant: {
-      control: {
-        type: 'select',
-        options: ['ghost', 'outlined', 'contained']
-      }
-    }
-  }
+  component: Button
 } as Meta<typeof Button>
 
 type Story = StoryObj<typeof Button>
 
-export const Default: Story = {}
+export const Default: Story = {
+  args: {
+    children: 'Continuar'
+  }
+}
 
 export const Ghost: Story = {
   args: {
     variant: 'ghost',
-    children: 'Continuar'
+    children: 'Ghost Button'
   }
 }
 
 export const Outlined: Story = {
   args: {
     variant: 'outlined',
-    children: 'Continuar'
+    children: 'Outlined Button'
   }
 }
 
 export const Contained: Story = {
   args: {
     variant: 'contained',
-    children: 'Continuar'
+    children: 'Contained Button'
   }
 }
 
-export const WithIcon: Story = {
+export const Danger: Story = {
   args: {
-    icon: <GoogleIcon />,
-    children: 'Continuar com Google',
-    variant: 'outlined'
+    variant: 'danger',
+    children: 'Danger Button'
   }
 }
 
-export const Loading: Story = {
+export const Text: Story = {
   args: {
-    loading: true,
-    children: 'Continuar'
+    variant: 'text',
+    children: 'Text Button'
   }
 }
 
 export const FullWidth: Story = {
   args: {
     fullWidth: true,
-    children: 'Continuar'
+    children: 'Full Width'
   }
+}
+
+export const Loading: Story = {
+  args: {
+    loading: true,
+    children: 'Loading…'
+  }
+}
+
+export const Rounded: Story = {
+  args: {
+    rounded: true,
+    children: 'Rounded Button'
+  }
+}
+
+export const Small: Story = {
+  args: {
+    size: 'sm',
+    children: 'Small Button'
+  }
+}
+
+export const WithIcon: Story = {
+  args: {
+    children: 'Continuar com Google',
+    variant: 'outlined'
+  },
+  render: (args) => <Button {...args} icon={<GoogleIcon />} />
 }

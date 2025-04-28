@@ -5,9 +5,9 @@ import { checkPasswordStrength } from '@/utils/validations'
 import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
 import { EyeSlash } from '@phosphor-icons/react/dist/ssr/EyeSlash'
 
+import { ErrorIcon, ValidIcon } from '@/components/common/Icons'
 import Input from '@/components/common/Input'
 
-import { ErrorIcon, ValidIcon } from '../Icons'
 import * as S from './styles'
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {

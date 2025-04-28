@@ -51,7 +51,7 @@ export const Header = styled.div`
   position: sticky;
   top: 0;
   padding: 1.5rem;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.base_dark32};
   background-color: ${(props) => props.theme.colors.background_standard};
   z-index: 9;
   border-radius: 8px 8px 0 0;
@@ -129,7 +129,7 @@ export const PageButton = styled.button<{ active?: boolean }>`
   border: none;
   border-radius: 4px;
   background: ${({ active, theme }) =>
-    active ? theme.colors.primary_medium : '#ddd'};
+    active ? theme.colors.primary_medium : theme.colors.base_dark16};
   color: ${({ active, theme }) => (active ? '#fff' : theme.colors.text_foggy)};
   cursor: pointer;
   &:disabled {

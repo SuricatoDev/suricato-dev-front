@@ -43,3 +43,5 @@ storybook-static
 # PWA
 /public/sw*
 /public/workbox-*
+
+public/storybook/

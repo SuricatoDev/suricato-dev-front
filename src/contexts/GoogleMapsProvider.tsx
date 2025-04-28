@@ -37,7 +37,7 @@ export const GoogleMapsProvider = ({
     window.addEventListener('click', triggerLoad, { once: true })
     window.addEventListener('touchstart', triggerLoad, { once: true })
 
-    const timer = window.setTimeout(triggerLoad, 4000)
+    const timer = window.setTimeout(triggerLoad, 5000)
 
     return cleanup
   }, [])

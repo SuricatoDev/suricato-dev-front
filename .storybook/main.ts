@@ -3,18 +3,28 @@ import path from 'path'
 
 const config: StorybookConfig = {
   staticDirs: ['../src/assets'],
+
   stories: [
     '../src/components/**/stories.tsx',
     '../src/components/common/**/stories.tsx'
   ],
-  addons: ['@storybook/addon-essentials'],
+
+  addons: [
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    '@storybook/addon-links',
+    '@storybook/addon-onboarding',
+    '@storybook/addon-docs',
+    '@chromatic-com/storybook'
+  ],
+
   framework: {
     name: '@storybook/nextjs',
     options: {}
   },
-  docs: {
-    autodocs: true
-  },
+
+  docs: {},
+
   webpackFinal: (config) => {
     if (!config.resolve) {
       config.resolve = {}
@@ -28,6 +38,10 @@ const config: StorybookConfig = {
     console.log('Final Webpack Resolve Config:', config.resolve)
 
     return config
+  },
+
+  typescript: {
+    reactDocgen: 'react-docgen-typescript'
   }
 }
 

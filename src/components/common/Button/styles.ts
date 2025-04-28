@@ -50,7 +50,7 @@ const baseStyles = css<ButtonProps>`
   transition: all ${({ theme }) => theme.common.transition.default};
   cursor: ${({ disabled, $loading }) =>
     disabled || $loading ? 'not-allowed' : 'pointer'};
-  opacity: ${({ disabled, $loading }) => (disabled || $loading ? 0.6 : 1)};
+  opacity: ${({ disabled, $loading }) => (disabled || $loading ? 0.4 : 1)};
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.text_standard};

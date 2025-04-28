@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import InputBirthDate from '.'
 
 export default {
-  title: 'InputBirthDate',
+  title: 'Components/InputBirthDate',
   component: InputBirthDate
 } as Meta
 

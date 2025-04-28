@@ -9,7 +9,7 @@ interface RatingStarsProps {
   rating: number
 }
 
-export default function RatingStars({ rating }: RatingStarsProps) {
+export default function RatingStars({ rating = 0 }: RatingStarsProps) {
   const fullStars = Math.floor(rating)
   const hasHalfStar = rating - fullStars >= 0.5
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0)

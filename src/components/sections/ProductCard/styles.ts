@@ -160,8 +160,7 @@ export const FavoriteButton = styled.button<FavoriteButtonProps>`
 
   svg {
     transition: all 0.2s ease;
-    color: ${({ $favorited, theme }) =>
-      $favorited ? theme.colors.primary_dark : '#fff'};
+    color: ${({ $favorited }) => ($favorited ? '#E60023' : '#fff')};
 
     > path:first-of-type {
       opacity: ${({ $favorited }) => ($favorited ? 1 : 0.5)};

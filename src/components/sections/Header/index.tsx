@@ -13,10 +13,10 @@ import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
 
 import { useAuthStatus } from '@/contexts/AuthStatusProvider'
 
-import CategoriesBar from '@/components/common/CategoriesBar'
 import Divider from '@/components/common/Divider'
 import Portal from '@/components/common/Portal'
 import ThemeToggle from '@/components/common/ThemeToggle'
+import CategoriesBar from '@/components/sections/CategoriesBar'
 
 import ResponsiveSearchBar from '../SearchBar'
 import { HeaderNavigation } from './navigation'

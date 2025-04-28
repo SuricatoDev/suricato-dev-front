@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import Skeleton from '.'
 
 export default {
-  title: 'Skeleton',
+  title: 'Components/Skeleton',
   component: Skeleton
 } as Meta
 
