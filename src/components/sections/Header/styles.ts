@@ -76,6 +76,7 @@ export const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: 118px;
 
   svg {
     fill: ${({ theme }) => theme.colors.text_medium};

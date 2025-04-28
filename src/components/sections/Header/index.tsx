@@ -133,7 +133,7 @@ export default function Header({
       <S.Wrapper $variant={$variant} $isScrolled={isScrolled}>
         <S.Container>
           <S.TopHeader>
-            <Link href="/" passHref style={{ display: 'flex', width: '85px' }}>
+            <Link href="/" passHref style={{ display: 'flex', width: '118px' }}>
               <S.Logo src={logo} alt="Logo" width={60} height={60} />
             </Link>
 
