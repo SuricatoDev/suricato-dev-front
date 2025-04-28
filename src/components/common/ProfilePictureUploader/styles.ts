@@ -12,9 +12,11 @@ export const Container = styled.div`
 export const Header = styled.div`
   text-align: center;
   margin-bottom: 1rem;
+
   h2 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    color: ${({ theme }) => theme.colors.text_standard};
   }
 `
 
@@ -46,7 +48,7 @@ export const ControlButton = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
-  color: red;
+  color: ${({ theme }) => theme.colors.primary_medium};
   display: flex;
   align-items: center;
   justify-content: center;

@@ -255,8 +255,8 @@ export const PlaceholderPic = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ddd;
-  color: ${({ theme }) => theme.colors.base_dark88};
+  background: ${({ theme }) => theme.colors.background_light};
+  color: ${({ theme }) => theme.colors.base_dark32};
   width: 100%;
   height: 100%;
 `
@@ -265,7 +265,10 @@ export const EditIcon = styled.div`
   position: absolute;
   bottom: 3px;
   right: 3px;
-  background: ${({ theme }) => theme.colors.text_ultralight};
+  background: ${({ theme }) => theme.colors.background_light};
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
   padding: 4px;
   border-radius: 50%;
   color: ${({ theme }) => theme.colors.base_dark88};
@@ -273,7 +276,6 @@ export const EditIcon = styled.div`
   pointer-events: none;
   display: flex;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.16);
-  border: 1px solid transparent;
 
   @media ${device.md} {
     ${ProfilePicWrapper}:hover & {

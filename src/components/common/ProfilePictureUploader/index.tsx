@@ -90,12 +90,13 @@ export default function ChangeProfilePicModal({
     <Modal
       closeButton={false}
       $withMaxSizes={false}
+      style={{ width: 'calc(100% - 2rem)', maxWidth: '600px' }}
       $isOpen={$isOpen}
       onClose={onClose}
     >
       <S.Container>
         <S.Header>
-          <h2>Escolher foto do perfil</h2>
+          <h2>Recortar foto de perfil</h2>
         </S.Header>
         <S.Body>
           {imageSrc ? (
@@ -119,7 +120,7 @@ export default function ChangeProfilePicModal({
                     setZoom((prev) => Math.max(minZoom, prev - 0.1))
                   }
                 >
-                  <Minus size={20} />
+                  <Minus weight="bold" size={20} />
                 </S.ControlButton>
 
                 <S.RangeInput
@@ -137,7 +138,7 @@ export default function ChangeProfilePicModal({
                     setZoom((prev) => Math.min(maxZoom, prev + 0.1))
                   }
                 >
-                  <Plus size={20} />
+                  <Plus weight="bold" size={20} />
                 </S.ControlButton>
               </S.Controls>
             </>
