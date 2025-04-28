@@ -397,9 +397,7 @@ export const EventItem = styled.div`
   @media (${device.md}) {
     flex-direction: row;
     align-items: center;
-    border: 1px solid
-      ${({ theme }) =>
-        theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+    border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   }
 `
 
