@@ -386,6 +386,7 @@ export const EventContainer = styled.div`
 export const EventItem = styled.div`
   border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.colors.base_dark32};
+  background-color: ${({ theme }) => theme.colors.background_light};
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -396,7 +397,9 @@ export const EventItem = styled.div`
   @media (${device.md}) {
     flex-direction: row;
     align-items: center;
-    border: none;
+    border: 1px solid
+      ${({ theme }) =>
+        theme.title === 'dark' ? theme.colors.base_dark32 : 'none'};
   }
 `
 
