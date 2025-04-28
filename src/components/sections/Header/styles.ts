@@ -75,6 +75,7 @@ export const ProfileContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: end;
   gap: 0.5rem;
   width: 118px;
 

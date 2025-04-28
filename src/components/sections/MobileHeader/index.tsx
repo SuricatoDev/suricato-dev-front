@@ -40,7 +40,9 @@ export default function MobileHeader({ children }: MobileHeaderProps) {
         <CaretLeft size={32} />
       </S.BackButton>
       {children}
-      <ThemeToggle />
+      <S.IconWrapper>
+        <ThemeToggle />
+      </S.IconWrapper>
     </S.Wrapper>
   )
 }
