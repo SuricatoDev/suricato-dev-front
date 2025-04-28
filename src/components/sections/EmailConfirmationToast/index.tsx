@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { getCookie, setCookie } from 'cookies-next'
 import { useSession } from 'next-auth/react'
 
-import { X } from '@phosphor-icons/react'
+import { X } from '@phosphor-icons/react/dist/ssr/X'
 
 import * as S from './styles'
 
