@@ -31,7 +31,7 @@ export const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
     background-color: ${(props) => props.theme.colors.background_standard};
-    transition: background-color ${(props) => props.theme.common.transition.slow};
+    transition: background-color ${(props) => props.theme.common.transition.default};
 
     min-height: 100vh;
   }
