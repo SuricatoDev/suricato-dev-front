@@ -5,9 +5,9 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-import { SignIn } from '@phosphor-icons/react'
 import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass'
+import { SignIn } from '@phosphor-icons/react/dist/ssr/SignIn'
 import { SignOut } from '@phosphor-icons/react/dist/ssr/SignOut'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
