@@ -45,3 +45,5 @@ storybook-static
 /public/workbox-*
 
 public/storybook/
+
+/apk
