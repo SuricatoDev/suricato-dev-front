@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
   width: 100%;
   overflow: visible;
   z-index: 2;
-  background-color: ${(props) => props.theme.colors.background_standard};
+  background-color: ${(props) => props.theme.colors.background_light};
 `
 
 export const InputContainer = styled.div`

@@ -131,6 +131,10 @@ export const GridItem = styled.div<GridItemProps>`
   cursor: pointer;
   aspect-ratio: 16 / 9;
 
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+
   @media ${device.md} {
     display: flex;
   }

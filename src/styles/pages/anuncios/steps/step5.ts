@@ -83,15 +83,15 @@ export const DateTimeInput = styled.input.attrs({ type: 'datetime-local' })`
   -webkit-appearance: none;
   appearance: none;
   -moz-appearance: none;
-
+  text-align: center;
   border: none;
   border-bottom: 1px solid #ddd;
   font-size: 16px;
   padding: 4px;
-  width: 180px;
+  width: 200px;
   color: ${({ theme }) => theme.colors.text_medium};
   background-color: transparent;
-
+  color-scheme: ${({ theme }) => (theme.title === 'dark' ? 'dark' : 'light')};
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.text_standard};

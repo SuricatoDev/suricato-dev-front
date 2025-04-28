@@ -66,11 +66,19 @@ export default function Step5({ setCanProceed }: Step5Props) {
                 <Minus size={20} />
               </S.CounterButton>
               <S.CounterInput
-                type="number"
+                type="text"
                 name="numero_vagas"
-                value={numero_vagas || 0}
-                min={1}
-                onChange={handleChange}
+                value={numero_vagas || ''}
+                onChange={(e) => {
+                  const onlyNumbers = e.target.value.replace(/\D/g, '')
+                  updateFormData('numero_vagas', onlyNumbers)
+                }}
+                onBlur={(e) => {
+                  const value = parseInt(e.target.value || '0', 10)
+                  if (!value || value <= 0) {
+                    updateFormData('numero_vagas', '1')
+                  }
+                }}
               />
               <S.CounterButton onClick={() => adjustSeats(+1)}>
                 <Plus size={20} />

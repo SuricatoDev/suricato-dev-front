@@ -93,28 +93,78 @@ export default function StepRecoverToken({ onNext }: StepRecoverTokenProps) {
             minLength: { value: 6, message: 'Digite os 6 dígitos' }
           }}
           render={({ field: { value, onChange }, fieldState: { error } }) => {
-            const handleChange =
-              (idx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-                const v = e.target.value.replace(/\D/g, '').slice(-1)
+            const handleInput =
+              (idx: number) => (e: React.FormEvent<HTMLInputElement>) => {
+                const input = (e.target as HTMLInputElement).value.replace(
+                  /\D/g,
+                  ''
+                ) // apenas números
+
+                if (!input) return
+
                 const arr = value.split('').slice(0, 6)
-                arr[idx] = v
-                const newVal = arr.join('').padEnd(6, '')
-                onChange(newVal)
-                if (v && inputsRef.current[idx + 1]) {
-                  inputsRef.current[idx + 1]!.focus()
+
+                arr[idx] = input[input.length - 1] // Sempre sobrescreve, até se for igual
+
+                onChange(arr.join(''))
+
+                setTimeout(() => {
+                  if (inputsRef.current[idx + 1]) {
+                    inputsRef.current[idx + 1]?.focus()
+                    inputsRef.current[idx + 1]?.select()
+                  }
+                }, 0)
+              }
+            const handleKeyDown =
+              (idx: number) => (e: React.KeyboardEvent<HTMLInputElement>) => {
+                const arr = value.split('').slice(0, 6)
+
+                if (e.key === 'Backspace') {
+                  e.preventDefault() // impede comportamento padrão
+
+                  if (value[idx]) {
+                    arr[idx] = ''
+                    onChange(arr.join(''))
+                  } else if (inputsRef.current[idx - 1]) {
+                    inputsRef.current[idx - 1]?.focus()
+                    const arrPrev = value.split('').slice(0, 6)
+                    arrPrev[idx - 1] = ''
+                    onChange(arrPrev.join(''))
+                  }
+                }
+
+                if (e.key === 'ArrowLeft' && inputsRef.current[idx - 1]) {
+                  e.preventDefault()
+                  inputsRef.current[idx - 1]?.focus()
+                }
+
+                if (e.key === 'ArrowRight' && inputsRef.current[idx + 1]) {
+                  e.preventDefault()
+                  inputsRef.current[idx + 1]?.focus()
+                }
+
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a') {
+                  e.preventDefault()
+                  e.currentTarget.select()
                 }
               }
 
-            const handleKeyDown =
-              (idx: number) => (e: React.KeyboardEvent<HTMLInputElement>) => {
-                if (
-                  e.key === 'Backspace' &&
-                  !value[idx] &&
-                  inputsRef.current[idx - 1]
-                ) {
-                  inputsRef.current[idx - 1]!.focus()
-                }
+            const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+              e.preventDefault()
+              const pastedData = e.clipboardData
+                .getData('Text')
+                .replace(/\D/g, '')
+
+              if (pastedData) {
+                const arr = pastedData.split('').slice(0, 6)
+                const newVal = arr.join('')
+                onChange(newVal)
+
+                const nextIndex = arr.length - 1
+                inputsRef.current[nextIndex]?.focus()
+                inputsRef.current[nextIndex]?.select()
               }
+            }
 
             return (
               <div>
@@ -125,10 +175,10 @@ export default function StepRecoverToken({ onNext }: StepRecoverTokenProps) {
                       type="text"
                       inputMode="numeric"
                       pattern="\d*"
-                      maxLength={1}
                       value={value[idx] || ''}
-                      onChange={handleChange(idx)}
+                      onInput={handleInput(idx)}
                       onKeyDown={handleKeyDown(idx)}
+                      onPaste={handlePaste}
                       ref={(el) => {
                         inputsRef.current[idx] = el
                       }}

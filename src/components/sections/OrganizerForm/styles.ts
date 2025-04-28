@@ -22,6 +22,10 @@ export const FormContainer = styled.div<ModalProps>`
   z-index: ${(props) => (props.$isModal ? '99999' : 'unset')};
   border-radius: ${(props) => (props.$isModal ? '8px 8px 0 0' : '0')};
   overflow-y: auto;
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+  min-height: unset;
   @media (${device.md}) {
     max-height: calc(100% - 2rem);
     bottom: unset;

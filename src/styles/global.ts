@@ -8,7 +8,11 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     outline: none;
-    transition: background-color ${(props) => props.theme.common.transition.default};
+    transition: background-color ${(props) => props.theme.common.transition.default},
+    color ${(props) => props.theme.common.transition.default},
+    border ${(props) => props.theme.common.transition.default},
+    filter ${(props) => props.theme.common.transition.default};
+
   }
 
   :root {
@@ -34,6 +38,10 @@ export const GlobalStyle = createGlobalStyle`
     transition: background-color ${(props) => props.theme.common.transition.default};
 
     min-height: 100vh;
+  }
+
+  #__next, #modal-root {
+        min-height: 100vh;
   }
 
   input, select, button {

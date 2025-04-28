@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/router'
 
+import { useFooterVisibility } from '@/hooks/useFooterVisibility'
+
 import * as S from './styles'
 
 export default function RouteChangeLoader() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const footerVisible = useFooterVisibility('mobile-footer', { threshold: 0.1 })
 
   useEffect(() => {
     const handleStart = () => setLoading(true)
@@ -26,7 +29,7 @@ export default function RouteChangeLoader() {
   if (!loading) return null
 
   return (
-    <S.Overlay>
+    <S.Overlay footerVisible={footerVisible}>
       <S.Dots>
         <S.Dot />
         <S.Dot />

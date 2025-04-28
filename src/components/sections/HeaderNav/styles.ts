@@ -26,7 +26,7 @@ export const Button = styled.button`
   text-align: center;
   cursor: pointer;
   border: 1px solid #ddd;
-  background-color: transparent;
+  background-color: ${({ theme }) => theme.colors.background_light};
   padding: 0 1rem;
   height: 40px;
   border-radius: 32px;
@@ -35,11 +35,13 @@ export const Button = styled.button`
   align-items: center;
   line-height: 1.125rem;
   font-size: ${({ theme }) => theme.common.font.sizes.body.medium};
-
-  transition: border-color ${(props) => props.theme.common.transition.fast};
+  transition:
+    border-color ${(props) => props.theme.common.transition.fast},
+    background-color ${(props) => props.theme.common.transition.fast};
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.text_standard};
+    background-color: ${({ theme }) => theme.colors.background_standard};
   }
 `
 

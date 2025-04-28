@@ -6,9 +6,12 @@ export const CardContainer = styled.div`
   border-radius: 8px;
   background: ${({ theme }) => theme.colors.background_light};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin-bottom: 1rem;
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.text_ultrafoggy};
+
+  @media ${device.md} {
+    margin-bottom: 1rem;
+  }
 `
 
 export const CardHeader = styled.div`

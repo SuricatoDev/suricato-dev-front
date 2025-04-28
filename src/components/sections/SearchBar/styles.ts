@@ -108,6 +108,9 @@ export const Dropdown = styled.div`
   max-width: 360px;
   padding: 0.5rem 0;
   z-index: 999;
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
 `
 
 export const Suggestion = styled.li`
@@ -173,7 +176,7 @@ export const MobileTrigger = styled.div`
 export const Modal = styled(motion.div)`
   position: fixed;
   inset: 0;
-  background: ${({ theme }) => theme.colors.background_light};
+  background: ${({ theme }) => theme.colors.background_standard};
   z-index: 999;
   padding: 1rem;
   display: flex;
@@ -208,7 +211,7 @@ export const MobileCloseButton = styled.button`
   top: 50%;
   transform: translateY(-50%);
   left: 0;
-  background: none;
+  background: ${({ theme }) => theme.colors.background_light};
   border: none;
   color: #222;
   cursor: pointer;
@@ -222,13 +225,17 @@ export const MobileCloseButton = styled.button`
 export const MobileBlockContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  background-color: ${({ theme }) => theme.colors.background_light};
   gap: 1rem;
   padding: 1.5rem;
   border-radius: 1.5rem;
   box-shadow:
     0 0 0 1px rgb(0 0 0 / 4%),
     0 6px 20px rgb(0 0 0 / 20%);
+
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
 `
 
 export const MobileBlock = styled.div`
@@ -264,10 +271,10 @@ export const MobileSuggestionsTitle = styled.p`
 export const MobileInput = styled.input`
   padding: 0.75rem;
   border-radius: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   width: 100%;
   margin-bottom: 1rem;
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  background-color: ${({ theme }) => theme.colors.background_light};
   color: ${({ theme }) => theme.colors.text_standard};
 `
 

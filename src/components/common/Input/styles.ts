@@ -38,7 +38,7 @@ export const Wrapper = styled.input<WrapperProps & { disabled?: boolean }>`
   min-height: 56px;
   box-sizing: border-box;
   font-family: inherit;
-
+  background-color: ${({ theme }) => theme.colors.background_light};
   &:disabled {
     cursor: not-allowed;
     opacity: 0.4;

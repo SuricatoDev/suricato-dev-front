@@ -21,7 +21,7 @@ export const Input = styled.input`
   border-radius: 16px;
   font-size: 1rem;
   height: 56px;
-  background: ${({ theme }) => theme.colors.background_light};
+  background-color: ${({ theme }) => theme.colors.background_light};
   color: ${({ theme }) => theme.colors.text_standard};
 
   &:focus,

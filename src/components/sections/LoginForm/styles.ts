@@ -22,6 +22,14 @@ export const FormContainer = styled.div<ModalProps>`
   z-index: ${(props) => (props.$isModal ? '99999' : 'unset')};
   border-radius: ${(props) => (props.$isModal ? '8px 8px 0 0' : '0')};
   overflow-y: auto;
+  border: 1px solid
+    ${({ theme, $isModal }) =>
+      theme.title === 'dark'
+        ? $isModal
+          ? theme.colors.base_dark32
+          : 'transparent'
+        : 'transparent'};
+
   @media (${device.md}) {
     max-height: calc(100% - 2rem);
     bottom: unset;
@@ -31,6 +39,11 @@ export const FormContainer = styled.div<ModalProps>`
     max-width: 568px;
     margin: ${(props) => (props.$isModal ? '0 auto' : '2rem auto')};
     border-radius: 9px;
+    min-height: unset;
+
+    border: 1px solid
+      ${({ theme }) =>
+        theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
   }
 `
 
@@ -106,7 +119,7 @@ export const PolicyText = styled.div`
 
   a {
     text-decoration: underline;
-    color: rgb(0, 76, 196);
+    color: ${({ theme }) => theme.colors.primary_medium};
     font-weight: 600;
   }
 `
@@ -177,7 +190,8 @@ export const OtpContainer = styled.div`
 `
 
 export const OtpField = styled.input<{ error?: boolean }>`
-  background-color: ${(props) => props.theme.colors.background_standard};
+  background-color: ${(props) => props.theme.colors.background_light};
+  color: ${(props) => props.theme.colors.text_standard};
   ${({ error, theme }) =>
     error
       ? `border: 1px solid ${theme.colors.alert_error};`

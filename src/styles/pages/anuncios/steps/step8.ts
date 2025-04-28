@@ -17,11 +17,11 @@ export const Grid = styled.div`
 export const ImageWrapper = styled.div<{ isCover?: boolean }>`
   position: relative;
   width: 100%;
-  border: 1px solid
-    ${({ theme }) =>
-      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
-  background-color: ${({ theme }) => theme.colors.background_light};
 
+  background-color: ${({ theme }) => theme.colors.background_light};
+  outline: 1px solid ${({ theme }) => theme.colors.base_dark32};
+  outline-offset: -1px;
+  border-radius: 8px;
   overflow: hidden;
   transition:
     border 0.2s ease,
@@ -31,10 +31,14 @@ export const ImageWrapper = styled.div<{ isCover?: boolean }>`
   justify-content: center;
   color: ${({ theme }) => theme.colors.text_foggy};
   aspect-ratio: 1 / 1;
-  border-radius: 8px;
 
   svg {
     transition: color 0.2s ease;
+  }
+
+  img {
+    border: 1px solid ${({ theme }) => theme.colors.base_dark32};
+    border-radius: 8px;
   }
 `
 

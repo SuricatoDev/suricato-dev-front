@@ -110,7 +110,7 @@ export const NavDefault = styled.button`
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    background: ${({ theme }) => theme.colors.base_light};
+    background: ${({ theme }) => theme.colors.background_light};
     border-radius: 50%;
     width: 32px;
     height: 32px;
@@ -121,7 +121,7 @@ export const NavDefault = styled.button`
     font-size: 1.2rem;
     user-select: none;
     transition: transform ${({ theme }) => theme.common.transition.fast};
-    border: 0.5px solid rgb(0 0 0 / 0.3);
+    border: 1px solid ${({ theme }) => theme.colors.base_dark32};
 
     &::after {
       font-size: 1rem;

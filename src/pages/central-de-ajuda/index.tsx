@@ -56,11 +56,6 @@ const faqData = [
       'Você pode usar a barra de busca e os filtros por cidade de origem, destino, data e tipo de evento para encontrar a caravana ideal.'
   },
   {
-    question: 'Posso reservar mais de uma vaga de uma vez?',
-    answer:
-      'Sim! No momento da reserva, você pode selecionar quantas vagas deseja garantir, de acordo com a disponibilidade.'
-  },
-  {
     question: 'Quem pode anunciar caravanas?',
     answer:
       'Tanto empresas quanto pessoas físicas que oferecem transporte legalizado podem divulgar caravanas na plataforma, desde que forneçam as informações exigidas e passem pelas validações de segurança.'

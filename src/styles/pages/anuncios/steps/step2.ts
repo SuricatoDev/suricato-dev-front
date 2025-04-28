@@ -33,6 +33,7 @@ export const OptionsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+
   @media (${device.md}) {
     gap: 16px;
   }
@@ -58,7 +59,7 @@ export const Option = styled.button`
   justify-content: space-between;
   padding: 1rem;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  background-color: ${({ theme }) => theme.colors.background_light};
   color: ${({ theme }) => theme.colors.text_standard};
   font-size: ${({ theme }) => theme.common.font.sizes.body.large};
   border: 1px solid #ddd;

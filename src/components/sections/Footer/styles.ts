@@ -11,8 +11,9 @@ export const Wrapper = styled.footer`
   justify-content: center;
   gap: 8px;
   background-color: ${(props) => props.theme.colors.background_light};
-  transition: background-color
-    ${(props) => props.theme.common.transition.default};
+  transition:
+    background-color ${(props) => props.theme.common.transition.default},
+    border ${(props) => props.theme.common.transition.default};
   flex-wrap: wrap;
   padding: 1rem;
   border-top: 1px solid ${(props) => props.theme.colors.base_dark32};

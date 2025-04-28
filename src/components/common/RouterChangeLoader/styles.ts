@@ -28,12 +28,13 @@ export const Dots = styled.div`
   align-items: flex-end;
 `
 
-export const Overlay = styled.div`
+export const Overlay = styled.div<{ footerVisible: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  height: calc(100vh - 64px);
+  height: ${({ footerVisible }) =>
+    footerVisible ? 'calc(100vh - 64px)' : '100vh'};
   background: ${({ theme }) => theme.colors.background_standard};
   opacity: 0.9;
   display: flex;

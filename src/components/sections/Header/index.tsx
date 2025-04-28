@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-import UserCircle from '@/assets/icons/user-circle-fill.svg'
+import UserCircleSvg from '@/assets/icons/user-circle-fill.svg'
 import logo from '@/assets/images/logo.png'
 import { Caravan } from '@/interfaces/caravan'
 import { signOut, useSession } from 'next-auth/react'
@@ -8,6 +8,8 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+
+import { UserCircle } from '@phosphor-icons/react'
 
 import { useAuthStatus } from '@/contexts/AuthStatusProvider'
 
@@ -156,17 +158,25 @@ export default function Header({
                   <span />
                 </S.Hamburguer>
                 <S.ProfilePic>
-                  <Image
-                    width={32}
-                    height={32}
-                    style={{ borderRadius: '50%' }}
-                    src={
-                      isLogged && session?.user?.foto_perfil
-                        ? session.user.foto_perfil
-                        : UserCircle
-                    }
-                    alt="Profile"
-                  />
+                  {isLogged && session?.user?.foto_perfil ? (
+                    <Image
+                      width={32}
+                      height={32}
+                      style={{ borderRadius: '50%' }}
+                      src={
+                        isLogged && session?.user?.foto_perfil
+                          ? session.user.foto_perfil
+                          : UserCircleSvg.src
+                      }
+                      alt="Profile"
+                    />
+                  ) : (
+                    <UserCircle
+                      className="profile-svg"
+                      width={32}
+                      height={32}
+                    />
+                  )}
                 </S.ProfilePic>
               </S.ProfileButton>
 

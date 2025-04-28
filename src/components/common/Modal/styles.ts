@@ -35,6 +35,10 @@ export const Modal = styled.div<Pick<ModalProps, '$withMaxSizes'>>`
   overflow-y: auto;
   z-index: 99999;
   cursor: default;
+
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
 `
 
 export const ModalHeader = styled.div`

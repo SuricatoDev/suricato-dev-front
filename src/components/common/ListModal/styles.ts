@@ -25,6 +25,9 @@ export const Container = styled.div<{
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border: 1px solid
+    ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
 
   &::after {
     content: '';

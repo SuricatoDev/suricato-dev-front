@@ -33,7 +33,7 @@ export const Back = styled.button<{ hide: boolean }>`
   padding: 10px;
   font-size: ${({ theme }) => theme.common.font.sizes.body.large};
   color: ${({ theme }) => theme.colors.text_standard};
-  cursor: pointer;
+  cursor: ${({ hide }) => (hide ? 'default' : 'pointer')};
   font-weight: 500;
   text-decoration: underline;
 

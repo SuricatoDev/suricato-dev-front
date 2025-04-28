@@ -93,7 +93,10 @@ export const ProfileButton = styled.button`
   background-color: ${({ theme }) => theme.colors.background_light};
   padding: 0.3rem 0.6rem;
   cursor: pointer;
-  transition: box-shadow ${(props) => props.theme.common.transition.default};
+  transition:
+    box-shadow ${(props) => props.theme.common.transition.default},
+    background-color ${(props) => props.theme.common.transition.default},
+    border ${(props) => props.theme.common.transition.default};
 
   &:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -180,7 +183,7 @@ export const ProfileMenu = styled.div`
   right: 0;
   width: max-content;
   background-color: ${({ theme }) => theme.colors.background_standard};
-  border: 1px solid ${({ theme }) => theme.colors.base_dark16};
+  border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   padding: 0.5rem 0;
@@ -298,7 +301,9 @@ export const SearchButton = styled.button<ScrolledProps>`
 `
 
 export const Logo = styled(Image)`
-  transition: opacity ${(props) => props.theme.common.transition.fast};
+  transition:
+    opacity ${(props) => props.theme.common.transition.fast},
+    filter ${(props) => props.theme.common.transition.default};
 
   filter: ${(props) =>
     props.theme.title === 'dark'
@@ -312,6 +317,10 @@ export const Logo = styled(Image)`
 
 export const ProfilePic = styled.div`
   display: none;
+
+  svg {
+    transition: fill ${(props) => props.theme.common.transition.default};
+  }
 
   @media (${device.md}) {
     display: flex;
@@ -409,7 +418,6 @@ export const MenuLink = styled.span<{ $active?: boolean }>`
   color: ${({ theme, $active }) =>
     $active ? theme.colors.text_standard : theme.colors.text_foggy};
   font-weight: ${({ $active }) => ($active ? 700 : 400)};
-  transition: color 0.2s;
 
   &::after {
     content: '';
@@ -421,7 +429,9 @@ export const MenuLink = styled.span<{ $active?: boolean }>`
     width: 100%;
     height: 2px;
     background-color: ${({ theme }) => theme.colors.text_standard};
-    transition: transform ${({ theme }) => theme.common.transition.default};
+    transition:
+      transform ${({ theme }) => theme.common.transition.default},
+      background-color ${({ theme }) => theme.common.transition.default};
   }
 
   &:hover {

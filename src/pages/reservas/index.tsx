@@ -8,6 +8,8 @@ import { getToken } from 'next-auth/jwt'
 import Head from 'next/head'
 import { toast } from 'react-toastify'
 
+import { SmileySad } from '@phosphor-icons/react/dist/ssr'
+
 import Tabs, { TabItem } from '@/components/common/Tabs'
 import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
@@ -129,6 +131,13 @@ export default function Reservas({ history, userId }: ReservasPageProps) {
           <S.Title>Minhas Reservas</S.Title>
           <Tabs items={tabs} activeKey={activeTab} onChange={setActiveTab} />
           <S.SpacingMobile>
+            {displayed.length === 0 && (
+              <S.EmptyMessage>
+                <SmileySad size={64} weight="fill" />
+                Nenhuma próxima caravana
+              </S.EmptyMessage>
+            )}
+
             {displayed.map((item) => (
               <HistoryCard
                 key={item.id}

@@ -4,11 +4,10 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   width: 100%;
   height: 56px;
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  background-color: ${(props) => props.theme.colors.background_light};
 `
 
 export const SelectWrapper = styled.div`
@@ -66,7 +65,7 @@ export const Select = styled.select<{ value: string }>`
   -webkit-appearance: none;
   -moz-appearance: none;
   padding-right: 2rem;
-  background-color: ${({ theme }) => theme.colors.background_standard};
+  background-color: ${(props) => props.theme.colors.background_light};
 
   &:focus {
     border: none;

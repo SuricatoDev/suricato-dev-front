@@ -4,14 +4,17 @@ import { device } from '@/styles/breakpoints'
 
 export const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.background_standard};
+  min-height: 100vh;
 `
 
 export const Main = styled.main`
   background-color: ${({ theme }) => theme.colors.background_standard};
   padding-top: 1.5rem;
+  min-height: calc(100vh - 100px);
 
   @media (${device.md}) {
     padding: calc(100px + 1.5rem) 1.5rem calc(53px + 1.5rem);
+    min-height: 100vh;
   }
 `
 
@@ -81,7 +84,7 @@ export const Title = styled.h1`
 `
 
 export const SpacingMobile = styled.div`
-  padding: 0 1rem;
+  padding: 0 1rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
