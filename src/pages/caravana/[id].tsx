@@ -167,6 +167,17 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
   }, [session, caravan.id])
 
   const subscribeInCaravan = async () => {
+    if (!session?.user?.verificado) {
+      const newSession = await update()
+
+      if (!newSession?.user?.verificado) {
+        toast.error(
+          'Você precisa confirmar seu e-mail para se inscrever em uma caravana.'
+        )
+        return
+      }
+    }
+
     try {
       setIsSubscribing(true)
       await axios.post(`/api/reservas/${caravan.id}/reservas`, {

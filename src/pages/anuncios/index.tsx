@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Caravan } from '@/interfaces/caravan'
 import { fetcher } from '@/utils/fetcher'
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -38,6 +39,8 @@ type MyTab = 'upcoming' | 'previous'
 
 export default function CaravanasManagementPage() {
   const { isOrganizer, loading: orgLoading } = useIsOrganizer()
+  const { data: session, update } = useSession()
+
   const router = useRouter()
 
   const [activeTab, setActiveTab] = useState<MyTab>('upcoming')
@@ -138,7 +141,18 @@ export default function CaravanasManagementPage() {
     }
   }
 
-  const handleRegisterCompany = () => {
+  const handleRegisterCompany = async () => {
+    if (!session?.user?.verificado) {
+      const newSession = await update()
+
+      if (!newSession?.user?.verificado) {
+        toast.error(
+          'Você precisa confirmar seu e-mail para se cadastrar como organizador.'
+        )
+        return
+      }
+    }
+
     if (window.innerWidth <= 940) {
       router.push(
         `/cadastrar-empresa?callbackUrl=${encodeURIComponent(router.asPath)}`

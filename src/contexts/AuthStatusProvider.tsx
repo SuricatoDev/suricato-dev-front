@@ -17,12 +17,28 @@ export const AuthStatusProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  const { data: session, status } = useSession()
+  const { data: session, status, update } = useSession()
   const [isLogged, setIsLogged] = useState(false)
 
   useEffect(() => {
     setIsLogged(!!session?.user?.id)
   }, [session])
+
+  useEffect(() => {
+    if (session?.user && !session.user.verificado) {
+      const handleVisibilityChange = async () => {
+        if (document.visibilityState === 'visible') {
+          await update()
+        }
+      }
+
+      document.addEventListener('visibilitychange', handleVisibilityChange)
+
+      return () => {
+        document.removeEventListener('visibilitychange', handleVisibilityChange)
+      }
+    }
+  }, [session, update])
 
   return (
     <AuthStatusContext.Provider value={{ isLogged, status }}>

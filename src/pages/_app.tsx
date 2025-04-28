@@ -14,6 +14,7 @@ import { GoogleMapsProvider } from '@/contexts/GoogleMapsProvider'
 import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
 import RouteChangeLoader from '@/components/common/RouterChangeLoader'
 import { SessionUpdater } from '@/components/common/SessionUpdater'
+import EmailConfirmationToast from '@/components/sections/EmailConfirmationToast'
 import MobileFooter from '@/components/sections/MobileFooter'
 
 export const inter = Inter({
@@ -55,6 +56,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
               >
                 <RouteChangeLoader />
                 <div className={inter.className} id="modal-root">
+                  <EmailConfirmationToast />
                   <Component {...pageProps} />
                   <PWAInstallPrompt />
                   <ToastContainer
