@@ -8,7 +8,7 @@ import { getToken } from 'next-auth/jwt'
 import Head from 'next/head'
 import { toast } from 'react-toastify'
 
-import { SmileySad } from '@phosphor-icons/react/dist/ssr'
+import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
 
 import Tabs, { TabItem } from '@/components/common/Tabs'
 import Footer from '@/components/sections/Footer'

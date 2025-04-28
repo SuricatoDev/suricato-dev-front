@@ -9,7 +9,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { UserCircle } from '@phosphor-icons/react'
+import { UserCircle } from '@phosphor-icons/react/dist/ssr/UserCircle'
 
 import { useAuthStatus } from '@/contexts/AuthStatusProvider'
 
