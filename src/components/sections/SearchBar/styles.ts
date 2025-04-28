@@ -101,19 +101,18 @@ export const Dropdown = styled.div`
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-
   background: ${({ theme }) => theme.colors.background_standard};
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   width: max-content;
   max-width: 360px;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0;
   z-index: 999;
 `
 
 export const Suggestion = styled.li`
   list-style: none;
-  padding: 0.75rem 0;
+  padding: 0.75rem 1rem;
   color: ${({ theme }) => theme.colors.text_medium};
   cursor: pointer;
 
@@ -124,6 +123,12 @@ export const Suggestion = styled.li`
   strong {
     font-weight: 500;
     font-size: 0.875rem;
+  }
+
+  @media ${device.md} {
+    &:hover {
+      background: ${({ theme }) => theme.colors.background_light};
+    }
   }
 `
 export const MobileTrigger = styled.div`

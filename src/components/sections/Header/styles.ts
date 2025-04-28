@@ -96,13 +96,6 @@ export const ProfileButton = styled.button`
   &:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
-
-  img {
-    filter: ${(props) =>
-      props.theme.title === 'dark'
-        ? 'saturate(0) brightness(0.9) invert(1)'
-        : 'none'};
-  }
 `
 
 export const Hamburguer = styled.div<{ $isProfileOpen: boolean }>`
