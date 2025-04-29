@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { GetServerSidePropsContext } from 'next'
 
-import heroFaq from '@/assets/images/hero-faq.png'
+import heroFaq from '@/assets/images/hero-faq.jpg'
 import axios, { AxiosError } from 'axios'
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 import { getSession } from 'next-auth/react'
