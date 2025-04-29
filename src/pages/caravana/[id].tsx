@@ -79,7 +79,6 @@ export default function CaravanPage({
   caravan,
   nota = null
 }: CaravanPageProps) {
-  console.log(caravan)
   const router = useRouter()
 
   const { data: session, update } = useSession()
