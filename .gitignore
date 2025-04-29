@@ -46,30 +46,13 @@ storybook-static
 
 public/storybook/
 
-
+# APP
 apk/build/
+apk/app/build/
 apk/android/app/build/
 apk/android/.gradle/
 apk/android/local.properties
 
 *.keystore
 
-.bubblewrap/
-
-# Ignorar builds finais de APK
-apk/build/
-
-# Ignorar builds intermediários de Android
-apk/app/build/
-
-# Ignorar caches do Gradle
-apk/android/.gradle/
-
-# Ignorar configurações locais do Android Studio
-apk/android/local.properties
-
-# Ignorar keystore de assinatura
-*.keystore
-
-# Ignorar cache do Bubblewrap
 .bubblewrap/
