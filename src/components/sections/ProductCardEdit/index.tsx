@@ -204,7 +204,7 @@ export function ProductCardEdit({
             })}
           </S.SubInfoItem>
           <S.SubInfoItem>
-            <Ticket fill="bold" size={16} /> <b>Reservas:</b>
+            <Ticket fill="bold" size={16} /> <b>Vagas restantes:</b>
             {caravan?.vagas_disponiveis ?? 0} / {caravan.numero_vagas}
           </S.SubInfoItem>
         </S.CardSubInfo>
