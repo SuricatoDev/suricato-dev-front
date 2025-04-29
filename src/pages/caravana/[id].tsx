@@ -72,9 +72,14 @@ const Modal = dynamic(() => import('@/components/common/Modal'), {
 
 interface CaravanPageProps {
   caravan: SingleCaravan
+  nota?: string | null
 }
 
-export default function CaravanPage({ caravan }: CaravanPageProps) {
+export default function CaravanPage({
+  caravan,
+  nota = null
+}: CaravanPageProps) {
+  console.log(caravan)
   const router = useRouter()
 
   const { data: session, update } = useSession()
@@ -427,7 +432,7 @@ export default function CaravanPage({ caravan }: CaravanPageProps) {
                               ''
                           )}
                         </S.OrganizerName>
-                        <RatingStars rating={4.5} />
+                        <RatingStars rating={nota} />
                       </S.OrganizerInfo>
                     </S.Organizer>
                     <S.OrganizerFooter>
@@ -557,7 +562,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return {
       props: {
-        caravan: data.data
+        caravan: data.data,
+        nota: data?.mediaAvaliacao
       },
       revalidate: 600
     }
