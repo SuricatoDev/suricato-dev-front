@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "br.com.excursionistas.app",
+      "package_name": "br.com.excursionistas.www.twa",
       "sha256_cert_fingerprints": [
         "02:9C:F5:05:18:C4:29:41:FD:6D:A1:4F:FF:64:87:DC:AE:B2:70:13:00:BA:31:CC:9A:63:5F:C2:FA:88:D6:19"
       ]
