@@ -320,6 +320,7 @@ export const Spacing = styled.div`
   gap: 1rem;
   flex-direction: column;
   align-items: start;
+  padding: 3px;
 `
 
 export const LogoutContainer = styled.div`

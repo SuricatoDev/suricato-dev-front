@@ -21,7 +21,7 @@ export const ModalContent = styled.div`
 
   border-radius: 8px;
   width: calc(100% - 2rem);
-  max-width: 500px;
+  max-width: 600px;
   position: relative;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: auto;

@@ -352,7 +352,10 @@ export function EditableAddress({
             options={cityOptions}
             value={address.city}
             onChange={handleChange}
-            disabled={!address.state && disableFields}
+            disabled={
+              !address.state ||
+              (disableFields && autoFilledFields.includes('city'))
+            }
             error={cityError}
             showErrorMessage
           />
