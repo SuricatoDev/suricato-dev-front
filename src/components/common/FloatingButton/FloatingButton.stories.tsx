@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import { Plus, SmileySad } from '@phosphor-icons/react'
+import { Plus } from '@phosphor-icons/react/dist/ssr/Plus'
+import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
 
 import FloatingButton, { FloatingButtonProps } from '.'
 

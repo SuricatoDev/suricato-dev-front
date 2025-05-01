@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { Plus } from '@phosphor-icons/react'
+import { Plus } from '@phosphor-icons/react/dist/ssr/Plus'
 
 import * as S from './styles'
 
