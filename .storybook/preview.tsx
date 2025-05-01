@@ -15,12 +15,9 @@ export const parameters: Preview['parameters'] = {
     dark: darkManagerTheme,
     stylePreview: true
   },
-  // ────────────────────────────────────────
-
   controls: {
     matchers: { color: /(background|color)$/i, date: /Date$/ }
   },
-
   backgrounds: { disable: true },
   docs: { source: { state: 'open' } }
 }
