@@ -64,44 +64,36 @@ export const CategoryMenu = styled.div<CategoryMenuProps>`
     display: none;
   }
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: ${({ theme }) => (theme.title === 'dark' ? '5rem' : '3rem')};
-    height: 100%;
-    pointer-events: none;
-    background: linear-gradient(
-      to right,
-      ${({ theme }) =>
-        theme.title === 'dark'
-          ? theme.colors.background_light
-          : theme.colors.background_standard},
-      transparent
-    );
-    z-index: 5;
-    display: ${({ $showLeft }) => ($showLeft ? 'block' : 'none')};
-  }
-
+  &::before,
   &::after {
     content: '';
     position: absolute;
     top: 0;
-    right: 0;
-    width: ${({ theme }) => (theme.title === 'dark' ? '5rem' : '3rem')};
     height: 100%;
+    width: ${({ theme }) => (theme.title === 'dark' ? '5rem' : '3rem')};
     pointer-events: none;
-    background: linear-gradient(
-      to left,
-      ${({ theme }) =>
-        theme.title === 'dark'
-          ? theme.colors.background_light
-          : theme.colors.background_standard},
-      transparent
-    );
     z-index: 5;
-    display: ${({ $showRight }) => ($showRight ? 'block' : 'none')};
+    background-color: ${({ theme }) => theme.colors.background_light};
+    mask-image: linear-gradient(to right, black, transparent);
+    -webkit-mask-image: linear-gradient(to right, black, transparent);
+
+    opacity: 1;
+    transition: background-color
+      ${({ theme }) => theme.common.transition.default};
+  }
+
+  &::before {
+    left: 0;
+    mask-image: linear-gradient(to right, black, transparent);
+    -webkit-mask-image: linear-gradient(to right, black, transparent);
+    opacity: ${({ $showLeft }) => ($showLeft ? 1 : 0)};
+  }
+
+  &::after {
+    right: 0;
+    mask-image: linear-gradient(to left, black, transparent);
+    -webkit-mask-image: linear-gradient(to left, black, transparent);
+    opacity: ${({ $showRight }) => ($showRight ? 1 : 0)};
   }
 `
 export const CategoryItem = styled.div<CategoryItemProps>`
