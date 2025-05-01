@@ -11,7 +11,7 @@ import { checkPasswordStrength } from '@/utils/validations'
 import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
 import { EyeSlash } from '@phosphor-icons/react/dist/ssr/EyeSlash'
 
-import { ErrorIcon, ValidIcon } from '@/components/common/Icons'
+import { Error, Valid } from '@/components/common/Icons'
 import Input, { InputProps } from '@/components/inputs/Input'
 
 import * as S from './styles'
@@ -114,22 +114,22 @@ export default function InputPassword({
       {showStrengthMeter && value && (
         <S.Requirements>
           <S.Validation isValid={strength}>
-            {strength ? <ValidIcon /> : <ErrorIcon />}
+            {strength ? <Valid /> : <Error />}
             Força da senha: {strength ? 'boa' : 'fraca'}
           </S.Validation>
 
           {!strength && (
             <>
               <S.Validation isValid={hasMinLength}>
-                {hasMinLength ? <ValidIcon /> : <ErrorIcon />}
+                {hasMinLength ? <Valid /> : <Error />}
                 Pelo menos 8 caracteres
               </S.Validation>
               <S.Validation isValid={hasNumberOrSymbol}>
-                {hasNumberOrSymbol ? <ValidIcon /> : <ErrorIcon />}
+                {hasNumberOrSymbol ? <Valid /> : <Error />}
                 Contém um número ou símbolo
               </S.Validation>
               <S.Validation isValid={notContainsUserData}>
-                {notContainsUserData ? <ValidIcon /> : <ErrorIcon />}
+                {notContainsUserData ? <Valid /> : <Error />}
                 Não pode conter seu nome nem seu email
               </S.Validation>
             </>

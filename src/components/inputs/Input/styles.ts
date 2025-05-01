@@ -33,10 +33,10 @@ export const Wrapper = styled.input<
   border-bottom-left-radius: ${(props) => props.borderRadiusBottom || '8px'};
   border-top: ${(props) =>
     props.borderTop ||
-    `1px solid ${props.hasError ? 'red' : props.theme.colors.text_light}`};
+    `1px solid ${props.hasError ? props.theme.colors.alert_error : props.theme.colors.text_light}`};
   border-bottom: ${(props) =>
     props.borderBottom ||
-    `1px solid ${props.hasError ? 'red' : props.theme.colors.text_light}`};
+    `1px solid ${props.hasError ? props.theme.colors.alert_error : props.theme.colors.text_light}`};
 
   ${({ $hasFloatingLabel, largePaddingRight }) =>
     $hasFloatingLabel

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import WhatsappIcon from './WhatsappIcon'
+import { Whatsapp } from '.'
 
-const meta: Meta<typeof WhatsappIcon> = {
-  title: 'Icons/WhatsappIcon',
-  component: WhatsappIcon,
+const meta: Meta<typeof Whatsapp> = {
+  title: 'Icons/Whatsapp',
+  component: Whatsapp,
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'number', description: 'Tamanho do ícone' }
@@ -12,7 +12,7 @@ const meta: Meta<typeof WhatsappIcon> = {
 }
 export default meta
 
-type Story = StoryObj<typeof WhatsappIcon>
+type Story = StoryObj<typeof Whatsapp>
 
 export const Default: Story = {
   args: {

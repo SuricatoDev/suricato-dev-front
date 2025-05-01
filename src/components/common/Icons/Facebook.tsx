@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { IconProps } from '@/interfaces/icon'
 
-const SVGComponent: React.FC<IconProps> = ({ size = 20, style, ...props }) => {
+const Facebook: React.FC<IconProps> = ({ size = 20, style, ...props }) => {
   return (
     <svg
       viewBox="0 0 32 32"
@@ -31,4 +31,4 @@ const SVGComponent: React.FC<IconProps> = ({ size = 20, style, ...props }) => {
     </svg>
   )
 }
-export default SVGComponent
+export default Facebook

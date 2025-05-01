@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { IconProps } from '@/interfaces/icon'
 
-const SVGComponent: React.FC<IconProps> = ({ size = 24, style, ...props }) => {
+const Whatsapp: React.FC<IconProps> = ({ size = 24, style, ...props }) => {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -28,4 +28,5 @@ const SVGComponent: React.FC<IconProps> = ({ size = 24, style, ...props }) => {
     </svg>
   )
 }
-export default SVGComponent
+
+export default Whatsapp

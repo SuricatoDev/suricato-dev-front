@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react'
 
 import { checkPasswordStrength } from '@/utils/validations'
 
-import { ErrorIcon, ValidIcon } from '@/components/common/Icons'
+import { Error, Valid } from '@/components/common/Icons'
 import InputPassword from '@/components/inputs/InputPassword'
 import * as S from '@/components/inputs/InputPassword/styles'
 
@@ -115,22 +115,22 @@ export default function PasswordInputWithConfirmation({
         {newPassword.length > 0 && (
           <S.Requirements>
             <S.Validation isValid={strength}>
-              {strength ? <ValidIcon /> : <ErrorIcon />}
+              {strength ? <Valid /> : <Error />}
               Força da senha: {strength ? 'Boa' : 'Fraca'}
             </S.Validation>
 
             {!strength && (
               <>
                 <S.Validation isValid={hasMinLength}>
-                  {hasMinLength ? <ValidIcon /> : <ErrorIcon />}
+                  {hasMinLength ? <Valid /> : <Error />}
                   Pelo menos 8 caracteres
                 </S.Validation>
                 <S.Validation isValid={hasNumberOrSymbol}>
-                  {hasNumberOrSymbol ? <ValidIcon /> : <ErrorIcon />}
+                  {hasNumberOrSymbol ? <Valid /> : <Error />}
                   Contém um número ou símbolo
                 </S.Validation>
                 <S.Validation isValid={notContainsUserData}>
-                  {notContainsUserData ? <ValidIcon /> : <ErrorIcon />}
+                  {notContainsUserData ? <Valid /> : <Error />}
                   Não pode conter seu nome nem seu email
                 </S.Validation>
               </>
@@ -138,7 +138,7 @@ export default function PasswordInputWithConfirmation({
 
             {!passwordsMatch && (
               <S.Validation isValid={passwordsMatch}>
-                <ErrorIcon />
+                <Error />
                 As senhas devem coincidir
               </S.Validation>
             )}

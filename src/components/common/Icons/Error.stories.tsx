@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import ErrorIcon from './ErrorIcon'
+import { Error } from './'
 
-const meta: Meta<typeof ErrorIcon> = {
-  title: 'Icons/ErrorIcon',
-  component: ErrorIcon,
+const meta: Meta<typeof Error> = {
+  title: 'Icons/Error',
+  component: Error,
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'number', description: 'Tamanho do ícone' }
@@ -12,7 +12,7 @@ const meta: Meta<typeof ErrorIcon> = {
 }
 export default meta
 
-type Story = StoryObj<typeof ErrorIcon>
+type Story = StoryObj<typeof Error>
 
 export const Default: Story = {
   args: {

@@ -3,7 +3,7 @@ import React from 'react'
 import { Meta, StoryObj } from '@storybook/react'
 
 import Button from '.'
-import { GoogleIcon } from '../Icons'
+import { Google } from '../Icons'
 
 export default {
   title: 'Components/Button',
@@ -87,5 +87,5 @@ export const WithIcon: Story = {
     children: 'Continuar com Google',
     variant: 'outlined'
   },
-  render: (args) => <Button {...args} icon={<GoogleIcon />} />
+  render: (args) => <Button {...args} icon={<Google />} />
 }

@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { IconProps } from '@/interfaces/icon'
 
-const SVGComponent: React.FC<IconProps> = ({ size = 20, style, ...props }) => {
+const Google: React.FC<IconProps> = ({ size = 20, style, ...props }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,4 +40,4 @@ const SVGComponent: React.FC<IconProps> = ({ size = 20, style, ...props }) => {
   )
 }
 
-export default SVGComponent
+export default Google

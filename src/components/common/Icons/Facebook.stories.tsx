@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import GoogleIcon from './GoogleIcon'
+import { Facebook } from '.'
 
-const meta: Meta<typeof GoogleIcon> = {
-  title: 'Icons/GoogleIcon',
-  component: GoogleIcon,
+const meta: Meta<typeof Facebook> = {
+  title: 'Icons/Facebook',
+  component: Facebook,
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'number', description: 'Tamanho do ícone' }
@@ -12,7 +12,7 @@ const meta: Meta<typeof GoogleIcon> = {
 }
 export default meta
 
-type Story = StoryObj<typeof GoogleIcon>
+type Story = StoryObj<typeof Facebook>
 
 export const Default: Story = {
   args: {
