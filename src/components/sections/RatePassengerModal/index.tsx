@@ -116,8 +116,8 @@ export default function RatePassengerModal({
       {isOpen && loadingPassengers && (
         <Modal
           style={{ maxWidth: '600px' }}
-          $withMaxSizes={false}
-          $isOpen={isOpen}
+          withMaxSizes={false}
+          isOpen={isOpen}
           onClose={onClose}
           closeButton={false}
         >
@@ -130,8 +130,8 @@ export default function RatePassengerModal({
       {isOpen && !loadingPassengers && passengers.length === 0 && (
         <Modal
           style={{ maxWidth: '600px', width: 'calc(100% - 2rem)' }}
-          $withMaxSizes={false}
-          $isOpen={isOpen}
+          withMaxSizes={false}
+          isOpen={isOpen}
           onClose={onClose}
           closeButton={false}
         >
@@ -144,7 +144,7 @@ export default function RatePassengerModal({
 
       {isOpen && !loadingPassengers && passengers.length > 0 && (
         <ListModal<Passenger>
-          $isOpen={isOpen}
+          isOpen={isOpen}
           onClose={onClose}
           closeButton
           title={caravanTitle}
@@ -192,7 +192,7 @@ export default function RatePassengerModal({
       )}
 
       <Modal
-        $isOpen={!!confirming}
+        isOpen={!!confirming}
         onClose={handleCancelConfirm}
         closeButton={false}
       >

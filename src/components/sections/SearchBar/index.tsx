@@ -23,7 +23,7 @@ interface SuggestionItem {
   value: string
 }
 
-interface ResponsiveSearchBarProps {
+export interface SearchBarProps {
   isScrolled: boolean
   caravanas?: Caravan[]
 }
@@ -52,10 +52,7 @@ const fields = [
   }
 ] as const
 
-export default function ResponsiveSearchBar({
-  isScrolled,
-  caravanas
-}: ResponsiveSearchBarProps) {
+export default function SearchBar({ isScrolled, caravanas }: SearchBarProps) {
   const [activeField, setActiveField] = useState<
     null | 'title' | 'origin' | 'dest'
   >(null)

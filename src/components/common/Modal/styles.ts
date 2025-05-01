@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 import { ModalProps } from '.'
 
-export const Shadow = styled.div<Pick<ModalProps, '$isOpen'>>`
-  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
+export const Shadow = styled.div<Pick<ModalProps, 'isOpen'>>`
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
@@ -18,18 +18,19 @@ export const Shadow = styled.div<Pick<ModalProps, '$isOpen'>>`
   cursor: pointer;
 `
 
-export const Modal = styled.div<Pick<ModalProps, '$withMaxSizes'>>`
+export const Modal = styled.div<Pick<ModalProps, 'withMaxSizes'>>`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: ${({ theme }) => theme.colors.background_light};
+  color: ${({ theme }) => theme.colors.text_medium};
 
   height: auto;
-  width: ${({ $withMaxSizes }) =>
-    $withMaxSizes ? 'calc(100% - 2rem);' : '100%'};
-  max-width: ${({ $withMaxSizes }) =>
-    $withMaxSizes ? '400px' : 'calc(100% - 2rem);'};
+  width: ${({ withMaxSizes }) =>
+    withMaxSizes ? 'calc(100% - 2rem);' : '100%'};
+  max-width: ${({ withMaxSizes }) =>
+    withMaxSizes ? '400px' : 'calc(100% - 2rem);'};
   max-height: calc(100% - 2rem);
   border-radius: 8px;
   overflow-y: auto;
@@ -47,6 +48,7 @@ export const ModalHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 0.5rem;
+  background-color: ${({ theme }) => theme.colors.background_light};
 
   .modal-close-btn {
     cursor: pointer;

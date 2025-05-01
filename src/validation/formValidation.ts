@@ -8,10 +8,6 @@ const removeMask = (value: string = ''): string =>
   value.replace(/[^\dA-Za-z]/g, '')
 
 export const signupValidationSchema = Yup.object().shape({
-  email: Yup.string()
-    .required('O e-mail é obrigatório')
-    .matches(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, 'Formato de e-mail inválido'),
-
   contactEmail: Yup.string()
     .required('O e-mail é obrigatório')
     .matches(/^[^@\s]+@[^@\s]+\.[^@\s]+$/, 'Formato de e-mail inválido'),
@@ -135,7 +131,7 @@ export const newPasswordSchema = Yup.object({
 export function getValidationSchema(step: number) {
   switch (step) {
     case 1:
-      return passengerFormStep1Schema
+      return loginValidationSchema
     case 2:
       return signupValidationSchema
     case 3:

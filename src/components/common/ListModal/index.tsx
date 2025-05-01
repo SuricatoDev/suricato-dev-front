@@ -11,11 +11,11 @@ import { CaretRight } from '@phosphor-icons/react/dist/ssr/CaretRight'
 import { CaretUp } from '@phosphor-icons/react/dist/ssr/CaretUp'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
-import Input from '../Input'
+import Input from '../../inputs/Input'
 import * as S from './styles'
 
 export type ListModalProps<T> = {
-  $isOpen: boolean
+  isOpen: boolean
   onClose: () => void
   title: string
   subtitle?: string
@@ -29,7 +29,7 @@ export type ListModalProps<T> = {
 }
 
 export default function ListModal<T extends Reservation | Passenger>({
-  $isOpen,
+  isOpen,
   onClose,
   title,
   subtitle,
@@ -129,11 +129,11 @@ export default function ListModal<T extends Reservation | Passenger>({
   )
 
   useEffect(() => {
-    document.body.style.overflow = $isOpen ? 'hidden' : ''
+    document.body.style.overflow = isOpen ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
-  }, [$isOpen])
+  }, [isOpen])
 
   useEffect(() => {
     const el = bodyRef.current
@@ -167,7 +167,7 @@ export default function ListModal<T extends Reservation | Passenger>({
     return Array.from({ length: end - start + 1 }, (_, i) => start + i)
   }, [currentPage, totalPages])
 
-  if (!$isOpen) return null
+  if (!isOpen) return null
 
   const startIdx = (currentPage - 1) * itemsPerPage
   const pageItems = withPagination

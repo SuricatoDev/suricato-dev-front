@@ -20,11 +20,13 @@ export const Wrapper = styled.div<{ $isScrolled?: boolean }>`
     margin-inline: auto;
     transition: all 0.3s ease;
     background-color: ${({ theme }) => theme.colors.background_light};
+    height: 64px;
 
     ${({ $isScrolled }) =>
       $isScrolled &&
       css`
         max-width: 600px;
+        height: 49px;
       `};
   }
 `

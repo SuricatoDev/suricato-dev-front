@@ -3,7 +3,7 @@ import Head from 'next/head'
 
 import { CreateAdProvider } from '@/contexts/CreateAdContext'
 
-const CaravanForm = dynamic(() => import('@/components/sections/CaravanForm'), {
+const CaravanForm = dynamic(() => import('@/components/forms/CaravanForm'), {
   ssr: false
 })
 

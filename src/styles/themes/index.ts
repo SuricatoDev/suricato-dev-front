@@ -100,9 +100,9 @@ export const darkTheme = {
     base_light: '#000000',
 
     alert_standard: '#4DA6D6',
-    alert_success: '#39ed6c',
-    alert_warning: '#fcca74',
-    alert_error: '#eb4247',
+    alert_success: '#81C784',
+    alert_warning: '#FFD54F',
+    alert_error: '#E57373',
     alert_info: '#D7E9F5',
 
     surface_standard: '#1E1E1E',

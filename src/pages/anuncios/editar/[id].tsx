@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react'
 
 import { GetServerSideProps } from 'next'
@@ -24,7 +23,7 @@ interface ServerCaravan extends Omit<CaravanFormProps, 'imagens'> {
   imagens: ServerImage[]
 }
 
-const CaravanForm = dynamic(() => import('@/components/sections/CaravanForm'), {
+const CaravanForm = dynamic(() => import('@/components/forms/CaravanForm'), {
   ssr: false
 })
 

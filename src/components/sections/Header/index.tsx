@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-import UserCircleSvg from '@/assets/icons/user-circle-fill.svg'
 import logo from '@/assets/images/logo.png'
 import { Caravan } from '@/interfaces/caravan'
 import { signOut, useSession } from 'next-auth/react'
@@ -18,11 +17,11 @@ import Portal from '@/components/common/Portal'
 import ThemeToggle from '@/components/common/ThemeToggle'
 import CategoriesBar from '@/components/sections/CategoriesBar'
 
-import ResponsiveSearchBar from '../SearchBar'
+import SearchBar from '../SearchBar'
 import { HeaderNavigation } from './navigation'
 import * as S from './styles'
 
-const MultiStepForm = dynamic(() => import('@/components/sections/LoginForm'), {
+const MultiStepForm = dynamic(() => import('@/components/forms/LoginForm'), {
   ssr: false
 })
 
@@ -126,7 +125,7 @@ export default function Header({
         <Portal>
           <MultiStepForm
             $isModal
-            $isOpen={isLoginModalOpen}
+            isOpen={isLoginModalOpen}
             onClose={() => setIsLoginModalOpen(false)}
           />
         </Portal>
@@ -163,16 +162,13 @@ export default function Header({
                       width={32}
                       height={32}
                       style={{ borderRadius: '50%' }}
-                      src={
-                        isLogged && session?.user?.foto_perfil
-                          ? session.user.foto_perfil
-                          : UserCircleSvg.src
-                      }
+                      src={session.user.foto_perfil}
                       alt="Profile"
                     />
                   ) : (
                     <UserCircle
                       className="profile-svg"
+                      weight="fill"
                       width={32}
                       height={32}
                     />
@@ -185,7 +181,7 @@ export default function Header({
                   <ul>
                     {profileItems.map((item, index) =>
                       item === 'divider' ? (
-                        <Divider $marginY="8px" key={`divider-${index}`} />
+                        <Divider marginY="8px" key={`divider-${index}`} />
                       ) : (
                         <li
                           key={`profileItem-${item.href}-${item.value}-${index}`}
@@ -233,10 +229,7 @@ export default function Header({
 
           {$variant === 'default' && (
             <S.SearchWrapper $isScrolled={isScrolled}>
-              <ResponsiveSearchBar
-                isScrolled={isScrolled}
-                caravanas={caravanas}
-              />
+              <SearchBar isScrolled={isScrolled} caravanas={caravanas} />
             </S.SearchWrapper>
           )}
         </S.Container>

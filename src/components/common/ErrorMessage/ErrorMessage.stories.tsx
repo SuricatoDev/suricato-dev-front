@@ -7,7 +7,7 @@ const meta: Meta<typeof ErrorMessage> = {
   component: ErrorMessage,
   tags: ['autodocs'],
   argTypes: {
-    $error: { control: 'text' },
+    error: { control: 'text' },
     withIcon: { control: 'boolean' }
   }
 }
@@ -17,7 +17,31 @@ type Story = StoryObj<typeof ErrorMessage>
 
 export const Default: Story = {
   args: {
-    $error: 'Ocorreu um erro inesperado. Por favor, tente novamente.',
+    error: 'Ocorreu um erro inesperado. Por favor, tente novamente.',
+    withIcon: true
+  },
+  parameters: {
+    docs: {
+      source: { state: 'open' }
+    }
+  }
+}
+
+export const WithoutIcon: Story = {
+  args: {
+    error: 'Ocorreu um erro inesperado. Por favor, tente novamente.',
+    withIcon: false
+  },
+  parameters: {
+    docs: {
+      source: { state: 'open' }
+    }
+  }
+}
+
+export const NoError: Story = {
+  args: {
+    error: undefined,
     withIcon: true
   },
   parameters: {

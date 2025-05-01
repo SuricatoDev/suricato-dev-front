@@ -1,4 +1,3 @@
-// src/components/common/Skeleton/stories.tsx
 import { Meta, StoryObj } from '@storybook/react'
 
 import Skeleton, { SkeletonProps } from '.'
@@ -38,9 +37,7 @@ export default {
 type Story = StoryObj<SkeletonProps>
 
 export const Default: Story = {
-  args: {
-    // usa os defaults: 1 linha x 1 coluna
-  }
+  args: {}
 }
 
 export const MultipleRows: Story = {

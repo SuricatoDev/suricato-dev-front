@@ -12,7 +12,7 @@ export type ButtonVariantType =
 export interface ButtonProps {
   $fullWidth: boolean
   $variant: ButtonVariantType
-  $loading?: boolean
+  loading?: boolean
   $rounded?: boolean
   disabled?: boolean
   size?: 'sm' | 'md'
@@ -48,9 +48,9 @@ const baseStyles = css<ButtonProps>`
   text-decoration: none;
   user-select: none;
   transition: all ${({ theme }) => theme.common.transition.default};
-  cursor: ${({ disabled, $loading }) =>
-    disabled || $loading ? 'not-allowed' : 'pointer'};
-  opacity: ${({ disabled, $loading }) => (disabled || $loading ? 0.4 : 1)};
+  cursor: ${({ disabled, loading }) =>
+    disabled || loading ? 'not-allowed' : 'pointer'};
+  opacity: ${({ disabled, loading }) => (disabled || loading ? 0.4 : 1)};
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.text_standard};
@@ -175,6 +175,6 @@ export const Button = styled.button<ButtonProps>`
     justify-content: center;
     gap: 8px;
     align-items: center;
-    visibility: ${({ $loading }) => ($loading ? 'hidden' : 'visible')};
+    visibility: ${({ loading }) => (loading ? 'hidden' : 'visible')};
   }
 `

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import { X } from '@phosphor-icons/react/dist/ssr/X'
 
+import useIsMobile from '@/hooks/useIsMobile'
+
 import * as S from './styles'
 
 interface BeforeInstallPromptEvent extends Event {
@@ -34,6 +36,7 @@ function getCookie(name: string): string {
 }
 
 export default function PWAInstallPrompt() {
+  const isMobile = useIsMobile()
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null)
   const [showPrompt, setShowPrompt] = useState<boolean>(false)
@@ -70,7 +73,9 @@ export default function PWAInstallPrompt() {
     setCookie('pwaPromptDismissed', 'true', 1)
   }
 
-  if (!showPrompt) return null
+  if (!showPrompt || !isMobile) {
+    return null
+  }
 
   return (
     <S.PromptContainer>

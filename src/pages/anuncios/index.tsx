@@ -32,7 +32,7 @@ import RatePassengerModal from '@/components/sections/RatePassengerModal'
 import * as S from '@/styles/pages/anuncios'
 
 const OrganizerForm = dynamic(
-  () => import('@/components/sections/OrganizerForm'),
+  () => import('@/components/forms/OrganizerForm'),
   { ssr: false }
 )
 
@@ -181,7 +181,7 @@ export default function CaravanasManagementPage() {
         </S.Wrapper>
         <OrganizerForm
           $isModal
-          $isOpen={isOrganizerModalOpen}
+          isOpen={isOrganizerModalOpen}
           onClose={() => setIsOrganizerModalOpen(false)}
         />
       </>
@@ -275,7 +275,7 @@ export default function CaravanasManagementPage() {
 
       <Portal>
         <Modal
-          $isOpen={!!confirmDelete}
+          isOpen={!!confirmDelete}
           onClose={() => setConfirmDelete(null)}
           closeButton={false}
         >

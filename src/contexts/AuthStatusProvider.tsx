@@ -7,7 +7,7 @@ type AuthStatusContextType = {
   status: 'loading' | 'authenticated' | 'unauthenticated'
 }
 
-const AuthStatusContext = createContext<AuthStatusContextType>({
+export const AuthStatusContext = createContext<AuthStatusContextType>({
   isLogged: false,
   status: 'loading'
 })

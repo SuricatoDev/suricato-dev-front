@@ -8,10 +8,12 @@ import { X } from '@phosphor-icons/react/dist/ssr/X'
 import * as S from './styles'
 
 export default function EmailConfirmationToast() {
-  const { data: session } = useSession()
+  const { data: session, update } = useSession()
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    update()
+
     if (
       session?.user &&
       !session.user.verificado &&
@@ -19,7 +21,7 @@ export default function EmailConfirmationToast() {
     ) {
       setIsVisible(true)
     }
-  }, [session])
+  }, [])
 
   const handleClose = () => {
     setIsVisible(false)

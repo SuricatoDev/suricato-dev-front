@@ -9,4 +9,5 @@ export const Wrapper = styled.span`
   display: flex;
   align-items: center;
   gap: 4px;
+  background-color: transparent;
 `

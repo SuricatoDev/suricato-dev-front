@@ -25,6 +25,7 @@ export type HistoryCardProps = {
   isCancelling?: boolean
   onRate?: (rating: number) => Promise<void>
   isRating?: boolean
+  open?: boolean
 }
 
 export default function HistoryCard({
@@ -33,9 +34,10 @@ export default function HistoryCard({
   onRate,
   enableActionsButtons,
   isCancelling,
-  isRating
+  isRating,
+  open = false
 }: HistoryCardProps) {
-  const [openCard, setOpenCard] = useState(false)
+  const [openCard, setOpenCard] = useState(open)
   const [confirmingCancel, setConfirmingCancel] = useState(false)
   const [ratingModal, setRatingModal] = useState(false)
   const [hoverStar, setHoverStar] = useState<number>(0)
@@ -221,7 +223,7 @@ export default function HistoryCard({
                 <S.ActionsContainer>
                   <h3>Ações disponíveis:</h3>
                   <div className="divider">
-                    <Divider $marginY="1rem" />
+                    <Divider marginY="1rem" />
                   </div>
                   <S.ActionItems>
                     {enableActionsButtons ? (
@@ -260,7 +262,7 @@ export default function HistoryCard({
       </S.CardContainer>
 
       <Modal
-        $isOpen={confirmingCancel}
+        isOpen={confirmingCancel}
         onClose={() => setConfirmingCancel(false)}
         closeButton={false}
       >
@@ -295,7 +297,7 @@ export default function HistoryCard({
       </Modal>
 
       <Modal
-        $isOpen={ratingModal}
+        isOpen={ratingModal}
         onClose={() => setRatingModal(false)}
         closeButton={false}
       >

@@ -23,7 +23,7 @@ import Skeleton from '@/components/common/Skeleton'
 
 import * as S from './styles'
 
-interface ProductCardEditProps {
+export interface ProductCardEditProps {
   caravan: Caravan
   activeTab: string
   isOpenMenu: boolean

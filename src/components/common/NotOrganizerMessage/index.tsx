@@ -48,7 +48,7 @@ export default function NotOrganizerMessage({
         width={400}
         height={400}
         priority
-        alt=""
+        alt="Empresa não cadastrada"
       />
 
       <S.Text>

@@ -14,9 +14,9 @@ import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
 import useIsMobile from '@/hooks/useIsMobile'
 
 import Button from '@/components/common/Button'
-import Input from '@/components/common/Input'
 import Modal from '@/components/common/Modal'
-import Textarea from '@/components/common/TextArea'
+import Input from '@/components/inputs/Input'
+import Textarea from '@/components/inputs/TextArea'
 import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
 import MobileHeader from '@/components/sections/MobileHeader'
@@ -236,9 +236,9 @@ export default function FaqPage({ isAuthenticated }: FAQPageProps) {
             )}
 
             <Modal
-              $withMaxSizes={false}
+              withMaxSizes={false}
               style={{ maxWidth: '600px', width: 'calc(100% - 2rem)' }}
-              $isOpen={isModalOpen}
+              isOpen={isModalOpen}
               onClose={handleCloseModal}
             >
               <S.FormWrapper onSubmit={handleSubmit}>

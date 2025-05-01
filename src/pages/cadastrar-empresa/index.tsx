@@ -4,7 +4,7 @@ import Head from 'next/head'
 import * as S from '@/styles/pages/login'
 
 const OrganizerForm = dynamic(
-  () => import('@/components/sections/OrganizerForm'),
+  () => import('@/components/forms/OrganizerForm'),
   { ssr: false }
 )
 

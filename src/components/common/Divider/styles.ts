@@ -8,8 +8,8 @@ export const Divider = styled.div<DividerProps>`
   text-align: center;
   color: ${({ theme }) => theme.colors.base_dark32};
   font-size: 0.75rem;
-  margin-top: ${({ $marginY }) => $marginY || '0'};
-  margin-bottom: ${({ $marginY }) => $marginY || '0'};
+  margin-top: ${({ marginY }) => marginY || '0'};
+  margin-bottom: ${({ marginY }) => marginY || '0'};
   transition: color ${({ theme }) => theme.common.transition.default};
 
   &::before {

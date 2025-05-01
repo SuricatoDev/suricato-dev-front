@@ -14,7 +14,7 @@ import { ValidationError } from 'yup'
 import useMediaQuery from '@/hooks/useMediaQuery'
 
 import Button from '@/components/common/Button'
-import Input from '@/components/common/Input'
+import Input from '@/components/inputs/Input'
 
 import * as S from './styles'
 
@@ -108,8 +108,8 @@ export function EditableAddressNoApi({
                 label="CEP"
                 placeholder="ex. 18013-280"
                 required
-                $error={errors.cep}
-                $showErrorMessage
+                error={errors.cep}
+                showErrorMessage
               />
             )}
           </InputMask>
@@ -125,8 +125,8 @@ export function EditableAddressNoApi({
             label="Logradouro"
             required
             placeholder="ex. Rua Exemplo"
-            $error={errors.street}
-            $showErrorMessage
+            error={errors.street}
+            showErrorMessage
           />
         </div>
       </S.Row>
@@ -140,8 +140,8 @@ export function EditableAddressNoApi({
             label="Número"
             required
             placeholder="ex. 123"
-            $error={errors.number}
-            $showErrorMessage
+            error={errors.number}
+            showErrorMessage
           />
         </div>
       </S.Row>
@@ -155,8 +155,8 @@ export function EditableAddressNoApi({
             label="Bairro"
             required
             placeholder="ex. Centro"
-            $error={errors.neighborhood}
-            $showErrorMessage
+            error={errors.neighborhood}
+            showErrorMessage
           />
         </div>
         <div>
@@ -167,8 +167,8 @@ export function EditableAddressNoApi({
             label="Cidade"
             required
             placeholder="ex. São Paulo"
-            $error={errors.city}
-            $showErrorMessage
+            error={errors.city}
+            showErrorMessage
           />
         </div>
         <div>
@@ -180,8 +180,8 @@ export function EditableAddressNoApi({
             maxLength={2}
             required
             placeholder="ex. SP"
-            $error={errors.state}
-            $showErrorMessage
+            error={errors.state}
+            showErrorMessage
           />
         </div>
       </S.Row>

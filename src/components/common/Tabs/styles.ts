@@ -4,7 +4,6 @@ import { device } from '@/styles/breakpoints'
 
 export const TabsWrapper = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.base_dark32};
-  background-color: ${({ theme }) => theme.colors.background_standard};
   margin-bottom: 2rem;
 `
 

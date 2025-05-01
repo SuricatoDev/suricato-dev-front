@@ -1,4 +1,3 @@
-// src/components/common/Tabs/stories.tsx
 import React, { useState } from 'react'
 
 import { action } from '@storybook/addon-actions'
@@ -8,24 +7,21 @@ import Tabs, { TabItem } from '.'
 
 type Keys = 'tab1' | 'tab2' | 'tab3'
 
-// itens padrão
 const defaultItems: TabItem<Keys>[] = [
   { key: 'tab1', label: 'Primeira Aba' },
   { key: 'tab2', label: 'Segunda Aba' }
 ]
 
-// itens com uma aba desabilitada
 const disabledItems: TabItem<Keys>[] = [
   { key: 'tab1', label: 'Aba A' },
   { key: 'tab2', label: 'Aba B', disabled: true }
 ]
 
-// itens com labels ricas (ReactNode)
 const customItems: TabItem<Keys>[] = [
   { key: 'tab1', label: <span>⭐ Favoritos</span> },
   {
     key: 'tab2',
-    label: <span style={{ color: 'rebeccapurple' }}>🔥 Quentes</span>
+    label: <span>🔥 Quentes</span>
   }
 ]
 
@@ -43,7 +39,6 @@ export default meta
 
 type Story = StoryObj<typeof Tabs>
 
-// 1) Default
 const DefaultComponent: React.FC = () => {
   const [activeKey, setActiveKey] = useState<Keys>('tab1')
   const log = action('onChange')

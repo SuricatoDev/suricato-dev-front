@@ -110,7 +110,7 @@ export default function Overview() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Divider $marginY={isMobile ? '40px' : '32px'} />
+              <Divider marginY={isMobile ? '40px' : '32px'} />
             </motion.div>
             <motion.div variants={itemVariants}>
               <S.InfoItem>
@@ -135,7 +135,7 @@ export default function Overview() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Divider $marginY={isMobile ? '40px' : '32px'} />
+              <Divider marginY={isMobile ? '40px' : '32px'} />
             </motion.div>
 
             <motion.div variants={itemVariants}>

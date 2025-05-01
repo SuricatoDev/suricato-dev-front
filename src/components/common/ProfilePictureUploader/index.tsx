@@ -54,7 +54,7 @@ async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<File> {
 }
 
 export type ChangeProfilePicModalProps = {
-  $isOpen: boolean
+  isOpen: boolean
   imageSrc: string | null
   isLoading?: boolean
   onClose: () => void
@@ -62,7 +62,7 @@ export type ChangeProfilePicModalProps = {
 }
 
 export default function ChangeProfilePicModal({
-  $isOpen,
+  isOpen,
   imageSrc,
   onClose,
   onSave,
@@ -89,9 +89,9 @@ export default function ChangeProfilePicModal({
   return (
     <Modal
       closeButton={false}
-      $withMaxSizes={false}
+      withMaxSizes={false}
       style={{ width: 'calc(100% - 2rem)', maxWidth: '600px' }}
-      $isOpen={$isOpen}
+      isOpen={isOpen}
       onClose={onClose}
     >
       <S.Container>

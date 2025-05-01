@@ -53,12 +53,12 @@ const MapEmbed = dynamic(() => import('@/components/common/MapEmbed'), {
   ssr: false,
   suspense: true
 })
-const MultiStepForm = dynamic(() => import('@/components/sections/LoginForm'), {
+const MultiStepForm = dynamic(() => import('@/components/forms/LoginForm'), {
   ssr: false,
   suspense: true
 })
 const PassengerForm = dynamic(
-  () => import('@/components/sections/PassengersForm'),
+  () => import('@/components/forms/PassengersForm'),
   { ssr: false, suspense: true }
 )
 const Portal = dynamic(() => import('@/components/common/Portal'), {
@@ -266,7 +266,7 @@ export default function CaravanPage({
                       </button>
                     )}
                   </S.DescriptionContainer>
-                  <Divider $marginY="8px" />
+                  <Divider marginY="8px" />
                   <S.Subtitle>Informações</S.Subtitle>
                   <S.EventContainer>
                     <S.EventItem>
@@ -346,7 +346,7 @@ export default function CaravanPage({
                       </S.EventSubItem>
                     </S.EventItem>
                   </S.EventContainer>
-                  <Divider $marginY="8px" />
+                  <Divider marginY="8px" />
                   <S.MapContainer
                     ref={setMapContainer}
                     style={{
@@ -399,7 +399,7 @@ export default function CaravanPage({
                         Inscreva-se
                       </Button>
                     </S.ContactContainer>
-                    <Divider $marginY="8px" />
+                    <Divider marginY="8px" />
                     <S.ContactInfo>
                       Ao clicar inscreva-se, seus dados serão compartilhados
                       pela Excursionistas com o anunciante
@@ -480,14 +480,14 @@ export default function CaravanPage({
               {isLoginModalOpen && (
                 <MultiStepForm
                   $isModal
-                  $isOpen={isLoginModalOpen}
+                  isOpen={isLoginModalOpen}
                   onClose={() => setIsLoginModalOpen(false)}
                 />
               )}
             </Portal>
           </Suspense>
           <Suspense fallback={null}>
-            <Modal $isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
               <S.ModalContainer>
                 <S.ModalTitle>
                   <Lightbulb size={32} weight="fill" />

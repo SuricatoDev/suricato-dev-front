@@ -7,23 +7,23 @@ import * as S from './styles'
 
 export type ModalProps = {
   children: React.ReactNode
-  $isOpen: boolean
+  isOpen: boolean
   onClose: () => void
-  $withMaxSizes?: boolean
+  withMaxSizes?: boolean
   closeButton?: boolean
   style?: React.CSSProperties
 }
 
 export default function Modal({
   children,
-  $isOpen,
-  $withMaxSizes = true,
+  isOpen,
+  withMaxSizes = true,
   onClose,
   closeButton = true,
   style
 }: ModalProps) {
   useEffect(() => {
-    if ($isOpen) {
+    if (isOpen) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
@@ -32,15 +32,15 @@ export default function Modal({
     return () => {
       document.body.style.overflow = ''
     }
-  }, [$isOpen])
+  }, [isOpen])
 
-  if (!$isOpen) return null
+  if (!isOpen) return null
 
   return (
     <Portal>
-      <S.Shadow $isOpen={$isOpen} onClick={onClose}>
+      <S.Shadow isOpen={isOpen} onClick={onClose}>
         <S.Modal
-          $withMaxSizes={$withMaxSizes}
+          withMaxSizes={withMaxSizes}
           onClick={(e) => e.stopPropagation()}
           style={style}
         >

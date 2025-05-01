@@ -16,7 +16,7 @@ import { ValidationError } from 'yup'
 import useMediaQuery from '@/hooks/useMediaQuery'
 
 import Button from '@/components/common/Button'
-import Input from '@/components/common/Input'
+import Input from '@/components/inputs/Input'
 
 import * as S from './styles'
 
@@ -238,11 +238,11 @@ export function EditableAddress({
                   type="text"
                   name="cep"
                   placeholder="ex. 18013-280"
-                  $error={cepError}
-                  $showErrorMessage
+                  error={cepError}
+                  showErrorMessage
                   label="CEP"
                   required
-                  $loading={isLoadingCep}
+                  loading={isLoadingCep}
                 />
               )}
             </InputMask>
@@ -259,8 +259,8 @@ export function EditableAddress({
               required
               placeholder="ex. Av. Eng. Carlos Reinaldo Mendes"
               disabled={autoFilledFields.includes('street')}
-              $error={streetError}
-              $showErrorMessage
+              error={streetError}
+              showErrorMessage
             />
           </div>
         </S.Row>
@@ -274,8 +274,8 @@ export function EditableAddress({
               label="Número"
               placeholder="ex. 2015"
               required
-              $error={numberError}
-              $showErrorMessage
+              error={numberError}
+              showErrorMessage
             />
           </div>
           <div style={{ flex: 4 }}>
@@ -300,8 +300,8 @@ export function EditableAddress({
               value={address.neighborhood}
               onChange={handleChange}
               disabled={autoFilledFields.includes('neighborhood')}
-              $error={neighborhoodError}
-              $showErrorMessage
+              error={neighborhoodError}
+              showErrorMessage
             />
           </div>
         </S.Row>
@@ -316,8 +316,8 @@ export function EditableAddress({
               value={address.city}
               onChange={handleChange}
               disabled={autoFilledFields.includes('city')}
-              $error={cityError}
-              $showErrorMessage
+              error={cityError}
+              showErrorMessage
             />
           </div>
           <div>
@@ -331,8 +331,8 @@ export function EditableAddress({
               value={address.state}
               onChange={handleChange}
               disabled={autoFilledFields.includes('state')}
-              $error={stateError}
-              $showErrorMessage
+              error={stateError}
+              showErrorMessage
             />
           </div>
         </S.Row>

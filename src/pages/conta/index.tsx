@@ -29,10 +29,10 @@ import {
   AddressData,
   EditableAddress
 } from '@/components/common/EditableAddress'
-import Input from '@/components/common/Input'
-import PasswordConfirmation from '@/components/common/PasswordConfirmation'
 import ChangeProfilePicModal from '@/components/common/ProfilePictureUploader'
 import Tabs, { TabItem } from '@/components/common/Tabs'
+import Input from '@/components/inputs/Input'
+import PasswordConfirmation from '@/components/inputs/PasswordInputWithConfirmation'
 import Footer from '@/components/sections/Footer'
 import Header from '@/components/sections/Header'
 import MobileHeader from '@/components/sections/MobileHeader'
@@ -600,8 +600,8 @@ export default function ProfileEditPage() {
                                     }
                                   }
                                 }}
-                                $error={nameError || undefined}
-                                $showErrorMessage
+                                error={nameError || undefined}
+                                showErrorMessage
                               />
                             </div>
                             <Button
@@ -616,7 +616,7 @@ export default function ProfileEditPage() {
                         </AccordionItem>
                       </div>
 
-                      <Divider $marginY="24px" />
+                      <Divider marginY="24px" />
 
                       <div>
                         <S.Row
@@ -672,8 +672,8 @@ export default function ProfileEditPage() {
                                   <Input
                                     placeholder="Celular"
                                     label="Celular"
-                                    $error={phoneError || undefined}
-                                    $showErrorMessage
+                                    error={phoneError || undefined}
+                                    showErrorMessage
                                   />
                                 )}
                               </InputMask>
@@ -689,7 +689,7 @@ export default function ProfileEditPage() {
                           </S.Spacing>
                         </AccordionItem>
                       </div>
-                      <Divider $marginY="24px" />
+                      <Divider marginY="24px" />
                       {!!userData?.passageiro && !!userData?.passageiroData && (
                         <React.Fragment>
                           <div>
@@ -741,7 +741,7 @@ export default function ProfileEditPage() {
                               </S.Spacing>
                             </AccordionItem>
                           </div>
-                          <Divider $marginY="24px" />
+                          <Divider marginY="24px" />
 
                           <div>
                             <S.Row
@@ -811,10 +811,8 @@ export default function ProfileEditPage() {
                                       <Input
                                         placeholder="Telefone de Emergência"
                                         label="Telefone de Emergência"
-                                        $error={
-                                          emergencyPhoneError || undefined
-                                        }
-                                        $showErrorMessage
+                                        error={emergencyPhoneError || undefined}
+                                        showErrorMessage
                                       />
                                     )}
                                   </InputMask>
@@ -830,7 +828,7 @@ export default function ProfileEditPage() {
                               </S.Spacing>
                             </AccordionItem>
                           </div>
-                          <Divider $marginY="24px" />
+                          <Divider marginY="24px" />
                         </React.Fragment>
                       )}
                       <div>
@@ -887,7 +885,7 @@ export default function ProfileEditPage() {
                         </AccordionItem>
                       </div>
 
-                      <Divider $marginY="24px" />
+                      <Divider marginY="24px" />
 
                       <div>
                         <S.Row
@@ -932,7 +930,7 @@ export default function ProfileEditPage() {
                         </AccordionItem>
                       </div>
 
-                      <Divider $marginY="24px" />
+                      <Divider marginY="24px" />
 
                       <S.LogoutContainer>
                         <Button
@@ -1006,7 +1004,7 @@ export default function ProfileEditPage() {
                         </AccordionItem>
                       </div>
 
-                      <Divider $marginY="24px" />
+                      <Divider marginY="24px" />
 
                       <div>
                         <S.Row
@@ -1070,8 +1068,8 @@ export default function ProfileEditPage() {
                                   <Input
                                     placeholder="Telefone Comercial"
                                     label="Telefone Comercial"
-                                    $error={businessPhoneError}
-                                    $showErrorMessage
+                                    error={businessPhoneError}
+                                    showErrorMessage
                                   />
                                 )}
                               </InputMask>
@@ -1089,7 +1087,7 @@ export default function ProfileEditPage() {
                         </AccordionItem>
                       </div>
 
-                      <Divider $marginY="24px" />
+                      <Divider marginY="24px" />
 
                       <div>
                         <S.Row
@@ -1152,7 +1150,7 @@ export default function ProfileEditPage() {
                       Outras pessoas veem informações limitadas do seu perfil
                       para proteger a sua privacidade.
                     </p>
-                    <Divider $marginY="16px" />
+                    <Divider marginY="16px" />
                     <S.SideBlockTitle>
                       <LockKey size={42} weight="duotone" />
                       <h3>Quais informações podem ser editadas?</h3>
@@ -1161,7 +1159,7 @@ export default function ProfileEditPage() {
                       É possível editar informações de contato e detalhes
                       pessoais.
                     </p>
-                    <Divider $marginY="16px" />
+                    <Divider marginY="16px" />
                     <S.SideBlockTitle>
                       <Eye size={42} weight="duotone" />
                       <h3>
@@ -1181,7 +1179,7 @@ export default function ProfileEditPage() {
         </S.Main>
 
         <ChangeProfilePicModal
-          $isOpen={showModal}
+          isOpen={showModal}
           imageSrc={selectedImage || profilePic || ''}
           onClose={handleCancel}
           onSave={handleSaveProfilePic}

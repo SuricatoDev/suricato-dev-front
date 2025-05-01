@@ -88,8 +88,8 @@ export default function ReservationConfirmationModal({
       {isOpen && loadingReservations && (
         <Modal
           style={{ maxWidth: '600px', width: 'calc(100% - 2rem)' }}
-          $withMaxSizes={false}
-          $isOpen
+          withMaxSizes={false}
+          isOpen
           onClose={onClose}
           closeButton={false}
         >
@@ -102,8 +102,8 @@ export default function ReservationConfirmationModal({
       {isOpen && !loadingReservations && reservations.length === 0 && (
         <Modal
           style={{ maxWidth: '600px', width: 'calc(100% - 2rem)' }}
-          $withMaxSizes={false}
-          $isOpen
+          withMaxSizes={false}
+          isOpen
           onClose={onClose}
           closeButton={false}
         >
@@ -116,7 +116,7 @@ export default function ReservationConfirmationModal({
 
       {isOpen && !loadingReservations && reservations.length > 0 && (
         <ListModal<Reservation>
-          $isOpen={isOpen}
+          isOpen={isOpen}
           onClose={onClose}
           closeButton
           title={caravanTitle}
@@ -148,7 +148,7 @@ export default function ReservationConfirmationModal({
       )}
 
       <Modal
-        $isOpen={confirmingId !== null}
+        isOpen={confirmingId !== null}
         onClose={() => setConfirmingId(null)}
         closeButton={false}
       >

@@ -23,7 +23,9 @@ const config: StorybookConfig = {
     options: {}
   },
 
-  docs: {},
+  docs: {
+    autodocs: true
+  },
 
   webpackFinal: (config) => {
     if (!config.resolve) {

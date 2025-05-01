@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { device } from '@/styles/breakpoints'
+
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -21,12 +23,17 @@ export const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: auto;
+  max-width: 700px;
 
   img {
     max-width: 100%;
     height: auto;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 8px;
+
+    @media ${device.md} {
+      max-width: 80%;
+    }
   }
 `
 
