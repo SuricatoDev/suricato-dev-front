@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { getCookie, setCookie } from 'cookies-next'
 import { useSession } from 'next-auth/react'
@@ -8,24 +8,36 @@ import { X } from '@phosphor-icons/react/dist/ssr/X'
 import * as S from './styles'
 
 export default function EmailConfirmationToast() {
-  const { data: session, update } = useSession()
+  const { status, update } = useSession()
   const [isVisible, setIsVisible] = useState(false)
+  const hasCheckedRef = useRef(false)
 
   useEffect(() => {
-    update()
-
-    if (
-      session?.user &&
-      !session.user.verificado &&
-      !getCookie('hideEmailConfirmationToast')
-    ) {
-      setIsVisible(true)
+    if (status !== 'authenticated' || hasCheckedRef.current) {
+      return
     }
-  }, [])
+
+    hasCheckedRef.current = true
+
+    ;(async () => {
+      const updated = await update()
+
+      if (
+        updated?.user &&
+        !updated.user.verificado &&
+        !getCookie('hideEmailConfirmationToast')
+      ) {
+        setIsVisible(true)
+      }
+
+    })()
+  }, [status])
 
   const handleClose = () => {
     setIsVisible(false)
-    setCookie('hideEmailConfirmationToast', 'true', { maxAge: 60 * 60 * 24 })
+    setCookie('hideEmailConfirmationToast', 'true', {
+      maxAge: 60 * 60 * 24
+    })
   }
 
   if (!isVisible) {

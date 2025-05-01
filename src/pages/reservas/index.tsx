@@ -123,7 +123,7 @@ export default function Reservas({ history, userId }: ReservasPageProps) {
         <title>Minhas Reservas – Excursionistas</title>
       </Head>
 
-      <Header $variant="simple" />
+      <Header variant="simple" />
       <MobileHeader>Reservas</MobileHeader>
 
       <S.Main>
@@ -204,7 +204,6 @@ export const getServerSideProps: GetServerSideProps<ReservasPageProps> = async (
         organizador: item.caravana.organizador
       }))
       .sort((a, b) => {
-
         const statusOrder: Record<Reserva['status'], number> = {
           Confirmado: 0,
           Pendente: 1,

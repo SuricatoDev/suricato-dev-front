@@ -34,7 +34,7 @@ export default function Favoritos() {
       <Head>
         <title>Favoritos - Excursionistas</title>
       </Head>
-      <Header $variant="simple" caravanas={[]} />
+      <Header variant="simple" caravanas={[]} />
       <MobileHeader>Favoritos</MobileHeader>
       <S.Main>
         <div className="container">

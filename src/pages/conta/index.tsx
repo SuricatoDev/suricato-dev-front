@@ -483,7 +483,7 @@ export default function ProfileEditPage() {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <S.Wrapper>
-        <Header $variant="simple" />
+        <Header variant="simple" />
         <S.Main>
           <div className="container">
             <MobileHeader>Meu perfil</MobileHeader>
@@ -923,6 +923,8 @@ export default function ProfileEditPage() {
                             <Button
                               onClick={handleDeleteAccount}
                               variant="danger"
+                              loading={isLoading}
+                              disabled={isLoading}
                             >
                               Excluir conta
                             </Button>

@@ -11,7 +11,6 @@ import { GoogleMapsProvider } from '@/contexts/GoogleMapsProvider'
 
 import PWAInstallPrompt from '@/components/common/PWAInstallPrompt'
 import RouteChangeLoader from '@/components/common/RouterChangeLoader'
-import { SessionUpdater } from '@/components/common/SessionUpdater'
 import ThemeColorUpdater from '@/components/common/ThemeColorUpdater'
 import ToastProvider from '@/components/common/ToastProvider'
 import EmailConfirmationToast from '@/components/sections/EmailConfirmationToast'
@@ -48,7 +47,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     <AccessibilityContextProvider>
       <SessionProvider session={session}>
         <AuthStatusProvider>
-          <SessionUpdater />
           <GoogleMapsProvider>
             <StyleSheetManager shouldForwardProp={(prop) => isPropValid(prop)}>
               <RouteChangeLoader />

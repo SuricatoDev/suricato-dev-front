@@ -17,9 +17,14 @@ import * as S from '../styles'
 interface Step2Props {
   onNext: () => void
   $isModal?: boolean
+  loading?: boolean
 }
 
-export default function Step2({ onNext, $isModal = false }: Step2Props) {
+export default function Step2({
+  onNext,
+  $isModal = false,
+  loading
+}: Step2Props) {
   const {
     control,
     formState: { errors },
@@ -208,9 +213,10 @@ export default function Step2({ onNext, $isModal = false }: Step2Props) {
       </S.PolicyText>
       <Button
         type="submit"
-        disabled={isButtonDisabled}
+        disabled={isButtonDisabled || loading}
         onClick={onNext}
         variant="contained"
+        loading={loading}
       >
         Concordar e continuar
       </Button>

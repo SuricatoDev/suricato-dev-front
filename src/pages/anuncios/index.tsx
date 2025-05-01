@@ -170,7 +170,7 @@ export default function CaravanasManagementPage() {
     return (
       <>
         <S.Wrapper>
-          <Header $variant="simple" />
+          <Header variant="simple" />
           <MobileHeader>Cadastrar Empresa</MobileHeader>
           <S.MainCenter>
             <S.SpacingMobile>
@@ -199,7 +199,7 @@ export default function CaravanasManagementPage() {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <S.Wrapper>
-        <Header $variant="simple" />
+        <Header variant="simple" />
         <MobileHeader>Meus anúncios</MobileHeader>
         <FloatingActionButton
           onClick={handleFloatingButtonClick}

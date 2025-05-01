@@ -152,7 +152,7 @@ export default function FaqPage({ isAuthenticated }: FAQPageProps) {
         <title>Central de Ajuda – Excursionistas</title>
       </Head>
 
-      <Header $variant="simple" />
+      <Header variant="simple" />
       <MobileHeader>Central de Ajuda</MobileHeader>
 
       <S.HeroSection>

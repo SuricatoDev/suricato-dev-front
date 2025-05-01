@@ -10,10 +10,10 @@ export type ButtonVariantType =
   | 'text'
 
 export interface ButtonProps {
-  $fullWidth: boolean
-  $variant: ButtonVariantType
+  fullWidth: boolean
+  variant: ButtonVariantType
   loading?: boolean
-  $rounded?: boolean
+  rounded?: boolean
   disabled?: boolean
   size?: 'sm' | 'md'
 }
@@ -35,7 +35,7 @@ export const Spinner = styled.div`
 
 const baseStyles = css<ButtonProps>`
   display: inline-flex;
-  width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
+  width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
   justify-content: center;
   font-size: ${({ theme, size }) =>
     size === 'sm' ? '0.875rem' : theme.common.font.sizes.body.large};
@@ -43,8 +43,8 @@ const baseStyles = css<ButtonProps>`
   line-height: 1.5;
   font-weight: 600;
   align-items: center;
-  border-radius: ${({ $rounded, size }) =>
-    $rounded ? '24px' : size === 'sm' ? '4px' : '8px'};
+  border-radius: ${({ rounded, size }) =>
+    rounded ? '24px' : size === 'sm' ? '4px' : '8px'};
   text-decoration: none;
   user-select: none;
   transition: all ${({ theme }) => theme.common.transition.default};
@@ -151,8 +151,8 @@ export const Button = styled.button<ButtonProps>`
   font-family: inherit;
   user-select: none;
   ${baseStyles}
-  ${({ $variant }) => {
-    switch ($variant) {
+  ${({ variant }) => {
+    switch (variant) {
       case 'ghost':
         return ButtonGhost
       case 'outlined':
@@ -166,8 +166,8 @@ export const Button = styled.button<ButtonProps>`
         return ButtonContained
     }
   }}
-  border-radius: ${({ $rounded, size }) =>
-    $rounded ? '24px' : size === 'sm' ? '4px' : '8px'};
+  border-radius: ${({ rounded, size }) =>
+    rounded ? '24px' : size === 'sm' ? '4px' : '8px'};
 
   .content {
     display: flex;

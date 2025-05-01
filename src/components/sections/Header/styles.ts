@@ -22,7 +22,7 @@ export const Wrapper = styled.header<ScrolledProps & HeaderProps>`
       ? '0 1px 0px rgba(255, 255, 255, 0.2)'
       : 'rgb(0 0 0 / 16%) 0 0 6px'};
 
-  display: ${({ $variant }) => ($variant === 'simple' ? 'none' : 'block')};
+  display: ${({ variant }) => (variant === 'simple' ? 'none' : 'block')};
 
   @media (${device.md}) {
     box-shadow: ${({ $isScrolled, theme }) =>

@@ -26,7 +26,7 @@ const MultiStepForm = dynamic(() => import('@/components/forms/LoginForm'), {
 })
 
 export type HeaderProps = {
-  $variant?: 'default' | 'simple'
+  variant?: 'default' | 'simple'
   caravanas?: Caravan[]
 }
 
@@ -35,7 +35,7 @@ type ProfileItem =
   | 'divider'
 
 export default function Header({
-  $variant = 'default',
+  variant = 'default',
   caravanas
 }: HeaderProps) {
   const { data: session } = useSession()
@@ -131,14 +131,14 @@ export default function Header({
         </Portal>
       )}
 
-      <S.Wrapper $variant={$variant} $isScrolled={isScrolled}>
+      <S.Wrapper variant={variant} $isScrolled={isScrolled}>
         <S.Container>
           <S.TopHeader>
             <Link href="/" passHref style={{ display: 'flex', width: '118px' }}>
               <S.Logo src={logo} alt="Logo" width={60} height={60} />
             </Link>
 
-            <S.Menu $isScrolled={isScrolled && $variant === 'default'}>
+            <S.Menu $isScrolled={isScrolled && variant === 'default'}>
               {navItems.map(({ label, href }, index) => (
                 <Link key={`${href}-${label}-${index}`} href={href} passHref>
                   <S.MenuLink $active={router.pathname === href}>
@@ -227,14 +227,14 @@ export default function Header({
             </S.ProfileContainer>
           </S.TopHeader>
 
-          {$variant === 'default' && (
+          {variant === 'default' && (
             <S.SearchWrapper $isScrolled={isScrolled}>
               <SearchBar isScrolled={isScrolled} caravanas={caravanas} />
             </S.SearchWrapper>
           )}
         </S.Container>
-        {$variant === 'simple' && <Divider />}
-        {$variant === 'default' && <CategoriesBar />}
+        {variant === 'simple' && <Divider />}
+        {variant === 'default' && <CategoriesBar />}
       </S.Wrapper>
     </>
   )

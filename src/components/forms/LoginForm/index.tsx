@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { FormProvider, Resolver, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 import { ArrowLeft } from '@phosphor-icons/react/dist/ssr/ArrowLeft'
 import { X } from '@phosphor-icons/react/dist/ssr/X'
@@ -42,6 +43,8 @@ export default function MultiStepForm({
 
   const [step, setStep] = useState(1)
   const [isOpen, setIsOpen] = useState(externalIsOpen ?? false)
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
     if (externalIsOpen !== undefined) setIsOpen(externalIsOpen)
   }, [externalIsOpen])
@@ -102,7 +105,11 @@ export default function MultiStepForm({
         'password',
         'phone'
       ])
-      if (!ok) return
+
+      if (!ok) {
+        return
+      }
+
       const v = methods.getValues()
       const payload = {
         nome: `${v.firstName} ${v.lastName}`,
@@ -113,16 +120,22 @@ export default function MultiStepForm({
         email: v.contactEmail,
         password: v.password
       }
+
       try {
+        setIsLoading(true)
         const res = await fetch('/api/usuarios/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         })
+
         if (!res.ok) {
           console.error('Erro no cadastro')
           return
         }
+
+        toast.success('Cadastro realizado com sucesso!')
+
         await signIn('credentials', {
           email: v.contactEmail,
           password: v.password,
@@ -130,7 +143,8 @@ export default function MultiStepForm({
           callbackUrl: '/'
         })
       } catch {
-        console.error('Erro na requisição')
+        setIsLoading(false)
+        toast.error('Erro ao cadastrar. Tente novamente.')
       }
       handleClose()
     }
@@ -208,7 +222,13 @@ export default function MultiStepForm({
               isModal={$isModal}
             />
           )}
-          {step === 2 && <Step2 onNext={handleNext} $isModal={$isModal} />}
+          {step === 2 && (
+            <Step2
+              onNext={handleNext}
+              $isModal={$isModal}
+              loading={isLoading}
+            />
+          )}
           {step === 3 && (
             <StepRecover onNext={handleToToken} isModal={$isModal} />
           )}

@@ -117,7 +117,7 @@ export const MobileGallery = styled.div`
 `
 
 interface GridItemProps {
-  $variant?: 'main'
+  variant?: 'main'
   $onlyItem?: boolean
 }
 
@@ -158,8 +158,8 @@ export const GridItem = styled.div<GridItemProps>`
     aspect-ratio: unset;
   }
 
-  ${({ $variant, $onlyItem }) =>
-    $variant === 'main' &&
+  ${({ variant, $onlyItem }) =>
+    variant === 'main' &&
     css`
       @media (${device.md}) {
         aspect-ratio: ${$onlyItem ? '16 / 9' : '1'};

@@ -33,10 +33,10 @@ export default function Button<T extends React.ElementType = 'button'>({
     <S.Button
       as={Component}
       href={href}
-      $variant={variant}
-      $fullWidth={fullWidth}
-      loading={loading}
-      $rounded={rounded}
+      variant={variant}
+      fullWidth={fullWidth}
+      rounded={rounded}
+      {...(loading ? { loading: true } : {})}
       disabled={loading}
       size={size}
       {...rest}

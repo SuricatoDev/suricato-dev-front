@@ -116,7 +116,7 @@ export default function Gallery({ images }: GalleryProps) {
 
         <S.GridItem
           onClick={() => openModal(0)}
-          $variant="main"
+          variant="main"
           $onlyItem={images.length === 1}
           className="desktop-images"
           style={{ position: 'relative', height: '100%' }}

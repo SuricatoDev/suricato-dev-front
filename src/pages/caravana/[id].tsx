@@ -222,7 +222,7 @@ export default function CaravanPage({
         <meta property="og:description" content={`${caravan.descricao}`} />
         <meta property="og:image" content={caravan.imagens[0]?.path} />
       </Head>
-      <Header $variant="simple" />
+      <Header variant="simple" />
       <S.Main>
         <div className="container">
           <MobileHeader>Detalhes da Caravana</MobileHeader>

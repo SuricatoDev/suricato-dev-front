@@ -32,7 +32,7 @@ export default function SobreNos() {
         <title>Sobre Nós – Excursionistas</title>
       </Head>
 
-      <Header $variant="simple" />
+      <Header variant="simple" />
       <MobileHeader>Sobre Nós</MobileHeader>
 
       <S.HeroSection>
