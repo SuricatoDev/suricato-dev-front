@@ -203,7 +203,7 @@ export default function CaravanasManagementPage() {
         <MobileHeader>Meus anúncios</MobileHeader>
         <FloatingActionButton
           onClick={handleFloatingButtonClick}
-          bottom={footerVisible ? (isMobile ? 80 : 80) : 20}
+          bottom={footerVisible ? 80 : isMobile ? 20 : 80}
           right={isMobile ? 16 : 40}
           iconColor="#FFF"
           size={60}

@@ -18,7 +18,6 @@ export default function EmailConfirmationToast() {
     }
 
     hasCheckedRef.current = true
-
     ;(async () => {
       const updated = await update()
 
@@ -29,7 +28,6 @@ export default function EmailConfirmationToast() {
       ) {
         setIsVisible(true)
       }
-
     })()
   }, [status])
 
