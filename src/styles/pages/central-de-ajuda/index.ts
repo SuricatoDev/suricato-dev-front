@@ -240,7 +240,7 @@ export const Answer = styled.div`
 `
 export const ContactSection = styled.div`
   text-align: center;
-  margin: 1rem 0;
+  margin: 1rem 0 2rem;
 `
 
 export const ContactTitle = styled.h2`

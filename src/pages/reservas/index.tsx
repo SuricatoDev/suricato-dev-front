@@ -203,11 +203,26 @@ export const getServerSideProps: GetServerSideProps<ReservasPageProps> = async (
         nota: item.nota,
         organizador: item.caravana.organizador
       }))
-      .sort(
-        (a, b) =>
+      .sort((a, b) => {
+
+        const statusOrder: Record<Reserva['status'], number> = {
+          Confirmado: 0,
+          Pendente: 1,
+          Cancelado: 2
+        }
+
+        const rankA = statusOrder[a.status]
+        const rankB = statusOrder[b.status]
+
+        if (rankA !== rankB) {
+          return rankA - rankB
+        }
+
+        return (
           new Date(b.data_partida).getTime() -
           new Date(a.data_partida).getTime()
-      )
+        )
+      })
 
     return {
       props: { history, userId }
