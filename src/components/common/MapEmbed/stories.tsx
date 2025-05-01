@@ -5,6 +5,7 @@ import MapEmbed from '.'
 const meta: Meta<typeof MapEmbed> = {
   title: 'Components/MapEmbed',
   component: MapEmbed,
+  tags: ['autodocs'],
   argTypes: {
     location: { control: 'text' }
   }

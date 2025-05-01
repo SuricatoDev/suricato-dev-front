@@ -6,7 +6,8 @@ import InputPassword from '.'
 
 const meta: Meta<typeof InputPassword> = {
   title: 'Components/PasswordInput',
-  component: InputPassword
+  component: InputPassword,
+  tags: ['autodocs']
 }
 export default meta
 type Story = StoryObj<typeof InputPassword>

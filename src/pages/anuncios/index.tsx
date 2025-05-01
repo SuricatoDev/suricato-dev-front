@@ -13,6 +13,7 @@ import useSWR, { mutate } from 'swr'
 import { SmileySad } from '@phosphor-icons/react/dist/ssr/SmileySad'
 
 import { useFooterVisibility } from '@/hooks/useFooterVisibility'
+import useIsMobile from '@/hooks/useIsMobile'
 import { useIsOrganizer } from '@/hooks/useIsOrganizer'
 
 import Button from '@/components/common/Button'
@@ -40,6 +41,7 @@ type MyTab = 'upcoming' | 'previous'
 export default function CaravanasManagementPage() {
   const { isOrganizer, loading: orgLoading } = useIsOrganizer()
   const { data: session, update } = useSession()
+  const isMobile = useIsMobile()
 
   const router = useRouter()
 
@@ -201,7 +203,10 @@ export default function CaravanasManagementPage() {
         <MobileHeader>Meus anúncios</MobileHeader>
         <FloatingActionButton
           onClick={handleFloatingButtonClick}
-          footerVisible={footerVisible}
+          bottom={footerVisible ? (isMobile ? 80 : 80) : 20}
+          right={isMobile ? 16 : 40}
+          iconColor="#FFF"
+          size={60}
         />
         <S.Main>
           <div className="container">

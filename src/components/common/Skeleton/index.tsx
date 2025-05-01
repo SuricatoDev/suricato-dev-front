@@ -2,7 +2,7 @@ import React from 'react'
 
 import * as S from './styles'
 
-interface SkeletonProps {
+export interface SkeletonProps {
   rows?: number
   columns?: number
   width?: string

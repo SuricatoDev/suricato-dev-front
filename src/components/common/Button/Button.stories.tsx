@@ -7,7 +7,8 @@ import { GoogleIcon } from '../Icons'
 
 export default {
   title: 'Components/Button',
-  component: Button
+  component: Button,
+  tags: ['autodocs']
 } as Meta<typeof Button>
 
 type Story = StoryObj<typeof Button>

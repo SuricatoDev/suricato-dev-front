@@ -60,6 +60,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             onFocus={handleFocus}
             onBlur={handleBlur}
             placeholder={isFocused ? placeholder : ''}
+            $hasFloatingLabel={!!label}
           />
           {label && (
             <S.FloatingLabel $isFloating={shouldFloat}>{label}</S.FloatingLabel>

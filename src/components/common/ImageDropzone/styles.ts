@@ -1,7 +1,10 @@
 import Image from 'next/image'
 import styled from 'styled-components'
 
-export const DropzoneContainer = styled.div<{ isDragActive: boolean }>`
+export const DropzoneContainer = styled.div<{
+  isDragActive: boolean
+  maxWidth?: string
+}>`
   position: relative;
   border: 2px dashed #ddd;
   border-radius: 8px;
@@ -9,6 +12,7 @@ export const DropzoneContainer = styled.div<{ isDragActive: boolean }>`
   transition: border-color 0.3s ease;
   width: 100%;
   aspect-ratio: 1/1;
+  max-width: ${({ maxWidth }) => maxWidth || 'unset'};
 
   ${({ isDragActive }) =>
     isDragActive &&

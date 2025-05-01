@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     color ${(props) => props.theme.common.transition.default},
     border ${(props) => props.theme.common.transition.default},
     filter ${(props) => props.theme.common.transition.default};
-
+    font-family: 'Inter', sans-serif;
   }
 
   :root {

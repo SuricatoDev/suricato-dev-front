@@ -1,10 +1,38 @@
+// src/components/common/RatingStars/stories.tsx
 import { Meta, StoryObj } from '@storybook/react'
 
 import RatingStars from '.'
 
-export default {
+const meta: Meta<typeof RatingStars> = {
   title: 'Components/RatingStars',
-  component: RatingStars
-} as Meta
+  component: RatingStars,
+  tags: ['autodocs'],
+  argTypes: {
+    rating: {
+      control: { type: 'text' },
+      description: 'A avaliação pode ser um número, string (ex: "3.5") ou null',
+      defaultValue: '4'
+    }
+  }
+}
+export default meta
 
-export const Default: StoryObj = {}
+type Story = StoryObj<typeof RatingStars>
+
+export const Default: Story = {
+  args: {
+    rating: 4
+  }
+}
+
+export const AsString: Story = {
+  args: {
+    rating: '3.5'
+  }
+}
+
+export const NoRating: Story = {
+  args: {
+    rating: null
+  }
+}

@@ -1,66 +1,40 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import type { Preview } from '@storybook/react'
+import { useDarkMode } from 'storybook-dark-mode'
+import { ThemeProvider } from 'styled-components'
 
-import { inter } from '../src/pages/_app'
-import {
-  AccessibilityContextProvider,
-  useDarkMode
-} from '../src/providers/AccessibilityContextProvider'
+import { GlobalStyle } from '../src/styles/global'
 import { darkTheme, defaultTheme } from '../src/styles/themes'
+import darkManagerTheme from './darkTheme'
+import lightManagerTheme from './lightTheme'
 
-export const globalTypes = {
-  theme: {
-    name: 'Theme',
-    description: 'Light or Dark mode',
-    defaultValue: 'default',
-    toolbar: {
-      icon: 'circlehollow',
-      items: [
-        { value: 'default', title: 'Light' },
-        { value: 'dark', title: 'Dark' }
-      ]
-    }
+export const parameters: Preview['parameters'] = {
+  darkMode: {
+    light: lightManagerTheme,
+    dark: darkManagerTheme,
+    stylePreview: true
+  },
+  // ────────────────────────────────────────
+
+  controls: {
+    matchers: { color: /(background|color)$/i, date: /Date$/ }
+  },
+
+  backgrounds: { disable: true },
+  docs: { source: { state: 'open' } }
+}
+
+export const decorators: Preview['decorators'] = [
+  (Story) => {
+    const isDark = useDarkMode()
+    return (
+      <ThemeProvider theme={isDark ? darkTheme : defaultTheme}>
+        <GlobalStyle />
+        <Story />
+      </ThemeProvider>
+    )
   }
-}
+]
 
-const ThemeSetter: React.FC<{
-  children: React.ReactNode
-  theme: 'default' | 'dark'
-}> = ({ children, theme }) => {
-  const { updatedDarkMode } = useDarkMode()
-  useEffect(() => updatedDarkMode(theme === 'dark'), [theme, updatedDarkMode])
-  return <>{children}</>
-}
-
-const preview: Preview = {
-  decorators: [
-    (Story, context) => {
-      const current = context.globals.theme as 'default' | 'dark'
-      const bg =
-        current === 'dark'
-          ? darkTheme.colors.background_standard
-          : defaultTheme.colors.background_standard
-
-      return (
-        <div
-          className={inter.className}
-          style={{
-            backgroundColor: bg,
-            padding: 20
-          }}
-        >
-          <AccessibilityContextProvider>
-            <ThemeSetter theme={current}>
-              <Story />
-            </ThemeSetter>
-          </AccessibilityContextProvider>
-        </div>
-      )
-    }
-  ],
-
-  tags: ['autodocs']
-}
-
-export default preview
+export default {} as Preview

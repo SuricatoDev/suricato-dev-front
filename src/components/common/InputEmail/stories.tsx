@@ -4,7 +4,8 @@ import InputEmail from '.'
 
 export default {
   title: 'Components/InputEmail',
-  component: InputEmail
+  component: InputEmail,
+  tags: ['autodocs']
 } as Meta
 
 export const Default: StoryObj = {}

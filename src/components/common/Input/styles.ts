@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 export interface WrapperProps {
   $borderRadiusBottom?: string
@@ -15,37 +15,43 @@ export const Container = styled.div`
   width: 100%;
 `
 
-export const Wrapper = styled.input<WrapperProps & { disabled?: boolean }>`
+export const Wrapper = styled.input<
+  WrapperProps & { disabled?: boolean; $hasFloatingLabel: boolean }
+>`
   width: 100%;
-  padding: ${(props) =>
-    props.$largePaddingRight ? '16px 60px 6px 12px' : '16px 12px 6px'};
-
-  font-size: ${(props) => props.theme.common.font.sizes.body.large};
-  background: transparent;
-  color: ${(props) => props.theme.colors.text_medium};
-  border: 1px solid
-    ${(props) => (props.$hasError ? 'red' : props.theme.colors.text_light)};
-  border-top-left-radius: ${(props) => props.$borderRadiusTop || '8px'};
-  border-top-right-radius: ${(props) => props.$borderRadiusTop || '8px'};
-  border-bottom-right-radius: ${(props) => props.$borderRadiusBottom || '8px'};
-  border-bottom-left-radius: ${(props) => props.$borderRadiusBottom || '8px'};
-  border-top: ${(props) =>
-    props.$borderTop ||
-    `1px solid ${props.$hasError ? 'red' : props.theme.colors.text_light}`};
-  border-bottom: ${(props) =>
-    props.$borderBottom ||
-    `1px solid ${props.$hasError ? 'red' : props.theme.colors.text_light}`};
-  min-height: 56px;
-  box-sizing: border-box;
-  font-family: inherit;
+  font-size: ${({ theme }) => theme.common.font.sizes.body.large};
   background-color: ${({ theme }) => theme.colors.background_light};
+  color: ${({ theme }) => theme.colors.text_medium};
+  border: 1px solid
+    ${({ $hasError, theme }) =>
+      $hasError ? theme.colors.alert_error : theme.colors.text_light};
+  border-radius: 8px;
+  box-sizing: border-box;
+
+  ${({ $hasFloatingLabel, $largePaddingRight }) =>
+    $hasFloatingLabel
+      ? css`
+          padding: ${$largePaddingRight
+            ? '16px 60px 6px 12px'
+            : '16px 12px 6px'};
+        `
+      : css`
+          padding: ${$largePaddingRight ? '0 60px 0 12px' : '0 12px'};
+          line-height: 56px; /* alinha o texto verticalmente */
+        `}
+
+  min-height: 56px;
+
+  &:focus {
+    outline: 2px solid
+      ${({ theme, $hasError }) =>
+        $hasError ? theme.colors.alert_error : theme.colors.text_standard};
+    border-color: transparent;
+  }
+
   &:disabled {
     cursor: not-allowed;
     opacity: 0.4;
-  }
-
-  &:focus {
-    border: 2px solid ${(props) => props.theme.colors.text_standard};
   }
 `
 

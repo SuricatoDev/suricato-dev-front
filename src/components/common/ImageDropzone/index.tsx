@@ -14,11 +14,13 @@ import * as S from './styles'
 export type ImageDropzoneProps = {
   onFilesChange?: (items: ImageItem[]) => void
   initialFiles?: ImageItem[]
+  maxWidth?: string
 }
 
 export function ImageDropzone({
   onFilesChange,
-  initialFiles = []
+  initialFiles = [],
+  maxWidth
 }: ImageDropzoneProps) {
   const [images, setImages] = useState<ImageItem[]>(initialFiles)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -60,6 +62,7 @@ export function ImageDropzone({
 
   return (
     <S.DropzoneContainer
+      maxWidth={maxWidth}
       {...getRootProps()}
       isDragActive={isDragActive}
       onClick={(e) => {

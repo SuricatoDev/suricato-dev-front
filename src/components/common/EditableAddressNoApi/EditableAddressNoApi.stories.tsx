@@ -6,7 +6,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { AddressDataNoApi, EditableAddressNoApi } from '.'
 
 const meta: Meta<typeof EditableAddressNoApi> = {
-  title: 'Components/EditableAddressNoApi',
+  title: 'Forms/EditableAddressNoApi',
   component: EditableAddressNoApi,
   tags: ['autodocs'],
   argTypes: {

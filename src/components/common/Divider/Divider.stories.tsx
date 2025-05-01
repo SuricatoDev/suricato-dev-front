@@ -1,10 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import Skeleton from '.'
+import Divider from '.'
 
 export default {
-  title: 'Components/Skeleton',
-  component: Skeleton
+  title: 'Components/Divider',
+  component: Divider,
+  tags: ['autodocs']
 } as Meta
 
 export const Default: StoryObj = {}

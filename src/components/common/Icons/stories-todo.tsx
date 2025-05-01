@@ -6,7 +6,8 @@ import * as Icons from '.'
 
 const meta: Meta = {
   title: 'Components/Icons',
-  argTypes: {}
+  argTypes: {},
+  tags: ['autodocs']
 }
 export default meta
 

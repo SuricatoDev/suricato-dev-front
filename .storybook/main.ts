@@ -5,15 +5,15 @@ const config: StorybookConfig = {
   staticDirs: ['../src/assets'],
 
   stories: [
-    '../src/components/**/stories.tsx',
-    '../src/components/common/**/stories.tsx'
+    '../src/components/**/*.stories.tsx',
+    '../src/components/**/stories.tsx'
   ],
 
   addons: [
+    'storybook-dark-mode',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-links',
-    '@storybook/addon-onboarding',
     '@storybook/addon-docs',
     '@chromatic-com/storybook'
   ],
