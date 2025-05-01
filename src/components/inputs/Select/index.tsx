@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { CaretDown } from '@phosphor-icons/react'
+import { CaretDown } from '@phosphor-icons/react/dist/ssr/CaretDown'
 
 import ErrorMessage from '@/components/common/ErrorMessage'
 
