@@ -69,12 +69,15 @@ export const CategoryMenu = styled.div<CategoryMenuProps>`
     position: absolute;
     top: 0;
     left: 0;
-    width: 4rem;
+    width: ${({ theme }) => (theme.title === 'dark' ? '5rem' : '3rem')};
     height: 100%;
     pointer-events: none;
     background: linear-gradient(
       to right,
-      ${({ theme }) => theme.colors.background_standard},
+      ${({ theme }) =>
+        theme.title === 'dark'
+          ? theme.colors.background_light
+          : theme.colors.background_standard},
       transparent
     );
     z-index: 5;
@@ -86,12 +89,15 @@ export const CategoryMenu = styled.div<CategoryMenuProps>`
     position: absolute;
     top: 0;
     right: 0;
-    width: 3rem;
+    width: ${({ theme }) => (theme.title === 'dark' ? '5rem' : '3rem')};
     height: 100%;
     pointer-events: none;
     background: linear-gradient(
       to left,
-      ${({ theme }) => theme.colors.background_standard},
+      ${({ theme }) =>
+        theme.title === 'dark'
+          ? theme.colors.background_light
+          : theme.colors.background_standard},
       transparent
     );
     z-index: 5;
