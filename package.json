@@ -29,6 +29,7 @@
     "@types/strip-comments": "^2.0.4",
     "axios": "^1.7.2",
     "cookies-next": "^5.1.0",
+    "country-state-city": "^3.2.1",
     "date-fns": "^4.1.0",
     "esm": "^3.2.25",
     "formidable": "^3.5.2",

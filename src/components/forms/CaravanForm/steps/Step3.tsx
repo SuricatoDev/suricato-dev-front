@@ -61,7 +61,36 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
     })
 
     useEffect(() => {
-      if (canSkip && window.google?.maps) {
+      if (editMode && canSkip) {
+        setSubStep(2)
+        setSelectedAddress(initialAddress)
+        setAddress({
+          cep: formData.cep_origem || '',
+          street: formData.endereco_origem || '',
+          neighborhood: formData.bairro_origem || '',
+          city: formData.cidade_origem || '',
+          state: formData.estado_origem || '',
+          number: formData.numero_origem || '',
+          complement: formData.complemento_origem || ''
+        })
+        setCanProceed(true)
+
+        if (window.google?.maps) {
+          const geocoder = new window.google.maps.Geocoder()
+          geocoder.geocode(
+            { address: initialAddress, region: 'BR' },
+            (results, status) => {
+              if (status === 'OK' && results?.[0]) {
+                const loc = results[0].geometry.location.toJSON()
+                setLocation(loc)
+              }
+            }
+          )
+        }
+        return
+      }
+
+      if (!editMode && canSkip && window.google?.maps) {
         const geocoder = new window.google.maps.Geocoder()
         geocoder.geocode(
           { address: initialAddress, region: 'BR' },
@@ -70,22 +99,43 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
               const loc = results[0].geometry.location.toJSON()
               setLocation(loc)
 
+              const comps = results[0].address_components
+              const getComp = (types: string[]) =>
+                comps.find((c) => types.some((t) => c.types.includes(t)))
+                  ?.long_name || ''
+
               const fullAddr: AddressData = {
-                cep: formData.cep_origem || '',
-                street: formData.endereco_origem!,
-                neighborhood: formData.bairro_origem!,
-                city: formData.cidade_origem!,
-                state: formData.estado_origem!,
-                number: formData.numero_origem!,
-                complement: formData.complemento_origem || ''
+                cep: getComp(['postal_code']),
+                street: getComp(['route']),
+                neighborhood: getComp([
+                  'administrative_area_level_2',
+                  'sublocality'
+                ]),
+                city: getComp(['locality', 'postal_town']),
+                state:
+                  comps.find((c) =>
+                    c.types.includes('administrative_area_level_1')
+                  )?.short_name || '',
+                number: getComp(['street_number']),
+                complement: ''
               }
+
               setAddress(fullAddr)
+              setSelectedAddress(initialAddress)
               setCanProceed(true)
+
+              updateFormData('cep_origem', fullAddr.cep)
+              updateFormData('endereco_origem', fullAddr.street)
+              updateFormData('bairro_origem', fullAddr.neighborhood)
+              updateFormData('cidade_origem', fullAddr.city)
+              updateFormData('estado_origem', fullAddr.state)
+              updateFormData('numero_origem', fullAddr.number)
+              updateFormData('complemento_origem', fullAddr.complement)
             }
           }
         )
       }
-    }, [])
+    }, [editMode, canSkip, initialAddress, formData, updateFormData])
 
     useEffect(() => {
       if (subStep === 2 && (!canSkip || editMode)) {
@@ -96,6 +146,7 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
           Boolean(city.trim()) &&
           Boolean(state.trim()) &&
           Boolean(number.trim())
+
         setCanProceed(isValid)
       } else {
         setCanProceed(subStep === 2 && canSkip)
@@ -106,7 +157,8 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
       setSelectedAddress(text)
       setLocation(latLng)
 
-      new window.google.maps.Geocoder().geocode(
+      const geocoder = new window.google.maps.Geocoder()
+      geocoder.geocode(
         { location: latLng, language: 'pt', region: 'BR' },
         (results, status) => {
           if (status === 'OK' && results?.[0]) {
@@ -137,7 +189,6 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
 
             setAddress(fullAddress)
             setSubStep(2)
-
             updateFormData('cep_origem', fullAddress.cep)
             updateFormData('endereco_origem', fullAddress.street)
             updateFormData('bairro_origem', fullAddress.neighborhood)
@@ -166,6 +217,75 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
         return true
       }
     }))
+
+    useEffect(() => {
+      if (subStep !== 2) return
+
+      const { street, neighborhood, city, state } = address
+      if (!street || !neighborhood || !city || !state || !window.google?.maps)
+        return
+
+      const full = `${street}, ${neighborhood}, ${city} - ${state}`
+      const geocoder = new window.google.maps.Geocoder()
+      geocoder.geocode({ address: full, region: 'BR' }, (results, status) => {
+        if (status === 'OK' && results && results.length > 0) {
+          setLocation(results[0].geometry.location.toJSON())
+        }
+      })
+    }, [
+      subStep,
+      address.street,
+      address.neighborhood,
+      address.city,
+      address.state,
+      address.number
+    ])
+
+    useEffect(() => {
+      if (subStep !== 2) return
+
+      const { street, neighborhood, city, state, cep, number, complement } =
+        address
+      if (
+        !street.trim() ||
+        !neighborhood.trim() ||
+        !city.trim() ||
+        !state.trim() ||
+        !window.google?.maps
+      ) {
+        return
+      }
+
+      const fullAddress = `${street}, ${neighborhood}, ${city} - ${state}`
+      const geocoder = new window.google.maps.Geocoder()
+
+      geocoder.geocode(
+        { address: fullAddress, region: 'BR' },
+        (results, status) => {
+          if (status === 'OK' && results?.length) {
+            const loc = results[0].geometry.location.toJSON()
+            setLocation(loc)
+
+            updateFormData('cep_origem', cep)
+            updateFormData('endereco_origem', street)
+            updateFormData('bairro_origem', neighborhood)
+            updateFormData('cidade_origem', city)
+            updateFormData('estado_origem', state)
+            updateFormData('numero_origem', number)
+            updateFormData('complemento_origem', complement)
+          }
+        }
+      )
+    }, [
+      subStep,
+      address.street,
+      address.neighborhood,
+      address.city,
+      address.state,
+      address.cep,
+      address.number,
+      address.complement
+    ])
 
     return (
       <S.Container>
@@ -240,7 +360,8 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
                     setAddress={setAddress}
                     hasButton={false}
                     onSave={() => setCanProceed(true)}
-                    activeSearch={editMode}
+                    activeSearch
+                    disableFields={false}
                   />
                 </motion.div>
                 <Divider marginY="16px" />

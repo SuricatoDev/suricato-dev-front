@@ -27,140 +27,143 @@ export default function SobreNos() {
   const backgroundY = useTransform(scrollY, [0, 300], ['0%', '20%'])
 
   return (
-    <S.Wrapper>
-      <Head>
-        <title>Sobre Nós – Excursionistas</title>
-      </Head>
+    <>
+      <MobileHeader>Sobre nós</MobileHeader>
+      <S.Wrapper>
+        <Head>
+          <title>Sobre Nós – Excursionistas</title>
+        </Head>
 
-      <Header variant="simple" />
-      <MobileHeader>Sobre Nós</MobileHeader>
+        <Header variant="simple" />
 
-      <S.HeroSection>
-        <S.BackgroundImage
-          as={motion.div}
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url(${heroRoad.src})`,
-            backgroundPositionY: backgroundY
-          }}
-        />
-
-        <motion.div
-          style={{ y: contentY }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          <S.HeroContent>
-            <h1>Conectando Pessoas a Experiências</h1>
-            <p>
-              Conectar pessoas a experiências inesquecíveis. Esse é o nosso
-              propósito.
-            </p>
-          </S.HeroContent>
-        </motion.div>
-
-        <S.WaveDivider />
-      </S.HeroSection>
-
-      <S.Main>
-        <div className="container">
-          <S.SectionsContainer>
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <S.Section>
-                <div>
-                  <S.IconWrapper>
-                    <UsersThree size={48} weight="fill" />
-                  </S.IconWrapper>
-                  <S.TextBlock>
-                    <h2>Quem Somos</h2>
-                    <p>
-                      O Excursionistas nasceu da vontade de transformar a forma
-                      como brasileiros se locomovem para eventos culturais e de
-                      negócios em outras cidades. Shows, festivais, feiras,
-                      peças de teatro — sabemos o quanto essas experiências
-                      marcam momentos únicos na vida das pessoas. Mas também
-                      sabemos como pode ser difícil chegar até elas.
-                    </p>
-                  </S.TextBlock>
-                </div>
-              </S.Section>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <S.Section $alternate>
-                <div>
-                  <S.IconWrapper>
-                    <Bus size={48} weight="fill" />
-                  </S.IconWrapper>
-                  <S.TextBlock>
-                    <h2>O que fazemos</h2>
-                    <p>
-                      Criamos uma plataforma inovadora que centraliza a oferta
-                      de caravanas e facilita o acesso ao transporte para
-                      eventos. Com poucos cliques, passageiros encontram opções
-                      seguras, organizadas e confiáveis. Organizadores de
-                      caravanas ganham um canal eficiente para divulgar seus
-                      serviços, gerenciar reservas e preencher seus veículos com
-                      muito mais facilidade.
-                    </p>
-                  </S.TextBlock>
-                </div>
-              </S.Section>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <S.Section>
-                <div>
-                  <S.IconWrapper>
-                    <MapTrifold size={48} weight="fill" />
-                  </S.IconWrapper>
-                  <S.TextBlock>
-                    <h2>Nosso Compromisso</h2>
-                    <p>
-                      Desde o lançamento, o Excursionistas já ajudou milhares de
-                      pessoas a irem mais longe — com conforto, economia e
-                      segurança. Nosso compromisso é com a mobilidade
-                      inteligente e a valorização de cada momento. Afinal, viver
-                      o evento começa na estrada.
-                    </p>
-                  </S.TextBlock>
-                </div>
-              </S.Section>
-            </motion.div>
-          </S.SectionsContainer>
+        <S.HeroSection>
+          <S.BackgroundImage
+            as={motion.div}
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(${heroRoad.src})`,
+              backgroundPositionY: backgroundY
+            }}
+          />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
+            style={{ y: contentY }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
           >
-            <S.ClosingBlock>
-              <h2>Excursionistas</h2>
+            <S.HeroContent>
+              <h1>Conectando Pessoas a Experiências</h1>
               <p>
-                Porque toda grande experiência merece um bom caminho até lá.
+                Conectar pessoas a experiências inesquecíveis. Esse é o nosso
+                propósito.
               </p>
-            </S.ClosingBlock>
+            </S.HeroContent>
           </motion.div>
-        </div>
-      </S.Main>
 
-      <Footer />
-    </S.Wrapper>
+          <S.WaveDivider />
+        </S.HeroSection>
+
+        <S.Main>
+          <div className="container">
+            <S.SectionsContainer>
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <S.Section>
+                  <div>
+                    <S.IconWrapper>
+                      <UsersThree size={48} weight="fill" />
+                    </S.IconWrapper>
+                    <S.TextBlock>
+                      <h2>Quem Somos</h2>
+                      <p>
+                        O Excursionistas nasceu da vontade de transformar a
+                        forma como brasileiros se locomovem para eventos
+                        culturais e de negócios em outras cidades. Shows,
+                        festivais, feiras, peças de teatro — sabemos o quanto
+                        essas experiências marcam momentos únicos na vida das
+                        pessoas. Mas também sabemos como pode ser difícil chegar
+                        até elas.
+                      </p>
+                    </S.TextBlock>
+                  </div>
+                </S.Section>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <S.Section $alternate>
+                  <div>
+                    <S.IconWrapper>
+                      <Bus size={48} weight="fill" />
+                    </S.IconWrapper>
+                    <S.TextBlock>
+                      <h2>O que fazemos</h2>
+                      <p>
+                        Criamos uma plataforma inovadora que centraliza a oferta
+                        de caravanas e facilita o acesso ao transporte para
+                        eventos. Com poucos cliques, passageiros encontram
+                        opções seguras, organizadas e confiáveis. Organizadores
+                        de caravanas ganham um canal eficiente para divulgar
+                        seus serviços, gerenciar reservas e preencher seus
+                        veículos com muito mais facilidade.
+                      </p>
+                    </S.TextBlock>
+                  </div>
+                </S.Section>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <S.Section>
+                  <div>
+                    <S.IconWrapper>
+                      <MapTrifold size={48} weight="fill" />
+                    </S.IconWrapper>
+                    <S.TextBlock>
+                      <h2>Nosso Compromisso</h2>
+                      <p>
+                        Desde o lançamento, o Excursionistas já ajudou milhares
+                        de pessoas a irem mais longe — com conforto, economia e
+                        segurança. Nosso compromisso é com a mobilidade
+                        inteligente e a valorização de cada momento. Afinal,
+                        viver o evento começa na estrada.
+                      </p>
+                    </S.TextBlock>
+                  </div>
+                </S.Section>
+              </motion.div>
+            </S.SectionsContainer>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <S.ClosingBlock>
+                <h2>Excursionistas</h2>
+                <p>
+                  Porque toda grande experiência merece um bom caminho até lá.
+                </p>
+              </S.ClosingBlock>
+            </motion.div>
+          </div>
+        </S.Main>
+
+        <Footer />
+      </S.Wrapper>
+    </>
   )
 }

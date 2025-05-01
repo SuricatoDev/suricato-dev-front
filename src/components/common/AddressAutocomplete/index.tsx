@@ -61,7 +61,7 @@ export default function AddressAutocomplete({
         <S.Input
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Insira seu endereço"
+          placeholder="Insira o endereço"
         />
         {suggestions.length > 0 && (
           <S.List>

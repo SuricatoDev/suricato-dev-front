@@ -15,8 +15,6 @@ import { ImageItem, useCreateAd } from '@/contexts/CreateAdContext'
 import FooterNav from '@/components/sections/FooterNav'
 import HeaderNav from '@/components/sections/HeaderNav'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 const Step1 = lazy(() => import('./steps/Step1'))
 const Step2 = lazy(() => import('./steps/Step2'))
 const Step3 = lazy(() => import('./steps/Step3'))

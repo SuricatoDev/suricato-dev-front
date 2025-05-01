@@ -113,9 +113,10 @@ export const MenuToggle = styled.button`
   display: flex;
   align-items: center;
   padding: 0.25rem;
+  transition: background-color ${({ theme }) => theme.common.transition.default};
 
   &:hover {
-    color: #000;
+    background-color: ${({ theme }) => theme.colors.background_light};
   }
 `
 

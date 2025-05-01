@@ -147,139 +147,144 @@ export default function FaqPage({ isAuthenticated }: FAQPageProps) {
   }
 
   return (
-    <S.Wrapper>
-      <Head>
-        <title>Central de Ajuda – Excursionistas</title>
-      </Head>
-
-      <Header variant="simple" />
+    <>
       <MobileHeader>Central de Ajuda</MobileHeader>
+      <S.Wrapper>
+        <Head>
+          <title>Central de Ajuda – Excursionistas</title>
+        </Head>
 
-      <S.HeroSection>
-        <S.BackgroundImage
-          as={motion.div}
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url(${heroFaq.src})`,
-            backgroundPositionY: backgroundY
-          }}
-        />
-        <motion.div
-          style={{ y: contentY }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          <S.HeroContent>
-            <h1>Central de Ajuda</h1>
-            <p>Esclareça suas dúvidas e viaje com segurança.</p>
-          </S.HeroContent>
-        </motion.div>
-        <S.WaveDivider />
-      </S.HeroSection>
+        <Header variant="simple" />
 
-      <S.Main>
-        <div className="container">
-          <S.SpacingMobile>
-            <S.Heading>
-              <S.Title>Perguntas Frequentes</S.Title>
-              <S.Subtitle>
-                Alguma dúvida? Confira as respostas para as principais perguntas
-                sobre o tema ou <a href="#fale-conosco">fale conosco</a>.
-              </S.Subtitle>
-            </S.Heading>
+        <S.HeroSection>
+          <S.BackgroundImage
+            as={motion.div}
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url(${heroFaq.src})`,
+              backgroundPositionY: backgroundY
+            }}
+          />
+          <motion.div
+            style={{ y: contentY }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <S.HeroContent>
+              <h1>Central de Ajuda</h1>
+              <p>Esclareça suas dúvidas e viaje com segurança.</p>
+            </S.HeroContent>
+          </motion.div>
+          <S.WaveDivider />
+        </S.HeroSection>
 
-            <S.SectionsContainer>
-              {faqData.map((item, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  viewport={{ once: true }}
-                >
-                  <S.AccordionItem onClick={() => toggleOpen(item.question)}>
-                    <S.QuestionButton>
-                      <span>{item.question}</span>
-                      <motion.div
-                        animate={{
-                          rotate: openItem === item.question ? 180 : 0
-                        }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <CaretDown weight="bold" size={20} />
-                      </motion.div>
-                    </S.QuestionButton>
+        <S.Main>
+          <div className="container">
+            <S.SpacingMobile>
+              <S.Heading>
+                <S.Title>Perguntas Frequentes</S.Title>
+                <S.Subtitle>
+                  Alguma dúvida? Confira as respostas para as principais
+                  perguntas sobre o tema ou{' '}
+                  <a href="#fale-conosco">fale conosco</a>.
+                </S.Subtitle>
+              </S.Heading>
 
-                    <AnimatePresence initial={false}>
-                      {openItem === item.question && (
+              <S.SectionsContainer>
+                {faqData.map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                  >
+                    <S.AccordionItem onClick={() => toggleOpen(item.question)}>
+                      <S.QuestionButton>
+                        <span>{item.question}</span>
                         <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2, ease: 'easeInOut' }}
-                          style={{ overflow: 'hidden' }}
+                          animate={{
+                            rotate: openItem === item.question ? 180 : 0
+                          }}
+                          transition={{ duration: 0.3 }}
                         >
-                          <S.Answer>{item.answer}</S.Answer>
+                          <CaretDown weight="bold" size={20} />
                         </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </S.AccordionItem>
-                </motion.div>
-              ))}
-            </S.SectionsContainer>
+                      </S.QuestionButton>
 
-            {isAuthenticated && (
-              <S.ContactSection id="fale-conosco">
-                <S.ContactTitle>Ainda não encontrou a resposta?</S.ContactTitle>
-                <Button onClick={handleOpenModal}>Fale conosco</Button>
-              </S.ContactSection>
-            )}
+                      <AnimatePresence initial={false}>
+                        {openItem === item.question && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2, ease: 'easeInOut' }}
+                            style={{ overflow: 'hidden' }}
+                          >
+                            <S.Answer>{item.answer}</S.Answer>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </S.AccordionItem>
+                  </motion.div>
+                ))}
+              </S.SectionsContainer>
 
-            <Modal
-              withMaxSizes={false}
-              style={{ maxWidth: '600px', width: 'calc(100% - 2rem)' }}
-              isOpen={isModalOpen}
-              onClose={handleCloseModal}
-            >
-              <S.FormWrapper onSubmit={handleSubmit}>
-                <S.FormGroup>
-                  <S.ModalTitle>Nos envie sua dúvida</S.ModalTitle>
-                  <Input
-                    label="Título da dúvida"
-                    placeholder="Digite um título para sua dúvida"
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    required
-                  />
-                </S.FormGroup>
+              {isAuthenticated && (
+                <S.ContactSection id="fale-conosco">
+                  <S.ContactTitle>
+                    Ainda não encontrou a resposta?
+                  </S.ContactTitle>
+                  <Button onClick={handleOpenModal}>Fale conosco</Button>
+                </S.ContactSection>
+              )}
 
-                <S.FormGroup>
-                  <Textarea
-                    label="Descreva a sua dúvida"
-                    placeholder="Digite sua dúvida aqui"
-                    id="description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    required
-                    rows={8}
-                  />
-                </S.FormGroup>
+              <Modal
+                withMaxSizes={false}
+                style={{ maxWidth: '600px', width: 'calc(100% - 2rem)' }}
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+              >
+                <S.FormWrapper onSubmit={handleSubmit}>
+                  <S.FormGroup>
+                    <S.ModalTitle>Nos envie sua dúvida</S.ModalTitle>
+                    <Input
+                      label="Título da dúvida"
+                      placeholder="Digite um título para sua dúvida"
+                      type="text"
+                      id="title"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleChange}
+                      required
+                    />
+                  </S.FormGroup>
 
-                <Button type="submit" loading={loading}>
-                  {loading ? 'Enviando...' : 'Enviar'}
-                </Button>
-              </S.FormWrapper>
-            </Modal>
-          </S.SpacingMobile>
-        </div>
-      </S.Main>
+                  <S.FormGroup>
+                    <Textarea
+                      label="Descreva a sua dúvida"
+                      placeholder="Digite sua dúvida aqui"
+                      id="description"
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChange}
+                      required
+                      rows={8}
+                    />
+                  </S.FormGroup>
 
-      <Footer />
-    </S.Wrapper>
+                  <Button type="submit" loading={loading}>
+                    {loading ? 'Enviando...' : 'Enviar'}
+                  </Button>
+                </S.FormWrapper>
+              </Modal>
+            </S.SpacingMobile>
+          </div>
+        </S.Main>
+
+        <Footer />
+      </S.Wrapper>
+    </>
   )
 }
 
