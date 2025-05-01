@@ -1,7 +1,6 @@
 import { useDarkMode } from '@/providers/AccessibilityContextProvider'
 
-import { Moon } from '@phosphor-icons/react/dist/ssr/Moon'
-import { Sun } from '@phosphor-icons/react/dist/ssr/Sun'
+import { Moon, Sun } from '@phosphor-icons/react'
 
 import * as S from './styles'
 
@@ -9,24 +8,17 @@ export default function ThemeToggle() {
   const { themeDarkMode, updatedDarkMode } = useDarkMode()
 
   return (
-    <button
+    <S.ToggleButton
       onClick={() => updatedDarkMode(!themeDarkMode)}
-      style={{
-        background: 'transparent',
-        border: 'none',
-        cursor: 'pointer'
-      }}
       aria-label="Alternar tema"
+      data-dark={themeDarkMode ? 'false' : 'true'}
     >
-      {themeDarkMode ? (
-        <S.IconSun>
-          <Sun weight="fill" size={24} />
-        </S.IconSun>
-      ) : (
-        <S.IconMoon>
-          <Moon weight="fill" size={24} />
-        </S.IconMoon>
-      )}
-    </button>
+      <S.SunWrapper>
+        <Sun width={24} height={24} weight="fill" />
+      </S.SunWrapper>
+      <S.MoonWrapper>
+        <Moon width={24} height={24} weight="fill" />
+      </S.MoonWrapper>
+    </S.ToggleButton>
   )
 }

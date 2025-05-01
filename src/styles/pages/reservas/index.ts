@@ -88,6 +88,7 @@ export const SpacingMobile = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  overflow-x: hidden;
   @media (${device.md}) {
     padding: 0;
   }

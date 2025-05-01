@@ -154,7 +154,7 @@ export default function Home({ initialCaravans }: HomeProps) {
                       transition={{
                         duration: 0.3,
                         ease: 'easeOut',
-                        delay: index * 0.07
+                        delay: index * 0.08
                       }}
                     >
                       <ProductCard

@@ -72,7 +72,7 @@ export default function Favoritos() {
                   transition={{
                     duration: 0.3,
                     ease: 'easeOut',
-                    delay: index * 0.07
+                    delay: index * 0.08
                   }}
                 >
                   <ProductCard

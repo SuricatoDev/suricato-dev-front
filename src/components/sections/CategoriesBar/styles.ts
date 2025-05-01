@@ -145,7 +145,8 @@ export const NavDefault = styled.button`
     bottom: 0;
     transform: translateY(calc(-50% - 0.25rem));
     z-index: 10;
-    background: ${({ theme }) => theme.colors.base_light};
+    background: ${({ theme }) => theme.colors.background_dark};
+    border: ${({ theme }) => theme.colors.base_dark32};
     border-radius: 50%;
     width: 32px;
     height: 32px;

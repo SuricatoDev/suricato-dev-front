@@ -6,6 +6,7 @@ export const Card = styled.div`
   position: relative;
   background-color: ${({ theme }) => theme.colors.background_light};
   border-radius: 8px;
+  height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -196,7 +197,8 @@ export const NavDefault = styled.button`
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    background: ${({ theme }) => theme.colors.base_light};
+    background: ${({ theme }) => theme.colors.background_light};
+    border: ${({ theme }) => theme.colors.base_dark32};
     border-radius: 50%;
     width: 32px;
     height: 32px;

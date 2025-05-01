@@ -331,49 +331,6 @@ export const ProfilePic = styled.div`
   }
 `
 
-export const Segmented = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${({ theme }) => theme.colors.background_standard};
-  border-radius: 999px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 100%;
-  max-width: 720px;
-`
-
-export const SegmentButton = styled.button<{ $active?: boolean }>`
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: none;
-  background: transparent;
-  text-align: left;
-  cursor: pointer;
-
-  small {
-    display: block;
-    font-size: 0.75rem;
-    color: ${({ theme }) => theme.colors.text_medium};
-  }
-  strong {
-    display: block;
-    font-size: 0.9rem;
-    color: ${({ theme }) => theme.colors.text_standard};
-  }
-
-  ${({ $active, theme }) =>
-    $active &&
-    css`
-      background: ${theme.colors.base_light};
-    `}
-`
-
-export const SegmentDivider = styled.div`
-  width: 1px;
-  height: 32px;
-  background: ${({ theme }) => theme.colors.base_dark16};
-`
-
 export const SearchAction = styled.button`
   background: ${({ theme }) => theme.colors.primary_medium};
   color: #fff;

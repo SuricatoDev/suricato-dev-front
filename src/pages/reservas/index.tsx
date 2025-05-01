@@ -4,6 +4,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
 import { Caravan } from '@/interfaces/caravan'
 import axios, { AxiosError } from 'axios'
+import { motion } from 'framer-motion'
 import { getToken } from 'next-auth/jwt'
 import Head from 'next/head'
 import { toast } from 'react-toastify'
@@ -138,16 +139,26 @@ export default function Reservas({ history, userId }: ReservasPageProps) {
               </S.EmptyMessage>
             )}
 
-            {displayed.map((item) => (
-              <HistoryCard
+            {displayed.map((item, index) => (
+              <motion.div
                 key={item.id}
-                caravan={item}
-                enableActionsButtons={activeTab === 'upcoming'}
-                onCancel={handleCancel}
-                isCancelling={cancellingId === Number(item.id)}
-                onRate={(rating) => handleRate(Number(item.id), rating)}
-                isRating={ratingId === Number(item.id)}
-              />
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.3,
+                  ease: 'easeOut',
+                  delay: index * 0.1
+                }}
+              >
+                <HistoryCard
+                  caravan={item}
+                  enableActionsButtons={activeTab === 'upcoming'}
+                  onCancel={handleCancel}
+                  isCancelling={cancellingId === Number(item.id)}
+                  onRate={(rating) => handleRate(Number(item.id), rating)}
+                  isRating={ratingId === Number(item.id)}
+                />
+              </motion.div>
             ))}
           </S.SpacingMobile>
         </div>

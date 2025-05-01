@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Caravan } from '@/interfaces/caravan'
 import { fetcher } from '@/utils/fetcher'
 import axios from 'axios'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -240,24 +241,46 @@ export default function CaravanasManagementPage() {
                   Nenhuma próxima caravana
                 </S.EmptyMessage>
               ) : caravansToShow.length > 0 ? (
-                <S.CaravanGrid>
-                  {caravansToShow.map((caravan, idx) => (
-                    <ProductCardEdit
-                      key={caravan.id}
-                      caravan={caravan}
-                      activeTab={activeTab}
-                      isOpenMenu={openMenuId === caravan.id}
-                      onToggleMenu={handleToggleMenu}
-                      onEdit={handleEdit}
-                      onDelete={handleDelete}
-                      priority={idx === 0}
-                      isLoading={false}
-                      onViewReservations={() => {
-                        handleViewReservations(caravan)
-                      }}
-                    />
-                  ))}
-                </S.CaravanGrid>
+                <AnimatePresence initial={true} mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit="hidden"
+                  >
+                    <S.CaravanGrid>
+                      {caravansToShow.map((caravan, idx) => (
+                        <motion.div
+                          key={caravan.id}
+                          initial={{ opacity: 0, y: 60 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit="hidden"
+                          style={{ overflow: 'hidden' }}
+                          transition={{
+                            duration: 0.3,
+                            ease: 'easeOut',
+                            delay: idx * 0.08
+                          }}
+                        >
+                          <ProductCardEdit
+                            key={caravan.id}
+                            caravan={caravan}
+                            activeTab={activeTab}
+                            isOpenMenu={openMenuId === caravan.id}
+                            onToggleMenu={handleToggleMenu}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                            priority={idx === 0}
+                            isLoading={false}
+                            onViewReservations={() => {
+                              handleViewReservations(caravan)
+                            }}
+                          />
+                        </motion.div>
+                      ))}
+                    </S.CaravanGrid>
+                  </motion.div>
+                </AnimatePresence>
               ) : (
                 <S.EmptyMessage>
                   <SmileySad size={64} weight="fill" />
