@@ -137,8 +137,8 @@ export const Suggestion = styled.li`
   }
 `
 export const MobileTrigger = styled.div`
-  min-height: 43px;
-  padding: 0.75rem;
+  min-height: 40px;
+  height: 100%;
   border: 1px solid ${({ theme }) => theme.colors.base_dark32};
   border-radius: 999px;
   width: 100%;

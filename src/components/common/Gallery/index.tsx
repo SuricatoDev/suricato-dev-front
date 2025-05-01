@@ -95,6 +95,7 @@ export default function Gallery({ images }: GalleryProps) {
                         columns={1}
                         width="100%"
                         height="100%"
+                        radius="0"
                       />
                     </div>
                   )}

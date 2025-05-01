@@ -24,9 +24,10 @@ export const Container = styled.div`
 export const ContentWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 1rem;
 
   @media (${device.md}) {
+    gap: 2rem;
     grid-template-columns: 10fr 3fr;
     align-items: start;
   }
@@ -78,7 +79,7 @@ export const Sidebar = styled.aside`
 `
 
 export const SpacingMobile = styled.div`
-  padding: 0 1rem 1rem;
+  padding: 0 1rem 3rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;

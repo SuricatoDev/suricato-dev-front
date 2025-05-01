@@ -58,7 +58,7 @@ export const Main = styled.main`
   .container {
     max-width: 960px;
     margin: 0 auto;
-    padding: 0 1rem 2rem;
+    padding: 0 1rem 3rem;
     @media ${device.md} {
       padding: 0 1rem calc(52px + 4rem);
     }

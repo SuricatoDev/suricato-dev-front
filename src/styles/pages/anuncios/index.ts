@@ -27,7 +27,7 @@ export const MainCenter = styled.main`
 `
 
 export const SpacingMobile = styled.div`
-  padding: 0 1rem 1rem;
+  padding: 0 1rem 3rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;

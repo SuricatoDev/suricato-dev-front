@@ -12,6 +12,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { ValidationError } from 'yup'
 
+import { SignOut } from '@phosphor-icons/react/dist/ssr'
 import { CalendarBlank } from '@phosphor-icons/react/dist/ssr/CalendarBlank'
 import { Eye } from '@phosphor-icons/react/dist/ssr/Eye'
 import { LockKey } from '@phosphor-icons/react/dist/ssr/LockKey'
@@ -940,6 +941,14 @@ export default function ProfileEditPage() {
                           onClick={() => {
                             signOut({ callbackUrl: '/' })
                           }}
+                          variant="danger"
+                          icon={
+                            <SignOut
+                              size={24}
+                              weight="bold"
+                              style={{ transform: 'scaleX(-1)' }}
+                            />
+                          }
                         >
                           Sair da conta
                         </Button>

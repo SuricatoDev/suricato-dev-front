@@ -65,7 +65,7 @@ const baseStyles = css<ButtonProps>`
 export const Content = styled.span<{ size?: 'sm' | 'md' }>`
   padding: ${({ size }) => (size === 'sm' ? '6px 0' : '12px 0')};
   margin: 1px 0;
-  flex: 1;
+
   text-align: center;
   & > h1,
   & > h2,

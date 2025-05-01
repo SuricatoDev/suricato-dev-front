@@ -37,13 +37,17 @@ export const Wrapper = styled.header<ScrolledProps & HeaderProps>`
 
 export const Container = styled.div`
   max-width: 1440px;
-  padding: 1rem;
+  padding: 12.5px 1rem;
   margin: 0 auto;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+
+  @media (${device.md}) {
+    padding: 1rem;
+  }
 `
 
 export const TopHeader = styled.div`
