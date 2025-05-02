@@ -134,10 +134,11 @@ export default function Header({
       <S.Wrapper variant={variant} $isScrolled={isScrolled}>
         <S.Container>
           <S.TopHeader>
-            <Link href="/" passHref style={{ display: 'flex', width: '118px' }}>
-              <S.Logo src={logo} alt="Logo" width={60} height={60} />
-            </Link>
-
+            <span style={{ display: 'flex', width: '118px' }}>
+              <Link href="/" passHref>
+                <S.Logo src={logo} alt="Logo" width={60} height={60} />
+              </Link>
+            </span>
             <S.Menu $isScrolled={isScrolled && variant === 'default'}>
               {navItems.map(({ label, href }, index) => (
                 <Link key={`${href}-${label}-${index}`} href={href} passHref>
