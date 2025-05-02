@@ -53,7 +53,7 @@ export const StyledFab = styled.button<{
   justify-content: center;
   cursor: pointer;
   z-index: 999;
-  transition: ${({ theme }) => theme.common.transition.fast};
+  transition: ${({ theme }) => theme.common.transition.default};
 
   ${({ animate, backgroundColor, theme }) =>
     animate &&

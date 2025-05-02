@@ -6,7 +6,6 @@ import { device } from '@/styles/breakpoints'
 export const FooterWrapper = styled.footer<{ $isScrollingDown: boolean }>`
   position: fixed;
   bottom: ${({ $isScrollingDown }) => ($isScrollingDown ? '-64px' : '0')};
-  transition: ${({ theme }) => theme.common.transition.fast};
   width: 100%;
   height: 64px;
   background-color: ${({ theme }) => theme.colors.background_light};
@@ -18,6 +17,16 @@ export const FooterWrapper = styled.footer<{ $isScrollingDown: boolean }>`
   z-index: 999;
   display: flex;
   justify-content: center;
+
+  transition:
+    bottom ${({ theme }) => theme.common.transition.fast},
+    background-color ${({ theme }) => theme.common.transition.default},
+    border-top ${({ theme }) => theme.common.transition.default},
+    box-shadow ${({ theme }) => theme.common.transition.default},
+    color ${({ theme }) => theme.common.transition.default};
+
+  will-change: auto;
+
   @media (${device.md}) {
     display: none;
   }

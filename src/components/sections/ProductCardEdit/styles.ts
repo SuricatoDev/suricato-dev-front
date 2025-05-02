@@ -7,18 +7,11 @@ export const Card = styled.div`
   background-color: ${({ theme }) => theme.colors.background_light};
   border-radius: 8px;
   height: 100%;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.2s ease-in-out;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-  border: 1px solid
-    ${({ theme }) =>
-      theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
-
-  &:hover {
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  }
+  overflow: hidden;
+  border-radius: 8px;
+  transition: background-color ${({ theme }) => theme.common.transition.default};
 `
 
 export const CardHeader = styled.div`

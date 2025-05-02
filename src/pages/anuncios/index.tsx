@@ -255,6 +255,7 @@ export default function CaravanasManagementPage() {
                           initial={{ opacity: 0, y: 60 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit="hidden"
+                          className="product-card-edit"
                           style={{ overflow: 'hidden' }}
                           transition={{
                             duration: 0.3,

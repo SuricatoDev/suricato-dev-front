@@ -159,7 +159,7 @@ export const FavoriteButton = styled.button<FavoriteButtonProps>`
   cursor: pointer;
 
   svg {
-    transition: all 0.2s ease;
+    transition: all ${({ theme }) => theme.common.transition.default};
     color: ${({ $favorited }) => ($favorited ? '#E60023' : '#fff')};
 
     > path:first-of-type {

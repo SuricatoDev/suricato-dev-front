@@ -57,6 +57,22 @@ export const CaravanGrid = styled.div`
   grid-template-columns: 1fr;
   gap: 1rem;
 
+  .product-card-edit {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    border: 1px solid
+      ${({ theme }) =>
+        theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+    border-radius: 8px;
+
+    transition:
+      box-shadow ${({ theme }) => theme.common.transition.default},
+      border ${({ theme }) => theme.common.transition.default};
+
+    &:hover {
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
   @media (${device.xsm}) {
     grid-template-columns: repeat(2, 1fr);
   }

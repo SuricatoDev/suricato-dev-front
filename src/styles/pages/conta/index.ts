@@ -85,7 +85,7 @@ export const EditLink = styled.button`
   font-weight: 500;
   font-size: ${({ theme }) => theme.common.font.sizes.body.large};
   margin-left: 1rem;
-  transition: color 0.2s ease;
+  transition: color ${({ theme }) => theme.common.transition.default};
   text-decoration: underline;
   cursor: pointer;
   border: none;
