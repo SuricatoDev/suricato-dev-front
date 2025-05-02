@@ -1,6 +1,7 @@
 import { useDarkMode } from '@/providers/AccessibilityContextProvider'
 
-import { Moon, Sun } from '@phosphor-icons/react'
+import { Moon } from '@phosphor-icons/react/dist/ssr/Moon'
+import { Sun } from '@phosphor-icons/react/dist/ssr/Sun'
 
 import * as S from './styles'
 
