@@ -22,7 +22,7 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+
   @media (${device.md}) {
     max-width: 640px;
     justify-content: center;

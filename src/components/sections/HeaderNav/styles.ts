@@ -11,7 +11,7 @@ export const HeaderNavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem 0.5rem;
+  padding: 1rem 1.5rem;
   background-color: ${({ theme }) => theme.colors.background_standard};
   gap: 2px;
   flex-wrap: wrap;

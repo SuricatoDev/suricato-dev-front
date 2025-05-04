@@ -51,7 +51,7 @@ export const MenuButton = styled.button`
   background-clip: padding-box;
   top: 8px;
   right: 8px;
-  background: ${({ theme }) => theme.colors.background_dark};
+  background: ${({ theme }) => theme.colors.background_standard};
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
   border: 1px solid
     ${({ theme }) =>

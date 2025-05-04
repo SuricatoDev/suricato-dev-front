@@ -252,7 +252,8 @@ export default function Step8({
             border: '2px dashed',
             borderColor: isDraggingFile ? '#FF6D3C' : '#ccc',
             background: isDraggingFile ? '#FF6D3C10' : 'transparent',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            outline: 'none'
           }}
           onClick={() => fileInputRef.current?.click()}
           onDrop={handleDropFile}
