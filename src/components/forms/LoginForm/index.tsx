@@ -167,14 +167,22 @@ export default function MultiStepForm({
   return (
     <FormProvider {...methods}>
       {$isModal && <S.ModalOverlay onClick={handleClose} />}
-      <S.FormContainer $isModal={$isModal}>
+      <S.FormContainer $isModal={$isModal} step={step}>
         <S.Header $isModal={$isModal}>
           {step === 1 && (
             <>
-              {$isModal && (
+              {$isModal ? (
                 <S.CloseButton onClick={handleClose}>
                   <X size={24} weight="bold" />
                 </S.CloseButton>
+              ) : (
+                <S.BackButton
+                  onClick={() => {
+                    router.back()
+                  }}
+                >
+                  <ArrowLeft size={24} weight="bold" />
+                </S.BackButton>
               )}
               <S.Title>Entrar ou cadastrar-se</S.Title>
             </>

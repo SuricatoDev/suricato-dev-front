@@ -13,9 +13,9 @@ export default function Footer() {
           <S.Items>
             <p>© {currentYear} Excursionistas, Inc.</p>
             <S.PointerDivider />
-            <Link href="/privacy">Política de Privacidade</Link>
+            <Link href="/politica-de-privacidade">Política de Privacidade</Link>
             <S.PointerDivider />
-            <Link href="/terms">Termos de Uso</Link>
+            <Link href="/termos-de-uso">Termos de Uso</Link>
 
             <S.PointerDivider />
             <Link href="/central-de-ajuda">Central de Ajuda</Link>

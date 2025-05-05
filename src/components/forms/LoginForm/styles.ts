@@ -6,8 +6,7 @@ import { MultiStepFormProps } from '.'
 
 type ModalProps = Pick<MultiStepFormProps, '$isModal'>
 
-export const FormContainer = styled.div<ModalProps>`
-  position: relative;
+export const FormContainer = styled.div<ModalProps & { step: number }>`
   width: 100%;
   height: auto;
   min-height: ${(props) => (props.$isModal ? 'unset' : '500px')};
@@ -21,7 +20,6 @@ export const FormContainer = styled.div<ModalProps>`
   transform: ${(props) => (props.$isModal ? 'translate(-50%, 0%)' : 'none')};
   z-index: ${(props) => (props.$isModal ? '99999' : 'unset')};
   border-radius: ${(props) => (props.$isModal ? '8px 8px 0 0' : '0')};
-  overflow-y: auto;
   border: 1px solid
     ${({ theme, $isModal }) =>
       theme.title === 'dark'
@@ -38,23 +36,29 @@ export const FormContainer = styled.div<ModalProps>`
       props.$isModal ? 'translate(-50%, -50%)' : 'none'};
     max-width: 568px;
     margin: ${(props) => (props.$isModal ? '0 auto' : '2rem auto')};
-    border-radius: 9px;
+    border-radius: 8px;
     min-height: unset;
 
     border: 1px solid
       ${({ theme }) =>
         theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+
+    overflow: ${({ step }) => (step === 1 ? 'visible' : 'auto')};
   }
 `
 
 export const Header = styled.div<ModalProps>`
-  position: ${(props) => (props.$isModal ? 'sticky' : 'relative')};
-  top: ${(props) => (props.$isModal ? '0' : 'unset')};
+  position: sticky;
+  top: 0;
   padding: 1.5rem;
   border-bottom: 1px solid ${(props) => props.theme.colors.base_dark32};
   background-color: ${(props) => props.theme.colors.background_light};
   z-index: 9;
-  border-radius: 8px 8px 0 0;
+  border-radius: ${(props) => (props.$isModal ? '8px 8px 0 0' : '0')};
+
+  @media (${device.md}) {
+    border-radius: 8px 8px 0 0;
+  }
 `
 
 export const Title = styled.h1`
@@ -99,7 +103,7 @@ export const MainContent = styled.div`
 `
 
 export const LegalText = styled.p`
-  font-size: ${(props) => props.theme.common.font.sizes.body.xsmall};
+  font-size: ${(props) => props.theme.common.font.sizes.body.medium};
   color: ${(props) => props.theme.colors.text_light};
   margin-top: 8px;
   line-height: 1rem;
@@ -112,7 +116,7 @@ export const Step2MainContent = styled.div`
 `
 
 export const PolicyText = styled.div`
-  font-size: ${(props) => props.theme.common.font.sizes.body.xsmall};
+  font-size: ${(props) => props.theme.common.font.sizes.body.medium};
   color: ${(props) => props.theme.colors.text_medium};
   line-height: 1rem;
   font-weight: 500;
@@ -121,18 +125,33 @@ export const PolicyText = styled.div`
     text-decoration: underline;
     color: ${({ theme }) => theme.colors.primary_medium};
     font-weight: 600;
+    transition: color ${(props) => props.theme.common.transition.default};
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary_light};
+    }
   }
 `
-export const NeedHelp = styled.a<ModalProps>`
+export const NeedHelp = styled.div<ModalProps>`
   text-align: center;
+  justify-content: center;
   display: flex;
-  flex-direction: column;
   gap: 1rem;
-  margin-bottom: ${(props) => (props.$isModal ? '1rem' : '96px')};
+  margin-bottom: 0.5rem;
   text-decoration: underline;
   font-weight: 600;
   color: ${(props) => props.theme.colors.text_medium};
   font-size: ${(props) => props.theme.common.font.sizes.body.medium};
+
+  a {
+    transition: opacity ${(props) => props.theme.common.transition.default};
+    color: ${(props) => props.theme.colors.text_medium};
+    font-weight: 600;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
 `
 
 export const BackButton = styled.button`

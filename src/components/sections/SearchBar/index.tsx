@@ -275,7 +275,7 @@ export default function SearchBar({ isScrolled, caravanas }: SearchBarProps) {
             ''
           ) : (
             <S.StartSearch>
-              Inicie sua busca
+              <p>Inicie sua busca</p>
               <MagnifyingGlass weight="bold" size={16} />
             </S.StartSearch>
           )}

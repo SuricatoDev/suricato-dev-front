@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 
+import Link from 'next/link'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import InputMask from 'react-input-mask'
 
@@ -206,9 +207,15 @@ export default function Step2({
       </div>
       <S.PolicyText>
         <p>
-          Ao selecionar <b>Concordar e continuar</b>, eu concordo com os{' '}
-          <a href="#">Termos de Serviço</a> e reconheço a{' '}
-          <a href="#">Política de Privacidade</a>.
+          Ao clicar em <b>Concordar e continuar</b>, eu concordo com os{' '}
+          <a href="/termos-de-uso.pdf" download>
+            Termos de Uso
+          </a>{' '}
+          e reconheço a{' '}
+          <a href="/politica-de-privacidade.pdf" download>
+            Política de Privacidade
+          </a>
+          .
         </p>
       </S.PolicyText>
       <Button
@@ -221,8 +228,8 @@ export default function Step2({
         Concordar e continuar
       </Button>
       <Divider />
-      <S.NeedHelp $isModal={$isModal} href="#">
-        Precisa de ajuda?
+      <S.NeedHelp $isModal={$isModal}>
+        <Link href="/central-de-ajuda">Precisa de ajuda?</Link>
       </S.NeedHelp>
     </S.Step2MainContent>
   )
