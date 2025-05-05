@@ -39,14 +39,23 @@ export default function Step2({
   const firstNameValue = watch('firstName')
   const lastNameValue = watch('lastName')
   const contactEmailValue = watch('contactEmail')
-  const emailValue = watch('email')
+  const emailValue = useWatch({
+    control,
+    name: 'email',
+    defaultValue: ''
+  })
+
   const passwordValue = watch('password')
   const birthDateValue = watch('birthDate')
   const phoneValue = watch('phone')
 
+  console.log(emailValue)
+
   useEffect(() => {
-    setValue('contactEmail', emailValue)
-  }, [emailValue])
+    if (emailValue) {
+      setValue('contactEmail', emailValue, { shouldValidate: true })
+    }
+  }, [emailValue, setValue])
 
   const isButtonDisabled =
     !firstNameValue ||
@@ -169,14 +178,12 @@ export default function Step2({
           <Controller
             name="contactEmail"
             control={control}
-            defaultValue={emailValue}
             render={({ field, fieldState: { error } }) => (
               <InputEmail
-                value={field.value}
+                value={field.value || emailValue}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 error={error ? error.message : undefined}
-                showErrorMessage
               />
             )}
           />

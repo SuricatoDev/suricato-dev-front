@@ -11,6 +11,7 @@ export const FormContainer = styled.div<ModalProps & { step: number }>`
   height: auto;
   min-height: ${(props) => (props.$isModal ? 'unset' : '500px')};
   background-color: ${(props) => props.theme.colors.background_standard};
+  overflow: ${({ $isModal }) => ($isModal ? 'auto' : 'unset')};
 
   position: ${(props) => (props.$isModal ? 'fixed' : 'relative')};
   bottom: ${(props) => (props.$isModal ? '0' : 'unset')};
