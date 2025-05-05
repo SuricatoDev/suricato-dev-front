@@ -51,7 +51,7 @@ export const SuggestionsList = styled.ul`
   color: ${(props) => props.theme.colors.text_standard};
   width: 100%;
   position: absolute;
-  z-index: 50;
+  z-index: 3;
   border-radius: 0 0 8px 8px;
 `
 
