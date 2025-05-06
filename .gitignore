@@ -45,14 +45,3 @@ storybook-static
 /public/workbox-*
 
 public/storybook/
-
-# APP
-apk/build/
-apk/app/build/
-apk/android/app/build/
-apk/android/.gradle/
-apk/android/local.properties
-
-*.keystore
-
-.bubblewrap/

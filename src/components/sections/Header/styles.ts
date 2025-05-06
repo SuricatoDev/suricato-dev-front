@@ -18,9 +18,7 @@ export const Wrapper = styled.header<ScrolledProps & HeaderProps>`
   transition: background-color
     ${(props) => props.theme.common.transition.default};
   box-shadow: ${({ theme }) =>
-    theme.title === 'dark'
-      ? '0 1px 0px rgba(255, 255, 255, 0.2)'
-      : 'rgb(0 0 0 / 16%) 0 0 6px'};
+    theme.title === 'dark' ? 'none' : 'rgb(0 0 0 / 16%) 0 0 6px'};
 
   display: ${({ variant }) => (variant === 'simple' ? 'none' : 'block')};
 
@@ -28,14 +26,14 @@ export const Wrapper = styled.header<ScrolledProps & HeaderProps>`
     box-shadow: ${({ $isScrolled, theme }) =>
       $isScrolled
         ? theme.title === 'dark'
-          ? '0 1px 0px rgba(255, 255, 255, 0.2)'
+          ? 'none'
           : 'rgb(0 0 0 / 16%) 0 0 6px'
         : 'none'};
     display: block;
   }
 `
 
-export const Container = styled.div`
+export const Container = styled.div<ScrolledProps & HeaderProps>`
   max-width: 1440px;
   padding: 12.5px 1rem;
   margin: 0 auto;
@@ -44,21 +42,36 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  transition: padding ${(props) => props.theme.common.transition.default};
 
   @media (${device.md}) {
-    padding: 1rem;
+    padding: ${({ $isScrolled, variant }) => {
+      if ($isScrolled) {
+        console.log($isScrolled)
+        return variant === 'default'
+          ? '1rem 1rem calc(1.5rem + 1px)'
+          : '0.5rem 1rem'
+      }
+      return '1rem'
+    }};
   }
 `
 
-export const TopHeader = styled.div`
+export const TopHeader = styled.div<ScrolledProps & HeaderProps>`
   @media (${device.md}) {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 66px;
     font-weight: ${(props) => props.theme.common.font.weight.semibold};
     transition: all ${(props) => props.theme.common.transition.default};
+
+    height: ${({ $isScrolled, variant }) => {
+      if ($isScrolled) {
+        return variant === 'default' ? '66px' : '45px'
+      }
+      return '66px'
+    }};
   }
   display: none;
 `
@@ -208,7 +221,7 @@ export const SearchWrapper = styled.div<ScrolledProps>`
   @media (${device.md}) {
     transition: margin-top ${(props) => props.theme.common.transition.default};
     margin-top: ${({ $isScrolled }) =>
-      $isScrolled ? 'calc(-1rem - 66px + 8px)' : '0px'};
+      $isScrolled ? 'calc(-1rem - 66px + 0.5rem)' : '0px'};
   }
 `
 
@@ -304,15 +317,33 @@ export const SearchButton = styled.button<ScrolledProps>`
   display: none;
 `
 
-export const Logo = styled(Image)`
+export const Logo = styled(Image)<ScrolledProps & HeaderProps>`
   transition:
     opacity ${(props) => props.theme.common.transition.fast},
-    filter ${(props) => props.theme.common.transition.default};
+    filter ${(props) => props.theme.common.transition.default},
+    width ${(props) => props.theme.common.transition.default},
+    height ${(props) => props.theme.common.transition.default};
+
+  display: flex;
 
   filter: ${(props) =>
     props.theme.title === 'dark'
       ? 'saturate(0) brightness(0) invert(1)'
       : 'none'};
+
+  width: ${({ $isScrolled, variant }) => {
+    if ($isScrolled) {
+      return variant === 'default' ? '60px' : '45px'
+    }
+    return '60px'
+  }};
+
+  height: ${({ $isScrolled, variant }) => {
+    if ($isScrolled) {
+      return variant === 'default' ? '60px' : '45px'
+    }
+    return '60px'
+  }};
 
   &:hover {
     opacity: 0.8;

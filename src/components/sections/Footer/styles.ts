@@ -35,11 +35,11 @@ export const Wrapper = styled.footer`
   @media (${device.md}) {
     position: fixed;
     bottom: 0;
-    padding: 0.875rem;
+    padding: 0.5rem;
 
     p,
     a {
-      font-size: ${(props) => props.theme.common.font.sizes.body.medium};
+      font-size: ${(props) => props.theme.common.font.sizes.body.xsmall};
       color: ${(props) => props.theme.colors.text_standard};
     }
   }

@@ -132,11 +132,18 @@ export default function Header({
       )}
 
       <S.Wrapper variant={variant} $isScrolled={isScrolled}>
-        <S.Container>
-          <S.TopHeader>
+        <S.Container $isScrolled={isScrolled} variant={variant}>
+          <S.TopHeader $isScrolled={isScrolled} variant={variant}>
             <span style={{ display: 'flex', width: '118px' }}>
               <Link href="/" passHref>
-                <S.Logo src={logo} alt="Logo" width={60} height={60} />
+                <S.Logo
+                  $isScrolled={isScrolled}
+                  variant={variant}
+                  src={logo}
+                  alt="Logo"
+                  width={60}
+                  height={60}
+                />
               </Link>
             </span>
             <S.Menu $isScrolled={isScrolled && variant === 'default'}>
