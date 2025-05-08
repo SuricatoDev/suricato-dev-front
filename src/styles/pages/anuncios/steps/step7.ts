@@ -6,8 +6,10 @@ export const Container = styled.div`
   padding: 1rem 1.5rem;
   max-width: 630px;
   margin: 0 auto;
+
   @media (${device.md}) {
-    height: calc(100dvh - 87px);
+    min-height: calc(100dvh - 168px);
+    overflow-y: auto;
     display: flex;
     align-items: center;
   }

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { device } from '@/styles/breakpoints'
 
 export const HeaderNavContainer = styled.div`
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   z-index: 999;

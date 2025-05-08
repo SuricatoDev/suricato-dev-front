@@ -17,6 +17,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  min-height: calc(100vh - 162px);
   @media (${device.md}) {
     display: flex;
     padding: 0;

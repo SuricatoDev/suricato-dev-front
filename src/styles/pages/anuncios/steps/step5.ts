@@ -7,7 +7,7 @@ export const Container = styled.div`
   max-width: 630px;
   margin: 0 auto;
   @media (${device.md}) {
-    min-height: calc(100dvh - 87px);
+    min-height: calc(100dvh - 162px);
     display: flex;
     align-items: center;
   }

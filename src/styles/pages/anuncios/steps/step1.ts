@@ -6,7 +6,7 @@ import { device } from '@/styles/breakpoints'
 
 export const Container = styled.div`
   padding: 1rem 1.5rem;
-  min-height: calc(100dvh - 87px - 76px - 1rem);
+  min-height: calc(100vh - 76px - 86px);
   box-sizing: border-box;
   gap: 1.5rem;
   display: flex;

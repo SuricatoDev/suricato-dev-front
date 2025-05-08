@@ -5,7 +5,7 @@ import { device } from '@/styles/breakpoints'
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  position: fixed;
+  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;

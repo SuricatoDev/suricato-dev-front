@@ -7,8 +7,13 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   overflow: visible;
-  max-width: 630px;
+
   margin: 0 auto;
+  min-height: calc(100vh - 76px - 86px);
+
+  @media ${device.md} {
+    max-width: 630px;
+  }
 `
 
 export const SearchWrapper = styled.div`
@@ -35,7 +40,8 @@ export const MapWrapper = styled.div<{ borderRadius?: boolean }>`
 
   @media (${device.md}) {
     border-radius: 16px;
-    max-height: calc(100dvh - 292px - 2rem);
+    max-height: calc(100dvh - 287px);
+    margin-bottom: 2rem;
   }
 `
 

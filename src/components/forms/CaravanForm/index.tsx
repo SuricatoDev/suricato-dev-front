@@ -29,11 +29,10 @@ const Step11 = lazy(() => import('./steps/Step11'))
 const Step12 = lazy(() => import('./steps/Step12'))
 
 const Container = styled.div`
-  padding: calc(64px + 1rem) 0 87px;
   position: relative;
   z-index: 0;
   box-sizing: border-box;
-  height: 100vh;
+  min-height: calc(100vh - 76px - 86px);
   overflow-y: auto;
 `
 

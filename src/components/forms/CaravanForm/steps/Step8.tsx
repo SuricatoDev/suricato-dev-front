@@ -270,7 +270,8 @@ export default function Step8({
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          className="teste"
+          accept=".webp,.png,.jpg,.jpeg,.avif"
           style={{ display: 'none' }}
           onChange={handleAddImage}
         />

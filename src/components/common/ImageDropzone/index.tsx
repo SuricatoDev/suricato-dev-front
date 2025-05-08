@@ -49,7 +49,7 @@ export function ImageDropzone({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/*': [] },
+    accept: { '.webp,.png,.jpg,.jpeg,.avif': [] },
     multiple: true
   })
 

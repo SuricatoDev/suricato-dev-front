@@ -537,7 +537,7 @@ export default function ProfileEditPage() {
                 type="file"
                 ref={fileInputRef}
                 style={{ display: 'none' }}
-                accept="image/*"
+                accept=".webp,.png,.jpg,.jpeg,.avif"
                 onChange={handleFileChange}
               />
             </S.ProfileHeader>
