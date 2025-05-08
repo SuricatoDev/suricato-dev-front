@@ -144,6 +144,9 @@ export default function OrganizerForm({
 
           if (!res.ok) {
             console.error('Erro no cadastro do organizador')
+            toast.error(
+              'Erro ao cadastrar, verifique as informações e tente novamente'
+            )
             return
           }
           toast.success('Empresa cadastrada com sucesso!')
