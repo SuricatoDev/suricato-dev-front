@@ -144,7 +144,16 @@ export default function Home({ initialCaravans }: HomeProps) {
             </S.EmptyMessage>
           ) : (
             <AnimatePresence>
-              <motion.div key={`list-${filterTag}`}>
+              <motion.div
+                key={`list-${filterTag}`}
+                variants={{
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.08
+                    }
+                  }
+                }}
+              >
                 <S.ProductsContainer>
                   {caravans.map((caravan, index) => (
                     <motion.div
