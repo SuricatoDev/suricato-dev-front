@@ -13,7 +13,7 @@ export default function Map({
   center,
   zoom = 15,
   width = '100%',
-  height = 'calc(100dvh - 256px)'
+  height = 'calc(100dvh - 239px)'
 }: MapProps) {
   return (
     <GoogleMap
