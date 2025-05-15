@@ -32,12 +32,11 @@ export type Reserva = Caravan & {
 
 type ReservasPageProps = {
   history: Reserva[]
-  userId: string
 }
 
 type MyTab = 'upcoming' | 'previous'
 
-export default function Reservas({ history, userId }: ReservasPageProps) {
+export default function Reservas({ history }: ReservasPageProps) {
   const [reservas, setReservas] = useState<Reserva[]>(history)
   const [activeTab, setActiveTab] = useState<MyTab>('upcoming')
   const [cancellingId, setCancellingId] = useState<number | null>(null)
@@ -236,13 +235,13 @@ export const getServerSideProps: GetServerSideProps<ReservasPageProps> = async (
       })
 
     return {
-      props: { history, userId }
+      props: { history }
     }
   } catch (err: unknown) {
     const error = err as AxiosError<{ message: string }>
     console.error(error.response?.data?.message ?? 'Erro ao buscar histórico:')
     return {
-      props: { history: [], userId }
+      props: { history: [] }
     }
   }
 }
