@@ -58,18 +58,19 @@ export default function Reservas({ history, userId }: ReservasPageProps) {
     { key: 'previous', label: 'Histórico', disabled: previous.length === 0 }
   ]
 
+  console.log(reservas)
   const displayed = activeTab === 'upcoming' ? upcoming : previous
 
   const handleCancel = async (id: number) => {
     setCancellingId(id)
     try {
-      const reserva = reservas.find((r) => Number(r.id) === id)
-      if (!reserva) {
+      const data = reservas.find((r) => Number(r.id) === id)
+      if (!data) {
         throw new Error('Reserva não encontrada.')
       }
 
       const response = await axios.delete(
-        `/api/reservas/${userId}/reservas/${reserva.reserva_id}`
+        `/api/reservas/${data.id}/reservas/${data.reserva_id}`
       )
 
       setReservas((prev) =>
