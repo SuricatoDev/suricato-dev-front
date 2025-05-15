@@ -57,7 +57,6 @@ export default function Reservas({ history }: ReservasPageProps) {
     { key: 'previous', label: 'Histórico', disabled: previous.length === 0 }
   ]
 
-  console.log(reservas)
   const displayed = activeTab === 'upcoming' ? upcoming : previous
 
   const handleCancel = async (id: number) => {

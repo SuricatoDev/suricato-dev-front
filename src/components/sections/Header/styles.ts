@@ -47,7 +47,6 @@ export const Container = styled.div<ScrolledProps & HeaderProps>`
   @media (${device.md}) {
     padding: ${({ $isScrolled, variant }) => {
       if ($isScrolled) {
-        console.log($isScrolled)
         return variant === 'default'
           ? '1rem 1rem calc(1.5rem + 1px)'
           : '0.5rem 1rem'

@@ -49,8 +49,6 @@ export default function Step2({
   const birthDateValue = watch('birthDate')
   const phoneValue = watch('phone')
 
-  console.log(emailValue)
-
   useEffect(() => {
     if (emailValue) {
       setValue('contactEmail', emailValue, { shouldValidate: true })
