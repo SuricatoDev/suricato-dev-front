@@ -11,7 +11,7 @@ O frontend do sistema foi desenvolvido utilizando **React com Next.js**, proporc
 - **Rotas Dinâmicas e SSR:** Next.js App Router  
 - **Gerenciamento de Pacotes:** NPM / Yarn  
 - **Integração com Backend:** API RESTful
-- **Componentização:** Desenvolvimento modular e reutilizável  
+- **Componentização:** Desenvolvimento modular e reutilizável (www.excursionistas.com.br/storybook) 
 - **Técnicas de UI/UX:** Design responsivo, acessibilidade e experiência otimizada  
 
 ## 📌 Principais Funcionalidades do Frontend  
