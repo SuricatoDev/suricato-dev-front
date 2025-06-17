@@ -49,6 +49,7 @@ export default function CaravanForm({
 }: CaravanFormProps) {
   const isEditMode = mode === 'edit'
   const { data: session } = useSession()
+  const accessToken = session?.user?.access_token
   const { isOrganizer, loading } = useIsOrganizer()
   const router = useRouter()
 
@@ -86,7 +87,7 @@ export default function CaravanForm({
     if (session?.user) {
       updateFormData('organizador_id', session.user.id)
     }
-  }, [])
+  }, [session])
 
   useEffect(() => {
     if (step < totalSteps) {
@@ -127,16 +128,30 @@ export default function CaravanForm({
 
       if (isEditMode) {
         payload.append('_method', 'PUT')
-        await axios.post(`/api/caravanas/editar/${caravanId}`, payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/caravanas/${caravanId}`,
+          payload,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${accessToken}`
+            }
+          }
+        )
 
         toast.success('Edição concluída!')
         setTimeout(() => router.push('/anuncios'), 1000)
       } else {
-        await axios.post('/api/caravanas', payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/caravanas`,
+          payload,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${accessToken}`
+            }
+          }
+        )
 
         toast.success('Caravana criada com sucesso!')
         setTimeout(() => router.push('/anuncios'), 1000)

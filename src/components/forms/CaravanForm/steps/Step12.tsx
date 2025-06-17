@@ -76,7 +76,7 @@ export default function Step12({
           {!isValid && (
             <ErrorMessage
               withIcon
-              error="Insira um valor entre R$ 10 e R$ 9.999"
+              error="Insira um valor entre R$ 20 e R$ 9.999"
             />
           )}
         </S.PriceContainer>
