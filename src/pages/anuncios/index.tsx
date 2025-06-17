@@ -261,7 +261,7 @@ export default function CaravanasManagementPage() {
                           style={{ overflow: 'hidden' }}
                           transition={{
                             duration: 0.3,
-                            ease: 'easeOut',
+
                             delay: idx * 0.08
                           }}
                         >

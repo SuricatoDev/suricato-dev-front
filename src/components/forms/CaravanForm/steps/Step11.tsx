@@ -16,7 +16,6 @@ const container = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: 'easeOut',
       staggerChildren: 0.3
     }
   }
@@ -27,7 +26,7 @@ const item = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: 'easeOut' }
+    transition: { duration: 0.8 }
   }
 }
 
@@ -48,7 +47,7 @@ export default function Step11({ setCanProceed }: Step7Props) {
         alt=""
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
+        transition={{ duration: 0.6 }}
         priority
       />
       <MotionStepInfo variants={container} initial="hidden" animate="show">

@@ -145,7 +145,6 @@ export default function Reservas({ history }: ReservasPageProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.3,
-                  ease: 'easeOut',
                   delay: index * 0.1
                 }}
               >
