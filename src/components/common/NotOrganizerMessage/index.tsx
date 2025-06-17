@@ -14,26 +14,11 @@ interface NotOrganizerMessageProps {
 export default function NotOrganizerMessage({
   onClick
 }: NotOrganizerMessageProps) {
-  const animationVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.42, 0, 1, 1] }
-    },
-    exit: {
-      opacity: 0,
-      y: -20,
-      transition: { duration: 0.3, ease: [0.42, 0, 0.58, 1] }
-    }
-  }
-
   return (
     <motion.div
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      variants={animationVariants}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
+      exit={{ opacity: 0, y: -20, transition: { duration: 0.3 } }}
     >
       <S.Wrapper>
         <S.Title>
@@ -46,7 +31,6 @@ export default function NotOrganizerMessage({
           priority
           alt="Empresa não cadastrada"
         />
-
         <S.Text>
           Para anunciar no Excursionistas você precisa cadastrar a sua empresa.
         </S.Text>
