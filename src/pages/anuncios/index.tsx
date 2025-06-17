@@ -165,9 +165,11 @@ export default function CaravanasManagementPage() {
     }
   }
 
-  if (orgLoading) return null
+  if (orgLoading) {
+    return null
+  }
 
-  if (!isOrganizer) {
+  if (isOrganizer) {
     return (
       <>
         <S.Wrapper>

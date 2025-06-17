@@ -3,8 +3,6 @@ import React from 'react'
 import EspereImg from '@/assets/images/espere.png'
 import { easeIn, easeOut, motion } from 'framer-motion'
 
-import { useIsOrganizer } from '@/hooks/useIsOrganizer'
-
 import Button from '@/components/common/Button'
 
 import * as S from './styles'
@@ -16,12 +14,6 @@ interface NotOrganizerMessageProps {
 export default function NotOrganizerMessage({
   onClick
 }: NotOrganizerMessageProps) {
-  const { isOrganizer, loading } = useIsOrganizer()
-
-  if (loading) return
-
-  if (isOrganizer) return null
-
   const animationVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
@@ -33,28 +25,29 @@ export default function NotOrganizerMessage({
   }
 
   return (
-    <S.Wrapper
-      as={motion.div}
+    <motion.div
       initial="hidden"
       animate="visible"
       exit="exit"
       variants={animationVariants}
     >
-      <S.Title>
-        <p>Empresa não cadastrada</p>
-      </S.Title>
-      <S.ImageContainer
-        src={EspereImg.src}
-        width={400}
-        height={400}
-        priority
-        alt="Empresa não cadastrada"
-      />
+      <S.Wrapper>
+        <S.Title>
+          <p>Empresa não cadastrada</p>
+        </S.Title>
+        <S.ImageContainer
+          src={EspereImg.src}
+          width={400}
+          height={400}
+          priority
+          alt="Empresa não cadastrada"
+        />
 
-      <S.Text>
-        Para anunciar no Excursionistas você precisa cadastrar a sua empresa.
-      </S.Text>
-      <Button onClick={onClick}>Cadastrar Empresa</Button>
-    </S.Wrapper>
+        <S.Text>
+          Para anunciar no Excursionistas você precisa cadastrar a sua empresa.
+        </S.Text>
+        <Button onClick={onClick}>Cadastrar Empresa</Button>
+      </S.Wrapper>
+    </motion.div>
   )
 }
