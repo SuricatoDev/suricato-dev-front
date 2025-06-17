@@ -12,6 +12,7 @@ const nextConfig = {
     return process.env.AWS_COMMIT_ID || Date.now().toString()
   },
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   ...(process.env.BASE_PATH && process.env.BASE_PATH !== ''
     ? { basePath: process.env.BASE_PATH, assetPrefix: process.env.BASE_PATH }
     : {}),
