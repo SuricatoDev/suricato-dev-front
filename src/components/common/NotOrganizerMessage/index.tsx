@@ -1,7 +1,7 @@
 import React from 'react'
 
 import EspereImg from '@/assets/images/espere.png'
-import { easeIn, easeOut, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 import Button from '@/components/common/Button'
 
@@ -19,9 +19,13 @@ export default function NotOrganizerMessage({
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: easeOut }
+      transition: { duration: 0.6, ease: [0.42, 0, 1, 1] }
     },
-    exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: easeIn } }
+    exit: {
+      opacity: 0,
+      y: -20,
+      transition: { duration: 0.3, ease: [0.42, 0, 0.58, 1] }
+    }
   }
 
   return (
