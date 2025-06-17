@@ -27,34 +27,39 @@ export default function NotOrganizerMessage({
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' }
+      transition: { duration: 0.6, ease: [0.42, 0, 1, 1] }
     },
-    exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: 'easeIn' } }
+    exit: {
+      opacity: 0,
+      y: -20,
+      transition: { duration: 0.3, ease: [0.42, 0, 1, 1] }
+    }
   }
 
   return (
-    <S.Wrapper
-      as={motion.div}
+    <motion.div
       initial="hidden"
       animate="visible"
       exit="exit"
       variants={animationVariants}
     >
-      <S.Title>
-        <p>Empresa não cadastrada</p>
-      </S.Title>
-      <S.ImageContainer
-        src={EspereImg.src}
-        width={400}
-        height={400}
-        priority
-        alt="Empresa não cadastrada"
-      />
+      <S.Wrapper>
+        <S.Title>
+          <p>Empresa não cadastrada</p>
+        </S.Title>
+        <S.ImageContainer
+          src={EspereImg.src}
+          width={400}
+          height={400}
+          priority
+          alt="Empresa não cadastrada"
+        />
 
-      <S.Text>
-        Para anunciar no Excursionistas você precisa cadastrar a sua empresa.
-      </S.Text>
-      <Button onClick={onClick}>Cadastrar Empresa</Button>
-    </S.Wrapper>
+        <S.Text>
+          Para anunciar no Excursionistas você precisa cadastrar a sua empresa.
+        </S.Text>
+        <Button onClick={onClick}>Cadastrar Empresa</Button>
+      </S.Wrapper>
+    </motion.div>
   )
 }
