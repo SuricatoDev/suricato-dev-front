@@ -26,7 +26,7 @@ export const TitleContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    width: 50vw;
+    width: 50%;
     max-width: 700px;
   }
 `
