@@ -57,9 +57,10 @@ export default function Step2({ onNext }: Step2Props) {
           number: numero || ''
         }}
         setAddress={updateAddress}
-        activeSearch={true}
+        activeSearch
         onSave={onNext}
-        hasButton={true}
+        hasButton
+        automaticCepSearch
         buttonFullWidth
       />
     </>

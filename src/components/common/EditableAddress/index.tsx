@@ -37,6 +37,7 @@ export interface EditableAddressProps {
   setAddress: (addr: AddressData) => void
   onSave: () => void
   activeSearch?: boolean
+  automaticCepSearch?: boolean
   disableFields?: boolean
   isLoading?: boolean
   hasButton?: boolean
@@ -48,6 +49,7 @@ export function EditableAddress({
   setAddress,
   onSave,
   activeSearch = true,
+  automaticCepSearch = false,
   disableFields = true,
   isLoading,
   hasButton = true,
@@ -212,15 +214,14 @@ export function EditableAddress({
           street: data.logradouro || '',
           neighborhood: data.bairro || '',
           city: data.cidade || '',
-          state: data.uf || '',
-          number: ''
+          state: data.uf || ''
         })
 
         setAutoFilledFields(['street', 'neighborhood', 'city', 'state'])
         setCepFetched(true)
 
         try {
-          await validateNumber('')
+          await validateNumber(address.number)
           setFieldError('number', undefined)
         } catch (err) {
           if (err instanceof ValidationError) {
@@ -237,7 +238,7 @@ export function EditableAddress({
   }
 
   useEffect(() => {
-    if (!activeSearch || !manualCepRef.current) return
+    if (!activeSearch || (!manualCepRef.current && !automaticCepSearch)) return
 
     const numeric = address.cep.replace(/\D/g, '')
     if (numeric.length === 8 && !cepFetched) {
@@ -245,7 +246,7 @@ export function EditableAddress({
     } else if (numeric.length < 8) {
       setCepFetched(false)
     }
-  }, [address.cep, activeSearch, cepFetched])
+  }, [address.cep, activeSearch, cepFetched, automaticCepSearch])
 
   return (
     <S.Wrapper>

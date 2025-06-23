@@ -95,6 +95,7 @@ export default function Step5({ setCanProceed }: Step5Props) {
               value={data_partida}
               onChange={handleChange}
               step={1800}
+              min={new Date().toISOString().slice(0, 16)}
               required
             />
           </S.Row>
@@ -102,7 +103,7 @@ export default function Step5({ setCanProceed }: Step5Props) {
           <Divider marginY="16px" />
 
           <S.Row>
-            <S.Label>Data e Hora de chegada</S.Label>
+            <S.Label>Data e Hora de retorno</S.Label>
             <S.DateTimeInput
               name="data_retorno"
               value={data_retorno}
