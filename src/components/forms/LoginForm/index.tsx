@@ -184,7 +184,7 @@ export default function MultiStepForm({
                   <ArrowLeft size={24} weight="bold" />
                 </S.BackButton>
               )}
-              <S.Title>Entrar ou cadastrar-se</S.Title>
+              <S.Title>Entre ou Cadastre-se</S.Title>
             </>
           )}
           {step === 2 && (
