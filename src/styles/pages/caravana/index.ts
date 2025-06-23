@@ -97,6 +97,7 @@ export const OrganizerImage = styled(Image)`
   border-radius: 50%;
   width: 60px;
   height: 60px;
+  border: 1px solid ${({ theme }) => theme.colors.base_dark8};
 `
 
 export const OrganizerInfo = styled.div`
