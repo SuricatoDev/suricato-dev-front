@@ -135,6 +135,7 @@ export default function InputEmail({
         <S.Wrapper ref={wrapperRef}>
           <Input
             type="email"
+            inputMode="email"
             value={value}
             onChange={handleChangeInternal}
             onKeyDown={handleKeyDownInternal}

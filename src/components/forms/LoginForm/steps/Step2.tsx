@@ -155,6 +155,7 @@ export default function Step2({
               <InputMask
                 maskChar={null}
                 mask="(99) 99999-9999"
+                inputMode="tel"
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
@@ -163,6 +164,7 @@ export default function Step2({
                   <Input
                     placeholder="Celular"
                     label="Celular"
+                    inputMode="tel"
                     error={error ? error.message : undefined}
                     showErrorMessage
                     ref={ref}

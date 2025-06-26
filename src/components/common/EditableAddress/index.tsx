@@ -255,6 +255,7 @@ export function EditableAddress({
           <InputMask
             mask="99999-999"
             maskChar={null}
+            inputMode="numeric"
             value={address.cep}
             onChange={handleChange}
           >
@@ -263,6 +264,7 @@ export function EditableAddress({
                 {...inputProps[0]}
                 name="cep"
                 label="CEP"
+                inputMode="numeric"
                 placeholder="ex. 18013-280"
                 required
                 error={cepError}

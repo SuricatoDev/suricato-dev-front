@@ -107,6 +107,7 @@ export default function Step1({
               value={field.value}
               onChange={field.onChange}
               onBlur={field.onBlur}
+              inputMode="email"
               error={error?.message}
               placeholder="Digite seu e-mail"
               showDropdown={!isModal}

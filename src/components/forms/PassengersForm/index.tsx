@@ -242,6 +242,7 @@ export default function PassengerForm({
                     render={({ field }) => (
                       <InputMask
                         mask="999.999.999-99"
+                        inputMode="numeric"
                         maskChar={null}
                         value={field.value}
                         onChange={field.onChange}
@@ -253,6 +254,7 @@ export default function PassengerForm({
                           <Input
                             {...inputProps}
                             type="text"
+                            inputMode="numeric"
                             placeholder="Digite seu CPF"
                             label="CPF"
                             error={errors.cpf ? errors.cpf.message : undefined}
@@ -272,6 +274,7 @@ export default function PassengerForm({
                     render={({ field }) => (
                       <InputMask
                         mask="99.999.999-*"
+                        inputMode="numeric"
                         maskChar={null}
                         value={field.value}
                         onChange={(e) =>
@@ -285,6 +288,7 @@ export default function PassengerForm({
                           <Input
                             {...inputProps}
                             type="text"
+                            inputMode="numeric"
                             placeholder="Digite seu RG"
                             label="RG"
                           />
@@ -304,6 +308,7 @@ export default function PassengerForm({
                       <InputMask
                         mask="(99) 99999-9999"
                         maskChar={null}
+                        inputMode="tel"
                         value={field.value}
                         onChange={field.onChange}
                         onBlur={field.onBlur}
@@ -314,6 +319,7 @@ export default function PassengerForm({
                           <Input
                             {...inputProps}
                             type="phone"
+                            inputMode="tel"
                             placeholder="Digite o contato de emergência"
                             label="Contato de emergência"
                           />

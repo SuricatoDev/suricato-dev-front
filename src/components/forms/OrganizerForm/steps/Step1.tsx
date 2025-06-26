@@ -96,6 +96,7 @@ export default function Step1({ onNext }: Step1Props) {
                 mask="99.999.999/9999-99"
                 maskChar={null}
                 value={field.value}
+                inputMode="numeric"
                 onChange={(e) =>
                   handleCnpjChange(e.target.value, field.onChange)
                 }
@@ -105,6 +106,7 @@ export default function Step1({ onNext }: Step1Props) {
                   <Input
                     placeholder="Digite o CNPJ"
                     label="CNPJ*"
+                    inputMode="numeric"
                     required
                     loading={isLoadingCnpj}
                     error={error ? error.message : cnpjError ?? ''}
@@ -125,7 +127,7 @@ export default function Step1({ onNext }: Step1Props) {
                 placeholder="Digite a razão social da empresa"
                 label="Razão Social*"
                 required
-                maxLength={200}
+                maxLength={255}
                 disabled={isLoadingCnpj}
                 value={field.value}
                 onChange={field.onChange}
@@ -146,7 +148,7 @@ export default function Step1({ onNext }: Step1Props) {
                 placeholder="Digite o nome fantasia da empresa"
                 label="Nome Fantasia"
                 disabled={isLoadingCnpj}
-                maxLength={200}
+                maxLength={255}
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
@@ -166,6 +168,9 @@ export default function Step1({ onNext }: Step1Props) {
                 placeholder="Digite a inscrição estadual"
                 label="Inscrição Estadual"
                 disabled={isLoadingCnpj}
+                maxLength={14}
+                pattern="\d*"
+                inputMode="numeric"
                 value={field.value}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
@@ -184,6 +189,10 @@ export default function Step1({ onNext }: Step1Props) {
               <Input
                 placeholder="Digite a inscrição municipal"
                 label="Inscrição Municipal"
+                type="text"
+                maxLength={14}
+                pattern="\d*"
+                inputMode="numeric"
                 value={field.value}
                 disabled={isLoadingCnpj}
                 onChange={field.onChange}
@@ -214,6 +223,7 @@ export default function Step1({ onNext }: Step1Props) {
                   maskChar={null}
                   value={field.value}
                   onBlur={field.onBlur}
+                  inputMode="tel"
                   onChange={(e) => {
                     const unmaskedValue = e.target.value.replace(/\D/g, '')
                     field.onChange(unmaskedValue)
@@ -227,6 +237,7 @@ export default function Step1({ onNext }: Step1Props) {
                       required
                       error={error ? error.message : undefined}
                       showErrorMessage
+                      inputMode="tel"
                     />
                   )}
                 </InputMask>
