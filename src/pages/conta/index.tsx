@@ -654,6 +654,7 @@ export default function ProfileEditPage() {
                               <InputMask
                                 maskChar={null}
                                 mask="(99) 99999-9999"
+                                inputMode="tel"
                                 value={phoneNumber}
                                 onChange={async (e) => {
                                   const value = e.target.value
@@ -673,6 +674,7 @@ export default function ProfileEditPage() {
                                   <Input
                                     placeholder="Celular"
                                     label="Celular"
+                                    inputMode="tel"
                                     error={phoneError || undefined}
                                     showErrorMessage
                                   />
@@ -790,6 +792,7 @@ export default function ProfileEditPage() {
                                 <div style={{ width: '100%' }}>
                                   <InputMask
                                     maskChar={null}
+                                    inputMode="tel"
                                     mask="(99) 99999-9999"
                                     value={emergencyPhone}
                                     onChange={async (e) => {
@@ -810,6 +813,7 @@ export default function ProfileEditPage() {
                                   >
                                     {() => (
                                       <Input
+                                        inputMode="tel"
                                         placeholder="Telefone de Emergência"
                                         label="Telefone de Emergência"
                                         error={emergencyPhoneError || undefined}
@@ -1059,6 +1063,7 @@ export default function ProfileEditPage() {
                             <div style={{ width: '100%' }}>
                               <InputMask
                                 mask="(99) 99999-9999"
+                                inputMode="tel"
                                 maskChar={null}
                                 value={businessPhone}
                                 onChange={async (e) => {
@@ -1077,6 +1082,7 @@ export default function ProfileEditPage() {
                               >
                                 {() => (
                                   <Input
+                                    inputMode="tel"
                                     placeholder="Telefone Comercial"
                                     label="Telefone Comercial"
                                     error={businessPhoneError}
