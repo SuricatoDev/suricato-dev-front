@@ -8,8 +8,17 @@ export const Wrapper = styled.div`
 
 export const Main = styled.main`
   padding-top: 2rem;
+
+  .container {
+    min-height: 100vh;
+  }
+
   @media (${device.md}) {
     padding: 100px 0 calc(53px + 2rem) 0;
+
+    .container {
+      min-height: unset;
+    }
   }
 `
 
