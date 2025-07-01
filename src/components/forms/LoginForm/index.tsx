@@ -139,7 +139,7 @@ export default function MultiStepForm({
         await signIn('credentials', {
           email: v.contactEmail,
           password: v.password,
-          redirect: false,
+          redirect: true,
           callbackUrl: '/'
         })
       } catch {

@@ -40,9 +40,7 @@ export const FormContainer = styled.div<ModalProps & { step: number }>`
     border-radius: 8px;
     min-height: unset;
 
-    border: 1px solid
-      ${({ theme }) =>
-        theme.title === 'dark' ? theme.colors.base_dark32 : 'transparent'};
+    border: 1px solid ${({ theme }) => theme.colors.base_dark32};
 
     overflow: ${({ step }) => (step === 1 ? 'visible' : 'auto')};
   }

@@ -62,7 +62,7 @@ export default function StepNewPassword({ onClose }: StepNewPasswordProps) {
       toast.success(response.data.message ?? 'Senha redefinida com sucesso!')
 
       const result = await signIn('credentials', {
-        redirect: false,
+        redirect: true,
         email,
         password: pwd
       })

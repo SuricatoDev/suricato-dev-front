@@ -70,11 +70,13 @@ export default function Step1({
   const handleLogin = async () => {
     setIsLoading(true)
     clearErrors('password')
+
     const result = await signIn('credentials', {
-      redirect: false,
+      redirect: true,
       email: emailValue,
       password: passwordValue
     })
+
     setIsLoading(false)
 
     if (result?.error) {
