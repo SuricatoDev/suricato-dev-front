@@ -564,7 +564,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         caravan: data.data,
         nota: data?.mediaAvaliacao
       },
-      revalidate: 600
+      revalidate: 60
     }
   } catch (error) {
     return {

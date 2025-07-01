@@ -214,12 +214,12 @@ export async function getStaticProps() {
     const res = await axios.get(`${process.env.BACKEND_URL}/caravanas`)
     return {
       props: { initialCaravans: res.data.data },
-      revalidate: 300
+      revalidate: 60
     }
   } catch {
     return {
       props: { initialCaravans: [] },
-      revalidate: 300
+      revalidate: 1
     }
   }
 }
